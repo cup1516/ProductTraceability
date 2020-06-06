@@ -23,4 +23,5 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     public Boolean isAdmin(String userId,String roleId) {
         return baseMapper.getUserRoleList(userId, roleId).size() != 0;
     }
+
 }

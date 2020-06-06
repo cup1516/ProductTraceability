@@ -22,8 +22,11 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(res => {
 
-    const code = res.status
-    return res.data
+    const data = res.data
+    if(data.code === 1){
+      return Promise.reject(data.msg)
+    }
+    return data
     // if (code === 401) {
     //   MessageBox.confirm(
     //     '登录状态已过期，您可以继续留在该页面，或者重新登录',

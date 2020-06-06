@@ -13,7 +13,7 @@
       </el-form-item>
       <el-form-item label="权限字符" prop="roleKey">
         <el-input
-          v-model="queryParams.roleKey"
+          v-model="queryParams.roleCode"
           placeholder="请输入权限字符"
           clearable
           size="small"
@@ -388,7 +388,9 @@ export default {
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return changeRoleStatus(row.roleId, row.status);
+          return changeRoleStatus(row.roleId, row.status).then(res =>{
+            if (res.code ===1 ) reject()
+          });
         }).then(() => {
           this.msgSuccess(text + "成功");
         }).catch(function() {
@@ -478,14 +480,12 @@ export default {
           if (this.form.roleId != undefined) {
             this.form.menuIds = this.getMenuAllCheckedKeys();
             updateRole(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
-            });
+               }).catch(()=>{
+                  this.msgError(response.msg);
+               });
           } else {
             this.form.menuIds = this.getMenuAllCheckedKeys();
             addRole(this.form).then(response => {

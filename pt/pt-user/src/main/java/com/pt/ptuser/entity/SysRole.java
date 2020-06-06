@@ -2,14 +2,15 @@ package com.pt.ptuser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pt.ptuser.dto.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SysRole extends Model<SysRole> {
+public class SysRole extends BaseEntity {
 
     private String roleId;
 
@@ -23,9 +24,11 @@ public class SysRole extends Model<SysRole> {
 
     private String createBy;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
     private char status;
+
+    private String[] menuIds;
 
     /**
      * 0-正常，1-删除

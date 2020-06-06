@@ -24,4 +24,5 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @return
      */
     Boolean isAdmin(String userId,String roleId);
+
 }

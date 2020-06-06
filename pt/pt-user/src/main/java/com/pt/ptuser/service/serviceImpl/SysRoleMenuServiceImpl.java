@@ -18,4 +18,20 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     public List<SysRoleMenu> listRoleMenu(String roleId, String clientId) {
         return baseMapper.listRoleMenu(roleId,clientId);
     }
+
+    @Override
+    public Boolean deleteRoleMenuByRoleId(String roleId) {
+        return baseMapper.deleteRoleMenuByRoleId(roleId);
+    }
+
+    /**
+     * 批量新增角色菜单信息
+     *
+     * @param roleMenuList 角色菜单列表
+     * @return 结果
+     */
+    @Override
+    public Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList){
+        return baseMapper.batchRoleMenu(roleMenuList);
+    };
 }

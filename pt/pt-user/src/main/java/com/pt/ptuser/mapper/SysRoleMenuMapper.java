@@ -11,4 +11,14 @@ import java.util.List;
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
     List<SysRoleMenu> listRoleMenu(@Param("roleId") String roleId,@Param("clientId") String clientId);
+
+    Boolean deleteRoleMenuByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 批量新增角色菜单信息
+     *
+     * @param roleMenuList 角色菜单列表
+     * @return 结果
+     */
+    Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList);
 }

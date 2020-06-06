@@ -15,4 +15,15 @@
     FROM ${clientId}_role_menu rm
     WHERE rm.role_id = '${roleId}'
   </select>
+
+  <delete id="deleteRoleMenuByRoleId" >
+    delete from dynamic_role_menu rm where rm.role_id=#{roleId}
+  </delete>
+
+  <insert id="batchRoleMenu">
+    insert into dynamic_role_menu(role_id, menu_id) values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (#{item.roleId},#{item.menuId})
+    </foreach>
+  </insert>
 </mapper>

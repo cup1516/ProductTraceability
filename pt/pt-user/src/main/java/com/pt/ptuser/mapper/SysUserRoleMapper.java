@@ -19,4 +19,12 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @return
      */
     List<SysUserRole> getUserRoleList(@Param("userId") String userId,@Param("roleId") String roleId);
+
+    /**
+     * 通过角色ID查询角色使用数量
+     *
+     * @param roleId 角色ID
+     * @return 结果
+     */
+     Integer countUserRoleByRoleId(String roleId);
 }
