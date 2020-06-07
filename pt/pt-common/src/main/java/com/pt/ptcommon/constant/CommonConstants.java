@@ -92,4 +92,25 @@ public interface CommonConstants {
 	 * 初始密码
 	 */
 	String INIT_PASSWORD = "123456";
+
+	/** 正常状态 */
+	String NORMAL = "0";
+
+	/** 异常状态 */
+	String EXCEPTION = "1";
+
+	/** 用户封禁状态 */
+	String USER_DISABLE = "1";
+
+	/** 角色封禁状态 */
+	String ROLE_DISABLE = "1";
+
+	/** 部门正常状态 */
+	String DEPT_NORMAL = "0";
+
+	/** 部门停用状态 */
+	String DEPT_DISABLE = "1";
+
+	/** 字典正常状态 */
+	String DICT_NORMAL = "0";
 }

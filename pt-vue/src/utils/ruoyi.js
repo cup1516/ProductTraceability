@@ -3,6 +3,7 @@
  * Copyright (c) 2019 ruoyi
  */
 
+import {deepClone} from "@/utils/util"
 const baseURL = process.env.VUE_APP_BASE_API
 
 // 日期格式化
@@ -117,11 +118,11 @@ export function handleTree(data, id, parentId, children, rootId) {
 	id = id || 'id'
 	parentId = parentId || 'parentId'
 	children = children || 'children'
-	rootId = rootId || 0
+	rootId = rootId || "0"
 	//对源数据深度克隆
 	const cloneData = JSON.parse(JSON.stringify(data))
 	//循环所有项
-	const treeData =  cloneData.filter(father => {
+	const treeData = cloneData.filter(father => {
 	  let branchArr = cloneData.filter(child => {
 		//返回每一项的子级数组
 		return father[id] === child[parentId]

@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { listDept, getDept, delDept, addDept, updateDept } from "@/api/system/dept";
+import { listDept, getDept, delDept, addDept, updateDept,treeselect } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -205,7 +205,6 @@ export default {
     getList() {
       this.loading = true;
       listDept(this.queryParams).then(response => {
-        console.log(response)
         this.deptList = this.handleTree(response.data, "deptId");
         this.loading = false;
       });
@@ -280,7 +279,7 @@ export default {
         if (valid) {
           if (this.form.deptId != undefined) {
             updateDept(this.form).then(response => {
-              if (response.code === 200) {
+              if (response.code === 0) {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 this.getList();
@@ -289,8 +288,8 @@ export default {
               }
             });
           } else {
-            addDept(this.form).then(response => {
-              if (response.code === 200) {
+            addDept(this.form).then(r2esponse => {
+              if (response.code === 0) {
                 this.msgSuccess("新增成功");
                 this.open = false;
                 this.getList();

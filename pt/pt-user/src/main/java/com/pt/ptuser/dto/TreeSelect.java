@@ -62,6 +62,7 @@ public class TreeSelect implements Serializable
         this.id = dept.getDeptId();
         this.name = dept.getDeptName();
         this.label = dept.getDeptName();
+        this.sort = dept.getOrderNum();
         this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 

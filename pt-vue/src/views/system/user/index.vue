@@ -469,7 +469,6 @@ export default {
     /** 查询部门下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
-
         this.deptOptions = response.data;
       });
     },
@@ -493,7 +492,6 @@ export default {
           type: "warning"
         }).then(function() {
           return changeUserStatus(row.userId, row.status).then(res =>{
-           
             if (res.code ===1 ) reject()
           });
         }).then(() => {
