@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getMenu } from '@/api/menu'
+import { treeselect } from '@/api/system/menu'
 import { filterMenu } from '@/utils/menu'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { encryption, deepClone } from '@/utils/util'
@@ -62,7 +62,6 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(res => {
-          console.log(res)
           const data = res.data
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
@@ -81,7 +80,7 @@ const user = {
     // 获取系统菜单
     GetMenu({commit}, obj) {
       return new Promise(resolve => {
-        getMenu().then((res) => {
+        treeselect().then((res) => {
           console.log(res)
           const menu = res.data
           commit('SET_MENU', deepClone(menu))

@@ -336,23 +336,19 @@ export default {
         if (valid) {
           if (this.form.menuId != undefined) {
             updateMenu(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
+            }).catch(response=>{
+              this.msgError(response);
             });
           } else {
             addMenu(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
+            }).catch(response=>{
+              this.msgError(response);
             });
           }
         }
@@ -364,12 +360,14 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return delMenu(row.menuId);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
+        }).then(()=>{
+            delMenu(row.menuId).then(res => {
+                this.getList();
+                this.msgSuccess("删除成功");
+            }).catch(res=>{
+              this.msgError(res);
+            });         
+        })
     }
   }
 };

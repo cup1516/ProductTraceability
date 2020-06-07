@@ -26,4 +26,8 @@
       (#{item.roleId},#{item.menuId})
     </foreach>
   </insert>
+
+  <select id="checkMenuExistRole" resultType="Integer">
+    select count(1) from dynamic_role_menu where menu_id = #{menuId}
+  </select>
 </mapper>

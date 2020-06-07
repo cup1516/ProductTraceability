@@ -21,9 +21,9 @@
     </sql>
 
 	<select id="findUserByUsername"  resultMap="baseResultMap" statementType="STATEMENT">
-		select m.user_id,m.user_name,m.password,m.dept_id
-		from ${clientId}_user m
-		where m.user_name = '${username}'
+		select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
+		from ${clientId}_user u
+		where u.user_name = '${username}'
 	</select>
 
 	<select id="getDeptUserPage"  resultMap="baseResultMap" >

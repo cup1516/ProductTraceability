@@ -22,4 +22,12 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @return 结果
      */
     Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList);
+
+    /**
+     * 查询菜单使用数量
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    int checkMenuExistRole(String menuId);
 }

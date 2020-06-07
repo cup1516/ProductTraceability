@@ -34,4 +34,13 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     public Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList){
         return baseMapper.batchRoleMenu(roleMenuList);
     };
+    /**
+     * 查询菜单使用数量
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public int checkMenuExistRole(String menuId){ return baseMapper.checkMenuExistRole(menuId);};
+
 }

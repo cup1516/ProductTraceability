@@ -1,12 +1,15 @@
 package com.pt.ptuser.service.serviceImpl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommon.constant.CommonConstants;
 import com.pt.ptcommon.dto.MenuTree;
 import com.pt.ptcommon.dto.MenuVO;
+import com.pt.ptcommon.util.IdUtils;
 import com.pt.ptcommon.util.TreeUtil;
 import com.pt.ptuser.dto.TreeSelect;
+import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.entity.SysRoleMenu;
 import com.pt.ptuser.service.*;
 import lombok.AllArgsConstructor;
@@ -50,44 +53,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return permissionsList;
     }
 
-    /**
-     * @param role
-     * @return
-     */
-    @Override
-    public List<SysMenu> findRoutesByRole(String role) {
-        return baseMapper.listRoutesByRole(role);
-    }
 
-
-    @Override
-    public List<MenuVO> findMenuByRole(String role) {
-//        DealerRole dealerRole = dealerRoleService.getOne(Wrappers.<DealerRole>query().lambda()
-//                .eq(DealerRole::getRoleCode, role));
-//        List<DealerRoleMenu> dealerRoleMenus = dealerRoleMenuService.list(Wrappers.<DealerRoleMenu>query().lambda()
-//                .eq(DealerRoleMenu::getRoleId, dealerRole.getRoleId()));
-//        List<DealerMenu> collect = dealerRoleMenus.stream().map(dealerRoleMenu -> this.getById(dealerRoleMenu.getMenuId()))
-//                .collect(Collectors.toList());
-//        return collect;
-        return baseMapper.listMenuByRole(role);
-    }
-
-    /**
-     * 查询菜单
-     *
-     * @param all      全部菜单
-     * @param parentId 父节点ID
-     * @return
-     */
-    @Override
-    public List<MenuTree> filterMenu(Set<MenuVO> all, String parentId) {
-        List<MenuTree> menuTreeList = all.stream()
-                .map(MenuTree::new)
-                .sorted(Comparator.comparingInt(MenuTree::getSort))
-                .collect(Collectors.toList());
-        String parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
-        return TreeUtil.build(menuTreeList, parent);
-    }
 
     /**
      * 根据用户查询系统菜单列表
@@ -224,5 +190,100 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private boolean hasChild(List<SysMenu> list, SysMenu t)
     {
         return getChildList(list, t).size() > 0 ? true : false;
+    }
+
+    /**
+     * 根据菜单ID查询信息
+     *
+     * @param menuId 菜单ID
+     * @return 菜单信息
+     */
+    @Override
+    public SysMenu selectMenuById(String menuId)
+    {
+        return baseMapper.selectMenuById(menuId);
+    }
+
+    /**
+     * 新增保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public Boolean insertMenu(SysMenu menu)
+    {
+        menu.setMenuId(IdUtils.simpleUUID());
+        return baseMapper.insertMenu(menu);
+    }
+
+    /**
+     * 修改保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public Boolean updateMenu(SysMenu menu)
+    {
+        return baseMapper.updateMenu(menu);
+    }
+    /**
+     * 校验菜单名称是否唯一
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public Boolean checkMenuNameUnique(SysMenu menu)
+    {
+        if(StrUtil.isEmpty(menu.getMenuId())){
+            return Boolean.TRUE;
+        }
+
+        SysMenu sysMenu = baseMapper.checkMenuNameUnique(menu.getMenuName(),menu.getParentId());
+        if (sysMenu != null && !sysMenu.getMenuId().equals(menu.getMenuId()))
+        {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+
+    }
+    /**
+     * 是否存在菜单子节点
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public Boolean hasChildByMenuId(String menuId)
+    {
+        int result = baseMapper.hasChildByMenuId(menuId);
+        return result > 0 ? true : false;
+    }
+
+    /**
+     * 查询菜单使用数量
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public Boolean checkMenuExistRole(String menuId)
+    {
+        int result = sysRoleMenuService.checkMenuExistRole(menuId);
+        return result > 0 ? true : false;
+    }
+    /**
+     * 删除菜单管理信息
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public Boolean deleteMenuById(String menuId)
+    {
+        return baseMapper.deleteMenuById(menuId);
     }
 }

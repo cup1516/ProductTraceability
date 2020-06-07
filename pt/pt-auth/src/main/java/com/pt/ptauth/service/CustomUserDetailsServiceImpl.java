@@ -92,6 +92,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             Arrays.stream(userInfo.getRoles()).forEach(role ->customAuthorityCollection.add(new CustomAuthority(SecurityConstants.ROLE+role)));
         }
         //构建user对象
-        return new CustomUser(user.getUserId(),user.getUserName(),user.getPassword(),user.getDeptId(),"", customAuthorityCollection);
+        return new CustomUser(user.getUserName(),user.getPassword(),user.getUserId(),user.getUserName(),user.getNickName(),user.getDeptId(),"", customAuthorityCollection);
    }
 }

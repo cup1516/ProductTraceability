@@ -126,6 +126,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, customUser.getId());
 			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, customUser.getUsername());
 			additionalInfo.put(SecurityConstants.DETAILS_DEPT_ID, customUser.getDeptId());
+			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, customUser.getUserName());
+			additionalInfo.put(SecurityConstants.DETAILS_NICKNAME, customUser.getNickName());
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		};

@@ -70,7 +70,9 @@ public class CustomUserAuthenticationConverter implements UserAuthenticationConv
 			String id = (String) map.get(SecurityConstants.DETAILS_USER_ID);
 			String cilentId = (String) map.get(SecurityConstants.CLIENT_ID);
 			String deptID = (String) map.get(SecurityConstants.DETAILS_DEPT_ID);
-			CustomUser user = new CustomUser(id,  username, N_A,deptID, cilentId,authorities);
+			String userName = (String) map.get(SecurityConstants.DETAILS_USERNAME);
+			String nickName = (String) map.get(SecurityConstants.DETAILS_NICKNAME);
+			CustomUser user = new CustomUser( username, N_A,id, userName,nickName,deptID, cilentId,authorities);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
 		return null;

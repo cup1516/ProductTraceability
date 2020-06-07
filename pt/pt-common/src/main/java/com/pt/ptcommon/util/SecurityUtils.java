@@ -86,4 +86,25 @@ public class SecurityUtils {
 			});
 		return roleIds;
 	}
+
+	/**
+	 * 获取id
+	 */
+	public String getId() {
+		return getUser().getId();
+	}
+
+	/**
+	 * 获取用户
+	 */
+	public String getNickName() {
+		return getUser().getNickName();
+	}
+
+	/**
+	 * 获取用户
+	 */
+	public String getUserName() {
+		return getUser().getUserName();
+	}
 }

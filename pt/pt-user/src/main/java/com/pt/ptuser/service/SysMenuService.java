@@ -14,33 +14,10 @@ import java.util.Set;
  */
 public interface SysMenuService extends IService<SysMenu> {
 
-    /**
-     * 按角色获取菜单
-     * @param role
-     * @return
-     */
-    List<MenuVO> findMenuByRole(String role);
-    /**
-     * 按角色获取菜单
-     * @param role
-     * @return
-     */
-    List<SysMenu> findRoutesByRole(String role);
-    /**
-     * 按角色id查询权限
-     * @param roleId
-     * @return
-     */
+
     List<String> findPermissionsByRoleId(String roleId,String clientId);
 
-    /**
-     * 查询菜单
-     *
-     * @param menuSet
-     * @param parentId
-     * @return
-     */
-    List<MenuTree> filterMenu(Set<MenuVO> menuSet, String parentId);
+
 
     /**
      * 根据用户查询系统菜单列表
@@ -80,5 +57,64 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 选中菜单列表
      */
     List<String> selectMenuListByRoleId(String roleId);
+
+
+
+
+    /**
+     * 根据菜单ID查询信息
+     *
+     * @param menuId 菜单ID
+     * @return 菜单信息
+     */
+    SysMenu selectMenuById(String menuId);
+
+
+    /**
+     * 新增保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    Boolean insertMenu(SysMenu menu);
+
+    /**
+     * 修改保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    Boolean updateMenu(SysMenu menu);
+
+
+    /**
+     * 校验菜单名称是否唯一
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    Boolean checkMenuNameUnique(SysMenu menu);
+    /**
+     * 是否存在菜单子节点
+     *
+     * @param menuId 菜单ID
+     * @return 结果 true 存在 false 不存在
+     */
+    Boolean hasChildByMenuId(String menuId);
+
+    /**
+     * 查询菜单是否存在角色
+     *
+     * @param menuId 菜单ID
+     * @return 结果 true 存在 false 不存在
+     */
+    Boolean checkMenuExistRole(String menuId);
+    /**
+     * 删除菜单管理信息
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    Boolean deleteMenuById(String menuId);
 
 }

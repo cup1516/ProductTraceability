@@ -1,5 +1,4 @@
 import Router from '@/router'
-import { getRouters } from '@/api/menu'
 import Layout from '@/layout/index'
 
 const permission = {

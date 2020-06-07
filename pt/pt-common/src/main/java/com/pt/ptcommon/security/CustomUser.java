@@ -29,6 +29,13 @@ public class CustomUser extends User {
     @Setter
     private String deptId;
 
+    @Getter
+    @Setter
+    private String userName;
+
+    @Getter
+    @Setter
+    private String nickName;
     /**
      * Construct the <code>User</code> with the details required by
      * {@link DaoAuthenticationProvider}.
@@ -44,20 +51,33 @@ public class CustomUser extends User {
      * @throws IllegalArgumentException if a <code>null</code> value was passed either as
      *                                  a parameter or as an element in the <code>GrantedAuthority</code> collection
      */
-    public CustomUser(String id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUser(String username, String password,String id,  Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.id = id;
     }
 
-    public CustomUser(String id, String username, String password, String clientId,Collection<? extends GrantedAuthority> authorities) {
+    public CustomUser(String username, String password,String id,  String clientId,Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.id = id;
         this.clientId = clientId;
     }
 
-    public CustomUser(String id, String username, String password, String deptId,String clientId,Collection<? extends GrantedAuthority> authorities) {
+    /**
+     *
+     * @param username auth 用户名
+     * @param password auth 密码
+     * @param id 用户id
+     * @param userName 用户名
+     * @param nickName 用户昵称
+     * @param deptId 部门id
+     * @param clientId 客户端id
+     * @param authorities 权限
+     */
+    public CustomUser(String username, String password,String id, String userName,String nickName, String deptId,String clientId,Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.id = id;
+        this.userName = userName;
+        this.nickName = nickName;
         this.clientId = clientId;
         this.deptId = deptId;
     }
