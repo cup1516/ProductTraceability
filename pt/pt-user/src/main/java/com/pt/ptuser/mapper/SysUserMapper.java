@@ -52,4 +52,60 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return 结果
      */
      Boolean updateUser(SysUser user);
+
+    /**
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    Boolean insertUser(SysUser user);
+    /**
+     * 校验用户名称是否唯一
+     *
+     * @param userName 用户名称
+     * @return 结果
+     */
+    SysUser checkUserNameUnique(String userName);
+
+    /**
+     * 校验手机号码是否唯一
+     *
+     * @param phonenumber 手机号码
+     * @return 结果
+     */
+    SysUser checkPhoneUnique(String phonenumber);
+
+    /**
+     * 校验email是否唯一
+     *
+     * @param email 用户邮箱
+     * @return 结果
+     */
+    SysUser checkEmailUnique(String email);
+
+    /**
+     * 通过用户ID删除用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    Boolean deleteUserById(String userId);
+
+    /**
+     * 批量删除用户信息
+     *
+     * @param userIds 需要删除的用户ID
+     * @return 结果
+     */
+    Boolean deleteUserByIds(String[] userIds);
+
+    /**
+     * 重置用户密码
+     *
+     * @param sysUser
+     * @return 结果
+     */
+    Boolean resetUserPwd(SysUser sysUser);
+
 }

@@ -79,7 +79,7 @@ public interface CommonConstants {
 	/**
 	 * 动态查询表
 	 */
-	List<String> DYNAMIC_TABLES = Arrays.asList("user","user_role", "dept","role","role_menu","role_dept","menu");
+	List<String> DYNAMIC_TABLES = Arrays.asList("user","user_role", "dept","role","role_menu","role_dept","menu","post","user_post");
 	/**
 	 * admin
 	 */

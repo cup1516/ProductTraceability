@@ -9,11 +9,14 @@ import com.pt.ptcommon.util.R;
 
 import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.dto.UserInfo;
+import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.entity.SysUser;
+import com.pt.ptuser.service.SysPostService;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,6 +31,9 @@ public class UserController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysPostService sysPostService;
 
     /**
      * auth获取用户信息
@@ -80,12 +86,12 @@ public class UserController {
     {
         Map result = new HashMap<String, List<String>>();
         result.put("roles", sysRoleService.selectRoleAll());
-//        result.put("posts", postService.selectPostAll());
+        result.put("posts", sysPostService.selectPostAll());
         if (StrUtil.isNotEmpty(userId))
         {
-//            ajax.put(AjaxResult.DATA_TAG, userService.selectUserById(userId));
-//            ajax.put("postIds", postService.selectPostListByUserId(userId));
-//            ajax.put("roleIds", roleService.selectRoleListByUserId(userId));
+            result.put("data", sysUserService.getByUserId(userId));
+            result.put("postIds", sysPostService.selectPostListByUserId(userId));
+            result.put("roleIds", sysRoleService.selectRoleListByUserId(userId));
         }
         return R.ok(result);
     }
@@ -111,5 +117,74 @@ public class UserController {
     @GetMapping("/initPwd")
     public R getInitPassword(){
         return R.ok(CommonConstants.INIT_PASSWORD);
+    }
+
+    /**
+     * 新增用户
+     */
+    @PostMapping
+    public R add(@Validated @RequestBody SysUser user)
+    {
+        if (!sysUserService.checkUserNameUnique(user.getUserName()))
+        {
+            return R.failed("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+        }
+        else if (!sysUserService.checkPhoneUnique(user))
+        {
+            return R.failed("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+        }
+        else if (!sysUserService.checkEmailUnique(user))
+        {
+            return R.failed("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+        }
+//        user.setCreateBy(SecurityUtils.getUsername());
+//        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        return R.ok(sysUserService.insertUser(user));
+    }
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("/{userIds}")
+    public R remove(@PathVariable String[] userIds)
+    {
+        return R.ok(sysUserService.deleteUserByIds(userIds));
+    }
+
+    /**
+     * 重置密码
+     */
+    @PutMapping("/resetPwd")
+    public R resetPwd(@RequestBody SysUser user)
+    {
+        if(sysUserService.checkUserAllowed(user)){
+            return R.ok(sysUserService.resetUserPwd(user));
+        }else {
+            return R.failed("重置用户'" + user.getUserName() + "'密码失败，无操作权限");
+        }
+//        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+//        user.setUpdateBy(SecurityUtils.getUsername());
+
+    }
+
+    /**
+     * 修改用户
+     */
+    @PutMapping
+    public R edit(@Validated @RequestBody SysUser user)
+    {
+        if (!sysUserService.checkUserAllowed(user)){
+            return R.failed("修改用户'" + user.getUserName() + "'失败，无修改权限");
+        };
+        if (!sysUserService.checkPhoneUnique(user))
+        {
+            return R.failed("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+        }
+        else if (!sysUserService.checkEmailUnique(user))
+        {
+            return R.failed("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+        }
+//        user.setUpdateBy(SecurityUtils.getUsername());
+        return R.ok(sysUserService.updateUser(user));
     }
 }

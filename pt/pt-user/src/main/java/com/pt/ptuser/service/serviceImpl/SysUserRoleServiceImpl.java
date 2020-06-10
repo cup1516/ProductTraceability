@@ -24,4 +24,28 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         return baseMapper.getUserRoleList(userId, roleId).size() != 0;
     }
 
+    @Override
+    public Boolean deleteUserRoleByUserId(String userId) {
+        return baseMapper.deleteUserRoleByUserId(userId);
+    }
+
+    @Override
+    public Boolean deleteUserRole(String[] ids) {
+        return baseMapper.deleteUserRole(ids);
+    }
+
+    @Override
+    public Boolean batchUserRole(List<SysUserRole> userRoleList) {
+        return baseMapper.batchUserRole(userRoleList);
+    }
+
+    @Override
+    public Boolean deleteUserRoleInfo(SysUserRole userRole) {
+        return baseMapper.deleteUserRoleInfo(userRole);
+    }
+
+    @Override
+    public Boolean deleteUserRoleInfos(String roleId, String[] userIds) {
+        return baseMapper.deleteUserRoleInfos(roleId,userIds);
+    }
 }

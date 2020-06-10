@@ -15,6 +15,13 @@
         from dynamic_role r
     </sql>
 
+  <select id="selectRoleListByUserId" resultType="STRING">
+    select r.role_id
+    from dynamic_role r
+    left join dynamic_user_role ur on ur.role_id = r.role_id
+    left join dynamic_user u on u.user_id = ur.user_id
+    where u.user_id = #{userId}
+  </select>
   <!-- 通过用户ID，查询角色信息-->
   <select id="listRolesByUserId" resultMap="BaseResultMap" statementType="STATEMENT">
     SELECT
@@ -116,10 +123,14 @@
     )
   </insert>
 
-  <delete id="deleteRoleByIds" >
+  <delete id="deleteRoleByIds"  >
     update dynamic_role set del_flag = '1' where role_id in
     <foreach collection="array" item="roleId" open="(" separator="," close=")">
-      #{roleId}
+      #{roleId,jdbcType=VARCHAR}
     </foreach>
+  </delete>
+
+  <delete id="deleteRoleById" >
+    update dynamic_role set del_flag = '1' where role_id = #{roleId}
   </delete>
 </mapper>

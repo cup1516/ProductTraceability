@@ -15,7 +15,13 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
     List<SysRole> listRolesByUserId(@Param("userId") String userId, @Param("clientId") String clientId);
 
     SysRole getByRoleCode(@Param("roleCode") String roleCode);
-
+    /**
+     * 根据用户ID获取角色选择框列表
+     *
+     * @param userId 用户ID
+     * @return 选中角色ID列表
+     */
+    List<String> selectRoleListByUserId(String userId);
     /**
      * 根据条件查询角色数据
      *
@@ -78,5 +84,13 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param roleIds 需要删除的角色ID
      * @return 结果
      */
-    public Boolean deleteRoleByIds(String[] roleIds);
+    Boolean deleteRoleByIds(String[] roleIds);
+
+    /**
+     * 通过角色ID删除角色
+     *
+     * @param roleId 角色ID
+     * @return 结果
+     */
+    Boolean deleteRoleById(String roleId);
 }

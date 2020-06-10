@@ -49,4 +49,68 @@ public interface SysUserService extends IService<SysUser> {
     * @return 结果
     */
    Boolean updateUserStatus(SysUser user);
+
+   /**
+    * 新增用户信息
+    *
+    * @param user 用户信息
+    * @return 结果
+    */
+   Boolean insertUser(SysUser user);
+   /**
+    * 校验用户名称是否唯一
+    *
+    * @param userName 用户名称
+    * @return 结果
+    */
+   Boolean checkUserNameUnique(String userName);
+
+   /**
+    * 校验手机号码是否唯一
+    *
+    * @param user 用户信息
+    * @return 结果
+    */
+   Boolean checkPhoneUnique(SysUser user);
+
+   /**
+    * 校验email是否唯一
+    *
+    * @param user 用户信息
+    * @return 结果
+    */
+   Boolean checkEmailUnique(SysUser user);
+
+   /**
+    * 重置用户密码
+    *
+    * @param sysUser 用户名
+    * @return 结果
+    */
+   Boolean resetUserPwd(SysUser sysUser);
+
+
+   /**
+    * 批量删除用户信息
+    *
+    * @param userIds 需要删除的用户ID
+    * @return 结果
+    */
+   Boolean deleteUserByIds(String[] userIds);
+   /**
+    * 通过用户ID删除用户
+    *
+    * @param userId 用户ID
+    * @return 结果
+    */
+   Boolean deleteUserById(String userId);
+
+   /**
+    * 修改用户信息
+    *
+    * @param user 用户信息
+    * @return 结果
+    */
+   Boolean updateUser(SysUser user);
+
 }

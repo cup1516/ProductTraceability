@@ -38,7 +38,8 @@ public class SysUser extends Model<SysUser> {
 
     private char status;
 
-
+    private String[] roleIds;
+    private String[] postIds;
     /**
      * 0-正常，1-删除
      */

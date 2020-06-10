@@ -24,7 +24,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @return 角色数据集合信息
      */
     List<SysRole> selectRoleList(SysRole role);
-
+    /**
+     * 根据用户ID获取角色选择框列表
+     *
+     * @param userId 用户ID
+     * @return 选中角色ID列表
+     */
+    List<String> selectRoleListByUserId(String userId);
     /**
      * 根据角色名获取角色
      * @param roleCode

@@ -78,7 +78,7 @@
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="postId" />
+      <el-table-column label="岗位编号" width="280" align="center" prop="postId" />
       <el-table-column label="岗位编码" align="center" prop="postCode" />
       <el-table-column label="岗位名称" align="center" prop="postName" />
       <el-table-column label="岗位排序" align="center" prop="postSort" />
@@ -111,8 +111,8 @@
     <pagination
       v-show="total>0"
       :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
+      :page.sync="queryParams.current"
+      :limit.sync="queryParams.size"
       @pagination="getList"
     />
 
@@ -176,8 +176,8 @@ export default {
       statusOptions: [],
       // 查询参数
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
+        current: 1,
+        size: 10,
         postCode: undefined,
         postName: undefined,
         status: undefined
@@ -209,8 +209,8 @@ export default {
     getList() {
       this.loading = true;
       listPost(this.queryParams).then(response => {
-        this.postList = response.rows;
-        this.total = response.total;
+        this.postList = response.data.records;
+        this.total = response.data.total;
         this.loading = false;
       });
     },
@@ -273,23 +273,19 @@ export default {
         if (valid) {
           if (this.form.postId != undefined) {
             updatePost(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
+            }).catch(response=>{
+              this.msgError(response.msg);
             });
           } else {
             addPost(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
+            }).catch(response=>{
+              this.msgError(response.msg);
             });
           }
         }

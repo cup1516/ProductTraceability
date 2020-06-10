@@ -38,9 +38,9 @@
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="手机号码" prop="phonenumber">
+          <el-form-item label="手机号码" prop="phone">
             <el-input
-              v-model="queryParams.phonenumber"
+              v-model="queryParams.phone"
               placeholder="请输入手机号码"
               clearable
               size="small"
@@ -134,7 +134,7 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="40" align="center" />
-          <el-table-column label="用户编号" align="center" prop="userId" />
+          <el-table-column label="用户编号"  align="center" prop="userId" />
           <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
@@ -212,8 +212,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item label="手机号码" prop="phone">
+              <el-input v-model="form.phone" placeholder="请输入手机号码" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -397,7 +397,7 @@ export default {
         current: 1,
         size: 10,
         userName: undefined,
-        phonenumber: undefined,
+        phone: undefined,
         status: undefined,
         deptId: undefined
       },
@@ -423,7 +423,7 @@ export default {
             trigger: ["blur", "change"]
           }
         ],
-        phonenumber: [
+        phone: [
           { required: true, message: "手机号码不能为空", trigger: "blur" },
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
@@ -490,15 +490,13 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return changeUserStatus(row.userId, row.status).then(res =>{
-            if (res.code ===1 ) reject()
+        }).then(()=>{
+          changeUserStatus(row.userId, row.status).then(() =>{
+            this.msgSuccess(text + "成功");
+          }).catch(()=>{
+            row.status = row.status === "0" ? "1" : "0";
           });
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        })
     },
     // 取消按钮
     cancel() {
@@ -513,7 +511,7 @@ export default {
         userName: undefined,
         nickName: undefined,
         password: undefined,
-        phonenumber: undefined,
+        phone: undefined,
         email: undefined,
         sex: undefined,
         status: "0",
@@ -545,7 +543,6 @@ export default {
       this.reset();
       this.getTreeselect();
       getUser().then(response => {
-        
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
         this.open = true;
@@ -559,11 +556,12 @@ export default {
       this.getTreeselect();
       const userId = row.userId || this.ids;
       getUser(userId).then(response => {
-        this.form = response.data;
-        this.postOptions = response.posts;
-        this.roleOptions = response.roles;
-        this.form.postIds = response.postIds;
-        this.form.roleIds = response.roleIds;
+        console.log(response)
+        this.form = response.data.data;
+        this.postOptions = response.data.posts;
+        this.roleOptions = response.data.roles;
+        this.form.postIds = response.data.postIds;
+        this.form.roleIds = response.data.roleIds;
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";
@@ -589,24 +587,20 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.userId != undefined) {
-            updateUser(this.form).then(response => {
-              if (response.code === 200) {
+            updateUser(this.form).then(() => {
                 this.msgSuccess("修改成功");
                 this.open = false;
-                this.getList();
-              } else {
+                this.getList(); 
+            }).catch(response=>{
                 this.msgError(response.msg);
-              }
             });
           } else {
-            addUser(this.form).then(response => {
-              if (response.code === 200) {
+            addUser(this.form).then(() => {
                 this.msgSuccess("新增成功");
                 this.open = false;
-                this.getList();
-              } else {
+                this.getList(); 
+            }).catch(response=>{
                 this.msgError(response.msg);
-              }
             });
           }
         }

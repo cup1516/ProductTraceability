@@ -34,6 +34,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     /**
+     * 根据用户ID获取角色选择框列表
+     *
+     * @param userId 用户ID
+     * @return 选中角色ID列表
+     */
+    @Override
+    public List<String> selectRoleListByUserId(String userId)
+    {
+        return baseMapper.selectRoleListByUserId(userId);
+    }
+
+    /**
      * 查询所有角色
      *
      * @return 角色列表
