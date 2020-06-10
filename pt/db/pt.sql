@@ -202,3 +202,37 @@ CREATE TABLE `sys_dict_type` (
 
 insert  into `sys_dict_type`(`dict_id`,`dict_name`,`dict_type`,`status`,`create_by`,`create_time`,`update_by`,`update_time`,`remark`) values (1,'用户性别','sys_user_sex','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','用户性别列表'),(2,'菜单状态','sys_show_hide','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','菜单状态列表'),(3,'系统开关','sys_normal_disable','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','系统开关列表'),(4,'任务状态','sys_job_status','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','任务状态列表'),(5,'任务分组','sys_job_group','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','任务分组列表'),(6,'系统是否','sys_yes_no','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','系统是否列表'),(7,'通知类型','sys_notice_type','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','通知类型列表'),(8,'通知状态','sys_notice_status','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','通知状态列表'),(9,'操作类型','sys_oper_type','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','操作类型列表'),(10,'系统状态','sys_common_status','0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00','登录状态列表');
 
+
+DROP TABLE IF EXISTS `dealer_post`;
+
+CREATE TABLE `dealer_post` (
+                               `post_id` varchar(32) NOT NULL COMMENT '岗位ID',
+                               `post_code` varchar(64) NOT NULL COMMENT '岗位编码',
+                               `post_name` varchar(50) NOT NULL COMMENT '岗位名称',
+                               `post_sort` int(2) NOT NULL COMMENT '显示顺序',
+                               `status` char(1) NOT NULL COMMENT '状态（0正常 1停用）',
+                               `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                               PRIMARY KEY (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='岗位信息表';
+
+/*Data for the table `dealer_post` */
+
+insert  into `dealer_post`(`post_id`,`post_code`,`post_name`,`post_sort`,`status`,`create_by`,`create_time`,`update_by`,`update_time`,`remark`) values ('1','ceo','董事长',1,'0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00',''),('2','se','项目经理',2,'0','admin','2018-03-16 11:33:00','ry','2018-03-16 11:33:00',''),('3','hr','人力资源',3,'0','admin','2018-03-16 11:33:00','管理员-王','2020-06-08 15:56:01','11');
+
+/*Table structure for table `dealer_user_post` */
+
+DROP TABLE IF EXISTS `dealer_user_post`;
+
+CREATE TABLE `dealer_user_post` (
+                                    `user_id` varchar(32) NOT NULL COMMENT '用户ID',
+                                    `post_id` varchar(32) NOT NULL COMMENT '岗位ID',
+                                    PRIMARY KEY (`user_id`,`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与岗位关联表';
+
+/*Data for the table `dealer_user_post` */
+
+insert  into `dealer_user_post`(`user_id`,`post_id`) values ('1','1'),('2','2'),('f581b220a23d4b5bae0851f42cb4b4b2','2');
