@@ -1,5 +1,6 @@
 import Router from '@/router'
 import Layout from '@/layout/index'
+import {getRouters} from '@/api/system/menu'
 
 const permission = {
   state: {
@@ -15,10 +16,16 @@ const permission = {
   },
   actions: {
     // 生成路由
-    GenerateRoutes({ commit },routes) {
-          const accessedRoutes = filterAsyncRouter(routes)
-          accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
-          commit('SET_ROUTES', accessedRoutes)   
+    GenerateRoutes({ commit }) {
+        return new Promise(resolve => {
+            // 向后端请求路由数据
+            getRouters().then(res => {
+              const accessedRoutes = filterAsyncRouter(res.data)
+              accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
+              commit('SET_ROUTES', accessedRoutes)
+              resolve(accessedRoutes)
+            })
+          })
     }
   }
 }

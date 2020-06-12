@@ -22,7 +22,17 @@ public class MenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
-
+    /**
+     * 获取路由信息
+     *
+     * @return 路由信息
+     */
+    @GetMapping("/routers")
+    public R getRouters()
+    {
+        List<SysMenu> menus = sysMenuService.selectMenuTreeByUserId(SecurityUtils.getId());
+        return R.ok(sysMenuService.buildMenus(menus));
+    }
     /**
      * 获取菜单列表
      */

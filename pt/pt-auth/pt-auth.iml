@@ -187,7 +187,7 @@
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.2.3" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign:feign-jackson:10.8" level="project" />
-    <orderEntry type="module" module-name="pt-dealer-user" />
+    <orderEntry type="library" name="Maven: com.pt:pt-dealer-user:0.0.1" level="project" />
     <orderEntry type="module" module-name="pt-user" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.3.1" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.3.1" level="project" />

@@ -1,30 +1,6 @@
 <template>
   <div>
-    <template v-for="item in menu">
-      <el-menu-item v-if="!hasChildren(item)" 
-                    :key="item.id"
-                    @click="open(item)"
-                    :index="item.path">
-        <i class="el-icon-setting"></i>
-        <span slot="title">{{item.name}}</span>
-      </el-menu-item>
-      <el-submenu v-else-if="hasChildren(item)" :key="item.id" :index="item.path">
-        <template slot="title">
-          <span slot="title"
-                :class="{'el-menu--display':collapse && first}">{{item.name}}</span>
-        </template>
-        <template v-for="(child,index) in item.children" >
-          <el-menu-item :key="child.id" v-if="!hasChildren(child)" :index="item.path" @click="open(child)">
-            <span slot="title">{{child.name}}</span>
-          </el-menu-item>
-          <sidebar-item v-else-if="!hasChildren(child)" :key="child.id" :menu="child" >
-
-          </sidebar-item>
-        </template>
-      </el-submenu>
-    </template>
-
-    <!-- <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+        <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
@@ -44,7 +20,7 @@
         :base-path="resolvePath(child.path)"
         class="nest-menu"
       />
-    </el-submenu>  -->
+    </el-submenu>
   </div>
 </template>
 
@@ -60,9 +36,8 @@ export default {
   components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
-    // route object
-    menu: {
-      type: Array,
+    item: {
+      type: Object,
       required: true
     },
     isNest: {
@@ -82,13 +57,39 @@ export default {
 
   },
   methods: {
-    hasChildren(item){
-      return item.children !== undefined
-    },
-    open(item) {
-      this.$router.push({path:item.path})
-    }
+    hasOneShowingChild(children = [], parent) {
+      const showingChildren = children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          // Temp set(will be used if only has one showing child)
+          this.onlyOneChild = item
+          return true
+        }
+      })
 
+      // When there is only one child router, the child router is displayed by default
+      if (showingChildren.length === 1) {
+        return true
+      }
+
+      // Show parent if there are no child router to display
+      if (showingChildren.length === 0) {
+        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        return true
+      }
+
+      return false
+    },
+    resolvePath(routePath) {
+      if (isExternal(routePath)) {
+        return routePath
+      }
+      if (isExternal(this.basePath)) {
+        return this.basePath
+      }
+      return path.resolve(this.basePath, routePath)
+    }
   }
 }
 </script>

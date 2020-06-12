@@ -94,8 +94,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean checkUserAllowed(SysUser user)
     {
-        if (StrUtil.isNotEmpty(user.getUserId()) && sysUserRoleService.isAdmin(user.getUserId(), sysRoleService
-                .getByRoleCode(CommonConstants.ROLE_ADMIN).getRoleId())) {
+        if (StrUtil.isNotEmpty(user.getUserId()) && sysUserRoleService.isAdmin(user.getUserId())) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

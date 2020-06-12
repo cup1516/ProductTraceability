@@ -7,19 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="pt-center-user" />
+        <module name="pt-eureka" />
+        <module name="pt-dealer-order" />
+        <module name="pt-manor" />
+        <module name="pt-common" />
+        <module name="pt-dealer-prod" />
+        <module name="pt-manor-user" />
         <module name="pt-warehouse" />
+        <module name="pt-gateway" />
+        <module name="pt-dealer-proc" />
+        <module name="pt-user" />
+        <module name="pt-center" />
+        <module name="pt-warehouse-user" />
         <module name="pt-dealer" />
         <module name="pt-auth" />
-        <module name="pt-center" />
-        <module name="pt-manor-user" />
-        <module name="pt-dealer-user" />
-        <module name="pt-manor" />
-        <module name="pt-gateway" />
-        <module name="pt-user" />
-        <module name="pt-center-user" />
-        <module name="pt-warehouse-user" />
-        <module name="pt-common" />
-        <module name="pt-eureka" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
@@ -29,6 +31,9 @@
       <module name="pt-center-user" target="8" />
       <module name="pt-common" target="8" />
       <module name="pt-dealer" target="8" />
+      <module name="pt-dealer-order" target="8" />
+      <module name="pt-dealer-proc" target="8" />
+      <module name="pt-dealer-prod" target="8" />
       <module name="pt-dealer-user" target="8" />
       <module name="pt-eureka" target="8" />
       <module name="pt-gateway" target="8" />
@@ -47,6 +52,9 @@
       <module name="pt-center-user" options="-parameters" />
       <module name="pt-common" options="-parameters" />
       <module name="pt-dealer" options="-parameters" />
+      <module name="pt-dealer-order" options="-parameters" />
+      <module name="pt-dealer-proc" options="-parameters" />
+      <module name="pt-dealer-prod" options="-parameters" />
       <module name="pt-dealer-user" options="-parameters" />
       <module name="pt-eureka" options="-parameters" />
       <module name="pt-gateway" options="-parameters" />

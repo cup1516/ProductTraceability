@@ -14,12 +14,9 @@
 
   <select id="getUserRoleList"  resultMap="BaseResultMap" >
     <include refid="selectSysUserRole"/>
-    where ur.user_id = #{userId}
-    <if test="roleId != null and roleId != ''">
-      and ur.role_id = #{roleId}
-    </if>
+    left join dynamic_role r on ur.role_id = r.role_id
+    where ur.user_id = #{userId} and r.role_code = #{roleCode}
   </select>
-
   <select id="countUserRoleByRoleId" resultType="Integer">
     select count(1) from dynamic_user_role where role_id=#{roleId}
   </select>

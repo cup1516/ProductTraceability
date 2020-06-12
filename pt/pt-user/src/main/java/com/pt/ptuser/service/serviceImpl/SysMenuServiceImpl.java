@@ -12,11 +12,14 @@ import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.entity.SysRoleMenu;
 import com.pt.ptuser.service.*;
+import com.pt.ptuser.vo.MetaVo;
+import com.pt.ptuser.vo.RouterVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.pt.ptuser.mapper.SysMenuMapper;
 import com.pt.ptuser.entity.SysMenu;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,8 +79,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<SysMenu> selectMenuList(SysMenu menu, String userId)
     {
         List<SysMenu> menuList = null;
-        Boolean isAdmin = sysUserRoleService.isAdmin(userId, sysRoleService
-                .getByRoleCode(CommonConstants.ROLE_ADMIN).getRoleId());
+        Boolean isAdmin = sysUserRoleService.isAdmin(userId);
         // 管理员显示所有菜单信息
         if (isAdmin)
         {
@@ -102,7 +104,94 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     {
         return baseMapper.selectMenuListByRoleId(roleId);
     }
+    /**
+     * 根据用户ID查询菜单
+     *
+     * @param userId 用户名称
+     * @return 菜单列表
+     */
+    @Override
+    public List<SysMenu> selectMenuTreeByUserId(String userId)
+    {
+        List<SysMenu> menus = null;
+        if (sysUserRoleService.isAdmin(userId))
+        {
+            menus = baseMapper.selectMenuTreeAll();
+        }
+        else
+        {
+            menus = baseMapper.selectMenuTreeByUserId(userId);
+        }
+        return getChildPerms(menus, CommonConstants.TREE_ROOT);
+    }
+    /**
+     * 根据父节点的ID获取所有子节点
+     *
+     * @param list 分类表
+     * @param parentId 传入的父节点ID
+     * @return String
+     */
+    public List<SysMenu> getChildPerms(List<SysMenu> list, String parentId)
+    {
+        List<SysMenu> returnList = new ArrayList<SysMenu>();
+        for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext();)
+        {
+            SysMenu t = (SysMenu) iterator.next();
+            // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
+            if (t.getParentId().equals(parentId))
+            {
+                recursionFn(list, t);
+                returnList.add(t);
+            }
+        }
+        return returnList;
+    }
+    /**
+     * 构建前端路由所需要的菜单
+     *
+     * @param menus 菜单列表
+     * @return 路由列表
+     */
+    @Override
+    public List<RouterVo> buildMenus(List<SysMenu> menus)
+    {
+        List<RouterVo> routers = new LinkedList<RouterVo>();
+        for (SysMenu menu : menus)
+        {
+            RouterVo router = new RouterVo();
+            router.setHidden("1".equals(menu.getVisible()));
+            router.setName(StringUtils.capitalize(menu.getPath()));
+            router.setPath(getRouterPath(menu));
+            router.setComponent(StrUtil.isEmpty(menu.getComponent()) ? "Layout" : menu.getComponent());
+            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
+            List<SysMenu> cMenus = menu.getChildren();
+            if (!cMenus.isEmpty() && cMenus.size() > 0 && "M".equals(menu.getMenuType()))
+            {
+                router.setAlwaysShow(true);
+                router.setRedirect("noRedirect");
+                router.setChildren(buildMenus(cMenus));
+            }
+            routers.add(router);
+        }
+        return routers;
+    }
 
+    /**
+     * 获取路由地址
+     *
+     * @param menu 菜单信息
+     * @return 路由地址
+     */
+    public String getRouterPath(SysMenu menu)
+    {
+        String routerPath = menu.getPath();
+        // 非外链并且是一级目录
+        if (menu.getParentId().equals(CommonConstants.TREE_ROOT) && "1".equals(menu.getIsFrame()))
+        {
+            routerPath = "/" + menu.getPath();
+        }
+        return routerPath;
+    }
     /**
      * 构建前端所需要下拉树结构
      *

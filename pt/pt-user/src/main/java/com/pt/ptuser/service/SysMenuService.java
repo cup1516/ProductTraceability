@@ -5,6 +5,7 @@ import com.pt.ptcommon.dto.MenuTree;
 import com.pt.ptcommon.dto.MenuVO;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysMenu;
+import com.pt.ptuser.vo.RouterVo;
 
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,13 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 菜单列表
      */
     List<SysMenu> selectMenuList(String userId);
+    /**
+     * 构建前端路由所需要的菜单
+     *
+     * @param menus 菜单列表
+     * @return 路由列表
+     */
+    List<RouterVo> buildMenus(List<SysMenu> menus);
 
     /**
      * 构建前端所需要下拉树结构
@@ -58,7 +66,13 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     List<String> selectMenuListByRoleId(String roleId);
 
-
+    /**
+     * 根据用户ID查询菜单树信息
+     *
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuTreeByUserId(String userId);
 
 
     /**

@@ -14,7 +14,6 @@
         <option value="$PROJECT_DIR$/pt-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/pt-common/pom.xml" />
         <option value="$PROJECT_DIR$/pt-dealer/pom.xml" />
-        <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-center/pom.xml" />
         <option value="$PROJECT_DIR$/pt-center/pt-center-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-manor/pom.xml" />
@@ -22,6 +21,9 @@
         <option value="$PROJECT_DIR$/pt-manor/pt-manor-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-warehouse/pt-warehouse-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-user/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-proc/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-order/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-prod/pom.xml" />
       </list>
     </option>
   </component>

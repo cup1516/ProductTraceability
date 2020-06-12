@@ -19,7 +19,9 @@
     </properties>
 
     <modules>
-        <module>pt-dealer-user</module>
+        <module>pt-dealer-order</module>
+        <module>pt-dealer-proc</module>
+        <module>pt-dealer-prod</module>
     </modules>
     <build>
         <plugins>

@@ -20,9 +20,10 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public Boolean isAdmin(String userId,String roleId) {
-        return baseMapper.getUserRoleList(userId, roleId).size() != 0;
+    public Boolean isAdmin(String userId) {
+        return baseMapper.getUserRoleList(userId,CommonConstants.ROLE_ADMIN).size() != 0;
     }
+
 
     @Override
     public Boolean deleteUserRoleByUserId(String userId) {

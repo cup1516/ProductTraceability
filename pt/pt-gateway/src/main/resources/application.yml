@@ -18,12 +18,12 @@ spring:
             - PasswordDecoderFilter
             - StripPrefix= 1
         # ???????
-#        - id: pt-dealer-user
-#          uri: lb://pt-dealer-user
-#          predicates:
-#            - Path=/user/**
-#          filters:
-#            - StripPrefix= 1
+        - id: pt-dealer-proc
+          uri: lb://pt-dealer-proc
+          predicates:
+            - Path=/proc/**
+          filters:
+            - StripPrefix= 1
         - id: pt-user
           uri: lb://pt-user
           predicates:

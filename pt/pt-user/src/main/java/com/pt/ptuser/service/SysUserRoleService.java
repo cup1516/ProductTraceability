@@ -24,8 +24,7 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param userId
      * @return
      */
-    Boolean isAdmin(String userId,String roleId);
-
+    Boolean isAdmin(String userId);
     /**
      * 通过用户ID删除用户和角色关联
      *

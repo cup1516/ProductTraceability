@@ -3,7 +3,7 @@ package com.pt.ptauth.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.pt.ptcommon.constant.CacheConstants;
-import com.pt.ptdealeruser.entity.SysUser;
+import com.pt.ptuser.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;
@@ -25,14 +25,6 @@ public class controller {
     @Autowired
     CacheManager cacheManager;
 
-    @GetMapping("/test")
-    public SysUser test(){
-        System.out.println("1");
-        SysUser sysUser = new SysUser();
-        sysUser.setId("1");
-        return sysUser;
-//        remoteUserService.test(username);
-    }
     /**
      * 退出并删除token
      *

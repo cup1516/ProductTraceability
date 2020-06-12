@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pt.ptdealerproc.mapper.ProcProcessMapper">
+
+    <resultMap id="baseResultMap" type="com.pt.ptdealerproc.dto.ProcessDto">
+                  <id  column="process_id" property="processId"/>
+                        <result column="process_number" property="processNumber" />
+                        <result  column="process_name" property="processName"/>
+					    <result  column="create_time" property="createTime"/>
+					    <result  column="update_time" property="updateTime"/>
+	  					<result  column="del_flag" property="delFlag"/>
+				  <collection property="dynamic" ofType="com.pt.ptdealerproc.entity.ProcNodeWorker"
+							  select="com.pt.ptdealerproc.mapper.ProcNodeWorkerMapper.listNodesByProcessId" column="process_id">
+				  </collection>
+    </resultMap>
+
+	<resultMap id="missionDtoMap" type="com.pt.ptdealerproc.dto.MissionDto">
+		<id  column="worker_id" property="workerId"/>
+		<result column="process_number" property="processNumber" />
+		<result  column="process_name" property="processName"/>
+		<result column="node_number" property="nodeNumber" />
+		<result  column="node_name" property="nodeName"/>
+		<result  column="start_time" property="startTime"/>
+		<result  column="end_time" property="endTime"/>
+	</resultMap>
+
+
+	<select id="getProcessDtoPage" resultMap="baseResultMap">
+		SELECT
+		`r`.process_id,
+		`r`.process_number,
+		`r`.process_name,
+		`r`.create_time,
+		`r`.update_time,
+		`r`.del_flag
+		FROM
+		dealer_proc_process AS `r`
+		<where>
+			`r`.del_flag = '0'
+		</where>
+		ORDER BY `r`.create_time DESC
+	</select>
+
+	<select id="getMissionDtoPage" resultMap="missionDtoMap">
+		SELECT
+		r.`worker_id`,
+		node.`node_number`,
+		node.`node_name`,
+		proc.`process_number`,
+		proc.`process_name`,
+		r.`start_time`,
+		r.`end_time`
+		FROM
+		dealer_proc_node_worker AS r,
+		dealer_proc_process AS proc,
+		dealer_proc_node AS node
+		WHERE
+			r.worker_id = #{query.workerId} AND r.`node_id` = node.`node_id` AND r.`process_id` = proc.`process_id`
+	</select>
+</mapper>
