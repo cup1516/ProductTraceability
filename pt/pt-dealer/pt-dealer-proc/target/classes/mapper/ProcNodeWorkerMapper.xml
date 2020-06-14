@@ -24,22 +24,13 @@
 <mapper namespace="com.pt.ptdealerproc.mapper.ProcNodeWorkerMapper">
 
   		<resultMap id="baseResultMap" type="com.pt.ptdealerproc.entity.ProcNodeWorker">
-	  			<id property="processId" column="process_id"/>
 				<result property="nodeId" column="node_id"/>
 				<result property="workerId" column="worker_id"/>
-				<result property="startTime" column="start_time"/>
-				<result property="endTime" column="end_time"/>
 		</resultMap>
-		<select id="listNodesByProcessId" resultMap="baseResultMap">
-			SELECT
-				`r`.process_id,
-				`r`.node_id,
-				`r`.worker_id,
-				`r`.start_time,
-				`r`.end_time
-			FROM
-				proc_node_worker AS `r`
-			WHERE
-				`r`.process_id = #{id}
-		</select>
+	<insert id="batchNodeWorker">
+		insert into dealer_node_worker(node_id, worker_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.nodeId},#{item.workerId})
+		</foreach>
+	</insert>
 </mapper>

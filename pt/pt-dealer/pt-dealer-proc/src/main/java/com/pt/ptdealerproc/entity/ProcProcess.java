@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
  * @date 2020-04-19 14:58:16
  */
 @Data
-@TableName(value = "dealer_proc_process")
+@TableName(value = "dealer_process")
 @ApiModel(value = "加工流程表")
 public class ProcProcess{
 private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
      * 加工流程编号
      */
     @ApiModelProperty(value="加工流程编号")
-    private String processNumber;
+    private String processCode;
     /**
 	 * 加工流程名称
 	 */
@@ -63,12 +63,19 @@ private static final long serialVersionUID = 1L;
 	 */
 	@ApiModelProperty(value="创建时间")
 	private LocalDateTime createTime;
-
+	/**
+	 * 创建者
+	 */
+	@ApiModelProperty(value="创建者")
+	private String createBy;
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value="更新时间")
 	private LocalDateTime updateTime;
+
+	private String remark;
+	private char status;
 
 	/**
 	 * 删除标记

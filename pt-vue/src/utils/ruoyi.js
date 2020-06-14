@@ -11,22 +11,8 @@ export function parseTime(time, pattern) {
 	if (arguments.length === 0 || !time) {
 		return null
 	}
-
 	const format = pattern || '{y}-{m}-{d} {h}:{i}:{s}'
-	let date
-	if (typeof time === 'object') {
-		date = time
-	} else {
-		if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
-			time = parseInt(time)
-		} else if (typeof time === 'string') {
-			time = time.replace(new RegExp(/-/gm), '/');
-		}
-		if ((typeof time === 'number') && (time.toString().length === 10)) {
-			time = time * 1000
-		}
-		date = new Date(time)
-	}
+	let date = new Date(Date.parse(time))
 	const formatObj = {
 		y: date.getFullYear(),
 		m: date.getMonth() + 1,

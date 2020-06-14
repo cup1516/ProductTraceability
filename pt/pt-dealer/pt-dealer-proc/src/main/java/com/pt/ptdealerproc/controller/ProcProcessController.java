@@ -19,13 +19,18 @@ package com.pt.ptdealerproc.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommon.util.R;
+import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptdealerproc.dto.MissionDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
+import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.service.ProcProcessService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -53,59 +58,80 @@ public class ProcProcessController {
     public R getProcProcessPage(Page page, ProcessDto processDto) {
         return R.ok(procProcessService.getProcessPage(page,processDto));
     }
-	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param missionDto 加工流程表
-	 * @return
-	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
-	@GetMapping("/mission" )
-	public R getPersonalMissionPage(Page page, MissionDto missionDto) {
-		return R.ok(procProcessService.getMissionPage(page,missionDto));
-	}
+    
     /**
-     * 通过id查询加工流程表
-     * @param id id
-     * @return R
+     * 获取节点列表
+     * @return
      */
-    @ApiOperation(value = "通过id查询", notes = "通过id查询")
-    @GetMapping("/{id}" )
-    public R getById(@PathVariable("id" ) Integer id) {
-        return R.ok(procProcessService.getById(id));
+    @GetMapping("/list" )
+    public R getProcProcessList() {
+        return R.ok(procProcessService.getProcProcessList());
     }
 
     /**
-     * 新增加工流程表
-     * @param
-     * @return R
+     * 根据节点编号获取详细信息
      */
-    @ApiOperation(value = "新增加工流程表", notes = "新增加工流程表")
+    @GetMapping(value = "/{processId}")
+    public R getInfo(@PathVariable String processId)
+    {
+        return R.ok(procProcessService.selectProcessById(processId));
+    }
+
+    /**
+     * 新增节点
+     */
+
     @PostMapping
-    public R save(@RequestBody ProcessDto processDto ) {
-        return R.ok(procProcessService.saveProcess(processDto));
+    public R add( @RequestBody ProcessDto processDto)
+    {
+        if (!procProcessService.checkProcessNameUnique(processDto))
+        {
+            return R.failed("新增节点'" + processDto.getProcessName() + "'失败，节点名称已存在");
+        }
+        else if (!procProcessService.checkProcessCodeUnique(processDto))
+        {
+            return R.failed("新增节点'" + processDto.getProcessName() + "'失败，节点编码已存在");
+        }
+        processDto.setCreateBy(SecurityUtils.getNickName());
+        return R.ok(procProcessService.insertProcess(processDto));
     }
 
     /**
-     * 修改加工流程表
-     * @param processDto 加工流程表
-     * @return R
+     * 修改节点
      */
-    @ApiOperation(value = "修改加工流程表", notes = "修改加工流程表")
+
     @PutMapping
-    public R updateById(@RequestBody ProcessDto processDto ) {
-        return R.ok(procProcessService.updateProcessById(processDto));
-}
+    public R edit(@Validated @RequestBody ProcProcess process)
+    {
+        if (!procProcessService.checkProcessNameUnique(process))
+        {
+            return R.failed("修改节点'" + process.getProcessName() + "'失败，节点名称已存在");
+        }
+        else if (!procProcessService.checkProcessCodeUnique(process))
+        {
+            return R.failed("修改节点'" + process.getProcessName() + "'失败，节点编码已存在");
+        }
+        return R.ok(procProcessService.updateProcess(process));
+    }
 
     /**
-     * 通过id删除加工流程表
-     * @param id id
-     * @return R
+     * 删除节点
      */
-    @ApiOperation(value = "通过id删除加工流程表", notes = "通过id删除加工流程表")
-    @DeleteMapping("/{id}" )
-    public R removeById(@PathVariable Integer id) {
-        return R.ok(procProcessService.removeProcessById(id));
+
+    @DeleteMapping("/{processIds}")
+    public R remove(@PathVariable String[] processIds)
+    {
+        return R.ok(procProcessService.deleteProcessByIds(processIds));
+    }
+
+    /**
+     * 获取节点选择框列表
+     */
+    @GetMapping("/optionselect")
+    public R optionselect()
+    {
+        List<ProcProcess> processs = procProcessService.selectProcessAll();
+        return R.ok(processs);
     }
 
 }

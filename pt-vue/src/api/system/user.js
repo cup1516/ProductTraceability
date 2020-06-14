@@ -3,7 +3,6 @@ import { praseStrEmpty } from "@/utils/ruoyi";
 
 // 查询用户列表
 export function listUser(query) {
-  console.log(query)
   return request({
     url: '/user/user/page',
     method: 'get',

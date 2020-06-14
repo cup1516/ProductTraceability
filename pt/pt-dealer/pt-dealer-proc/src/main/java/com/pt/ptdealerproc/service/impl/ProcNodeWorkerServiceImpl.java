@@ -19,10 +19,15 @@ package com.pt.ptdealerproc.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
+import com.pt.ptdealerproc.entity.ProcProcessNode;
 import com.pt.ptdealerproc.mapper.ProcNodeWorkerMapper;
+import com.pt.ptdealerproc.mapper.ProcProcessNodeMapper;
 import com.pt.ptdealerproc.service.ProcNodeWorkerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 加工节点表
@@ -31,7 +36,17 @@ import org.springframework.stereotype.Service;
  * @date 2020-04-19 10:46:44
  */
 @Service
-@AllArgsConstructor
-public class ProcNodeWorkerServiceImpl extends ServiceImpl<ProcNodeWorkerMapper, ProcNodeWorker> implements ProcNodeWorkerService {
-
+public class ProcNodeWorkerServiceImpl implements ProcNodeWorkerService {
+    @Resource
+    private ProcNodeWorkerMapper procNodeWorkerMapper;
+    /**
+     * 批量新增流程节点信息
+     *
+     * @param nodeWorkerList 流程节点列表
+     * @return 结果
+     */
+    @Override
+    public Boolean batchNodeWorker(List<ProcNodeWorker> nodeWorkerList){
+        return procNodeWorkerMapper.batchNodeWorker(nodeWorkerList);
+    };
 }

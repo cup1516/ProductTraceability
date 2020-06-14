@@ -303,6 +303,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public Boolean insertMenu(SysMenu menu)
     {
         menu.setMenuId(IdUtils.simpleUUID());
+        if(menu.getMenuType().equals("M")){
+            menu.setComponent("Layout");
+        }
         return baseMapper.insertMenu(menu);
     }
 
@@ -315,6 +318,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public Boolean updateMenu(SysMenu menu)
     {
+        if(menu.getMenuType().equals("M")){
+            menu.setComponent("Layout");
+        }
         return baseMapper.updateMenu(menu);
     }
     /**

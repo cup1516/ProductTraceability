@@ -33,16 +33,9 @@ import lombok.EqualsAndHashCode;
  * @date 2020-04-19 10:46:44
  */
 @Data
-@TableName("dealer_proc_node_worker")
 public class ProcNodeWorker{
 private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-	@TableId(value = "process_id", type = IdType.INPUT)
-    @ApiModelProperty(value="主键")
-    private String processId;
     /**
      * 加工节点编号
      */
@@ -53,15 +46,9 @@ private static final long serialVersionUID = 1L;
      */
     @ApiModelProperty(value="工人Id")
     private String workerId;
-	/**
-	 * 开始时间
-	 */
-	@ApiModelProperty(value="开始时间")
-	private String startTime;
-	/**
-	 * 结束时间
-	 */
-	@ApiModelProperty(value="结束时间")
-	private String endTime;
 
+    public ProcNodeWorker(String nodeId, String workerId) {
+        this.nodeId = nodeId;
+        this.workerId = workerId;
+    }
 }

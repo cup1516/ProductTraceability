@@ -10,6 +10,7 @@ export function login(username, password, code ) {
     headers: {
       isToken:false,
       'Authorization': 'Basic ZGVhbGVyOnNlY3JldA=='//dealer:secret
+      // 'Authorization': 'Basic Y2VudGVyOnNlY3JldA=='//center:secret
     },
     method: 'post',
     params: { username, password, code, grant_type, scope }

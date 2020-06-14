@@ -96,12 +96,6 @@
         </dependency>
         <dependency>
             <groupId>com.pt</groupId>
-            <artifactId>pt-dealer-user</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.pt</groupId>
             <artifactId>pt-user</artifactId>
             <version>0.0.1</version>
             <scope>compile</scope>

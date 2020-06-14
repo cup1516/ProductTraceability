@@ -387,15 +387,14 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return changeRoleStatus(row.roleId, row.status).then(res =>{
-            if (res.code ===1 ) reject()
-          });
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        }).then(
+          changeRoleStatus(row.roleId, row.status).then(()=>{
+            this.msgSuccess(text + "成功");
+          }).catch(res=>{
+            this.msgError(res.msg);
+            row.status = row.status === "0" ? "1" : "0";
+          })
+        )
     },
     // 取消按钮
     cancel() {
@@ -489,13 +488,11 @@ export default {
           } else {
             this.form.menuIds = this.getMenuAllCheckedKeys();
             addRole(this.form).then(response => {
-              if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
-              }
+            }).catch(response=>{
+              this.msgError(response.msg);
             });
           }
         }
@@ -506,13 +503,11 @@ export default {
       if (this.form.roleId != undefined) {
         this.form.deptIds = this.getDeptAllCheckedKeys();
         dataScope(this.form).then(response => {
-          if (response.code === 200) {
             this.msgSuccess("修改成功");
             this.openDataScope = false;
             this.getList();
-          } else {
-            this.msgError(response.msg);
-          }
+        }).catch(response=>{
+          this.msgError(response.msg);
         });
       }
     },

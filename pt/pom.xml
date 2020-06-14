@@ -85,6 +85,7 @@
         <module>pt-warehouse</module>
         <module>pt-manor</module>
         <module>pt-user</module>
+        <module>pt-chat</module>
     </modules>
     <build>
         <plugins>

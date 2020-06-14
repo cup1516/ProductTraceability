@@ -27,6 +27,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 /**
  * 加工节点表
  *
@@ -34,7 +36,7 @@ import lombok.EqualsAndHashCode;
  * @date 2020-04-19 10:46:44
  */
 @Data
-@TableName(value = "dealer_proc_node")
+@TableName(value = "dealer_node")
 @ApiModel(value = "加工节点表")
 public class ProcNode  {
 private static final long serialVersionUID = 1L;
@@ -49,7 +51,7 @@ private static final long serialVersionUID = 1L;
      * 加工节点编号
      */
     @ApiModelProperty(value="加工节点编号")
-    private String nodeNumber;
+    private String nodeCode;
     /**
      * 加工节点名称
      */
@@ -62,4 +64,9 @@ private static final long serialVersionUID = 1L;
 	@TableLogic
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
+
+	private String createBy;
+	private Date createTime;
+	private String remark;
+	private char status;
     }

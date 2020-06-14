@@ -98,7 +98,7 @@
 
 	<select id="checkPhoneUnique"  resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where phonenumber = #{phonenumber}
+		where phone = #{phone}
 	</select>
 
 	<select id="checkEmailUnique" resultMap="baseResultMap">

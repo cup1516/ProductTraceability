@@ -17,24 +17,29 @@
 package com.pt.ptdealerproc.service.impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommon.constant.CommonConstants;
 import com.pt.ptcommon.util.IdUtils;
-import com.pt.ptdealerproc.dto.MissionDto;
+import com.pt.ptdealerproc.dto.NodeDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
 import com.pt.ptdealerproc.entity.ProcProcess;
+import com.pt.ptdealerproc.entity.ProcProcess;
+import com.pt.ptdealerproc.entity.ProcProcessNode;
 import com.pt.ptdealerproc.mapper.ProcProcessMapper;
 import com.pt.ptdealerproc.service.ProcNodeWorkerService;
+import com.pt.ptdealerproc.service.ProcProcessNodeService;
 import com.pt.ptdealerproc.service.ProcProcessService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,45 +52,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ProcProcessServiceImpl extends ServiceImpl<ProcProcessMapper, ProcProcess> implements ProcProcessService {
+
+	private final ProcProcessNodeService procProcessNodeService;
 	private final ProcNodeWorkerService procNodeWorkerService;
-	/**
-	 * 保存加工流程表
-	 * @param processDto
-	 * @return
-	 */
-	@Override
-	public Boolean saveProcess(ProcessDto processDto) {
-		ProcProcess procProcess = new ProcProcess();
-		BeanUtils.copyProperties(processDto,procProcess);
-		procProcess.setProcessId(IdUtils.simpleUUID());
-		procProcess.setCreateTime(LocalDateTime.now());
-		procProcess.setUpdateTime(LocalDateTime.now());
-		procProcess.setDelFlag(CommonConstants.STATUS_NORMAL);
-		baseMapper.insert(procProcess);
-		List<ProcNodeWorker> procNodeWorkerList = processDto.getDynamic().stream().map(node_worker -> {
-			ProcNodeWorker procNodeWorker = new ProcNodeWorker();
-			procNodeWorker.setProcessId(procProcess.getProcessId());
-			procNodeWorker.setNodeId(node_worker.getNodeId());
-			procNodeWorker.setWorkerId(node_worker.getWorkerId());
-			procNodeWorker.setStartTime(node_worker.getStartTime());
-			procNodeWorker.setEndTime(node_worker.getEndTime());
-			return procNodeWorker;
-		}).collect(Collectors.toList());
-
-		return procNodeWorkerService.saveBatch(procNodeWorkerList);
-	}
-
-	/**
-	 * 根据id删除加工流程表
-	 * @param id
-	 * @return
-	 */
-	@Override
-	public Boolean removeProcessById(Integer id) {
-		this.removeById(id);
-		return Boolean.TRUE;
-	}
-
 	/**
 	 * 获取加工流程表
 	 * @param page
@@ -98,33 +67,163 @@ public class ProcProcessServiceImpl extends ServiceImpl<ProcProcessMapper, ProcP
 	}
 
 	/**
-	 * 更新加工流程表
-	 * @param processDto
-	 * @return
+	 * 查询流程信息集合
+	 *
+	 * @param procProcess 流程信息
+	 * @return 流程信息集合
 	 */
 	@Override
-	public Boolean updateProcessById(ProcessDto processDto) {
-		ProcProcess procProcess = new ProcProcess();
-		BeanUtils.copyProperties(processDto,procProcess);
-		procProcess.setUpdateTime(LocalDateTime.now());
-		this.updateById(procProcess);
-		procNodeWorkerService.remove(Wrappers.<ProcNodeWorker>update().lambda()
-			.eq(ProcNodeWorker::getProcessId,procProcess.getProcessId()));
-		List<ProcNodeWorker> procNodeWorkerList = processDto.getDynamic().stream().map(node_worker -> {
-			ProcNodeWorker procNodeWorker = new ProcNodeWorker();
-			procNodeWorker.setProcessId(procProcess.getProcessId());
-			procNodeWorker.setNodeId(node_worker.getNodeId());
-			procNodeWorker.setWorkerId(node_worker.getWorkerId());
-			procNodeWorker.setStartTime(node_worker.getStartTime());
-			procNodeWorker.setEndTime(node_worker.getEndTime());
-			return procNodeWorker;
-		}).collect(Collectors.toList());
-		procNodeWorkerService.saveBatch(procNodeWorkerList);
+	public List<ProcProcess> selectProcessList(ProcProcess procProcess)
+	{
+		return baseMapper.selectProcessList(procProcess);
+	}
+
+
+
+	/**
+	 * 查询所有流程
+	 *
+	 * @return 流程列表
+	 */
+	@Override
+	public List<ProcProcess> selectProcessAll()
+	{
+		return baseMapper.selectProcessAll();
+	}
+
+	/**
+	 * 通过流程ID查询流程信息
+	 *
+	 * @param processId 流程ID
+	 * @return 角色对象信息
+	 */
+	@Override
+	public ProcProcess selectProcessById(String processId)
+	{
+		return baseMapper.selectProcessById(processId);
+	}
+
+
+	/**
+	 * 校验流程名称是否唯一
+	 *
+	 * @param process 流程信息
+	 * @return 结果
+	 */
+	@Override
+	public Boolean checkProcessNameUnique(ProcProcess process)
+	{
+//		if(StrUtil.isEmpty(process.getProcessId())){
+//			return Boolean.TRUE;
+//		}
+		ProcProcess procProcess = baseMapper.checkProcessNameUnique(process.getProcessName());
+
+		if (procProcess != null && !procProcess.getProcessId().equals(process.getProcessId()))
+		{
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+
+	}
+
+	/**
+	 * 校验流程编码是否唯一
+	 *
+	 * @param process 流程信息
+	 * @return 结果
+	 */
+	@Override
+	public Boolean checkProcessCodeUnique(ProcProcess process)
+	{
+//		if(StrUtil.isEmpty(process.getProcessId())){
+//			return Boolean.TRUE;
+//		}
+		ProcProcess procProcess = baseMapper.checkProcessCodeUnique(process.getProcessName());
+
+		if (procProcess != null && !procProcess.getProcessId().equals(process.getProcessId()))
+		{
+			return Boolean.FALSE;
+		}
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * 通过流程ID查询流程使用数量
+	 *
+	 * @param processId 流程ID
+	 * @return 结果
+	 */
 	@Override
-	public IPage getMissionPage(Page page, MissionDto missionDto) {
-		return baseMapper.getMissionDtoPage(page,missionDto);
+	public int countProcProcessById(String processId)
+	{
+//		return sysUserProcessService.countProcProcessById(processId);
+		return 0;
 	}
+
+	/**
+	 * 删除流程信息
+	 *
+	 * @param processId 流程ID
+	 * @return 结果
+	 */
+	@Override
+	public Boolean deleteProcessById(String processId)
+	{
+		return baseMapper.deleteProcessById(processId);
+	}
+
+	/**
+	 * 批量删除流程信息
+	 *
+	 * @param processIds 需要删除的流程ID
+	 * @return 结果
+	 * @throws Exception 异常
+	 */
+	@Override
+	public Boolean deleteProcessByIds(String[] processIds)
+	{
+		for (String processId : processIds)
+		{
+			if (countProcProcessById(processId) > 0)
+			{
+				return  Boolean.FALSE;
+			}
+		}
+		return baseMapper.deleteProcessByIds(processIds);
+	}
+
+	/**
+	 * 新增保存流程信息
+	 *
+	 * @param processDto 流程信息
+	 * @return 结果
+	 */
+	@Override
+	public Boolean insertProcess(ProcessDto processDto)
+	{
+		processDto.setProcessId(IdUtils.simpleUUID());
+		baseMapper.insertProcess(processDto);
+		List<ProcProcessNode> processNodes = processDto.getProcessNodes();
+		processNodes.stream().forEach(procProcessNode -> procProcessNode.setProcessId(processDto.getProcessId()));
+		procProcessNodeService.batchProcessNode(processNodes);
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 修改保存流程信息
+	 *
+	 * @param process 流程信息
+	 * @return 结果
+	 */
+	@Override
+	public Boolean updateProcess(ProcProcess process)
+	{
+		return baseMapper.updateProcess(process);
+	}
+
+	@Override
+	public List<ProcProcess> getProcProcessList() {
+		return baseMapper.getProcProcessList();
+	}
+
 }

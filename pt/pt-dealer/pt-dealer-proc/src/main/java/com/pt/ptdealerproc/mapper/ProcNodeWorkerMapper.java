@@ -19,6 +19,7 @@ package com.pt.ptdealerproc.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
+import com.pt.ptdealerproc.entity.ProcProcessNode;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -30,6 +31,6 @@ import java.util.List;
  * @date 2020-04-19 14:58:16
  */
 @Mapper
-public interface ProcNodeWorkerMapper extends BaseMapper<ProcNodeWorker> {
-	List<ProcNodeWorker> listNodesByProcessId(Integer id);
+public interface ProcNodeWorkerMapper  {
+	Boolean batchNodeWorker(List<ProcNodeWorker> procNodeWorkerList);
 }

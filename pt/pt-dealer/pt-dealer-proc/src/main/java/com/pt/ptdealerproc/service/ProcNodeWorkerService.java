@@ -19,6 +19,9 @@ package com.pt.ptdealerproc.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
+import com.pt.ptdealerproc.entity.ProcProcessNode;
+
+import java.util.List;
 
 /**
  * 加工节点表
@@ -26,5 +29,12 @@ import com.pt.ptdealerproc.entity.ProcNodeWorker;
  * @author pig code generator
  * @date 2020-04-19 10:46:44
  */
-public interface ProcNodeWorkerService extends IService<ProcNodeWorker> {
+public interface ProcNodeWorkerService {
+    /**
+     * 批量新增流程节点信息
+     *
+     * @param procNodeWorkerList 流程节点列表
+     * @return 结果
+     */
+    Boolean batchNodeWorker(List<ProcNodeWorker> procNodeWorkerList);
 }
