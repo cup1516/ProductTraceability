@@ -9,11 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="pt-eureka" />
         <module name="pt-dealer-order" />
-        <module name="pt-manor-user" />
         <module name="pt-manor" />
         <module name="pt-chat" />
         <module name="pt-common" />
+        <module name="pt-portal" />
         <module name="pt-auth" />
+        <module name="pt-order" />
         <module name="pt-dealer-prod" />
         <module name="pt-dealer-proc" />
         <module name="pt-warehouse" />
@@ -39,6 +40,8 @@
       <module name="pt-gateway" target="8" />
       <module name="pt-manor" target="8" />
       <module name="pt-manor-user" target="8" />
+      <module name="pt-order" target="8" />
+      <module name="pt-portal" target="8" />
       <module name="pt-user" target="8" />
       <module name="pt-warehouse" target="8" />
       <module name="pt-warehouse-user" target="8" />
@@ -61,6 +64,8 @@
       <module name="pt-gateway" options="-parameters" />
       <module name="pt-manor" options="-parameters" />
       <module name="pt-manor-user" options="-parameters" />
+      <module name="pt-order" options="-parameters" />
+      <module name="pt-portal" options="-parameters" />
       <module name="pt-user" options="-parameters" />
       <module name="pt-warehouse" options="-parameters" />
       <module name="pt-warehouse-user" options="-parameters" />

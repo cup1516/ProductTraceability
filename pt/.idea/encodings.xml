@@ -10,7 +10,8 @@
     <file url="file://$PROJECT_DIR$/pt-eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-gateway/src/main/resources/application.yml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/pt-manor/pt-manor-user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pt-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pt-portal/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-user/src/main/java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

@@ -14,7 +14,8 @@
       <module fileurl="file://$PROJECT_DIR$/pt-eureka/pt-eureka.iml" filepath="$PROJECT_DIR$/pt-eureka/pt-eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-gateway/pt-gateway.iml" filepath="$PROJECT_DIR$/pt-gateway/pt-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-manor/pt-manor.iml" filepath="$PROJECT_DIR$/pt-manor/pt-manor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pt-manor/pt-manor-user/pt-manor-user.iml" filepath="$PROJECT_DIR$/pt-manor/pt-manor-user/pt-manor-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-order/pt-order.iml" filepath="$PROJECT_DIR$/pt-order/pt-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-portal/pt-portal.iml" filepath="$PROJECT_DIR$/pt-portal/pt-portal.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-user/pt-user.iml" filepath="$PROJECT_DIR$/pt-user/pt-user.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-warehouse/pt-warehouse.iml" filepath="$PROJECT_DIR$/pt-warehouse/pt-warehouse.iml" />
     </modules>

@@ -1,10 +1,10 @@
-package com.pt.ptmanoruser;
+package com.pt.ptportal;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PtManorUserApplicationTests {
+class PtPortalApplicationTests {
 
     @Test
     void contextLoads() {

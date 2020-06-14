@@ -1,13 +1,13 @@
-package com.pt.ptmanoruser;
+package com.pt.ptportal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PtManorUserApplication {
+public class PtPortalApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PtManorUserApplication.class, args);
+        SpringApplication.run(PtPortalApplication.class, args);
     }
 
 }

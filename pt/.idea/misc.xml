@@ -17,12 +17,13 @@
         <option value="$PROJECT_DIR$/pt-center/pom.xml" />
         <option value="$PROJECT_DIR$/pt-manor/pom.xml" />
         <option value="$PROJECT_DIR$/pt-warehouse/pom.xml" />
-        <option value="$PROJECT_DIR$/pt-manor/pt-manor-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-user/pom.xml" />
         <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-proc/pom.xml" />
         <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-order/pom.xml" />
         <option value="$PROJECT_DIR$/pt-dealer/pt-dealer-prod/pom.xml" />
         <option value="$PROJECT_DIR$/pt-chat/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-order/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-portal/pom.xml" />
       </list>
     </option>
   </component>
