@@ -37,7 +37,6 @@ import java.io.Serializable;
 //@Accessors(chain = true)
 public class R<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Getter
 	@Setter
 	private int code;
@@ -69,6 +68,10 @@ public class R<T> implements Serializable {
 
 	public static <T> R<T> failed(String msg) {
 		return restResult(null, CommonConstants.FAIL, msg);
+	}
+
+	public static <T> R<T> failed(Integer code ,String msg) {
+		return restResult(null, code, msg);
 	}
 
 	public static <T> R<T> failed(T data) {

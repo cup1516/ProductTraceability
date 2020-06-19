@@ -20,6 +20,7 @@ package com.pt.ptcommon.util;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.pt.ptcommon.constant.SecurityConstants;
 import com.pt.ptcommon.security.CustomUser;
 import lombok.experimental.UtilityClass;
@@ -61,6 +62,7 @@ public class SecurityUtils {
 	 * 获取用户
 	 */
 	public CustomUser getUser() {
+
 		Authentication authentication = getAuthentication();
 		if (authentication == null) {
 			return null;
