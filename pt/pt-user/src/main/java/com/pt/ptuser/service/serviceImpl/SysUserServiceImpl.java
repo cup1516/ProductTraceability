@@ -28,9 +28,7 @@ import java.util.stream.Collectors;
  * @author wl
  * @date 2020/5/18
  */
-@Slf4j
 @Service
-@AllArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommon.constant.CommonConstants;
+import com.pt.ptcommon.exception.CustomException;
 import com.pt.ptcommon.security.CustomUser;
 import com.pt.ptcommon.util.R;
 
@@ -34,7 +35,10 @@ public class UserController {
 
     @Autowired
     private SysPostService sysPostService;
-
+    @GetMapping("/test")
+    private void find(){
+       throw  new CustomException("无访问权限");
+    }
     /**
      * auth获取用户信息
      * @param username

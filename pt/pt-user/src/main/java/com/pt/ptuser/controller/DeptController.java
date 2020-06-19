@@ -1,6 +1,7 @@
 package com.pt.ptuser.controller;
 
 import com.pt.ptcommon.constant.CommonConstants;
+import com.pt.ptcommon.exception.CustomException;
 import com.pt.ptcommon.util.IdUtils;
 import com.pt.ptcommon.util.R;
 import com.pt.ptcommon.util.SecurityUtils;
@@ -43,10 +44,7 @@ public class DeptController {
     @PostMapping
     public R add(@RequestBody SysDept dept)
     {
-        if (!sysDeptService.checkDeptNameUnique(dept))
-        {
-            return R.failed("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
-        }
+        sysDeptService.checkDeptNameUnique(dept);
         dept.setDeptId(IdUtils.simpleUUID());
 //        dept.setCreateBy(SecurityUtils.getUsername());
         return R.ok(sysDeptService.insertDept(dept));
@@ -67,14 +65,8 @@ public class DeptController {
     @DeleteMapping("/{deptId}")
     public R remove(@PathVariable String deptId)
     {
-        if (sysDeptService.hasChildByDeptId(deptId))
-        {
-            return R.failed("存在下级部门,不允许删除");
-        }
-        if (sysDeptService.checkDeptExistUser(deptId))
-        {
-            return R.failed("部门存在用户,不允许删除");
-        }
+        sysDeptService.hasChildByDeptId(deptId);
+        sysDeptService.checkDeptExistUser(deptId);
         return R.ok(sysDeptService.deleteDeptById(deptId));
     }
 
@@ -84,19 +76,8 @@ public class DeptController {
     @PutMapping
     public R edit( @RequestBody SysDept dept)
     {
-        if (!sysDeptService.checkDeptNameUnique(dept))
-        {
-            return R.failed("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
-        }
-        else if (dept.getParentId().equals(dept.getDeptId()))
-        {
-            return R.failed("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
-        }
-        else if (CommonConstants.DEPT_DISABLE.equals(dept.getStatus())
-                && sysDeptService.selectNormalChildrenDeptById(dept.getDeptId()) > 0)
-        {
-            return R.failed("该部门包含未停用的子部门！");
-        }
+        sysDeptService.checkDeptNameUnique(dept);
+
 //        dept.setUpdateBy(SecurityUtils.getUsername());
         return R.ok(sysDeptService.updateDept(dept));
     }

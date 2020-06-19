@@ -30,7 +30,12 @@ spring:
             - Path=/user/**
           filters:
             - StripPrefix= 1
-
+        - id: pt-dealer-prod
+          uri: lb://pt-dealer-prod
+          predicates:
+            - Path=/prod/**
+          filters:
+            - StripPrefix= 1
 eureka:
   client:
     service-url:

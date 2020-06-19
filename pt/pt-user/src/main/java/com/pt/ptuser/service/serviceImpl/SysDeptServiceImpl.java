@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommon.constant.CommonConstants;
+import com.pt.ptcommon.exception.CustomException;
+import com.pt.ptcommon.util.R;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
 import org.springframework.stereotype.Service;
@@ -125,7 +127,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public Boolean checkDeptExistUser(String deptId)
     {
-        return baseMapper.checkDeptExistUser(deptId) != 0;
+        if(baseMapper.checkDeptExistUser(deptId) != 0){
+            throw new CustomException("部门存在用户,不允许删除");
+        }
+        return Boolean.TRUE;
     }
 
     /**
@@ -138,16 +143,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public Boolean checkDeptNameUnique(SysDept dept)
     {
         if(StrUtil.isEmpty(dept.getDeptId())){
+
             return Boolean.TRUE;
         }
 
         SysDept sysDept = baseMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
         if (sysDept != null && !sysDept.getDeptId().equals(dept.getDeptId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+//            return Boolean.FALSE;
         }
-
-        return Boolean.TRUE;
+        throw new CustomException("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+//        return Boolean.TRUE;
     }
     /**
      * 新增保存部门信息
@@ -200,7 +207,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public Boolean hasChildByDeptId(String deptId)
     {
         int result = baseMapper.hasChildByDeptId(deptId);
-        return result > 0 ? true : false;
+        if (result > 0) {
+            throw new CustomException("存在下级部门,不允许删除");
+        }
+        return  true;
     }
 
     /**
@@ -223,6 +233,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public int updateDept(SysDept dept)
     {
+        if (dept.getParentId().equals(dept.getDeptId())) {
+            throw new CustomException("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
+        }
+        else if (CommonConstants.DEPT_DISABLE.equals(dept.getStatus())
+                && this.selectNormalChildrenDeptById(dept.getDeptId()) > 0)
+        {
+            throw new CustomException("该部门包含未停用的子部门！");
+        }
         SysDept newParentDept = baseMapper.selectDeptById(dept.getParentId());
         SysDept oldDept = baseMapper.selectDeptById(dept.getDeptId());
         if (newParentDept != null && oldDept != null)
