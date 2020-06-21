@@ -107,5 +107,21 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return 结果
      */
     Boolean resetUserPwd(SysUser sysUser);
-
+    /**
+     * 获取用户列表
+     * @return
+     */
+    List<SysUser> listUser();
+    /**
+     * 获取部门用户列表
+     * @param deptId
+     * @return
+     */
+    List<SysUser> listUserByDept(@Param("deptId") String deptId);
+    /**
+     * 根据权限获取用户列表
+     * @param perms
+     * @return
+     */
+    List<SysUser> listUserByPerms( String[] perms);
 }

@@ -6,13 +6,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommon.constant.CommonConstants;
+import com.pt.ptcommon.exception.CustomException;
 import com.pt.ptcommon.util.IdUtils;
+import com.pt.ptcommon.util.R;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.*;
 import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
  * @date 2020/5/18
  */
 @Service
+@AllArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
@@ -36,6 +40,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysMenuService sysMenuService;
     private SysUserRoleService sysUserRoleService;
     private SysUserPostService sysUserPostService;
+    private final SysUserMapper sysUserMapper;
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * auth通过账号与客户端获取用户信息
@@ -45,7 +51,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public UserInfo findUserByUsername(String username, String clientId) {
-        SysUser sysUser = baseMapper.findUserByUsername(username, clientId);
+        SysUser sysUser = sysUserMapper.findUserByUsername(username, clientId);
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
         //设置角色列表  （ID）
@@ -66,12 +72,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public IPage getDeptUserWithRolePage(Page page, String clientId,String deptId) {
-        return baseMapper.getDeptUserPage(page,clientId,deptId);
+        return sysUserMapper.getDeptUserPage(page,clientId,deptId);
     }
 
     @Override
     public IPage getAllUserWithRolePage(Page page, String clientId) {
-        return baseMapper.getAllUserPage(page,clientId);
+        return sysUserMapper.getAllUserPage(page,clientId);
     }
 
     /**
@@ -81,7 +87,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByUserId(String userId) {
-        return baseMapper.getByUserId(userId);
+        return sysUserMapper.getByUserId(userId);
     }
 
     /**
@@ -93,7 +99,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Boolean checkUserAllowed(SysUser user)
     {
         if (StrUtil.isNotEmpty(user.getUserId()) && sysUserRoleService.isAdmin(user.getUserId())) {
-            return Boolean.FALSE;
+            throw new CustomException("修改用户'" + user.getUserName() + "'失败，无修改权限");
         }
         return Boolean.TRUE;
     }
@@ -107,7 +113,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean updateUserStatus(SysUser user)
     {
-        return baseMapper.updateUser(user);
+        return sysUserMapper.updateUser(user);
     }
 
     @Override
@@ -116,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         user.setPassword(ENCODER.encode(user.getPassword()));
         insertUserPost(user);
         insertUserRole(user);
-        return baseMapper.insertUser(user);
+        return sysUserMapper.insertUser(user);
     }
     /**
      * 新增用户角色信息
@@ -170,9 +176,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
     }
     @Override
-    public Boolean checkUserNameUnique(String userName) {
-        SysUser sysUser = baseMapper.checkUserNameUnique(userName);
-        return sysUser != null?Boolean.FALSE:Boolean.TRUE;
+    public Boolean checkUserNameUnique(SysUser user) {
+        SysUser sysUser = sysUserMapper.checkUserNameUnique(user.getUserName());
+        if(sysUser != null){
+            throw new CustomException("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+        }
+        return Boolean.TRUE;
     }
 
     @Override
@@ -180,11 +189,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if(StrUtil.isEmpty(user.getUserId())){
             return Boolean.TRUE;
         }
-        SysUser sysUser = baseMapper.checkPhoneUnique(user.getPhone());
+        SysUser sysUser = sysUserMapper.checkPhoneUnique(user.getPhone());
 
         if (sysUser != null && !sysUser.getUserId().equals(sysUser.getUserId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
         }
         return Boolean.TRUE;
     }
@@ -194,11 +203,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if(StrUtil.isEmpty(user.getUserId())){
             return Boolean.TRUE;
         }
-        SysUser sysUser = baseMapper.checkEmailUnique(user.getEmail());
+        SysUser sysUser = sysUserMapper.checkEmailUnique(user.getEmail());
 
         if (sysUser != null && !sysUser.getUserId().equals(sysUser.getUserId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         return Boolean.TRUE;
     }
@@ -211,7 +220,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean resetUserPwd(SysUser sysUser)
     {
-        return baseMapper.resetUserPwd(sysUser);
+        return sysUserMapper.resetUserPwd(sysUser);
     }
     /**
      * 批量删除用户信息
@@ -230,7 +239,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 return Boolean.FALSE;
             }
         }
-        return baseMapper.deleteUserByIds(userIds);
+        return sysUserMapper.deleteUserByIds(userIds);
     }
 
     /**
@@ -246,7 +255,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserRoleService.deleteUserRoleByUserId(userId);
         // 删除用户与岗位表
         sysUserPostService.deleteUserPostByUserId(userId);
-        return baseMapper.deleteUserById(userId);
+        return sysUserMapper.deleteUserById(userId);
     }
 
     /**
@@ -267,6 +276,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserPostService.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
         insertUserPost(user);
-        return baseMapper.updateUser(user);
+        return sysUserMapper.updateUser(user);
+    }
+    /**
+     * 获取用户列表
+     * @return
+     */
+    @Override
+    public List<SysUser> listUser() {
+        return sysUserMapper.listUser();
+    }
+    /**
+     * 根据权限获取用户列表
+     * @param deptId
+     * @return
+     */
+    @Override
+    public List<SysUser> listUserByDept(String deptId) {
+        return sysUserMapper.listUserByDept(deptId);
+    }
+    /**
+     * 根据权限获取用户列表
+     * @param perms
+     * @return
+     */
+    @Override
+    public List<SysUser> listUserByPerms(String[] perms) {
+        return sysUserMapper.listUserByPerms(perms);
     }
 }

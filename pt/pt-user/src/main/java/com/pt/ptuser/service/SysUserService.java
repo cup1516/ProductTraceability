@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.SysUser;
 
+import java.util.List;
+
 public interface SysUserService extends IService<SysUser> {
 
 
@@ -60,10 +62,10 @@ public interface SysUserService extends IService<SysUser> {
    /**
     * 校验用户名称是否唯一
     *
-    * @param userName 用户名称
+    * @param user 用户
     * @return 结果
     */
-   Boolean checkUserNameUnique(String userName);
+   Boolean checkUserNameUnique(SysUser user);
 
    /**
     * 校验手机号码是否唯一
@@ -112,5 +114,21 @@ public interface SysUserService extends IService<SysUser> {
     * @return 结果
     */
    Boolean updateUser(SysUser user);
-
+   /**
+    * 获取用户列表
+    * @return
+    */
+   List<SysUser> listUser();
+   /**
+    * 获取部门用户列表
+    * @param deptId
+    * @return
+    */
+   List<SysUser> listUserByDept(String deptId);
+   /**
+    * 根据权限获取用户列表
+    * @param perms
+    * @return
+    */
+   List<SysUser> listUserByPerms(String[] perms);
 }

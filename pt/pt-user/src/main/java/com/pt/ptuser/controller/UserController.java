@@ -1,22 +1,18 @@
 package com.pt.ptuser.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommon.constant.CommonConstants;
-import com.pt.ptcommon.exception.CustomException;
 import com.pt.ptcommon.security.CustomUser;
 import com.pt.ptcommon.util.R;
 
 import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.dto.UserInfo;
-import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.entity.SysUser;
 import com.pt.ptuser.service.SysPostService;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +20,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author wl
+ */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
     private SysUserService sysUserService;
-
-    @Autowired
     private SysRoleService sysRoleService;
-
-    @Autowired
     private SysPostService sysPostService;
-    @GetMapping("/test")
-    private void find(){
-       throw  new CustomException("无访问权限");
-    }
     /**
      * auth获取用户信息
      * @param username
@@ -129,18 +120,9 @@ public class UserController {
     @PostMapping
     public R add(@Validated @RequestBody SysUser user)
     {
-        if (!sysUserService.checkUserNameUnique(user.getUserName()))
-        {
-            return R.failed("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
-        }
-        else if (!sysUserService.checkPhoneUnique(user))
-        {
-            return R.failed("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
-        }
-        else if (!sysUserService.checkEmailUnique(user))
-        {
-            return R.failed("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
-        }
+        sysUserService.checkUserNameUnique(user);
+        sysUserService.checkPhoneUnique(user);
+        sysUserService.checkEmailUnique(user);
 //        user.setCreateBy(SecurityUtils.getUsername());
 //        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return R.ok(sysUserService.insertUser(user));
@@ -177,18 +159,37 @@ public class UserController {
     @PutMapping
     public R edit(@Validated @RequestBody SysUser user)
     {
-        if (!sysUserService.checkUserAllowed(user)){
-            return R.failed("修改用户'" + user.getUserName() + "'失败，无修改权限");
-        };
-        if (!sysUserService.checkPhoneUnique(user))
-        {
-            return R.failed("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
-        }
-        else if (!sysUserService.checkEmailUnique(user))
-        {
-            return R.failed("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
-        }
+        sysUserService.checkUserAllowed(user);
+        sysUserService.checkPhoneUnique(user);
+        sysUserService.checkEmailUnique(user);
 //        user.setUpdateBy(SecurityUtils.getUsername());
         return R.ok(sysUserService.updateUser(user));
+    }
+    /**
+     * 获取用户列表
+     * @return
+     */
+    @GetMapping("/list")
+    public R listUser(){
+        return R.ok(sysUserService.listUser());
+    }
+
+    /**
+     * 获取部门用户列表
+     * @return
+     */
+    @GetMapping("/list/dept")
+    public R listUserByDept(){
+        return R.ok(sysUserService.listUserByDept(SecurityUtils.getDeptId()));
+    }
+
+    /**
+     * 根据权限获取用户列表
+     * @param perms 权限
+     * @return
+     */
+    @GetMapping("/list/{perms}")
+    public R listUserByPerms(@PathVariable String[] perms){
+        return R.ok(sysUserService.listUserByPerms(perms));
     }
 }

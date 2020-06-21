@@ -8,6 +8,7 @@ import com.pt.ptcommon.util.IdUtils;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysUserPostService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ import java.util.List;
  * @author wl
  */
 @Service
+@AllArgsConstructor
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> implements SysPostService {
 
-    @Autowired
     private SysUserPostService sysUserPostService;
 
     @Override

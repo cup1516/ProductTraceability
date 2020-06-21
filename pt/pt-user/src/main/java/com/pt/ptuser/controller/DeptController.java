@@ -7,6 +7,7 @@ import com.pt.ptcommon.util.R;
 import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.service.SysDeptService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/dept")
 public class DeptController {
-    @Autowired
+
     private SysDeptService sysDeptService;
     /**
      * 获取部门下拉树列表

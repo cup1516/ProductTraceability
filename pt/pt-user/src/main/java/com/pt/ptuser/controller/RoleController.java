@@ -7,6 +7,7 @@ import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.entity.SysRole;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -19,11 +20,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
+@AllArgsConstructor
 public class RoleController {
-    @Autowired
-    private SysRoleService sysRoleService;
 
-    @Autowired
+    private SysRoleService sysRoleService;
     private SysUserService sysUserService;
 
     /**

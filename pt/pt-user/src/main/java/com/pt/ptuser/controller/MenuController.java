@@ -5,6 +5,7 @@ import com.pt.ptcommon.util.R;
 import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.service.SysMenuService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +19,8 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/menu")
+@AllArgsConstructor
 public class MenuController {
-    @Autowired
     private SysMenuService sysMenuService;
 
     /**

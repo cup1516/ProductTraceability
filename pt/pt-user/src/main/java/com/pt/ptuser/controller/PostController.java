@@ -5,6 +5,7 @@ import com.pt.ptcommon.util.R;
 import com.pt.ptcommon.util.SecurityUtils;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysPostService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/post")
+@AllArgsConstructor
 public class PostController {
-    @Autowired
     private SysPostService sysPostService;
 
     /**
