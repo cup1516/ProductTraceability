@@ -109,4 +109,11 @@ public class SecurityUtils {
 	public String getUserName() {
 		return getUser().getUserName();
 	}
+
+	/**
+	 * 获取部门
+	 */
+	public String getDeptId() {
+		return getUser().getDeptId();
+	}
 }
