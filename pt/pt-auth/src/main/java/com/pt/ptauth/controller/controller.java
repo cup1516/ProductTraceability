@@ -2,8 +2,7 @@ package com.pt.ptauth.controller;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.pt.ptcommon.constant.CacheConstants;
-import com.pt.ptuser.entity.SysUser;
+import com.pt.ptcommoncore.constant.CacheConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;

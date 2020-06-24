@@ -1,7 +1,8 @@
 package com.pt.ptuser;
 
 
-import com.pt.ptcommon.annotation.EnableCustomResourceServer;
+
+import com.pt.ptcommonsecurity.annotation.EnableCustomResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

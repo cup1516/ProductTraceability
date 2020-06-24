@@ -23,7 +23,7 @@
     <result column="remark" property="remark" />
   </resultMap>
 
-    <resultMap id="MenuTreeVoResultMap" type="com.pt.ptcommon.dto.MenuVO">
+    <resultMap id="MenuTreeVoResultMap" type="com.pt.ptcommoncore.dto.MenuVO">
         <!--@mbg.generated-->
         <!--@Table dealer_menu-->
         <id column="menu_id"  property="menuId" />

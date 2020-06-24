@@ -1,8 +1,9 @@
 package com.pt.ptuser.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pt.ptcommon.util.R;
-import com.pt.ptcommon.util.SecurityUtils;
+
+import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysPostService;
 import lombok.AllArgsConstructor;

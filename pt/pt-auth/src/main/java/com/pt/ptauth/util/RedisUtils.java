@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import com.pt.ptcommon.util.R;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -14,7 +12,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 
 @Component
-@ComponentScan("com.pt.ptcommon.config")
+@ComponentScan("com.pt.ptcommonsecurity.config")
 public class RedisUtils {
 
     @Resource

@@ -20,11 +20,10 @@ package com.pt.ptauth.config;
 
 
 import com.pt.ptauth.service.CustomClientDetailsService;
-import com.pt.ptauth.service.CustomUserDetails;
-import com.pt.ptauth.service.CustomUserDetailsServiceImpl;
-import com.pt.ptcommon.constant.CacheConstants;
-import com.pt.ptcommon.constant.SecurityConstants;
-import com.pt.ptcommon.security.CustomUser;
+
+import com.pt.ptcommoncore.constant.CacheConstants;
+import com.pt.ptcommoncore.constant.SecurityConstants;
+import com.pt.ptcommoncore.security.CustomUser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

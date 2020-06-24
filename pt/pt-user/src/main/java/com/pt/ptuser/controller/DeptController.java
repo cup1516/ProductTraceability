@@ -1,10 +1,8 @@
 package com.pt.ptuser.controller;
 
-import com.pt.ptcommon.constant.CommonConstants;
-import com.pt.ptcommon.exception.CustomException;
-import com.pt.ptcommon.util.IdUtils;
-import com.pt.ptcommon.util.R;
-import com.pt.ptcommon.util.SecurityUtils;
+
+import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.service.SysDeptService;
 import lombok.AllArgsConstructor;

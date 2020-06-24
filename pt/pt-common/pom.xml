@@ -48,6 +48,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
+    <modules>
+        <module>pt-common-mybatis</module>
+        <module>pt-common-core</module>
+        <module>pt-common-security</module>
+    </modules>
     <build>
         <plugins>
             <plugin>

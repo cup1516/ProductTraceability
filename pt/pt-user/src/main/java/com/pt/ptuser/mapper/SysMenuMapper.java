@@ -1,7 +1,8 @@
 package com.pt.ptuser.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pt.ptcommon.dto.MenuVO;
+
+import com.pt.ptcommoncore.dto.MenuVO;
 import com.pt.ptuser.entity.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

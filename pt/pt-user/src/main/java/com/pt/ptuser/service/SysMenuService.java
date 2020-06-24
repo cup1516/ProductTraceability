@@ -1,8 +1,6 @@
 package com.pt.ptuser.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pt.ptcommon.dto.MenuTree;
-import com.pt.ptcommon.dto.MenuVO;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.vo.RouterVo;

@@ -166,7 +166,8 @@
     <orderEntry type="library" name="Maven: io.github.openfeign:feign-hystrix:10.7.4" level="project" />
     <orderEntry type="library" name="Maven: com.netflix.hystrix:hystrix-core:1.5.18" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.2.3" level="project" />
-    <orderEntry type="module" module-name="pt-common" />
+    <orderEntry type="module" module-name="pt-common-mybatis" />
+    <orderEntry type="module" module-name="pt-common-security" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:2.2.7.RELEASE" level="project" />
@@ -183,6 +184,7 @@
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-security:2.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
+    <orderEntry type="module" module-name="pt-common-core" />
     <orderEntry type="library" name="Maven: org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.4" level="project" />

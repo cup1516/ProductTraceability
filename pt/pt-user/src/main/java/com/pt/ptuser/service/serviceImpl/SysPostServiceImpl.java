@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pt.ptcommon.util.IdUtils;
+import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysUserPostService;

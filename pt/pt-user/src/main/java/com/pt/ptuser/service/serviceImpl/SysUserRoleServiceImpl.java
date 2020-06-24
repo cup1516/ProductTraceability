@@ -2,7 +2,7 @@ package com.pt.ptuser.service.serviceImpl;
 
 import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pt.ptcommon.constant.CommonConstants;
+import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptuser.entity.SysUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     public Boolean isAdmin(String userId) {
-        return baseMapper.getUserRoleList(userId,CommonConstants.ROLE_ADMIN).size() != 0;
+        return baseMapper.getUserRoleList(userId, CommonConstants.ROLE_ADMIN).size() != 0;
     }
 
 

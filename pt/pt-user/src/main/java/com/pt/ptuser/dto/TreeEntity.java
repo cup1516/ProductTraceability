@@ -1,6 +1,7 @@
 package com.pt.ptuser.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TreeEntity extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

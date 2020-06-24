@@ -1,7 +1,8 @@
 package com.pt.ptuser.controller;
 
 
-import com.pt.ptcommon.util.R;
+
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptuser.service.SysDictDataService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

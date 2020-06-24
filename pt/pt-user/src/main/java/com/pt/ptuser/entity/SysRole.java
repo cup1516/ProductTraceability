@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SysRole extends BaseEntity {
 
     private String roleId;

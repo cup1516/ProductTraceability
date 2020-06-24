@@ -1,9 +1,8 @@
 package com.pt.ptauth.service;
 
 import com.pt.ptauth.util.RedisUtils;
-import com.pt.ptcommon.config.RedisTemplateConfig;
-import com.pt.ptcommon.constant.CacheConstants;
-import com.pt.ptcommon.constant.SecurityConstants;
+
+import com.pt.ptcommoncore.constant.CacheConstants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

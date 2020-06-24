@@ -1,8 +1,8 @@
 package com.pt.ptuser.controller;
 
-import com.pt.ptcommon.dto.MenuVO;
-import com.pt.ptcommon.util.R;
-import com.pt.ptcommon.util.SecurityUtils;
+
+import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.service.SysMenuService;
 import lombok.AllArgsConstructor;
