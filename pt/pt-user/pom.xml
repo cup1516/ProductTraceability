@@ -42,10 +42,9 @@
         <!--接口文档-->
         <!--swagger 依赖-->
         <dependency>
-            <groupId>com.pt</groupId>
-            <artifactId>pt-swagger</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.fox.version}</version>
         </dependency>
         <!--远程调用-->
         <dependency>

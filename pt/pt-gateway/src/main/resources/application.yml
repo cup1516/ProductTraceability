@@ -36,6 +36,18 @@ spring:
             - Path=/prod/**
           filters:
             - StripPrefix= 1
+        - id: pt-upload
+          uri: lb://pt-upload
+          predicates:
+            - Path=/upload/**
+          filters:
+            - StripPrefix= 1
+        - id: pt-manor
+          uri: lb://pt-manor
+          predicates:
+            - Path=/manor/**
+          filters:
+            - StripPrefix= 1
 eureka:
   client:
     service-url:

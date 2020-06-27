@@ -7,6 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/pt-center/pt-center.iml" filepath="$PROJECT_DIR$/pt-center/pt-center.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-chat/pt-chat.iml" filepath="$PROJECT_DIR$/pt-chat/pt-chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-common/pt-common.iml" filepath="$PROJECT_DIR$/pt-common/pt-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-common/pt-common-core/pt-common-core.iml" filepath="$PROJECT_DIR$/pt-common/pt-common-core/pt-common-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-common/pt-common-mybatis/pt-common-mybatis.iml" filepath="$PROJECT_DIR$/pt-common/pt-common-mybatis/pt-common-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-common/pt-common-security/pt-common-security.iml" filepath="$PROJECT_DIR$/pt-common/pt-common-security/pt-common-security.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-dealer/pt-dealer.iml" filepath="$PROJECT_DIR$/pt-dealer/pt-dealer.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-dealer/pt-dealer-order/pt-dealer-order.iml" filepath="$PROJECT_DIR$/pt-dealer/pt-dealer-order/pt-dealer-order.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-dealer/pt-dealer-proc/pt-dealer-proc.iml" filepath="$PROJECT_DIR$/pt-dealer/pt-dealer-proc/pt-dealer-proc.iml" />
@@ -16,6 +19,7 @@
       <module fileurl="file://$PROJECT_DIR$/pt-manor/pt-manor.iml" filepath="$PROJECT_DIR$/pt-manor/pt-manor.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-order/pt-order.iml" filepath="$PROJECT_DIR$/pt-order/pt-order.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-portal/pt-portal.iml" filepath="$PROJECT_DIR$/pt-portal/pt-portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pt-upload/pt-upload.iml" filepath="$PROJECT_DIR$/pt-upload/pt-upload.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-user/pt-user.iml" filepath="$PROJECT_DIR$/pt-user/pt-user.iml" />
       <module fileurl="file://$PROJECT_DIR$/pt-warehouse/pt-warehouse.iml" filepath="$PROJECT_DIR$/pt-warehouse/pt-warehouse.iml" />
     </modules>

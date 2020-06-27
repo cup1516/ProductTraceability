@@ -86,6 +86,7 @@
         <module>pt-manor</module>
         <module>pt-user</module>
         <module>pt-chat</module>
+        <module>pt-upload</module>
     </modules>
     <build>
         <plugins>
