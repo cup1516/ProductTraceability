@@ -103,10 +103,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 重置用户密码
      *
-     * @param sysUser
      * @return 结果
      */
-    Boolean resetUserPwd(SysUser sysUser);
+    Boolean resetUserPwd(@Param("username") String username,@Param("password")String password);
     /**
      * 获取用户列表
      * @return

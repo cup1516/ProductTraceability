@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -46,5 +47,9 @@ public class SysUser extends Model<SysUser> {
     @TableLogic
     private String delFlag;
 
-
+    /**
+     * 创建时间
+     */
+//    @ApiModelProperty(value="创建时间")
+    private Date createTime;
 }

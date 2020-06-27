@@ -9,6 +9,8 @@ import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.*;
+import com.pt.ptuser.mapper.SysPostMapper;
+import com.pt.ptuser.mapper.SysRoleMapper;
 import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.*;
 import lombok.AllArgsConstructor;
@@ -39,7 +41,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysUserRoleService sysUserRoleService;
     private SysUserPostService sysUserPostService;
     private final SysUserMapper sysUserMapper;
-    private SysRoleMenuService sysRoleMenuService;
+    private final SysRoleMapper sysRoleMapper;
+    private final SysPostMapper sysPostMapper;
 
     /**
      * auth通过账号与客户端获取用户信息
@@ -212,13 +215,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 重置用户密码
      *
-     * @param sysUser
      * @return 结果
      */
     @Override
-    public Boolean resetUserPwd(SysUser sysUser)
+    public Boolean resetUserPwd(String userName,String passWord)
     {
-        return sysUserMapper.resetUserPwd(sysUser);
+        return sysUserMapper.resetUserPwd(userName,ENCODER.encode(passWord));
     }
     /**
      * 批量删除用户信息
@@ -301,5 +303,49 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<SysUser> listUserByPerms(String[] perms) {
         return sysUserMapper.listUserByPerms(perms);
+    }
+
+    /**
+     * 查询用户所属角色组
+     *
+     * @param userName 用户名
+     * @return 结果
+     */
+    @Override
+    public String selectUserRoleGroup(String userName)
+    {
+        List<SysRole> list = sysRoleMapper.selectRolesByUserName(userName);
+        StringBuffer idsStr = new StringBuffer();
+        for (SysRole role : list)
+        {
+            idsStr.append(role.getRoleName()).append(",");
+        }
+        if (StrUtil.isNotEmpty(idsStr.toString()))
+        {
+            return idsStr.substring(0, idsStr.length() - 1);
+        }
+        return idsStr.toString();
+    }
+
+    /**
+     * 查询用户所属岗位组
+     *
+     * @param userName 用户名
+     * @return 结果
+     */
+    @Override
+    public String selectUserPostGroup(String userName)
+    {
+        List<SysPost> list = sysPostMapper.selectPostsByUserName(userName);
+        StringBuffer idsStr = new StringBuffer();
+        for (SysPost post : list)
+        {
+            idsStr.append(post.getPostName()).append(",");
+        }
+        if (StrUtil.isNotEmpty(idsStr.toString()))
+        {
+            return idsStr.substring(0, idsStr.length() - 1);
+        }
+        return idsStr.toString();
     }
 }

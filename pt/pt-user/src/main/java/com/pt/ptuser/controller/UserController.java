@@ -143,7 +143,7 @@ public class UserController {
     public R resetPwd(@RequestBody SysUser user)
     {
         if(sysUserService.checkUserAllowed(user)){
-            return R.ok(sysUserService.resetUserPwd(user));
+            return R.ok(sysUserService.resetUserPwd(user.getUserName(),CommonConstants.INIT_PASSWORD));
         }else {
             return R.failed("重置用户'" + user.getUserName() + "'密码失败，无操作权限");
         }

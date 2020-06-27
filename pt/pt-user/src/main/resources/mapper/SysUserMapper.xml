@@ -13,10 +13,11 @@
 		<result column="sex" property="sex"/>
 		<result column="avatar" property="avatar"/>
 		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
 	</resultMap>
 
 	<sql id="selectSysUser">
-        select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
+        select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status,u.create_time
         from dynamic_user u
     </sql>
 
@@ -118,7 +119,7 @@
 	</delete>
 
 	<update id="resetUserPwd" >
-		update dynamic_user set password = #{password} where user_name = #{userName}
+		update dynamic_user set password = #{password} where user_name = #{username}
 	</update>
 
 	<select id="listUserByPerms" resultMap="baseResultMap">

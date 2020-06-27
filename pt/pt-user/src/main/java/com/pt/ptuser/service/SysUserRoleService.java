@@ -65,4 +65,6 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @return 结果
      */
     Boolean deleteUserRoleInfos(@Param("roleId") String roleId, @Param("userIds") String[] userIds);
+
+
 }

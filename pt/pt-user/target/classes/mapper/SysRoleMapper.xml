@@ -133,4 +133,19 @@
   <delete id="deleteRoleById" >
     update dynamic_role set del_flag = '1' where role_id = #{roleId}
   </delete>
+
+
+  <sql id="selectRoleVo">
+	    select distinct r.role_id, r.role_name, r.role_code, r.role_sort,
+            r.status, r.del_flag, r.create_time
+        from dynamic_role r
+	        left join dynamic_user_role ur on ur.role_id = r.role_id
+	        left join dynamic_user u on u.user_id = ur.user_id
+	        left join dynamic_dept d on u.dept_id = d.dept_id
+    </sql>
+
+  <select id="selectRolesByUserName"  resultMap="BaseResultMap">
+    <include refid="selectRoleVo"/>
+    WHERE r.del_flag = '0' and u.user_name = #{userName}
+  </select>
 </mapper>

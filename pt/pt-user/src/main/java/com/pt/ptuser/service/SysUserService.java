@@ -86,10 +86,9 @@ public interface SysUserService extends IService<SysUser> {
    /**
     * 重置用户密码
     *
-    * @param sysUser 用户名
     * @return 结果
     */
-   Boolean resetUserPwd(SysUser sysUser);
+   Boolean resetUserPwd(String userName,String passWord);
 
 
    /**
@@ -131,4 +130,20 @@ public interface SysUserService extends IService<SysUser> {
     * @return
     */
    List<SysUser> listUserByPerms(String[] perms);
+   /**
+    * 根据用户ID查询用户所属角色组
+    *
+    * @param userName 用户名
+    * @return 结果
+    */
+   String selectUserRoleGroup(String userName);
+
+   /**
+    * 根据用户ID查询用户所属岗位组
+    *
+    * @param userName 用户名
+    * @return 结果
+    */
+   String selectUserPostGroup(String userName);
+
 }

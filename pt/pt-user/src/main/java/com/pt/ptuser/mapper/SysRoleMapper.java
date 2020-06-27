@@ -93,4 +93,12 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return 结果
      */
     Boolean deleteRoleById(String roleId);
+
+    /**
+     * 根据用户ID查询角色
+     *
+     * @param userName 用户名
+     * @return 角色列表
+     */
+    List<SysRole> selectRolesByUserName(String userName);
 }

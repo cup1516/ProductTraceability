@@ -115,4 +115,5 @@ public interface SysRoleService extends IService<SysRole> {
      * @return 结果
      */
      Integer countUserRoleByRoleId(String roleId);
+
 }
