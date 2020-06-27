@@ -288,7 +288,7 @@ export default {
               }
             });
           } else {
-            addDept(this.form).then(r2esponse => {
+            addDept(this.form).then(response => {
               if (response.code === 0) {
                 this.msgSuccess("新增成功");
                 this.open = false;

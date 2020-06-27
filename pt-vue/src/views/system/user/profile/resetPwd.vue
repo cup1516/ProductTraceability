@@ -38,7 +38,8 @@ export default {
       // 表单校验
       rules: {
         oldPassword: [
-          { required: true, message: "旧密码不能为空", trigger: "blur" }
+          { required: true, message: "旧密码不能为空", trigger: "blur" },
+          { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" }
         ],
         newPassword: [
           { required: true, message: "新密码不能为空", trigger: "blur" },
@@ -56,14 +57,12 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           updateUserPwd(this.user.oldPassword, this.user.newPassword).then(
-            response => {
-              if (response.code === 200) {
+            () => {
                 this.msgSuccess("修改成功");
-              } else {
-                this.msgError(response.msg);
               }
-            }
-          );
+          ).catch(res=>{
+              this.msgError(res);
+          });
         }
       });
     },

@@ -93,7 +93,7 @@
               <el-radio-group v-model="form.menuType">
                 <el-radio label="M" v-show="form.parentId == 0">目录</el-radio>
                 <el-radio label="C" v-show="form.parentId != 0">菜单</el-radio>
-                <el-radio label="F" v-show="form.parentId != 0" >按钮</el-radio>
+                <el-radio label="F" v-show="form.parentId != 0">按钮</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
