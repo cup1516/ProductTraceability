@@ -11,6 +11,7 @@ import com.pt.ptuser.entity.SysUser;
 import com.pt.ptuser.service.SysPostService;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
+import com.pt.ptuser.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +56,8 @@ public class UserController {
      * @return 用户集合
      */
     @GetMapping("/page")
-    public R getAllUserPage(Page page) {
-        CustomUser user = SecurityUtils.getUser();
-        return R.ok(sysUserService.getAllUserWithRolePage(page,user.getClientId()));
+    public R getAllUserPage(Page page, UserVo userVo) {
+        return R.ok(sysUserService.getAllUserWithRolePage(page,userVo));
     }
 
     /**

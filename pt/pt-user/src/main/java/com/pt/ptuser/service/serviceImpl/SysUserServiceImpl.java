@@ -13,6 +13,7 @@ import com.pt.ptuser.mapper.SysPostMapper;
 import com.pt.ptuser.mapper.SysRoleMapper;
 import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.*;
+import com.pt.ptuser.vo.UserVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage getAllUserWithRolePage(Page page, String clientId) {
-        return sysUserMapper.getAllUserPage(page,clientId);
+    public IPage getAllUserWithRolePage(Page page, UserVo userVo) {
+        return sysUserMapper.getAllUserPage(page,userVo);
     }
 
     /**

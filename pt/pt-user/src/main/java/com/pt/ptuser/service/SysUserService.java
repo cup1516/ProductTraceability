@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.SysUser;
+import com.pt.ptuser.vo.UserVo;
 
 import java.util.List;
 
@@ -26,10 +27,9 @@ public interface SysUserService extends IService<SysUser> {
     * 分页查询所有用户信息（含有角色信息）
     *
     * @param page    分页对象
-    * @param clientId 客户端ID
     * @return
     */
-   IPage getAllUserWithRolePage(Page page,String clientId);
+   IPage getAllUserWithRolePage(Page page, UserVo userVO);
 
    /**
     * 根据id查找用户

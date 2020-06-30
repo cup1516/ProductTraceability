@@ -1,10 +1,13 @@
 package com.pt.ptuser.vo;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 /**
  * @author wl
  */
+@Data
 public class UserVo {
     private String userId;
 
@@ -28,10 +31,11 @@ public class UserVo {
 
     private String deptName;
 
-    /**
-     * 0-正常，1-删除
-     */
-    @TableLogic
-    private String delFlag;
+
+    /** 开始时间 */
+    private String beginTime;
+
+    /** 结束时间 */
+    private String endTime;
 
 }

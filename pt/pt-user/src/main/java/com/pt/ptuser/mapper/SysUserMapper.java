@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptuser.entity.SysUser;
+import com.pt.ptuser.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,10 +34,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 分页获取全部用户
      * @param page 分页参数
-     * @param clientId
      * @return
      */
-    IPage<List<SysUser>> getAllUserPage(Page page,@Param("clientId") String clientId);
+    IPage<List<SysUser>> getAllUserPage(Page page,@Param("user") UserVo user);
 
     /**
      * 根据id查找用户
