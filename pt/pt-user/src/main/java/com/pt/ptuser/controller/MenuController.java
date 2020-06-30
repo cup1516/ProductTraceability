@@ -86,10 +86,7 @@ public class MenuController {
     @PostMapping
     public R add(@Validated @RequestBody SysMenu menu)
     {
-        if (!sysMenuService.checkMenuNameUnique(menu))
-        {
-            return R.ok("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
-        }
+        sysMenuService.checkMenuNameUnique(menu);
         menu.setCreateBy(SecurityUtils.getNickName());
         return R.ok(sysMenuService.insertMenu(menu));
     }
@@ -100,10 +97,7 @@ public class MenuController {
     @PutMapping
     public R edit(@Validated @RequestBody SysMenu menu)
     {
-        if (!sysMenuService.checkMenuNameUnique(menu))
-        {
-            return R.failed("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
-        }
+        sysMenuService.checkMenuNameUnique(menu);
         menu.setUpdateBy(SecurityUtils.getNickName());
         return R.ok(sysMenuService.updateMenu(menu));
     }
@@ -114,14 +108,8 @@ public class MenuController {
     @DeleteMapping("/{menuId}")
     public R remove(@PathVariable("menuId") String menuId)
     {
-        if (sysMenuService.hasChildByMenuId(menuId))
-        {
-            return R.failed("存在子菜单,不允许删除");
-        }
-        if (sysMenuService.checkMenuExistRole(menuId))
-        {
-            return R.failed("菜单已分配,不允许删除");
-        }
+        sysMenuService.hasChildByMenuId(menuId);
+        sysMenuService.checkMenuExistRole(menuId);
         return R.ok(sysMenuService.deleteMenuById(menuId));
     }
 }

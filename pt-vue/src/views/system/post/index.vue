@@ -65,15 +65,6 @@
           v-hasPermi="['system:post:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:post:export']"
-        >导出</el-button>
-      </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
@@ -277,7 +268,7 @@ export default {
                 this.open = false;
                 this.getList();
             }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
             });
           } else {
             addPost(this.form).then(response => {
@@ -285,7 +276,7 @@ export default {
                 this.open = false;
                 this.getList();
             }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
             });
           }
         }
@@ -298,26 +289,15 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return delPost(postIds);
-        }).then(() => {
+        }).then(()=>{
+          delPost(postIds).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        }).catch(response=>{
+            this.msgError(response);
+          })
+        })
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有岗位数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportPost(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        }).catch(function() {});
-    }
   }
 };
 </script>

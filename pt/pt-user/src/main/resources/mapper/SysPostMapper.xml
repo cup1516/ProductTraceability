@@ -120,7 +120,18 @@
 
   <select id="getPostPage"  resultMap="BaseResultMap" >
     <include refid="selectSysPost"/>
-    where status = '0'
+    <where>
+      status = '0'
+      <if test="sysPost.postCode != null and sysPost.postCode != ''">
+        AND post_code like concat('%', #{sysPost.postCode}, '%')
+      </if>
+      <if test="sysPost.status != null and sysPost.status != ''">
+        AND status = #{sysPost.status}
+      </if>
+      <if test="sysPost.postName != null and sysPost.postName != ''">
+        AND post_name like concat('%', #{sysPost.postName}, '%')
+      </if>
+    </where>
     order by post_sort ASC
   </select>
 </mapper>

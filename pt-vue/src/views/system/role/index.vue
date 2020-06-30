@@ -85,15 +85,6 @@
           v-hasPermi="['system:role:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:post:export']"
-        >导出</el-button>
-      </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
@@ -126,13 +117,6 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:role:edit']"
           >修改</el-button>
-          <!-- <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-circle-check"
-            @click="handleDataScope(scope.row)"
-            v-hasPermi="['system:role:edit']"
-          >数据权限</el-button> -->
           <el-button
             size="mini"
             type="text"
@@ -192,43 +176,6 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-    <!-- 分配角色数据权限对话框 -->
-    <!-- <el-dialog :title="title" :visible.sync="openDataScope" width="500px" append-to-body>
-      <el-form :model="form" label-width="80px">
-        <el-form-item label="角色名称">
-          <el-input v-model="form.roleName" :disabled="true" />
-        </el-form-item>
-        <el-form-item label="权限字符">
-          <el-input v-model="form.roleKey" :disabled="true" />
-        </el-form-item>
-        <el-form-item label="权限范围">
-          <el-select v-model="form.dataScope">
-            <el-option
-              v-for="item in dataScopeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="数据权限" v-show="form.dataScope == 2">
-          <el-tree
-            :data="deptOptions"
-            show-checkbox
-            default-expand-all
-            ref="dept"
-            node-key="id"
-            empty-text="加载中，请稍后"
-            :props="defaultProps"
-          ></el-tree>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitDataScope">确 定</el-button>
-        <el-button @click="cancelDataScope">取 消</el-button>
-      </div>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -387,14 +334,14 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(
+        }).then(()=>{
           changeRoleStatus(row.roleId, row.status).then(()=>{
             this.msgSuccess(text + "成功");
           }).catch(res=>{
-            this.msgError(res.msg);
+            this.msgError(res);
             row.status = row.status === "0" ? "1" : "0";
-          })
-        )
+          })          
+        })
     },
     // 取消按钮
     cancel() {
@@ -460,18 +407,6 @@ export default {
         this.title = "修改角色";
       });
     },
-    /** 分配数据权限操作 */
-    handleDataScope(row) {
-      this.reset();
-      this.$nextTick(() => {
-        this.getRoleDeptTreeselect(row.roleId);
-      });
-      getRole(row.roleId).then(response => {
-        this.form = response.data;
-        this.openDataScope = true;
-        this.title = "分配数据权限";
-      });
-    },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
@@ -483,7 +418,7 @@ export default {
                 this.open = false;
                 this.getList();
                }).catch(()=>{
-                  this.msgError(response.msg);
+                  this.msgError(response);
                });
           } else {
             this.form.menuIds = this.getMenuAllCheckedKeys();
@@ -492,7 +427,7 @@ export default {
                 this.open = false;
                 this.getList();
             }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
             });
           }
         }
@@ -507,7 +442,7 @@ export default {
             this.openDataScope = false;
             this.getList();
         }).catch(response=>{
-          this.msgError(response.msg);
+          this.msgError(response);
         });
       }
     },
@@ -518,26 +453,16 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return delRole(roleIds);
-        }).then(() => {
+        }).then(()=>{
+          delRole(roleIds).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        }).catch(response=>{
+          this.msgError(response)
+        })
+        });
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有角色数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportRole(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        }).catch(function() {});
-    }
+
   }
 };
 </script>

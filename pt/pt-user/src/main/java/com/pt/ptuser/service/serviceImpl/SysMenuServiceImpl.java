@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.entity.SysRoleMenu;
@@ -336,7 +337,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         SysMenu sysMenu = baseMapper.checkMenuNameUnique(menu.getMenuName(),menu.getParentId());
         if (sysMenu != null && !sysMenu.getMenuId().equals(menu.getMenuId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
 
         return Boolean.TRUE;
@@ -345,27 +346,31 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     /**
      * 是否存在菜单子节点
      *
-     * @param menuId 菜单ID
      * @return 结果
      */
     @Override
     public Boolean hasChildByMenuId(String menuId)
     {
         int result = baseMapper.hasChildByMenuId(menuId);
-        return result > 0 ? true : false;
+        if(result > 0){
+            throw new CustomException("存在子菜单,不允许删除");
+        }
+        return  Boolean.TRUE;
     }
 
     /**
      * 查询菜单使用数量
      *
-     * @param menuId 菜单ID
      * @return 结果
      */
     @Override
     public Boolean checkMenuExistRole(String menuId)
     {
         int result = sysRoleMenuService.checkMenuExistRole(menuId);
-        return result > 0 ? true : false;
+        if(result > 0){
+            throw new CustomException("菜单已分配,不允许删除");
+        }
+        return  Boolean.TRUE;
     }
     /**
      * 删除菜单管理信息

@@ -123,16 +123,16 @@
     )
   </insert>
 
-  <delete id="deleteRoleByIds"  >
+  <update id="deleteRoleByIds"  >
     update dynamic_role set del_flag = '1' where role_id in
     <foreach collection="array" item="roleId" open="(" separator="," close=")">
       #{roleId,jdbcType=VARCHAR}
     </foreach>
-  </delete>
+  </update>
 
-  <delete id="deleteRoleById" >
+  <update id="deleteRoleById" >
     update dynamic_role set del_flag = '1' where role_id = #{roleId}
-  </delete>
+  </update>
 
 
   <sql id="selectRoleVo">

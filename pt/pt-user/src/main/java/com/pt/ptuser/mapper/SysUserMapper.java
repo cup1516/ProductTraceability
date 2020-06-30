@@ -36,7 +36,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param page 分页参数
      * @return
      */
-    IPage<List<SysUser>> getAllUserPage(Page page,@Param("user") UserVo user);
+    IPage<List<UserVo>> getAllUserPage(Page page,@Param("user") UserVo user);
 
     /**
      * 根据id查找用户

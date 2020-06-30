@@ -55,11 +55,8 @@ public class RoleController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody SysRole role)
     {
-        if(sysRoleService.checkRoleAllowed(role)){
-            return R.ok(sysRoleService.updateRoleStatus(role));
-        }else{
-            return R.failed("权限不足");
-        }
+        sysRoleService.checkRoleAllowed(sysRoleService.selectRoleById(role.getRoleId()));
+        return R.ok(sysRoleService.updateRoleStatus(role));
 
     }
 
@@ -71,14 +68,8 @@ public class RoleController {
     public R edit(@Validated @RequestBody SysRole role)
     {
         sysRoleService.checkRoleAllowed(role);
-        if (!sysRoleService.checkRoleNameUnique(role))
-        {
-            return R.failed("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
-        }
-        else if (!sysRoleService.checkRoleCodeUnique(role))
-        {
-            return R.failed("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
-        }
+        sysRoleService.checkRoleNameUnique(role);
+        sysRoleService.checkRoleCodeUnique(role);
         return R.ok(sysRoleService.updateRole(role));
     }
 
@@ -88,14 +79,8 @@ public class RoleController {
     @PostMapping
     public R add( @RequestBody SysRole role)
     {
-        if (!sysRoleService.checkRoleNameUnique(role))
-        {
-            return R.failed("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
-        }
-        else if (!sysRoleService.checkRoleCodeUnique(role))
-        {
-            return R.failed("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
-        }
+        sysRoleService.checkRoleNameUnique(role);
+        sysRoleService.checkRoleCodeUnique(role);
         role.setCreateBy(sysUserService.getByUserId(SecurityUtils.getUser().getId()).getUserName());
         return R.ok(sysRoleService.insertRole(role));
 

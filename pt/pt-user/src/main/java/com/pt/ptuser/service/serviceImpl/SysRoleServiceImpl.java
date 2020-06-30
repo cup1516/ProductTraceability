@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.entity.SysRoleMenu;
 import com.pt.ptuser.mapper.SysUserRoleMapper;
 import com.pt.ptuser.service.SysRoleMenuService;
@@ -102,7 +104,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public Boolean checkRoleAllowed(SysRole role) {
         if (StrUtil.isNotEmpty(role.getRoleId()) &&this.selectRoleById(role.getRoleId())
                 .getRoleCode().equals(CommonConstants.ROLE_ADMIN)) {
-            return Boolean.FALSE;
+            throw new CustomException("修改用户'" + role.getRoleName() + "'失败，无修改权限");
         }
         return Boolean.TRUE;
     }
@@ -123,7 +125,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     {
 
         SysRole sysRole = baseMapper.checkRoleNameUnique(role.getRoleName());
-        return sysRole == null || sysRole.getRoleId().equals(role.getRoleId());
+        if(sysRole != null && sysRole.getRoleId().equals(role.getRoleId())){
+            throw new CustomException("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+        }
+        return Boolean.TRUE;
     }
 
     /**
@@ -137,7 +142,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     {
 
         SysRole sysRole = baseMapper.checkRoleCodeUnique(role.getRoleCode());
-        return sysRole == null || sysRole.getRoleId().equals(role.getRoleId());
+        if(sysRole != null && sysRole.getRoleId().equals(role.getRoleId())){
+            throw new CustomException("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+        }
+        return Boolean.TRUE;
     }
     /**
      * 修改保存角色信息
@@ -203,13 +211,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRole sysRole = new SysRole();
         for (String roleId : roleIds)
         {
-            sysRole.setRoleId(roleId);
             checkRoleAllowed(sysRole);
             SysRole role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0)
             {
-                return Boolean.FALSE;
-//                throw new CustomException(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new CustomException(String.format("%1$s已分配,不能删除", role.getRoleName()));
             }
         }
         return baseMapper.deleteRoleByIds(roleIds);

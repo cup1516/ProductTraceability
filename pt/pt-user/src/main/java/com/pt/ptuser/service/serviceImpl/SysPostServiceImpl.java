@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysUserPostService;
@@ -97,7 +98,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
 
         if (sysPost != null && !sysPost.getPostId().equals(sysPost.getPostId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
         return Boolean.TRUE;
 
@@ -119,7 +120,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
 
         if (sysPost != null && !sysPost.getPostId().equals(sysPost.getPostId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         return Boolean.TRUE;
     }
@@ -163,8 +164,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0)
             {
-                return  Boolean.FALSE;
-//                throw new CustomException(String.format("%1$s已分配,不能删除", post.getPostName()));
+                throw new CustomException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
         return baseMapper.deletePostByIds(postIds);

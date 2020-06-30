@@ -234,11 +234,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     {
         for (String userId : userIds)
         {
-            SysUser sysUser = new SysUser();
-            sysUser.setUserId(userId);
-            if(checkUserAllowed(sysUser)){
-                return Boolean.FALSE;
-            }
+            checkUserAllowed(sysUserMapper.getByUserId(userId));
         }
         return sysUserMapper.deleteUserByIds(userIds);
     }

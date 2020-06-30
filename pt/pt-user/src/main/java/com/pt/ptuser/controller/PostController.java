@@ -60,14 +60,8 @@ public class PostController {
     @PostMapping
     public R add( @RequestBody SysPost post)
     {
-        if (!sysPostService.checkPostNameUnique(post))
-        {
-            return R.failed("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
-        }
-        else if (!sysPostService.checkPostCodeUnique(post))
-        {
-            return R.failed("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
-        }
+        sysPostService.checkPostNameUnique(post);
+        sysPostService.checkPostCodeUnique(post);
         post.setCreateBy(SecurityUtils.getNickName());
         return R.ok(sysPostService.insertPost(post));
     }
@@ -79,14 +73,8 @@ public class PostController {
     @PutMapping
     public R edit(@Validated @RequestBody SysPost post)
     {
-        if (!sysPostService.checkPostNameUnique(post))
-        {
-            return R.failed("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
-        }
-        else if (!sysPostService.checkPostCodeUnique(post))
-        {
-            return R.failed("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
-        }
+        sysPostService.checkPostNameUnique(post);
+        sysPostService.checkPostCodeUnique(post);
         post.setUpdateBy(SecurityUtils.getNickName());
         return R.ok(sysPostService.updatePost(post));
     }

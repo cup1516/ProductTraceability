@@ -96,12 +96,8 @@ public class UserController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody SysUser user)
     {
-        if(sysUserService.checkUserAllowed(user)){
-            return R.ok(sysUserService.updateUserStatus(user));
-        }else {
-            return R.failed();
-        }
-
+        sysUserService.checkUserAllowed(sysUserService.getByUserId(user.getUserId()));
+        return R.ok(sysUserService.updateUserStatus(user));
     }
 
     /**
