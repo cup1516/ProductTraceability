@@ -28,6 +28,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/user/info/**").permitAll()
+
+
+                .antMatchers("/file/**").permitAll()
+                .antMatchers("/News/**").permitAll()
+                .antMatchers("/Announcement/**").permitAll()
+                .antMatchers("/Blogcomment/**").permitAll()
+                .antMatchers("/blog/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/download/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/notice/**").permitAll()
                 .antMatchers(
                         "/webjars/**",
                         "/resources/**",
