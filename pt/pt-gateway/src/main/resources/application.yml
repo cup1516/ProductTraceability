@@ -8,6 +8,12 @@ spring:
       locator:
         enabled: true
       routes:
+        - id: pt-portal
+          uri: lb://pt-portal
+          predicates:
+            - Path=/portal/**
+          filters:
+            - StripPrefix= 1
         # ???????
         - id: pt-auth
           uri: lb://pt-auth
