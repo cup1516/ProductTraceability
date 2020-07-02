@@ -100,7 +100,7 @@
 	</select>
 
 	<update id="updateNode" >
-		update dealer_proc_node
+		update dealer_node
 		<set>
 			<if test="nodeCode != null and nodeCode != ''">node_code = #{nodeCode},</if>
 			<if test="nodeName != null and nodeName != ''">node_name = #{nodeName},</if>

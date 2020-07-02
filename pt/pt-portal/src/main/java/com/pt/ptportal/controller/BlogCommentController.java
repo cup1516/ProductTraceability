@@ -46,7 +46,7 @@ public class BlogCommentController {
         return blogCommentDao.findAllByBlogId(id);
     }
     @PutMapping("/update")
-    public ResponseEntity updateComment(@RequestHeader("uid") String uid, @RequestBody BlogComments  comments){
+    public ResponseEntity updateComment(@RequestHeader("uid") String uid, @RequestBody BlogComments comments){
         //获取当前系统时间
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

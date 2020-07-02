@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 
 @RestController
-@RequestMapping("/download")
  public class downloadProfile {
      @Autowired
      com.pt.ptportal.dao.fileDao fileDao;

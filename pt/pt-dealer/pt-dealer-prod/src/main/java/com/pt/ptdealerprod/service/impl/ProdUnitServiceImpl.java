@@ -17,7 +17,7 @@ package com.pt.ptdealerprod.service.impl;/*
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pt.ptcommon.util.IdUtils;
+import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptdealerprod.entity.ProdUnit;
 import com.pt.ptdealerprod.mapper.ProdUnitMapper;
 import com.pt.ptdealerprod.service.ProdUnitService;

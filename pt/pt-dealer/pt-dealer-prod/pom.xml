@@ -57,7 +57,13 @@
         </dependency>
         <dependency>
             <groupId>com.pt</groupId>
-            <artifactId>pt-common</artifactId>
+            <artifactId>pt-common-core</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.pt</groupId>
+            <artifactId>pt-common-security</artifactId>
             <version>0.0.1</version>
             <scope>compile</scope>
         </dependency>
