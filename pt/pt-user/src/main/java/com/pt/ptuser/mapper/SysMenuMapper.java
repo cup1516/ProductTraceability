@@ -23,6 +23,12 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @return
      */
     List<MenuVO> listMenuByRole(@Param("role") String role);
+    /**
+     * 获取所有菜单
+     *
+     * @return 菜单列表
+     */
+    List<SysMenu> listAllMenu(@Param("clientId") String clientId);
 
     SysMenu getMenuById(@Param("menuId") String menuId,@Param("clientId") String clientId);
 

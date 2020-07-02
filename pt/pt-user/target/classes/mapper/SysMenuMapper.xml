@@ -202,4 +202,8 @@
     <delete id="deleteMenuById" >
         delete from dynamic_menu where menu_id = #{menuId}
     </delete>
+    <select id="listAllMenu" resultMap="BaseResultMap" statementType="STATEMENT">
+        select m.menu_id, m.menu_name, m.parent_id, m.order_num, m.path, m.component, m.is_frame, m.menu_type, m.visible, m.status, ifnull(m.perms,'') as perms, m.icon, m.create_time
+		from ${clientId}_menu m
+    </select>
 </mapper>

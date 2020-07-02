@@ -148,4 +148,9 @@
     <include refid="selectRoleVo"/>
     WHERE r.del_flag = '0' and u.user_name = #{userName}
   </select>
+  <select id="isAdmin" resultMap="BaseResultMap" statementType="STATEMENT">
+        select r.role_id,r.role_name,r.role_code,r.role_sort,r.create_by,r.create_time,r.status
+        from ${clientId}_role r
+        where r.role_id = '${roleId}' and r.role_code = '${roleCode}'
+  </select>
 </mapper>

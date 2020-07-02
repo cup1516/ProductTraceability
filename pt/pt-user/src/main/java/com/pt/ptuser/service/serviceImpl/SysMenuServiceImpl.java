@@ -4,11 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.constant.CommonConstants;
+import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
+import com.pt.ptuser.entity.SysRole;
 import com.pt.ptuser.entity.SysRoleMenu;
+import com.pt.ptuser.mapper.SysRoleMapper;
 import com.pt.ptuser.service.*;
 import com.pt.ptuser.vo.MetaVo;
 import com.pt.ptuser.vo.RouterVo;
@@ -31,9 +35,8 @@ import java.util.stream.Collectors;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private SysRoleMenuService sysRoleMenuService;
-
-    private SysRoleService sysRoleService;
-
+    private SysMenuMapper sysMenuMapper;
+    private SysRoleMapper sysRoleMapper;
     private SysUserRoleService sysUserRoleService;
 
     /**
@@ -43,14 +46,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<String> findPermissionsByRoleId(String roleId,String clientId) {
-        List<SysRoleMenu> sysRoleMenuList = sysRoleMenuService.listRoleMenu(roleId,clientId);
         List<String> permissionsList = new ArrayList<>();
-        sysRoleMenuList.stream().forEach(dealerRoleMenu -> {
-            String perms = baseMapper.getMenuById(dealerRoleMenu.getMenuId(),clientId).getPerms();
-            if(perms != null){
-                permissionsList.add(perms);
-            }
-        });
+        if(sysRoleMapper.isAdmin(roleId,CommonConstants.ROLE_ADMIN,clientId) != null){
+            List<SysMenu> allMenu = sysMenuMapper.listAllMenu(clientId);
+            allMenu.stream().forEach(menu -> {
+                String perms = menu.getPerms();
+                if(perms != null){
+                    permissionsList.add(perms);
+                }
+            });
+        }else{
+            List<SysRoleMenu> sysRoleMenuList = sysRoleMenuService.listRoleMenu(roleId,clientId);
+            sysRoleMenuList.stream().forEach(dealerRoleMenu -> {
+                String perms = sysMenuMapper.getMenuById(dealerRoleMenu.getMenuId(),clientId).getPerms();
+                if(perms != null){
+                    permissionsList.add(perms);
+                }
+            });
+        }
         return permissionsList;
     }
 
@@ -81,12 +94,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 管理员显示所有菜单信息
         if (isAdmin)
         {
-            menuList = baseMapper.selectMenuList(menu);
+            menuList = sysMenuMapper.selectMenuList(menu);
         }
         else
         {
             menu.getParams().put("userId", userId);
-            menuList = baseMapper.selectMenuListByUserId(menu);
+            menuList = sysMenuMapper.selectMenuListByUserId(menu);
         }
         return menuList;
     }
@@ -100,7 +113,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<String> selectMenuListByRoleId(String roleId)
     {
-        return baseMapper.selectMenuListByRoleId(roleId);
+        return sysMenuMapper.selectMenuListByRoleId(roleId);
     }
     /**
      * 根据用户ID查询菜单
@@ -114,11 +127,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menus = null;
         if (sysUserRoleService.isAdmin(userId))
         {
-            menus = baseMapper.selectMenuTreeAll();
+            menus = sysMenuMapper.selectMenuTreeAll();
         }
         else
         {
-            menus = baseMapper.selectMenuTreeByUserId(userId);
+            menus = sysMenuMapper.selectMenuTreeByUserId(userId);
         }
         return getChildPerms(menus, CommonConstants.TREE_ROOT);
     }
@@ -288,7 +301,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public SysMenu selectMenuById(String menuId)
     {
-        return baseMapper.selectMenuById(menuId);
+        return sysMenuMapper.selectMenuById(menuId);
     }
 
     /**
@@ -304,7 +317,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if(menu.getMenuType().equals("M")){
             menu.setComponent("Layout");
         }
-        return baseMapper.insertMenu(menu);
+        return sysMenuMapper.insertMenu(menu);
     }
 
     /**
@@ -319,7 +332,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if(menu.getMenuType().equals("M")){
             menu.setComponent("Layout");
         }
-        return baseMapper.updateMenu(menu);
+        return sysMenuMapper.updateMenu(menu);
     }
     /**
      * 校验菜单名称是否唯一
@@ -334,7 +347,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             return Boolean.TRUE;
         }
 
-        SysMenu sysMenu = baseMapper.checkMenuNameUnique(menu.getMenuName(),menu.getParentId());
+        SysMenu sysMenu = sysMenuMapper.checkMenuNameUnique(menu.getMenuName(),menu.getParentId());
         if (sysMenu != null && !sysMenu.getMenuId().equals(menu.getMenuId()))
         {
             throw new CustomException("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -351,7 +364,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public Boolean hasChildByMenuId(String menuId)
     {
-        int result = baseMapper.hasChildByMenuId(menuId);
+        int result = sysMenuMapper.hasChildByMenuId(menuId);
         if(result > 0){
             throw new CustomException("存在子菜单,不允许删除");
         }
@@ -381,6 +394,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public Boolean deleteMenuById(String menuId)
     {
-        return baseMapper.deleteMenuById(menuId);
+        return sysMenuMapper.deleteMenuById(menuId);
     }
 }
