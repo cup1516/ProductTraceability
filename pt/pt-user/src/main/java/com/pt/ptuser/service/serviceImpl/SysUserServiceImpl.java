@@ -193,7 +193,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser sysUser = sysUserMapper.checkPhoneUnique(user.getPhone());
 
-        if (sysUser != null && !sysUser.getUserId().equals(sysUser.getUserId()))
+        if (sysUser != null && !sysUser.getUserId().equals(user.getUserId()))
         {
             throw new CustomException("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
         }
@@ -207,7 +207,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser sysUser = sysUserMapper.checkEmailUnique(user.getEmail());
 
-        if (sysUser != null && !sysUser.getUserId().equals(sysUser.getUserId()))
+        if (sysUser != null && !sysUser.getUserId().equals(user.getUserId()))
         {
             throw new CustomException("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
