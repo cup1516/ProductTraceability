@@ -151,10 +151,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         if (sysDept != null && !sysDept.getDeptId().equals(dept.getDeptId()))
         {
             throw new CustomException("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
-//            return Boolean.FALSE;
         }
-        throw new CustomException("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
-//        return Boolean.TRUE;
+        return Boolean.TRUE;
     }
     /**
      * 新增保存部门信息
