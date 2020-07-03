@@ -125,7 +125,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     {
 
         SysRole sysRole = baseMapper.checkRoleNameUnique(role.getRoleName());
-        if(sysRole != null && sysRole.getRoleId().equals(role.getRoleId())){
+        if(sysRole != null && !sysRole.getRoleId().equals(role.getRoleId())){
             throw new CustomException("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
         return Boolean.TRUE;
@@ -142,7 +142,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     {
 
         SysRole sysRole = baseMapper.checkRoleCodeUnique(role.getRoleCode());
-        if(sysRole != null && sysRole.getRoleId().equals(role.getRoleId())){
+        if(sysRole != null && !sysRole.getRoleId().equals(role.getRoleId())){
             throw new CustomException("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         return Boolean.TRUE;
