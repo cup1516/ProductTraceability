@@ -1,12 +1,8 @@
 import Vue from 'vue'
-
 import Cookies from 'js-cookie'
-
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
-
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
 import App from './App'
@@ -20,6 +16,13 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css'
+
+var axios = require('axios')
+Vue.prototype.$axios = axios
+Vue.config.productionTip = false
+Vue.use(mavonEditor)
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -63,7 +66,7 @@ Vue.use(Element, {
 
 Vue.config.productionTip = false
 
-  
+
 new Vue({
   el: '#app',
   router,
