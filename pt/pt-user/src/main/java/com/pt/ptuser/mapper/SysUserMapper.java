@@ -118,6 +118,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     List<SysUser> listUserByDept(@Param("deptId") String deptId);
     /**
+     * 根据职位获取用户列表
+     * @param post
+     * @return
+     */
+    List<SysUser> listUserByPost(@Param("deptId") String deptId, @Param("post")String[] post);
+    /**
      * 根据权限获取用户列表
      * @param perms
      * @return

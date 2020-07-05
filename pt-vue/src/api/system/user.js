@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import { praseStrEmpty } from "@/utils/ruoyi";
 
-// 查询用户列表
+// 分页查询用户列表
 export function listUser(query) {
   return request({
     url: '/user/user/page',
@@ -9,7 +9,35 @@ export function listUser(query) {
     params: query
   })
 }
-
+// 查询用户列表
+export function getUserList() {
+  return request({
+    url: '/user/user/list',
+    method: 'get',
+  })
+}
+// 查询本部门人员
+export function getUserListDept(query) {
+  return request({
+    url: '/user/user/list/dept',
+    method: 'get',
+    params: query
+  })
+}
+// 根据权限查询用户列表
+export function getUserListPerms(query) {
+  return request({
+    url: '/user/user/list/perms/'+query,
+    method: 'get',
+  })
+}
+// 根据职位查询用户列表
+export function getUserListPost(query) {
+  return request({
+    url: '/user/user/list/post/'+query,
+    method: 'get',
+  })
+}
 // 查询用户详细
 export function getUser(userId) {
   return request({

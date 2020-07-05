@@ -21,7 +21,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pt.ptcommon.util.IdUtils;
+import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptdealerproc.entity.ProcNode;
 import com.pt.ptdealerproc.mapper.ProcNodeMapper;
 import com.pt.ptdealerproc.service.ProcNodeService;

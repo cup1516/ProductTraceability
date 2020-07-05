@@ -1,6 +1,7 @@
 package com.pt.ptportal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,10 @@ public class FileController {
 
     @Autowired
     com.pt.ptportal.dao.newsDao newsDao;
+    @GetMapping(value = "/file")
+    public String file() {
+        return "file";
+    }
 
     @PostMapping(value = "/fileUpload")
     public String fileUpload(@RequestParam(value = "file") MultipartFile file) {

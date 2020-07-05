@@ -44,7 +44,12 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     SysRole selectRoleById(@Param("roleId") String roleId);
-
+    /**
+     * 判断是否为管理员
+     * @param roleId
+     * @return
+     */
+    SysRole isAdmin(@Param("roleId") String roleId,@Param("roleCode") String roleCode,@Param("clientId") String clientId);
     /**
      * 修改角色信息
      *
