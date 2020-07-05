@@ -166,6 +166,16 @@
 			#{perm}
 		</foreach>
 	</select>
+	<select id="listUserByPost" resultMap="baseResultMap">
+		select distinct u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
+		from dynamic_user u
+		left join dynamic_user_post up on up.user_id = u.user_id
+		left join dynamic_post p on p.post_id = up.post_id
+		where p.post_code in
+		<foreach collection="post" item="post" open="(" separator="," close=")">
+			#{post}
+		</foreach>
+	</select>
 	<select id="listUserByDept" resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
 		where u.dept_id = #{deptId}

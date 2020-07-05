@@ -125,6 +125,11 @@ public interface SysUserService extends IService<SysUser> {
     */
    List<SysUser> listUserByDept(String deptId);
    /**
+    * 根据职位获取用户列表
+    * @return
+    */
+   List<SysUser> listUserByPost(String deptId,String[] post);
+   /**
     * 根据权限获取用户列表
     * @param perms
     * @return

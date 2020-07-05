@@ -177,13 +177,21 @@ public class UserController {
     public R listUserByDept(){
         return R.ok(sysUserService.listUserByDept(SecurityUtils.getDeptId()));
     }
+    /**
+     * 根据职位获取用户列表
+     * @return
+     */
+    @GetMapping("/list/post/{post}")
+    public R listUserByPost(@PathVariable String[] post){
+        return R.ok(sysUserService.listUserByPost(SecurityUtils.getDeptId(),post));
+    }
 
     /**
      * 根据权限获取用户列表
      * @param perms 权限
      * @return
      */
-    @GetMapping("/list/{perms}")
+    @GetMapping("/list/perms/{perms}")
     public R listUserByPerms(@PathVariable String[] perms){
         return R.ok(sysUserService.listUserByPerms(perms));
     }
