@@ -34,7 +34,8 @@ public class UserVo {
     private char status;
 
     private String deptName;
-
+    private String postId;
+    private String postName;
 
     /** 开始时间 */
     private String beginTime;

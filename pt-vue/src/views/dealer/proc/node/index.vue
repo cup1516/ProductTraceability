@@ -83,6 +83,12 @@
           <el-button
             size="mini"
             type="text"
+            icon="el-icon-view"
+            @click="handleView(scope.row)"
+          >查看</el-button>
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['dealer:node:edit']"
@@ -107,13 +113,13 @@
     />
 
     <!-- 添加或修改节点对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" @closed="handleClose" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="节点名称" prop="nodeName">
-          <el-input v-model="form.nodeName" placeholder="请输入节点名称" />
+          <el-input :disabled="isView" v-model="form.nodeName" placeholder="请输入节点名称" />
         </el-form-item>
         <el-form-item label="节点编码" prop="nodeCode">
-          <el-input v-model="form.nodeCode" placeholder="请输入编码名称" />
+          <el-input :disabled="isView" v-model="form.nodeCode" placeholder="请输入编码名称" />
         </el-form-item>
         <el-form-item label="节点状态" prop="status">
           <el-radio-group v-model="form.status">
@@ -121,11 +127,12 @@
               v-for="dict in statusOptions"
               :key="dict.dictValue"
               :label="dict.dictValue"
+              :disabled="isView"
             >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input :disabled="isView" v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -143,6 +150,8 @@ export default {
   name: "node",
   data() {
     return {
+      // 是否查看
+      isView: false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -244,6 +253,21 @@ export default {
       this.open = true;
       this.title = "添加节点";
     },
+    /** 关闭对话框回调函数 */
+    handleClose(){
+      this.isView = false
+    },
+    /** 查看按钮操作 */
+    handleView(row) {
+      this.reset();
+      this.isView = true
+      const nodeId = row.nodeId || this.ids
+      getNode(nodeId).then(response => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "修改节点";
+      });
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -264,7 +288,7 @@ export default {
                 this.open = false;
                 this.getList();
             }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
             });
           } else {
             addNode(this.form).then(response => {
@@ -272,7 +296,7 @@ export default {
                 this.open = false;
                 this.getList();
             }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
             });
           }
         }
@@ -285,12 +309,14 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
-          return delNode(nodeIds);
         }).then(() => {
+          delNode(nodeIds).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        }).catch(response=>{
+              this.msgError(response);
+            });
+        })
     },
   }
 };
