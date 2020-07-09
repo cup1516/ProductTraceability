@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
+const whiteList = ['/login', '/auth-redirect', '/bind', '/register','/AppIndex', '/newsShow', '/announcementShow', '/commentShow', '/bbsList', '/noticeShow', '/download','/newsDetails','/announcementDetail','/noticeDetails']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -56,7 +56,8 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
-      next('/login')
+      // next('/login')
+      next('/AppIndex')
       NProgress.done()
     }
   }
