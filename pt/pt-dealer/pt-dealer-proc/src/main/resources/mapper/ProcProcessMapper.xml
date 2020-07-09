@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  ~
-  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
-  ~
-  ~  Redistribution and use in source and binary forms, with or without
-  ~  modification, are permitted provided that the following conditions are met:
-  ~
-  ~ Redistributions of source code must retain the above copyright notice,
-  ~  this list of conditions and the following disclaimer.
-  ~  Redistributions in binary form must reproduce the above copyright
-  ~  notice, this list of conditions and the following disclaimer in the
-  ~  documentation and/or other materials provided with the distribution.
-  ~  Neither the name of the pig4cloud.com developer nor the names of its
-  ~  contributors may be used to endorse or promote products derived from
-  ~  this software without specific prior written permission.
-  ~  Author: lengleng (wangiegie@gmail.com)
-  ~
-  -->
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pt.ptdealerproc.mapper.ProcProcessMapper">
@@ -32,6 +13,7 @@
 						<result  column="create_by" property="createBy"/>
 						<result  column="remark" property="remark"/>
 						<result  column="status" property="status"/>
+						<result  column="check_status" property="checkStatus"/>
 				  <collection property="processNodes" ofType="com.pt.ptdealerproc.dto.NodeDto"
 							  select="com.pt.ptdealerproc.mapper.ProcProcessNodeMapper.listProcessNode" column="process_id">
 				  </collection>
@@ -39,8 +21,9 @@
 	
 
 	<sql id="selectProcProcess">
-			select n.process_id, n.process_code,n.process_name,n.status,n.create_by,n.create_time,n.remark
+			select n.process_id, n.process_code,n.process_name,n.status,u.nick_name as create_by,n.create_time,n.remark,n.check_status
 			from dealer_process n
+			left join dealer_user u on u.user_name = n.create_by
 	</sql>
 	
 	<select id="getProcessDtoPage" resultMap="BaseResultMap">
@@ -55,6 +38,12 @@
 			</if>
 			<if test="query.status != null and query.status != ''">
 				AND n.status = #{query.status}
+			</if>
+			<if test="query.checkStatus != null and query.checkStatus != ''">
+				AND n.check_status = #{query.checkStatus}
+			</if>
+			<if test="query.createBy != null and query.createBy != ''">
+				AND n.create_by = #{query.createBy}
 			</if>
 		</where>
 		ORDER BY n.create_time DESC
@@ -105,7 +94,7 @@
 	</select>
 
 	<update id="updateProcess" >
-		update dealer_proc_process
+		update dealer_process
 		<set>
 			<if test="processCode != null and processCode != ''">process_code = #{processCode},</if>
 			<if test="processName != null and processName != ''">process_name = #{processName},</if>
@@ -145,4 +134,11 @@
 			#{processId}
 		</foreach>
 	</delete>
+	<update id="changeCheckStatus">
+		update dealer_process p
+		<set>
+			p.check_status= #{checkStatus}
+		</set>
+		where p.process_id = #{processId}
+	</update>
 </mapper>

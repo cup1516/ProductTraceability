@@ -83,14 +83,8 @@ public class ProcNodeController {
     @PostMapping
     public R add( @RequestBody ProcNode node)
     {
-        if (!procNodeService.checkNodeNameUnique(node))
-        {
-            return R.failed("新增节点'" + node.getNodeName() + "'失败，节点名称已存在");
-        }
-        else if (!procNodeService.checkNodeCodeUnique(node))
-        {
-            return R.failed("新增节点'" + node.getNodeName() + "'失败，节点编码已存在");
-        }
+        procNodeService.checkNodeNameUnique(node);
+        procNodeService.checkNodeCodeUnique(node);
         node.setCreateBy(SecurityUtils.getNickName());
         return R.ok(procNodeService.insertNode(node));
     }
@@ -102,14 +96,8 @@ public class ProcNodeController {
     @PutMapping
     public R edit(@Validated @RequestBody ProcNode node)
     {
-        if (!procNodeService.checkNodeNameUnique(node))
-        {
-            return R.failed("修改节点'" + node.getNodeName() + "'失败，节点名称已存在");
-        }
-        else if (!procNodeService.checkNodeCodeUnique(node))
-        {
-            return R.failed("修改节点'" + node.getNodeName() + "'失败，节点编码已存在");
-        }
+        procNodeService.checkNodeNameUnique(node);
+        procNodeService.checkNodeCodeUnique(node);
         return R.ok(procNodeService.updateNode(node));
     }
 

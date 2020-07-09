@@ -43,3 +43,11 @@ export function listProcess(query) {
     })
   }
   
+// 修改审查状态
+export function changeCheckStatus(data) {
+  return request({
+    url: '/proc/process/changeCheckStatus',
+    method: 'put',
+    data: data
+  })
+}
