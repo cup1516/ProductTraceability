@@ -19,14 +19,35 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="流程状态" clearable size="small">
+      <el-form-item label="启用状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="启用状态" clearable size="small">
           <el-option
             v-for="dict in statusOptions"
             :key="dict.dictValue"
             :label="dict.dictLabel"
             :value="dict.dictValue"
           />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="送审状态" prop="checkStatus">
+        <el-select v-model="queryParams.checkStatus" placeholder="送审状态" clearable size="small">
+          <el-option
+            v-for="dict in checkStatusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="创建人员" prop="createBy" v-hasPermi="['dealer:process:check']">
+        <el-select v-model="queryParams.createBy" placeholder="创建人员" clearable size="small">
+          <el-option
+            v-for="item in userList"
+            :key="item.userName"
+            :label="item.nickName"
+            :value="item.userName"
+          ><span style="float: left;font-size: 6px" >{{ item.nickName }}</span>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -72,7 +93,8 @@
       <el-table-column label="流程编号" width="280" align="center" prop="processId" />
       <el-table-column label="流程编码" align="center" prop="processCode" />
       <el-table-column label="流程名称" align="center" prop="processName" />
-      <el-table-column label="状态" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="启用状态" width="80" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="送审状态" width="80" align="center" prop="checkStatus" :formatter="checkStatusFormat" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -80,6 +102,42 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.checkStatus === '0'||scope.row.checkStatus === '3'"
+            size="mini"
+            type="text"
+            icon="el-icon-check"
+            @click="handleCheck(scope.row)"
+            v-hasPermi="['dealer:process:edit']"
+          >送审</el-button>
+          <el-button
+            v-if="scope.row.checkStatus === '1'"
+            size="mini"
+            type="text"
+            icon="el-icon-close"
+            @click="handleRetrack(scope.row)"
+            v-hasPermi="['dealer:process:edit']"
+          >撤回</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-check"
+            @click="handlePass(scope.row)"
+            v-hasPermi="['dealer:process:check']"
+          >通过</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-close"
+            @click="handleFail(scope.row)"
+            v-hasPermi="['dealer:process:check']"
+          >打回</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-view"
+            @click="handleView(scope.row)"
+          >查看</el-button>
           <el-button
             size="mini"
             type="text"
@@ -107,27 +165,29 @@
     />
 
     <!-- 添加或修改流程对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="850x" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="1000px" @closed="handleClose" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="流程名称" prop="processName">
-              <el-input v-model="form.processName" placeholder="请输入流程名称" />
+              <el-input :disabled="isView" v-model="form.processName" placeholder="请输入流程名称" />
             </el-form-item>           
           </el-col>
           <el-col :span="12">
             <el-form-item label="流程编码" prop="processCode">
-          <el-input v-model="form.processCode" placeholder="请输入编码名称" />
+          <el-input :disabled="isView" v-model="form.processCode" placeholder="请输入编码名称" />
             </el-form-item>       
           </el-col>
         </el-row>
         <el-form-item label="流程节点" prop="processNodes">
           <el-button 
+            v-if="!isView"
             icon="el-icon-plus"
             size="mini"
             @click="handleRowAdd"
             circle></el-button>
           <el-button 
+              v-if="!isView"
               icon="el-icon-minus"
               size="mini"
               @click="handleRowDelete"
@@ -135,13 +195,14 @@
               circle></el-button>
               <el-table
                     style="width: 100%"
+                    :disabled="isView"
                     @selection-change="handleRowSelectionChange"
                     :data="form.processNodes">
-                  <el-table-column type="selection" width="55" align="center" />
+                  <el-table-column v-if="!isView" type="selection" width="55" align="center" />
                   <el-table-column label="序号" type="index" :index="rowIndex" width="55" align="center" />
                   <el-table-column label="节点" align="center" prop="nodeId">
                     <template slot-scope="scope">
-                      <el-select size="mini" placeholder=" " v-model="scope.row.nodeId">
+                      <el-select size="mini" placeholder=" " v-model="scope.row.nodeId" :disabled="isView">
                           <el-option
                             v-for="item in nodeList"
                             :key="item.nodeId"
@@ -156,15 +217,13 @@
                   </el-table-column>
                   <el-table-column label="操作人员" align="center" prop="operator">
                     <template slot-scope="scope">
-                      <el-select size="mini" placeholder=" " v-model="scope.row.workerId">
+                      <el-select size="mini" placeholder=" " v-model="scope.row.workerId" :disabled="isView">
                           <el-option
-                            v-for="item in nodeList"
-                            :key="item.nodeId"
-                            :label="item.nodeName"
-                            :value="item.nodeId"
-                          >
-                                <span style="float: left;font-size: 6px" >{{ item.nodeName }}</span>
-                                <span style="float: right; color: #8492a6; font-size: 6px">({{ item.nodeCode }})</span>
+                            v-for="item in workerList"
+                            :key="item.userId"
+                            :label="item.nickName"
+                            :value="item.userId"
+                          ><span style="float: left;font-size: 6px" >{{ item.nickName }}</span>
                           </el-option>
                       </el-select>
                     </template>
@@ -178,6 +237,7 @@
                           value-format="yyyy-MM-dd HH-mm"
                           format="yyyy-MM-dd HH-mm"
                           type="datetime"
+                          :disabled="isView"
                         ></el-date-picker>
                      </template>
                   </el-table-column>
@@ -190,8 +250,22 @@
                           value-format="yyyy-MM-dd HH-mm"
                           format="yyyy-MM-dd HH-mm"
                           type="datetime"
+                          :disabled="isView"
                         ></el-date-picker>
                      </template>
+                  </el-table-column>
+                  <el-table-column label="状态" width="120px" align="center" prop="status">
+                    <template slot-scope="scope">
+                      <el-select size="mini" placeholder=" " v-model="scope.row.status" :disabled="isView">
+                          <el-option
+                            v-for="dict in nodeStatusOptions"
+                          :key="dict.dictValue"
+                          :label="dict.dictLabel"
+                          :value="dict.dictValue"
+                          >
+                          </el-option>
+                      </el-select>
+                    </template>
                   </el-table-column>
               </el-table>               
         </el-form-item>
@@ -201,11 +275,12 @@
               v-for="dict in statusOptions"
               :key="dict.dictValue"
               :label="dict.dictValue"
+              :disabled="isView"
             >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"  :disabled="isView" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -217,12 +292,15 @@
 </template>
 
 <script>
-import { listProcess,addProcess,updateProcess,delProcess,getProcess} from "@/api/dealer/process";
-import { getList } from "@/api/dealer/node";
+import { listProcess,addProcess,updateProcess,delProcess,getProcess,changeCheckStatus} from "@/api/dealer/process";
+import { getUserListPost, getUserListDept } from "@/api/system/user";
+import { getList as getNodeList } from "@/api/dealer/node";
 export default {
   name: "process",
   data() {
     return {
+      // 是否查看
+      isView: false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -239,12 +317,20 @@ export default {
       processList: [],
       // 节点数据
       nodeList: [],
+      // 工人数据
+      workerList: [],
+      // 部门人员数据
+      userList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       // 状态数据字典
       statusOptions: [],
+      // 审批状态数据字典
+      checkStatusOptions: [],
+      // 节点完成状态
+      nodeStatusOptions: [],
       // 查询参数
       queryParams: {
         current: 1,
@@ -271,6 +357,18 @@ export default {
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
     });
+    this.getDicts("dealer_process_status").then(response => {
+      this.nodeStatusOptions = response.data;
+    });
+    this.getDicts("dealer_check_status").then(response => {
+      this.checkStatusOptions = response.data;
+    });
+    getUserListPost("WORKER").then(response => {
+      this.workerList = response.data;
+    })
+    getUserListDept().then(response =>{
+      this.userList = response.data;
+    })
   },
   methods: {
     /** 查询流程列表 */
@@ -285,6 +383,10 @@ export default {
     // 流程状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
+    },
+    // 流程完成状态字典翻译
+    checkStatusFormat(row, column) {
+      return this.selectDictLabel(this.checkStatusOptions, row.checkStatus);
     },
     // 取消按钮
     cancel() {
@@ -322,16 +424,77 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      getList().then(res=>{
+      getNodeList().then(res=>{
         this.nodeList = res.data
       })
       this.open = true;
       this.title = "添加流程";
     },
+    /** 关闭对话框回调函数 */
+    handleClose(){
+      this.isView = false
+    },
+    /** 通过按钮操作 */
+    handlePass(row){
+        row.checkStatus = '2'
+        changeCheckStatus(row).then(()=>{
+          this.msgSuccess("通过成功")
+          this.getList
+        }).catch(res =>{
+          this.msgError(res)
+        })
+    },
+    /** 打回按钮操作 */
+    handleFail(row){
+        row.checkStatus = '3'
+        changeCheckStatus(row).then(()=>{
+          this.msgSuccess("打回成功")
+          this.getList
+        }).catch(res =>{
+          this.msgError(res)
+        })
+    },
+    /** 送审按钮操作 */
+    handleCheck(row){
+        row.checkStatus = '1'
+        changeCheckStatus(row).then(()=>{
+          this.msgSuccess("送审成功")
+          this.getList
+        }).catch(res =>{
+          this.msgError(res)
+        })
+    },
+    /** 撤回按钮操作 */
+    handleRetrack(row){
+        row.checkStatus = '0'
+        changeCheckStatus(row).then(()=>{
+          this.msgSuccess("撤回成功")
+          this.getList
+        }).catch(res =>{
+          this.msgError(res)
+        })
+    },
+    /** 查看按钮操作 */
+    handleView(row) {
+      this.reset();
+      this.isView = true
+      const processId = row.processId || this.ids
+      getNodeList().then(res=>{
+        this.nodeList = res.data
+      })
+      getProcess(processId).then(response => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "查看流程";
+      });
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const processId = row.processId || this.ids
+      getNodeList().then(res=>{
+        this.nodeList = res.data
+      })
       getProcess(processId).then(response => {
         this.form = response.data;
         this.open = true;
@@ -384,7 +547,7 @@ export default {
         nodeId: '',
         sort: '',
         remark: '',
-        status: '',
+        status: '0',
         
       }
       this.form.processNodes.push(row)

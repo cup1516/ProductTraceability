@@ -87,7 +87,6 @@ const user = {
     GetMenu({commit}, obj) {
       return new Promise(resolve => {
         treeselect().then((res) => {
-          console.log(res)
           const menu = res.data
           commit('SET_MENU', deepClone(menu))
           resolve(menu)

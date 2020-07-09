@@ -16,7 +16,6 @@ export function getPost(postId) {
     method: 'get'
   })
 }
-
 // 新增岗位
 export function addPost(data) {
   return request({

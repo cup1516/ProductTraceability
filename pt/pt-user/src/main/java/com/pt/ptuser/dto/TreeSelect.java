@@ -70,9 +70,7 @@ public class TreeSelect implements Serializable
     {
         this.id = menu.getMenuId();
         this.name = menu.getMenuName();
-        this.id = menu.getMenuId();
         this.icon = menu.getIcon();
-        this.name = menu.getMenuName();
         this.path = menu.getPath();
         this.component = menu.getComponent();
         this.permission = menu.getPerms();

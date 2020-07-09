@@ -54,13 +54,29 @@
               placeholder="用户状态"
               clearable
               size="small"
-              style="width: 240px"
+              style="width: 120px"
             >
               <el-option
                 v-for="dict in statusOptions"
                 :key="dict.dictValue"
                 :label="dict.dictLabel"
                 :value="dict.dictValue"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="职位" prop="postId">
+            <el-select
+              v-model="queryParams.postId"
+              placeholder="职位"
+              clearable
+              size="small"
+              style="width: 120px"
+            >
+              <el-option
+                v-for="dict in postOptions"
+                :key="dict.postId"
+                :label="dict.postName"
+                :value="dict.postId"
               />
             </el-select>
           </el-form-item>
@@ -121,6 +137,7 @@
           <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" prop="deptName" :show-overflow-tooltip="true" />
+          <el-table-column label="岗位" align="center" prop="postName" :show-overflow-tooltip="true" />
           <el-table-column label="手机号码" align="center" prop="phone" width="120" />
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
@@ -284,7 +301,7 @@
 <script>
 import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate ,getInitUserPwd} from "@/api/system/user";
 import { getToken } from "@/utils/auth";
-import { treeselect } from "@/api/system/dept";
+import { treeselect as deptTreeSelect  } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -309,6 +326,8 @@ export default {
       title: "",
       // 部门树选项
       deptOptions: undefined,
+      // 部门树选项
+      postOptions: undefined,
       // 是否显示弹出层
       open: false,
       // 部门名称
@@ -353,7 +372,8 @@ export default {
         userName: undefined,
         phone: undefined,
         status: undefined,
-        deptId: undefined
+        deptId: undefined,
+        postId: undefined
       },
       // 表单校验
       rules: {
@@ -418,13 +438,18 @@ export default {
           this.loading = false;
         }
       );
+      getUser().then(response => {
+        this.postOptions = response.data.posts;
+        this.roleOptions = response.data.roles;
+      });
     },
-    /** 查询部门下拉树结构 */
+    /** 查询下拉树结构 */
     getTreeselect() {
-      treeselect().then(response => {
+      deptTreeSelect().then(response => {
         this.deptOptions = response.data;
       });
     },
+  
     // 筛选节点
     filterNode(value, data) {
       if (!value) return true;
@@ -496,13 +521,9 @@ export default {
     handleAdd() {
       this.reset();
       this.getTreeselect();
-      getUser().then(response => {
-        this.postOptions = response.data.posts;
-        this.roleOptions = response.data.roles;
-        this.open = true;
-        this.title = "添加用户";
-        this.form.password = this.initPassword;
-      });
+      this.open = true;
+      this.title = "添加用户";
+      this.form.password = this.initPassword;
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -510,7 +531,6 @@ export default {
       this.getTreeselect();
       const userId = row.userId || this.ids;
       getUser(userId).then(response => {
-        console.log(response)
         this.form = response.data.data;
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
