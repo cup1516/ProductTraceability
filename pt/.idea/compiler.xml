@@ -7,14 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="pt-center" />
         <module name="pt-upload" />
         <module name="pt-eureka" />
         <module name="pt-portal" />
         <module name="pt-manor" />
-        <module name="pt-chat" />
         <module name="pt-common" />
         <module name="pt-common-core" />
-        <module name="pt-auth" />
         <module name="pt-dealer-order" />
         <module name="pt-order" />
         <module name="pt-common-mybatis" />
@@ -23,35 +22,36 @@
         <module name="pt-warehouse" />
         <module name="pt-gateway" />
         <module name="pt-dealer-proc" />
-        <module name="pt-center" />
-        <module name="pt-dealer" />
+        <module name="pt-chat" />
         <module name="pt-user" />
+        <module name="pt-dealer" />
+        <module name="pt-auth" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="pt" target="8" />
-      <module name="pt-auth" target="8" />
-      <module name="pt-center" target="8" />
+      <module name="pt" target="1.8" />
+      <module name="pt-auth" target="1.8" />
+      <module name="pt-center" target="1.8" />
       <module name="pt-center-user" target="8" />
-      <module name="pt-chat" target="8" />
-      <module name="pt-common" target="8" />
-      <module name="pt-common-core" target="8" />
-      <module name="pt-common-mybatis" target="8" />
-      <module name="pt-common-security" target="8" />
-      <module name="pt-dealer" target="8" />
-      <module name="pt-dealer-order" target="8" />
-      <module name="pt-dealer-proc" target="8" />
-      <module name="pt-dealer-prod" target="8" />
+      <module name="pt-chat" target="1.8" />
+      <module name="pt-common" target="1.8" />
+      <module name="pt-common-core" target="1.8" />
+      <module name="pt-common-mybatis" target="1.8" />
+      <module name="pt-common-security" target="1.8" />
+      <module name="pt-dealer" target="1.8" />
+      <module name="pt-dealer-order" target="1.8" />
+      <module name="pt-dealer-proc" target="1.8" />
+      <module name="pt-dealer-prod" target="1.8" />
       <module name="pt-dealer-user" target="8" />
-      <module name="pt-eureka" target="8" />
-      <module name="pt-gateway" target="8" />
-      <module name="pt-manor" target="8" />
+      <module name="pt-eureka" target="1.8" />
+      <module name="pt-gateway" target="1.8" />
+      <module name="pt-manor" target="1.8" />
       <module name="pt-manor-user" target="8" />
       <module name="pt-order" target="1.8" />
       <module name="pt-portal" target="1.8" />
-      <module name="pt-upload" target="8" />
-      <module name="pt-user" target="8" />
-      <module name="pt-warehouse" target="8" />
+      <module name="pt-upload" target="1.8" />
+      <module name="pt-user" target="1.8" />
+      <module name="pt-warehouse" target="1.8" />
       <module name="pt-warehouse-user" target="8" />
     </bytecodeTargetLevel>
   </component>
