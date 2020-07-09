@@ -61,6 +61,7 @@ export default {
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.user.createTime = ""
           updateUserProfile(this.user).then(() => {
               this.msgSuccess("修改成功");
           }).catch(res=>{
