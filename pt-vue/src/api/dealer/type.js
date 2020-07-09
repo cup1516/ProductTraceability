@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询节点列表
 export function listType(query) {
     return request({
-      url: '/proc/type/page',
+      url: '/prod/type/page',
       method: 'get',
       params: query
     })
@@ -12,7 +12,7 @@ export function listType(query) {
   // 查询节点详细
   export function getType(typeId) {
     return request({
-      url: '/proc/type/' + typeId,
+      url: '/prod/type/' + typeId,
       method: 'get'
     })
   }
@@ -20,7 +20,7 @@ export function listType(query) {
   // 新增节点
   export function addType(data) {
     return request({
-      url: '/proc/type',
+      url: '/prod/type',
       method: 'post',
       data: data
     })
@@ -29,7 +29,7 @@ export function listType(query) {
   // 修改节点
   export function updateType(data) {
     return request({
-      url: '/proc/type',
+      url: '/prod/type',
       method: 'put',
       data: data
     })
@@ -38,7 +38,7 @@ export function listType(query) {
   // 删除节点
   export function delType(postId) {
     return request({
-      url: '/proc/type/' + postId,
+      url: '/prod/type/' + postId,
       method: 'delete'
     })
   }
@@ -46,7 +46,7 @@ export function listType(query) {
   // 查询节点列表
 export function getList() {
   return request({
-    url: '/proc/type/list',
+    url: '/prod/type/list',
     method: 'get',
   })
 }

@@ -29,8 +29,12 @@ public class ProcProcessNode {
     @JsonFormat(pattern = "yyyy-MM-dd HH-mm")
     private Date endTime;
 
+    private String status;
+
     public ProcProcessNode(String processId, String nodeId) {
         this.processId = processId;
         this.nodeId = nodeId;
     }
+
+
 }

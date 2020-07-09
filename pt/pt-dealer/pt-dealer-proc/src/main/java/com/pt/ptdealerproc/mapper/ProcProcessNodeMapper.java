@@ -11,5 +11,7 @@ public interface ProcProcessNodeMapper {
 
     Boolean batchProcessNode(List<ProcProcessNode> processNodeList);
 
+    Boolean deleteProcessNode(@Param("processId") String processId);
+
     List<ProcProcessNode> listProcessNode(@Param("processId") String processId);
 }

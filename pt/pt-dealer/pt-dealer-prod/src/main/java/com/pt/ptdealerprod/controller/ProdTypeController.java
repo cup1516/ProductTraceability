@@ -20,22 +20,22 @@ package com.pt.ptdealerprod.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerprod.entity.ProdType;
 import com.pt.ptdealerprod.service.ProdTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 
 
 /**
- * 类型表
- *
- * @author pig code generator
- * @date 2020-03-31 21:33:12
+ * @author wl
  */
 @RestController
 @AllArgsConstructor
@@ -48,70 +48,88 @@ public class ProdTypeController {
     /**
      * 分页查询
      * @param page 分页对象
-     * @param prodType 类型表
+     * @param prodType 加工类型表
      * @return
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProdTypePage(Page page, ProdType prodType) {
-        return R.ok(prodTypeService.page(page, Wrappers.query(prodType)));
-    }
-
-
-    /**
-     * 通过id查询类型表
-     * @param id id
-     * @return R
-     */
-    @ApiOperation(value = "通过id查询", notes = "通过id查询")
-    @GetMapping("/{id}" )
-    public R getById(@PathVariable("id" ) Integer id) {
-        return R.ok(prodTypeService.getById(id));
+        return R.ok(prodTypeService.getProdTypePage(page, prodType));
     }
 
     /**
-     * 新增类型表
-     * @param prodType 类型表
-     * @return R
+     * 获取类型列表
+     * @return
      */
-    @ApiOperation(value = "新增类型表", notes = "新增类型表")
+    @GetMapping("/list" )
+    public R getProdTypeList() {
+        return R.ok(prodTypeService.getProdTypeList());
+    }
+
+    /**
+     * 根据类型编号获取详细信息
+     */
+    @GetMapping(value = "/{typeId}")
+    public R getInfo(@PathVariable String typeId)
+    {
+        return R.ok(prodTypeService.selectTypeById(typeId));
+    }
+
+    /**
+     * 新增类型
+     */
+
     @PostMapping
-    public R save(@RequestBody ProdType prodType) {
-        return R.ok(prodTypeService.saveType(prodType));
+    public R add( @RequestBody ProdType type)
+    {
+        if (!prodTypeService.checkTypeNameUnique(type))
+        {
+            return R.failed("新增类型'" + type.getTypeName() + "'失败，类型名称已存在");
+        }
+        else if (!prodTypeService.checkTypeCodeUnique(type))
+        {
+            return R.failed("新增类型'" + type.getTypeName() + "'失败，类型编码已存在");
+        }
+        type.setCreateBy(SecurityUtils.getUserName());
+        return R.ok(prodTypeService.insertType(type));
     }
 
     /**
-     * 修改类型表
-     * @param prodType 类型表
-     * @return R
+     * 修改类型
      */
-    @ApiOperation(value = "修改类型表", notes = "修改类型表")
+
     @PutMapping
-    public R updateById(@RequestBody ProdType prodType) {
-        return R.ok(prodTypeService.updateById(prodType));
+    public R edit(@Validated @RequestBody ProdType type)
+    {
+        if (!prodTypeService.checkTypeNameUnique(type))
+        {
+            return R.failed("修改类型'" + type.getTypeName() + "'失败，类型名称已存在");
+        }
+        else if (!prodTypeService.checkTypeCodeUnique(type))
+        {
+            return R.failed("修改类型'" + type.getTypeName() + "'失败，类型编码已存在");
+        }
+        return R.ok(prodTypeService.updateType(type));
     }
 
     /**
-     * 通过id删除类型表
-     * @param id id
-     * @return R
+     * 删除类型
      */
-    @ApiOperation(value = "通过id删除类型表", notes = "通过id删除类型表")
-    @DeleteMapping("/{id}" )
-    public R removeById(@PathVariable Integer id) {
-        return R.ok(prodTypeService.removeById(id));
+
+    @DeleteMapping("/{typeIds}")
+    public R remove(@PathVariable String[] typeIds)
+    {
+        return R.ok(prodTypeService.deleteTypeByIds(typeIds));
     }
 
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
-	@GetMapping("/search/{name}" )
-	public R getProdTypeList(@PathVariable String name) throws UnsupportedEncodingException {
-		return R.ok(prodTypeService.getList(name));
-	}
-
+    /**
+     * 获取类型选择框列表
+     */
+    @GetMapping("/optionselect")
+    public R optionselect()
+    {
+        List<ProdType> types = prodTypeService.selectTypeAll();
+        return R.ok(types);
+    }
 
 }
