@@ -18,11 +18,14 @@
 package com.pt.ptdealerproc.dto;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 个人任务表
@@ -36,24 +39,37 @@ public class MissionDto{
 private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value="工人Id")
-	private Integer workerId;
+	private String workerId;
+
+	@ApiModelProperty(value="加工流程ID")
+	private String processId;
+
 
     @ApiModelProperty(value="加工流程编号")
-    private String processNumber;
+    private String processCode;
 
-	@ApiModelProperty(value="加工流程编号")
+	@ApiModelProperty(value="加工流程名称")
 	private String processName;
 
+	@ApiModelProperty(value="加工节点ID")
+	private String nodeId;
+
     @ApiModelProperty(value="加工节点编号")
-    private String nodeNumber;
+    private String nodeCode;
 
 	@ApiModelProperty(value="加工节点编号")
 	private String nodeName;
 
 	@ApiModelProperty(value="开始时间")
-	private LocalDateTime startTime;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+//	@JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+	private Date startTime;
 
 	@ApiModelProperty(value="结束时间")
-	private LocalDateTime endTime;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+//	@JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+	private Date endTime;
 
+	@ApiModelProperty(value="完成状态")
+	private String status;
 }

@@ -33,7 +33,7 @@ import java.util.List;
  * @author pig code generator
  * @date 2020-04-19 14:58:16
  */
-public interface ProcProcessService extends IService<ProcProcess> {
+public interface ProcProcessService  {
 	IPage getProcessPage(Page page, ProcessDto processDto);
 
 	/**
@@ -111,15 +111,17 @@ public interface ProcProcessService extends IService<ProcProcess> {
 	/**
 	 * 修改保存流程信息
 	 *
-	 * @param procProcess 流程信息
+	 * @param processDto 流程信息
 	 * @return 结果
 	 */
-	Boolean updateProcess(ProcProcess procProcess);
+	Boolean updateProcess(ProcessDto processDto);
 
 	/**
 	 * 获取流程列表
 	 * @return
 	 */
 	List<ProcProcess> getProcProcessList();
+
+	Boolean changeCheckStatus(ProcessDto processDto);
 
 }

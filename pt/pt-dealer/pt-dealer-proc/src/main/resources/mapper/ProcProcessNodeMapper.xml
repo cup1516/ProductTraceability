@@ -8,16 +8,17 @@
     <result property="sort" column="sort"/>
     <result property="startTime" column="start_time"/>
     <result property="endTime" column="end_time"/>
+    <result property="status" column="status"/>
   </resultMap>
   <sql id="selectProcessNode">
-			select pn.node_id,pn.worker_id,pn.sort,pn.start_time,pn.end_time
+			select pn.node_id,pn.worker_id,pn.sort,pn.start_time,pn.end_time,pn.status
 			from dealer_process_node pn
    </sql>
 
   <insert id="batchProcessNode">
-    insert into dealer_process_node(process_id, node_id,worker_id,sort,start_time,end_time) values
+    insert into dealer_process_node(process_id, node_id,worker_id,sort,start_time,end_time,status) values
     <foreach item="item" index="index" collection="list" separator=",">
-      (#{item.processId},#{item.nodeId},#{item.workerId},#{item.sort},#{item.startTime},#{item.endTime})
+      (#{item.processId},#{item.nodeId},#{item.workerId},#{item.sort},#{item.startTime},#{item.endTime},#{item.status})
     </foreach>
   </insert>
 
@@ -29,5 +30,7 @@
     </where>
     ORDER BY pn.sort ASC
   </select>
-
+  <delete id="deleteProcessNode">
+    delete from dealer_process_node pn where pn.process_id = #{processId}
+  </delete>
 </mapper>

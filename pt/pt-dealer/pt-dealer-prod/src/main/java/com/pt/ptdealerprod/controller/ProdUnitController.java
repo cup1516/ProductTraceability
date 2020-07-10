@@ -1,31 +1,20 @@
-package com.pt.ptdealerprod.controller;/*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * Neither the name of the pig4cloud.com developer nor the names of its
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
- */
-
+package com.pt.ptdealerprod.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerprod.entity.ProdUnit;
+import com.pt.ptdealerprod.entity.ProdUnit;
+import com.pt.ptdealerprod.service.ProdUnitService;
 import com.pt.ptdealerprod.service.ProdUnitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -45,58 +34,87 @@ public class ProdUnitController {
     /**
      * 分页查询
      * @param page 分页对象
-     * @param prodUnit 单位表
+     * @param prodUnit 加工单位表
      * @return
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProdUnitPage(Page page, ProdUnit prodUnit) {
-        return R.ok(prodUnitService.page(page, Wrappers.query(prodUnit)));
-    }
-
-
-    /**
-     * 通过id查询单位表
-     * @param id id
-     * @return R
-     */
-    @ApiOperation(value = "通过id查询", notes = "通过id查询")
-    @GetMapping("/{id}" )
-    public R getById(@PathVariable("id" ) Integer id) {
-        return R.ok(prodUnitService.getById(id));
+        return R.ok(prodUnitService.getProdUnitPage(page, prodUnit));
     }
 
     /**
-     * 新增单位表
-     * @param prodUnit 单位表
-     * @return R
+     * 获取单位列表
+     * @return
      */
-    @ApiOperation(value = "新增单位表", notes = "新增单位表")
+    @GetMapping("/list" )
+    public R getProdUnitList() {
+        return R.ok(prodUnitService.getProdUnitList());
+    }
+
+    /**
+     * 根据单位编号获取详细信息
+     */
+    @GetMapping(value = "/{unitId}")
+    public R getInfo(@PathVariable String unitId)
+    {
+        return R.ok(prodUnitService.selectUnitById(unitId));
+    }
+
+    /**
+     * 新增单位
+     */
+
     @PostMapping
-    public R save(@RequestBody ProdUnit prodUnit) {
-        return R.ok(prodUnitService.saveUnit(prodUnit));
+    public R add( @RequestBody ProdUnit unit)
+    {
+        if (!prodUnitService.checkUnitNameUnique(unit))
+        {
+            return R.failed("新增单位'" + unit.getUnitName() + "'失败，单位名称已存在");
+        }
+        else if (!prodUnitService.checkUnitCodeUnique(unit))
+        {
+            return R.failed("新增单位'" + unit.getUnitName() + "'失败，单位编码已存在");
+        }
+        unit.setCreateBy(SecurityUtils.getUserName());
+        return R.ok(prodUnitService.insertUnit(unit));
     }
 
     /**
-     * 修改单位表
-     * @param prodUnit 单位表
-     * @return R
+     * 修改单位
      */
-    @ApiOperation(value = "修改单位表", notes = "修改单位表")
+
     @PutMapping
-    public R updateById(@RequestBody ProdUnit prodUnit) {
-        return R.ok(prodUnitService.updateById(prodUnit));
+    public R edit(@Validated @RequestBody ProdUnit unit)
+    {
+        if (!prodUnitService.checkUnitNameUnique(unit))
+        {
+            return R.failed("修改单位'" + unit.getUnitName() + "'失败，单位名称已存在");
+        }
+        else if (!prodUnitService.checkUnitCodeUnique(unit))
+        {
+            return R.failed("修改单位'" + unit.getUnitName() + "'失败，单位编码已存在");
+        }
+        return R.ok(prodUnitService.updateUnit(unit));
     }
 
     /**
-     * 通过id删除单位表
-     * @param id id
-     * @return R
+     * 删除单位
      */
-    @ApiOperation(value = "通过id删除单位表", notes = "通过id删除单位表")
-    @DeleteMapping("/{id}" )
-    public R removeById(@PathVariable Integer id) {
-        return R.ok(prodUnitService.removeById(id));
+
+    @DeleteMapping("/{unitIds}")
+    public R remove(@PathVariable String[] unitIds)
+    {
+        return R.ok(prodUnitService.deleteUnitByIds(unitIds));
     }
 
+    /**
+     * 获取单位选择框列表
+     */
+    @GetMapping("/optionselect")
+    public R optionselect()
+    {
+        List<ProdUnit> units = prodUnitService.selectUnitAll();
+        return R.ok(units);
+    }
 }

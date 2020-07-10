@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptdealerproc.entity.ProcNode;
 import com.pt.ptdealerproc.mapper.ProcNodeMapper;
 import com.pt.ptdealerproc.service.ProcNodeService;
@@ -102,10 +103,9 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 			return Boolean.TRUE;
 		}
 		ProcNode procNode = baseMapper.checkNodeNameUnique(node.getNodeName());
-
-		if (procNode != null && !procNode.getNodeId().equals(procNode.getNodeId()))
+		if (procNode != null && !procNode.getNodeId().equals(node.getNodeId()))
 		{
-			return Boolean.FALSE;
+			throw new CustomException("修改节点'" + procNode.getNodeName() + "'失败，节点名称已存在");
 		}
 		return Boolean.TRUE;
 
@@ -123,11 +123,10 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 		if(StrUtil.isEmpty(node.getNodeId())){
 			return Boolean.TRUE;
 		}
-		ProcNode procNode = baseMapper.checkNodeCodeUnique(node.getNodeName());
-
-		if (procNode != null && !procNode.getNodeId().equals(procNode.getNodeId()))
+		ProcNode procNode = baseMapper.checkNodeCodeUnique(node.getNodeCode());
+		if (procNode != null && !procNode.getNodeId().equals(node.getNodeId()))
 		{
-			return Boolean.FALSE;
+			throw new CustomException("修改节点'" + procNode.getNodeName() + "'失败，节点编码已存在");
 		}
 		return Boolean.TRUE;
 	}

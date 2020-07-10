@@ -76,7 +76,7 @@ private static final long serialVersionUID = 1L;
 
 	private String remark;
 	private char status;
-
+	private char checkStatus;
 	/**
 	 * 删除标记
 	 */

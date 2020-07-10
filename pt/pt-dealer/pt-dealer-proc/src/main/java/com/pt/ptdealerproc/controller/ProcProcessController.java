@@ -92,7 +92,7 @@ public class ProcProcessController {
         {
             return R.failed("新增节点'" + processDto.getProcessName() + "'失败，节点编码已存在");
         }
-        processDto.setCreateBy(SecurityUtils.getNickName());
+        processDto.setCreateBy(SecurityUtils.getUserName());
         return R.ok(procProcessService.insertProcess(processDto));
     }
 
@@ -101,17 +101,17 @@ public class ProcProcessController {
      */
 
     @PutMapping
-    public R edit(@Validated @RequestBody ProcProcess process)
+    public R edit( @RequestBody ProcessDto processDto)
     {
-        if (!procProcessService.checkProcessNameUnique(process))
+        if (!procProcessService.checkProcessNameUnique(processDto))
         {
-            return R.failed("修改节点'" + process.getProcessName() + "'失败，节点名称已存在");
+            return R.failed("修改节点'" + processDto.getProcessName() + "'失败，节点名称已存在");
         }
-        else if (!procProcessService.checkProcessCodeUnique(process))
+        else if (!procProcessService.checkProcessCodeUnique(processDto))
         {
-            return R.failed("修改节点'" + process.getProcessName() + "'失败，节点编码已存在");
+            return R.failed("修改节点'" + processDto.getProcessName() + "'失败，节点编码已存在");
         }
-        return R.ok(procProcessService.updateProcess(process));
+        return R.ok(procProcessService.updateProcess(processDto));
     }
 
     /**
@@ -133,5 +133,12 @@ public class ProcProcessController {
         List<ProcProcess> processs = procProcessService.selectProcessAll();
         return R.ok(processs);
     }
-
+    /**
+     * 状态修改
+     */
+    @PutMapping("/changeCheckStatus")
+    public R changeCheckStatus(@RequestBody ProcessDto processDto)
+    {
+        return R.ok(procProcessService.changeCheckStatus(processDto));
+    }
 }

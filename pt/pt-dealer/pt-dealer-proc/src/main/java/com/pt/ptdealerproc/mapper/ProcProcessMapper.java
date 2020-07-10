@@ -116,4 +116,6 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @return
 	 */
 	List<ProcProcess> getProcProcessList();
+
+	Boolean changeCheckStatus(ProcessDto processDto);
 }
