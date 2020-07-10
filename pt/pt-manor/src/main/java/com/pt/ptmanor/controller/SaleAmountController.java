@@ -34,7 +34,7 @@ public class SaleAmountController {
     }
 
     @RequestMapping(value = "/find",method = RequestMethod.POST)
-    public YunResult  find(@RequestBody JSONObject jsonObject){
+    public YunResult find(@RequestBody JSONObject jsonObject){
 
         String crops = jsonObject.getString("crops");
         Date stime = jsonObject.getDate("stime");

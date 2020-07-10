@@ -4,8 +4,10 @@ package com.pt.ptmanor.controller.paintingController;
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptmanor.mapper.painting.*;
 import com.pt.ptmanor.pojo.painting.*;
+import com.pt.ptmanor.pojo.user.SysUser;
 import com.pt.ptmanor.ptcommon.util.SecurityUtils;
 import com.pt.ptmanor.service.painting.WorkService;
+import com.pt.ptmanor.service.user.UserService;
 import com.pt.ptmanor.util.YunResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -199,7 +201,7 @@ public class WorkController {
 //    }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public  YunResult update(@RequestBody Work work){
+    public YunResult update(@RequestBody Work work){
 
 
 
@@ -285,14 +287,16 @@ public class WorkController {
     }
 
 
-//    @Autowired
-//    UserService userService;
-//
-//    @RequestMapping(value = "getCheckUsers",method = RequestMethod.GET)
-//    public YunResult getCheckUsers(){
-//        List<YunUser> yunUsers = userService.checkUserList();
-//        return YunResult.createBySuccess(yunUsers);
-//    }
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(value = "getCheckUsers",method = RequestMethod.GET)
+    public YunResult getCheckUsers(){
+        List<SysUser> checkInvoiceUserList = userService.getCheckInvoiceUserList();
+
+
+        return YunResult.createBySuccess(checkInvoiceUserList);
+    }
 
 
 

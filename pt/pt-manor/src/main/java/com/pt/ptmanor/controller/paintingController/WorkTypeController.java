@@ -1,7 +1,6 @@
 package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.painting.WorkTypeRepository;
 import com.pt.ptmanor.pojo.painting.WorkType;
 import com.pt.ptmanor.service.painting.WorkTypeService;
@@ -60,6 +59,8 @@ public class WorkTypeController {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody WorkType workType){
+
+        System.out.println(workType.getId());
 
         Optional<WorkType> byId = workTypeRepository.findById(workType.getId());
         WorkType workType1 = byId.get();

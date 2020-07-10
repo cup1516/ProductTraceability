@@ -2,7 +2,6 @@ package com.pt.ptmanor.controller.paintingController;
 
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.painting.CropsRepository;
 import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.service.painting.CropsService;
@@ -78,6 +77,18 @@ public class CropsController {
         cropsRepository.save(crops1);
 
         return YunResult.createBySuccess("删除成功！");
+    }
+
+
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public YunResult update(@RequestBody Crops crops){
+
+        Optional<Crops> byId = cropsRepository.findById(crops.getId());
+        Crops crops1 = byId.get();
+        crops1.setName(crops.getName());
+        cropsRepository.save(crops1);
+
+        return YunResult.createBySuccess("修改成功！");
     }
 
 

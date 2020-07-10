@@ -8,4 +8,6 @@ public interface UserService {
 
 
     List<SysUser> getCheckInvoiceUserList();
+
+    List<SysUser> getFinancialUserList();
 }

@@ -114,48 +114,46 @@ public class MyWorkController {
     }
 
 
-//    @RequestMapping(value = "/myWorkFindByMany",method = RequestMethod.POST)
-//    public YunResult myWorkFindByMany(@RequestBody JSONObject jsonObject){
-//
-//        String id = jsonObject.getString("id");
-//        Integer pageNum = jsonObject.getInteger("pageNum");
-//        Integer pageRow = jsonObject.getInteger("pageRow");
-//        String crops = jsonObject.getString("crops");
-//        String work = jsonObject.getString("work");
-//        Integer checkNumber = jsonObject.getInteger("checkNumber");
-//        String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
-//        Date etime = jsonObject.getDate("etime");
-//        Date stime  = jsonObject.getDate("stime");
-//
-//        Subject currentUser = SecurityUtils.getSubject();
-//        YunUser yunUser  = (YunUser) currentUser.getPrincipal();
-//        String userName = yunUser.getUserName();
-//
-//        Page page = workService.myWorkFindByMany(userName,stime, etime, work, crops, checkNumber, id, findFarmlandRegionId, pageNum, pageRow);
-//        return  YunResult.createBySuccess(page);
-//    }
+    @RequestMapping(value = "/myWorkFindByMany",method = RequestMethod.POST)
+    public YunResult myWorkFindByMany(@RequestBody JSONObject jsonObject){
 
-//    @RequestMapping(value = "/toCheckWorkFindByMany",method = RequestMethod.POST)
-//    public YunResult toCheckWorkFindByMany(@RequestBody JSONObject jsonObject){
+        String id = jsonObject.getString("id");
+        Integer pageNum = jsonObject.getInteger("pageNum");
+        Integer pageRow = jsonObject.getInteger("pageRow");
+        String crops = jsonObject.getString("crops");
+        String work = jsonObject.getString("work");
+        Integer checkNumber = jsonObject.getInteger("checkNumber");
+        String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
+        Date etime = jsonObject.getDate("etime");
+        Date stime  = jsonObject.getDate("stime");
 
-//        String id = jsonObject.getString("id");
-//        Integer pageNum = jsonObject.getInteger("pageNum");
-//        Integer pageRow = jsonObject.getInteger("pageRow");
-//        String crops = jsonObject.getString("crops");
-//        String work = jsonObject.getString("work");
-//        String staff = jsonObject.getString("staff");
-//        String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
-//        Date etime = jsonObject.getDate("etime");
-//        Date stime  = jsonObject.getDate("stime");
-//
-////        Subject currentUser = SecurityUtils.getSubject();
-////        YunUser yunUser  = (YunUser) currentUser.getPrincipal();
-//
-//        String userName = yunUser.getUserName();
-//
-//        Page page = workService.toCheckWorkFindByMany(userName,stime, etime, work, crops, staff, id, findFarmlandRegionId, pageNum, pageRow);
-//        return  YunResult.createBySuccess(page);
-//    }
+        String userName = SecurityUtils.getUser().getUserName();
+
+
+
+        Page page = workService.myWorkFindByMany(userName,stime, etime, work, crops, checkNumber, id, findFarmlandRegionId, pageNum, pageRow);
+        return  YunResult.createBySuccess(page);
+    }
+
+    @RequestMapping(value = "/toCheckWorkFindByMany",method = RequestMethod.POST)
+    public YunResult toCheckWorkFindByMany(@RequestBody JSONObject jsonObject){
+
+        String id = jsonObject.getString("id");
+        Integer pageNum = jsonObject.getInteger("pageNum");
+        Integer pageRow = jsonObject.getInteger("pageRow");
+        String crops = jsonObject.getString("crops");
+        String work = jsonObject.getString("work");
+        String staff = jsonObject.getString("staff");
+        String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
+        Date etime = jsonObject.getDate("etime");
+        Date stime  = jsonObject.getDate("stime");
+
+        String userName = SecurityUtils.getUser().getUserName();
+
+
+        Page page = workService.toCheckWorkFindByMany(userName,stime, etime, work, crops, staff, id, findFarmlandRegionId, pageNum, pageRow);
+        return  YunResult.createBySuccess(page);
+    }
 
 
 

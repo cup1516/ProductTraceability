@@ -2,7 +2,6 @@ package com.pt.ptmanor.service.painting;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptmanor.mapper.painting.ProductionRepository;
 import com.pt.ptmanor.pojo.painting.Production;
 import com.pt.ptmanor.pojo.product.Invoice;

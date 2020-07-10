@@ -1,7 +1,6 @@
 package com.pt.ptmanor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import com.pt.ptmanor.pojo.YunRole;
 import com.pt.ptmanor.vo.YunRoleVo;
 import org.apache.ibatis.annotations.Many;

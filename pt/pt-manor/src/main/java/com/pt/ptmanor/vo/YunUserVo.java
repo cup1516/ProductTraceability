@@ -1,7 +1,6 @@
 package com.pt.ptmanor.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-
 import com.pt.ptmanor.pojo.YunRole;
 import com.pt.ptmanor.pojo.YunUser;
 

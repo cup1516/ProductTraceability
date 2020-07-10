@@ -3,7 +3,6 @@ package com.pt.ptmanor.pojo.painting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pt.ptmanor.pojo.Trace;
 
-
 import javax.persistence.*;
 import java.util.List;
 
