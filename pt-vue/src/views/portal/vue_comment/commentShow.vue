@@ -1,5 +1,6 @@
 <template>
     <div>
+      <NavMenu></NavMenu>
       <div  v-for="item in comment" :key="item.id" class="articles-area">
         <el-card style="text-align: left">
           <div >
@@ -30,9 +31,10 @@
 
 <script>
 
+  import NavMenu from '../common/NavMenu'
   export default {
     name: 'commentShow',
-
+    components: { NavMenu },
     data () {
       return {
         comment: [],

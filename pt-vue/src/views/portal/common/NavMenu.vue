@@ -12,6 +12,7 @@
       <el-menu-item v-for="(item,index) in navList" :key="index" :index="item.name" >
         {{ item.navItem }}
       </el-menu-item>
+      <router-link tag="a" target="_blank" to="/login" class='management'>企业内部管理</router-link>
     </el-menu>
   </div>
 </template>
@@ -59,6 +60,21 @@
 </script>
 
 <style scoped>
+  .management{
+    color: rgb(255, 255, 255);
+    border-bottom: 2px solid transparent;
+    background-color: rgb(84, 92, 100);
+    height: 56px;
+    line-height: 56px;
+    font-size: 14px;
+    padding: 0 20px;
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+    transition: border-color .3s, background-color .3s, color .3s;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
   .el-icon-switch-button {
     cursor: pointer;
     outline:0;

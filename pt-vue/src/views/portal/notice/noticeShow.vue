@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavMenu></NavMenu>
     <div  v-for="item in notice" :key="item.id" class="articles-area">
       <el-card style="text-align: left">
         <div >
@@ -33,9 +34,10 @@
 
 <script>
 
+  import NavMenu from '../common/NavMenu'
   export default {
     name: 'notice',
-
+    components: { NavMenu },
     data () {
       return {
         notice: [],
