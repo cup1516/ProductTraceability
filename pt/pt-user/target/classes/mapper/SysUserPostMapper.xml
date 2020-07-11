@@ -30,4 +30,10 @@
       (#{item.userId},#{item.postId})
     </foreach>
   </insert>
+  <insert id="batchUserPostWithClientId" statementType="STATEMENT">
+    insert into ${clientId}_user_post(user_id, post_id) values
+    <foreach item="item" index="index" collection="userPostList" separator=",">
+      ('${item.userId}','${item.postId}')
+    </foreach>
+  </insert>
 </mapper>

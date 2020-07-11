@@ -20,10 +20,7 @@ package com.pt.ptauth.exception;
 
 import lombok.NoArgsConstructor;
 
-/**
- * @author lengleng
- * @date 😴2018年06月22日16:21:57
- */
+
 @NoArgsConstructor
 public class CheckedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

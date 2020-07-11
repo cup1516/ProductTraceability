@@ -51,7 +51,13 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @return 结果
      */
     Boolean batchUserRole(List<SysUserRole> userRoleList);
-
+    /**
+     * 批量新增用户角色信息
+     *
+     * @param userRoleList 用户角色列表
+     * @return 结果
+     */
+    Boolean batchUserRoleWithClientId(@Param("userRoleList") List<SysUserRole> userRoleList,@Param("clientId") String clientId);
     /**
      * 删除用户和角色关联信息
      *
