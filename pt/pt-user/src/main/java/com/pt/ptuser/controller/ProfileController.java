@@ -6,20 +6,22 @@ import cn.hutool.core.lang.TypeReference;
 import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.SysUser;
+import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.SysDeptService;
 import com.pt.ptuser.service.SysProfileService;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.beanutils.BeanUtils;
-import java.io.IOException;
+
+import org.springframework.web.bind.annotation.*;
+
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 个人信息 业务处理
@@ -35,6 +37,7 @@ public class ProfileController
     private SysUserService sysUserService;
     private SysDeptService sysDeptService;
     private SysProfileService sysProfileService;
+    private SysUserMapper sysUserMapper;
 
 
 
@@ -71,6 +74,17 @@ public class ProfileController
         sysProfileService.updatePwd(oldPassword,newPassword);
         return R.ok();
     }
+
+    @PostMapping("/updateAvatar")
+    public  R updateAvatar(@RequestBody  String avatar){
+
+        CustomUser user1 = SecurityUtils.getUser();
+        SysUser byUserId = sysUserMapper.getByUserId(user1.getId());
+        byUserId.setAvatar(avatar);
+        boolean save = sysUserMapper.updateUser(byUserId);
+        return R.ok();
+    }
+
 
 
 }
