@@ -31,6 +31,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
                 .antMatchers("/file/**").permitAll()
+                .antMatchers("/files/**").permitAll()
                 .antMatchers("/News/**").permitAll()
                 .antMatchers("/Announcement/**").permitAll()
                 .antMatchers("/Blogcomment/**").permitAll()
