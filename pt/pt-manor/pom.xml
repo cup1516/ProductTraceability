@@ -202,8 +202,6 @@
 		</dependency>
 
 
-
-
 		<!--引入EurekaClient-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -215,8 +213,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
-
-
 
 
 	</dependencies>
