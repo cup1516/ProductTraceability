@@ -1,12 +1,10 @@
 package com.pt.ptmanor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import com.pt.ptmanor.pojo.YunMenus;
 import com.pt.ptmanor.vo.YunMenusVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;

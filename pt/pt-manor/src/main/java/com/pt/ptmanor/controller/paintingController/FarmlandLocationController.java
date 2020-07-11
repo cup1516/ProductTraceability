@@ -2,7 +2,6 @@ package com.pt.ptmanor.controller.paintingController;
 
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.painting.FarmlandLocationRepository;
 import com.pt.ptmanor.pojo.painting.FarmlandLocation;
 import com.pt.ptmanor.service.painting.FarmlandLocationService;

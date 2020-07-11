@@ -2,7 +2,6 @@ package com.pt.ptmanor.controller.salesController;
 
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.product.InvoiceRepository;
 import com.pt.ptmanor.service.product.InvoiceService;
 import com.pt.ptmanor.util.YunResult;

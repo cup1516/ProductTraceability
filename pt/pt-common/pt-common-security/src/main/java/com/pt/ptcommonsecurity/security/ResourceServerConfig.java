@@ -1,5 +1,6 @@
 package com.pt.ptcommonsecurity.security;
 
+import com.pt.ptcommonsecurity.component.ResourceAuthExceptionEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
@@ -22,15 +24,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     protected RemoteTokenServices remoteTokenServices;
-
-
+    @Autowired
+    protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    @Autowired
+    private AccessDeniedHandler customAccessDeniedHandler;
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/user/info/**").permitAll()
-
-
+                .antMatchers("/register/**").permitAll()
                 .antMatchers("/file/**").permitAll()
+                .antMatchers("/files/**").permitAll()
                 .antMatchers("/News/**").permitAll()
                 .antMatchers("/Announcement/**").permitAll()
                 .antMatchers("/Blogcomment/**").permitAll()
@@ -57,6 +61,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         accessTokenConverter.setUserTokenConverter(userTokenConverter);
         remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
         resources
+                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+                .accessDeniedHandler(customAccessDeniedHandler)
                 .tokenServices(remoteTokenServices);
     }
 

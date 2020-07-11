@@ -1,7 +1,6 @@
 package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.painting.FarmlandRegionTypeRepository;
 import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.pojo.painting.FarmlandRegionType;
@@ -58,5 +57,16 @@ public class FarmlandRegionTypeController {
         farmlandRegionType1.setIsDeleted(1);
         farmlandRegionTypeRepository.save(farmlandRegionType1);
         return YunResult.createBySuccess("删除成功！");
+    }
+
+
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public YunResult update(@RequestBody FarmlandRegionType farmlandRegionType){
+
+        Optional<FarmlandRegionType> byId = farmlandRegionTypeRepository.findById(farmlandRegionType.getId());
+        FarmlandRegionType farmlandRegionType1 = byId.get();
+        farmlandRegionType1.setName(farmlandRegionType.getName());
+        farmlandRegionTypeRepository.save(farmlandRegionType1);
+        return YunResult.createBySuccess("修改成功！");
     }
 }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pt.ptmanor.code.CodeEnum;
 
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Enumeration;

@@ -2,7 +2,6 @@ package com.pt.ptmanor.controller.paintingController;
 
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.pt.ptmanor.mapper.painting.FarmlandLocationRepository;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionRepository;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionTypeRepository;
@@ -81,9 +80,11 @@ public class FarmlandRegionController {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public YunResult update(@RequestBody FarmlandRegion farmlandRegion){
+
         farmlandRegionRepository.save(farmlandRegion);
         return YunResult.createBySuccess("修改成功！");
     }
+
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody FarmlandRegion farmlandRegion){
@@ -114,6 +115,7 @@ public class FarmlandRegionController {
     @RequestMapping(value = "get",method = RequestMethod.GET)
     public YunResult getById(@RequestParam("id") String id){
         Optional<FarmlandRegion> byId = farmlandRegionRepository.findById(id);
+        System.out.println("========="+id);
         FarmlandRegion farmlandRegion = byId.get();
         return YunResult.createBySuccess(farmlandRegion);
     }

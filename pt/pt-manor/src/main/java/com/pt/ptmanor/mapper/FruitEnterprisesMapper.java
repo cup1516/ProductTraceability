@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptmanor.pojo.FruitEnterprises;
 
 
-
 public interface FruitEnterprisesMapper extends BaseMapper<FruitEnterprises> {
 
 
