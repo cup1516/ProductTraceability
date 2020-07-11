@@ -24,6 +24,7 @@ import com.pt.ptauth.service.CustomClientDetailsService;
 import com.pt.ptcommoncore.constant.CacheConstants;
 import com.pt.ptcommoncore.constant.SecurityConstants;
 import com.pt.ptcommoncore.security.CustomUser;
+import com.pt.ptcommonsecurity.component.CustomWebResponseExceptionTranslator;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -93,13 +94,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		// 设置令牌
 		endpoints
 				.tokenStore(tokenStore())
 				.tokenEnhancer(tokenEnhancer())
 				.authenticationManager(authenticationManager)
-		.allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST);
+		.allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)
+		.exceptionTranslator(new CustomWebResponseExceptionTranslator());
 	}
 
 	@Override
@@ -121,7 +123,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return (accessToken, authentication) -> {
 			final Map<String, Object> additionalInfo = new HashMap<>(4);
 			CustomUser customUser = (CustomUser) authentication.getUserAuthentication().getPrincipal();
-			additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
 			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, customUser.getId());
 			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, customUser.getUsername());
 			additionalInfo.put(SecurityConstants.DETAILS_DEPT_ID, customUser.getDeptId());

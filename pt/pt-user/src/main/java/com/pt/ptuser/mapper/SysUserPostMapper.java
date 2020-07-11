@@ -3,6 +3,7 @@ package com.pt.ptuser.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptuser.entity.SysUserPost;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -40,4 +41,10 @@ public interface SysUserPostMapper extends BaseMapper<SysUserPost> {
      * @return 结果
      */
     Boolean batchUserPost(List<SysUserPost> userPostList);
-}
+    /**
+     * 批量新增用户岗位信息
+     *
+     * @param userPostList 用户角色列表
+     * @return 结果
+     */
+    Boolean batchUserPostWithClientId(@Param("userPostList") List<SysUserPost> userPostList,@Param("clientId") String clientId);}
