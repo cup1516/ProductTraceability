@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.*;
 
 @Service
-public class TraceServiceImpl  implements   TraceService{
+public class TraceServiceImpl  implements TraceService {
 
     @Autowired
     TraceRepository traceRepository;

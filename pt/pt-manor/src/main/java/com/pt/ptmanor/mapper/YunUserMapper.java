@@ -1,7 +1,6 @@
 package com.pt.ptmanor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import com.pt.ptmanor.pojo.YunUser;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

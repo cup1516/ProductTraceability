@@ -2,6 +2,7 @@ package com.pt.ptmanor.controller.salesController;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.pt.ptmanor.mapper.FinancialFormRepository;
 import com.pt.ptmanor.mapper.SaleAmountRepository;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionRepository;
@@ -10,19 +11,23 @@ import com.pt.ptmanor.mapper.product.InvoiceRepository;
 import com.pt.ptmanor.pojo.FinancialForm;
 import com.pt.ptmanor.pojo.SaleAmount;
 import com.pt.ptmanor.pojo.product.Invoice;
+import com.pt.ptmanor.pojo.user.SysUser;
 import com.pt.ptmanor.ptcommon.security.CustomUser;
 import com.pt.ptmanor.ptcommon.util.SecurityUtils;
 import com.pt.ptmanor.service.painting.FarmlandRegionService;
 import com.pt.ptmanor.service.product.InvoiceService;
+import com.pt.ptmanor.service.user.UserService;
 import com.pt.ptmanor.util.YunResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/checkInvoice")
@@ -55,11 +60,21 @@ public class CheckInvoiceController {
 
 
         CustomUser user = SecurityUtils.getUser();
-
         String userName = user.getUserName();
 
         Page page = invoiceService.checkList(pageNum, pageRow,userName);
         return YunResult.createBySuccess(page);
+    }
+
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(value = "getFinancialUserList",method = RequestMethod.GET)
+    public YunResult getCheckUsers(){
+
+        List<SysUser> SysUser = userService.getFinancialUserList();
+        return YunResult.createBySuccess(SysUser);
     }
 
 
@@ -140,30 +155,30 @@ public class CheckInvoiceController {
         invoiceRepository.save(invoice1);
         return  YunResult.createBySuccess("审核成功！",null);
     }
-//
-//    @RequestMapping(value = "findByMany",method = RequestMethod.POST)
-//    public YunResult find(@RequestBody JSONObject jsonObject){
-//
-//        String orderId = jsonObject.getString("orderId");
-//        Integer pageNum = jsonObject.getInteger("pageNum");
-//        Integer pageRow = jsonObject.getInteger("pageRow");
-//
-//        String buyerName = jsonObject.getString("buyerName");
-//        String productName = jsonObject.getString("productName");
-//        String staff = jsonObject.getString("staff");
-//
-//
-//        Subject currentUser = SecurityUtils.getSubject();
-//        YunUser yunUser  = (YunUser) currentUser.getPrincipal();
-//        String userName = yunUser.getUserName();
-//
-//        Date etime = jsonObject.getDate("etime");
-//        Date stime = jsonObject.getDate("stime");
-//
-//        Page page = invoiceService.checkInvoiceFindByMany(userName,stime, etime, staff,buyerName, productName, orderId, pageNum, pageRow);
-//        return YunResult.createBySuccess(page);
-////        return null;
-//    }
+
+
+    @RequestMapping(value = "findByMany",method = RequestMethod.POST)
+    public YunResult find(@RequestBody JSONObject jsonObject){
+
+        String orderId = jsonObject.getString("orderId");
+        Integer pageNum = jsonObject.getInteger("pageNum");
+        Integer pageRow = jsonObject.getInteger("pageRow");
+
+        String buyerName = jsonObject.getString("buyerName");
+        String productName = jsonObject.getString("productName");
+        String staff = jsonObject.getString("staff");
+
+
+        String userName = SecurityUtils.getUser().getUserName();
+
+
+        Date etime = jsonObject.getDate("etime");
+        Date stime = jsonObject.getDate("stime");
+
+        Page page = invoiceService.checkInvoiceFindByMany(userName,stime, etime, staff,buyerName, productName, orderId, pageNum, pageRow);
+        return YunResult.createBySuccess(page);
+
+    }
 
 //    @Autowired
 //    UserService userService;

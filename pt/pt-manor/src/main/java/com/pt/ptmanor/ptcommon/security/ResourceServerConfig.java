@@ -1,5 +1,6 @@
 package com.pt.ptmanor.ptcommon.security;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,18 +18,35 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 @Configuration
 @EnableResourceServer
-@ComponentScan("com.pt.ptcommon")
+@ComponentScan("com.pt.ptmanor.ptcommon.security")
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     protected RemoteTokenServices remoteTokenServices;
 
 
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/user/info/**").permitAll()
+
+                .antMatchers("/file/**").permitAll()
+                .antMatchers("/files/**").permitAll()
+                .antMatchers("/News/**").permitAll()
+                .antMatchers("/Announcement/**").permitAll()
+                .antMatchers("/Blogcomment/**").permitAll()
+                .antMatchers("/blog/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/download/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/notice/**").permitAll()
+                .antMatchers(
+                        "/webjars/**",
+                        "/resources/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/v2/api-docs")
+                .permitAll()
                 .anyRequest().authenticated();
     }
 

@@ -1,7 +1,6 @@
 package com.pt.ptmanor.service.painting;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-
 import com.pt.ptmanor.pojo.painting.Production;
 import org.springframework.data.domain.Page;
 
