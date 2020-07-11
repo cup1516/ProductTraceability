@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavMenu></NavMenu>
     <div v-for="item in item"  style="margin-top: 30px;text-align:center">
       {{item.id+item.name}}
       {{item.model}}
@@ -22,8 +23,10 @@
 </template>
 
 <script>
+    import NavMenu from '../common/NavMenu'
     export default {
         name: "downloadProfile",
+      components: { NavMenu },
       data(){
           return{
             total:'2',

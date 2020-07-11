@@ -17,6 +17,7 @@
           <el-row style="text-align: left;margin-bottom: 10px">
             <el-date-picker
               v-model="notice.failTime"
+              value-format="yyyy-MM-dd HH:mm:ss"
               type="datetime"
               placeholder="请选择失效时间">
             </el-date-picker>
