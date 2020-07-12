@@ -132,9 +132,8 @@ export default {
             .then(() => {
               this.$router.push({ path: this.redirect || "/" });
             })
-            .catch(() => {
+            .catch(res => {
               this.loading = false;
-              this.getCode();
             });
         }
       });

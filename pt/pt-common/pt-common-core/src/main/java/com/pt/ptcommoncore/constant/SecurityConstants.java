@@ -32,10 +32,6 @@ public interface SecurityConstants {
      */
     String PROJECT_PREFIX = "pig_";
 
-    /**
-     * 项目的license
-     */
-    String PROJECT_LICENSE = "made by pig";
 
     /**
      * 内部

@@ -55,20 +55,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserInfo findUserByUsername(String username, String clientId) {
         SysUser sysUser = sysUserMapper.findUserByUsername(username, clientId);
         UserInfo userInfo = new UserInfo();
-        userInfo.setSysUser(sysUser);
-        //设置角色列表  （ID）
-        List<SysRole> dealerSysRoles = sysRoleService.findRolesByUserId(sysUser.getUserId(),clientId);
-        List<String> roles = dealerSysRoles.stream()
-                .map(SysRole::getRoleCode)
-                .collect(Collectors.toList());
-        userInfo.setRoles(ArrayUtil.toArray(roles, String.class));
-        //设置权限列表（menu.permission）
-        Set<String> permissions = new HashSet<>();
-        dealerSysRoles.forEach(dealerRole -> {
-            List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleId(dealerRole.getRoleId(),clientId);
-            permissions.addAll(permissionsByRoleId);
-        });
-        userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        if(sysUser!=null){
+            userInfo.setSysUser(sysUser);
+            //设置角色列表  （ID）
+            List<SysRole> dealerSysRoles = sysRoleService.findRolesByUserId(sysUser.getUserId(),clientId);
+            List<String> roles = dealerSysRoles.stream()
+                    .map(SysRole::getRoleCode)
+                    .collect(Collectors.toList());
+            userInfo.setRoles(ArrayUtil.toArray(roles, String.class));
+            //设置权限列表（menu.permission）
+            Set<String> permissions = new HashSet<>();
+            dealerSysRoles.forEach(dealerRole -> {
+                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleId(dealerRole.getRoleId(),clientId);
+                permissions.addAll(permissionsByRoleId);
+            });
+            userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        }
         return userInfo;
     }
 

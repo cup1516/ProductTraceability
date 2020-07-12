@@ -18,7 +18,7 @@
 
 package com.pt.ptcommonsecurity.security;
 
-import com.pt.ptcommoncore.constant.SecurityConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.security.CustomUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -54,6 +54,7 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
+#关闭负载均衡
 ribbon:
   eureka:
-    enabled: true
+    enabled: false

@@ -18,7 +18,7 @@
 
 package com.pt.ptcommonsecurity.annotation;
 
-import com.pt.ptcommonsecurity.security.ResourceServerConfig;
+import com.pt.ptcommonsecurity.security.*;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

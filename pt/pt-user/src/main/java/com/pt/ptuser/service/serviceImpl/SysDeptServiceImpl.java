@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import com.pt.ptcommoncore.constant.CommonConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;

@@ -25,7 +25,7 @@ package com.pt.ptcommonsecurity.component;
 
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pt.ptcommoncore.constant.CommonConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.exception.CustomDeniedException;
 import lombok.AllArgsConstructor;
