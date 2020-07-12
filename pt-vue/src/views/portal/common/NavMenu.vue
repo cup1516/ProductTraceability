@@ -31,7 +31,7 @@
           {name:'/bbsList',navItem:'公共论坛'},
           {name:'/noticeShow',navItem:'宣传栏'},
           {name: '/download',navItem:'下载专区'},
-          {name:'/login',navItem:'企业内部管理'},
+          // {name:'/login',navItem:'企业内部管理'},
         ],
         keywords: '',
         activeIndex2: '1',
