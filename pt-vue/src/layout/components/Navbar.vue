@@ -26,7 +26,7 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
+          <img :src="user.avatar" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -54,6 +54,7 @@ import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import { getUserProfile } from "@/api/system/user";
 
 export default {
   components: {
@@ -64,6 +65,14 @@ export default {
     Search,
     RuoYiGit,
     RuoYiDoc
+  },
+  data(){
+    return{
+      user: {},
+    }
+  },
+   created() {
+    this.getUser();
   },
   computed: {
     ...mapGetters([
@@ -84,6 +93,13 @@ export default {
     }
   },
   methods: {
+
+     getUser() {
+      getUserProfile().then(response => {
+        this.user = response.data;
+      });
+    },
+
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

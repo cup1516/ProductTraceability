@@ -1,7 +1,7 @@
 <!--评论模块-->
 <template>
-
   <div class="container">
+    <NavMenu></NavMenu>
     <div v-clickoutside="hideReplyBtn" @click="inputFocus" class="my-reply">
       <div class="reply-info" >
         <div
@@ -101,6 +101,7 @@
 <script>
 
   import Vue from 'vue'
+  import NavMenu from '../common/NavMenu'
   const clickoutside = {
     // 初始化指令
     bind(el, binding, vnode) {
@@ -133,7 +134,7 @@
     //     required: true
     //   }
     // },
-    components: {},
+    components: { NavMenu },
     data() {
       return {
         pageSize:'2',

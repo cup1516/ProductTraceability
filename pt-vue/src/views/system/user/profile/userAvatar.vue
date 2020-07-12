@@ -30,6 +30,8 @@
               <i class="el-icon-upload el-icon--right"></i>
             </el-button>
           </el-upload>
+
+
         </el-col>
         <el-col :lg="{span: 1, offset: 2}" :md="2">
           <el-button icon="el-icon-plus" size="small" @click="changeScale(1)"></el-button>
@@ -54,7 +56,10 @@
 <script>
 import store from "@/store";
 import { VueCropper } from "vue-cropper";
-import { uploadAvatar } from "@/api/system/user";
+import { uploadAvatar,updateAvatar } from "@/api/system/user";
+
+
+
 
 export default {
   components: { VueCropper },
@@ -63,6 +68,7 @@ export default {
       type: Object
     }
   },
+  
   data() {
     return {
       // 是否显示弹出层
@@ -76,10 +82,13 @@ export default {
         autoCropHeight: 200, // 默认生成截图框高度
         fixedBox: true // 固定截图框大小 不允许改变
       },
-      previews: {}
+      previews: {},
+      fileList: [],
+        url: '',
     };
   },
   methods: {
+
     // 编辑头像
     editCropper() {
       this.open = true;
@@ -112,27 +121,29 @@ export default {
         };
       }
     },
+    
     // 上传图片
     uploadImg() {
       this.$refs.cropper.getCropBlob(data => {
         let formData = new FormData();
-        formData.append("avatarfile", data);
+        formData.append("file", data);
+
         uploadAvatar(formData).then(response => {
-          if (response.code === 200) {
-            this.open = false;
-            this.options.img = process.env.VUE_APP_BASE_API + response.imgUrl;
-            this.msgSuccess("修改成功");
-          } else {
-            this.msgError(response.msg);
-          }
+          this.options.img = response;
+          this.open = false;
           this.$refs.cropper.clearCrop();
+          updateAvatar(this.options.img).then(response=>{
+            this.msgSuccess("修改成功"); 
+          })
         });
       });
     },
+
     // 实时预览
     realTime(data) {
       this.previews = data;
-    }
+    },
+
   }
 };
 </script>

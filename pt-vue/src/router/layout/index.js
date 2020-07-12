@@ -128,5 +128,105 @@ export default [
   //     }
   //   ]
   // }
+   //manor项目的一些路由配置,勿删
+ 
+   {
+    path: '/detail',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'myInvoiceDetail',
+        component: (resolve) => require(['@/views/manor/sale/invoice/detail'], resolve),
+        name: 'myInvoiceDetail',
+        meta: { title: '订单详情', icon: 'user' }
+      },
+      {
+        path: 'checkInvoiceDetail',
+        component: (resolve) => require(['@/views/manor/sale/invoice/checkInvoiceDetail'], resolve),
+        name: 'checkInvoiceDetail',
+        meta: { title: '订单详情', icon: 'user' }
+      },
+      {
+        path: 'myWorkDeatil',
+        component: (resolve) => require(['@/views/manor/planting/work/detail'], resolve),
+        name: 'myWorkDeatil',
+        meta: { title: '工作详情', icon: 'user' }
+      },
+      {
+        path: 'invoiceUpdate',
+        component: (resolve) => require(['@/views/manor/sale/invoice/update'], resolve),
+        name: 'invoiceUpdate',
+        meta: { title: '修改票据', icon: 'user' }
+      },
+      {
+        path: 'addFarmlandLocation',
+        component: (resolve) => require(['@/views/manor/planting/farmlandLocation/add'], resolve),
+        name: 'addFarmlandLocation',
+        meta: { title: '创建田地区域', icon: 'user' }
+      },
+      {
+        path: 'updateFarmlandLocation',
+        component: (resolve) => require(['@/views/manor/planting/farmlandLocation/update'], resolve),
+        name: 'updateFarmlandLocation',
+        meta: { title: '更新田地区域', icon: 'user' }
+      },
+      {
+        path: 'addFarmlandRegion',
+        component: (resolve) => require(['@/views/manor/planting/farmlandRegion/addFarmlandRegion'], resolve),
+        name: 'addFarmlandRegion',
+        meta: { title: '创建田地区块', icon: 'user' }
+      },
+      {
+        path: 'updateFarmlandRegion',
+        component: (resolve) => require(['@/views/manor/planting/farmlandRegion/update'], resolve),
+        name: 'updateFarmlandRegion',
+        meta: { title: '修改田地区块', icon: 'user' }
+      },
+      {
+        path: 'toCheckWorkDetail',
+        component: (resolve) => require(['@/views/manor/planting/work/toCheckWorkDetail'], resolve),
+        name: 'toCheckWorkDetail',
+        meta: { title: '作业单详情', icon: 'user' }
+      },
+      {
+        path: 'workDetailCanUpdate',
+        component: (resolve) => require(['@/views/manor/planting/work/detailCanUpdate'], resolve),
+        name: 'workDetailCanUpdate',
+        meta: { title: '作业单详情', icon: 'user' }
+      },
+      {
+        path: 'updateWork',
+        component: (resolve) => require(['@/views/manor/planting/work/update'], resolve),
+        name: 'workDetailCanUpdate',
+        meta: { title: '修改作业单', icon: 'user' }
+      },
+      {
+        path: 'finalWorkDetail',
+        component: (resolve) => require(['@/views/manor/planting/work/finalWorkDetail'], resolve),
+        name: 'finalWorkDetail',
+        meta: { title: '作业单详情', icon: 'user' }
+      },
+      {
+        path: 'financial',
+        component: (resolve) => require(['@/views/manor/financial/invoiceDetail'], resolve),
+        name: 'finalWorkDetail',
+        meta: { title: '票据详情', icon: 'user' }
+      },
+      {
+        path: 'production/workDetail',
+        component: (resolve) => require(['@/views/manor/production/workDetail'], resolve),
+        name: 'workDetail',
+        meta: { title: '工作单详情', icon: 'user' }
+      },
+      {
+        path: 'production/invoiceDetail',
+        component: (resolve) => require(['@/views/manor/production/invoiceDetail'], resolve),
+        name: 'workDetail',
+        meta: { title: '票据详情', icon: 'user' }
+      },
+    ]
+  },
 ]
 

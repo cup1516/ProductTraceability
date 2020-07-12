@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NavMenu></NavMenu>
     <div style="margin-top: 40px">
       <div class="articles-area">
         <el-card style="text-align: left">
@@ -33,9 +34,10 @@
 
 <script>
 
+  import NavMenu from '../common/NavMenu'
   export default {
     name: 'newsShow',
-
+    components: { NavMenu },
     data () {
       return {
         news: [],
