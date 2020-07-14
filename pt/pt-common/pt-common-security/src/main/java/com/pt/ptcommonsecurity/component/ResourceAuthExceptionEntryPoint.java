@@ -20,7 +20,7 @@ package com.pt.ptcommonsecurity.component;
 
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pt.ptcommoncore.constant.CommonConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.util.R;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -36,7 +36,7 @@ import java.io.PrintWriter;
 /**
  * @author wl
  * 客户端异常处理
- * 1. 可以根据 AuthenticationException 不同细化异常处理
+ * 无效token
  */
 @Slf4j
 @Component
@@ -48,12 +48,13 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 						 AuthenticationException authException) {
+		Throwable cause = authException.getCause();
 		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(CommonConstants.CONTENT_TYPE);
 		R<String> result = new R<>();
 		result.setCode(HttpStatus.HTTP_UNAUTHORIZED);
 		if (authException != null) {
-			result.setMsg("error");
+			result.setMsg("用户登录已过期，请重新登录!");
 			result.setData(authException.getMessage());
 		}
 		response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);

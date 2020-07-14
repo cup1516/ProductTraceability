@@ -21,42 +21,44 @@ axios.interceptors.request.use(
 
 // 响应拦截器
 axios.interceptors.response.use(res => {
-
     const data = res.data
     if(data.code === 1){
       return Promise.reject(data.msg)
     }
     return data
-    // if (code === 401) {
-    //   MessageBox.confirm(
-    //     '登录状态已过期，您可以继续留在该页面，或者重新登录',
-    //     '系统提示',
-    //     {
-    //       confirmButtonText: '重新登录',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }
-    //   ).then(() => {
-    //     store.dispatch('LogOut').then(() => {
-    //       location.reload() // 为了重新实例化vue-router对象 避免bug
-    //     })
-    //   })
-    // } else if (code !== 200) {
-    //   Notification.error({
-    //     title: res.data.msg
-    //   })
-    //   return Promise.reject('error')
-    // } else {
-    //   return res.data
-    // }
   },
   error => {
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+    if(error.response.status === 401){
+      const code = error.response.data.code
+      if (code === 401) {
+        MessageBox.confirm(
+          '登录状态已过期，您可以继续留在该页面，或者重新登录',
+          '系统提示',
+          {
+            confirmButtonText: '重新登录',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          store.dispatch('LogOut').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+          })
+        })
+      } else {
+        Message({
+          message: error.response.data.msg,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject(error)
+      }  
+    }
+    // Message({
+    //   message: error.response.data.msg,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
+    // return Promise.reject(error)
   }
 )
 

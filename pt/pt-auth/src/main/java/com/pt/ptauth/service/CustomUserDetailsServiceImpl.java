@@ -3,16 +3,11 @@ package com.pt.ptauth.service;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.pt.ptauth.feign.RemotePtUserClient;
-import com.pt.ptauth.feign.RemoteUserFeignClient;
 import com.pt.ptauth.util.RedisUtils;
-import com.pt.ptcommoncore.constant.CacheConstants;
-import com.pt.ptcommoncore.constant.SecurityConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.SysUser;
-import feign.Feign;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +54,15 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 //        return user;
 //
 //    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Object clientIdObject = redisUtils.get(CacheConstants.CLIENT_DETAILS_KEY);
         String clientId = clientIdObject.toString();
         UserInfo info = remotePtUserClient.info(username,clientId);
+        if (info.getSysUser() == null) {
+                throw new UsernameNotFoundException("用户不存在");
+        }
         CustomUser user = getUserDetails(info);
         user.setClientId(clientId);
         return user;
@@ -76,9 +75,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
      * @return
      */
     private CustomUser getUserDetails(UserInfo userInfo) {
-        if (userInfo == null) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
 //        //将LinkHashMap转换类型
 //        JSONObject jsonObject = JSONUtil.parseObj(result.getData());
 //        UserInfo userInfo = JSONUtil.toBean(jsonObject, UserInfo.class);

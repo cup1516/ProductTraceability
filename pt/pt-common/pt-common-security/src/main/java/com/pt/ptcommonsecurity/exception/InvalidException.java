@@ -18,6 +18,7 @@
 
 package com.pt.ptcommonsecurity.exception;
 
+import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pt.ptcommonsecurity.component.CustomAuth2ExceptionSerializer;
 
@@ -39,7 +40,7 @@ public class InvalidException extends CustomAuth2Exception {
 
 	@Override
 	public int getHttpErrorCode() {
-		return 426;
+		return HttpStatus.HTTP_UNAUTHORIZED;
 	}
 
 }

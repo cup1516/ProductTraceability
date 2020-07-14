@@ -20,7 +20,7 @@ package com.pt.ptcommonsecurity.util;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.pt.ptcommoncore.constant.SecurityConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.security.CustomUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;

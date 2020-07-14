@@ -21,7 +21,6 @@ package com.pt.ptcommonsecurity.component;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptcommonsecurity.exception.CustomAuth2Exception;
 import lombok.SneakyThrows;
 
@@ -40,7 +39,8 @@ public class CustomAuth2ExceptionSerializer extends StdSerializer<CustomAuth2Exc
 	@SneakyThrows
 	public void serialize(CustomAuth2Exception value, JsonGenerator gen, SerializerProvider provider) {
 		gen.writeStartObject();
-		gen.writeObjectField("code", CommonConstants.FAIL);
+//		gen.writeObjectField("code", CommonConstants.FAIL);
+		gen.writeObjectField("code",value.getHttpErrorCode());
 		gen.writeStringField("msg", value.getMessage());
 		gen.writeStringField("data", value.getErrorCode());
 		gen.writeEndObject();

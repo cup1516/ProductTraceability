@@ -20,7 +20,7 @@ package com.pt.ptcommonsecurity.feign;
 
 
 
-import com.pt.ptcommoncore.constant.SecurityConstants;
+import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.constant.ServiceNameConstants;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.feign.factory.RemoteTokenServiceFallbackFactory;
