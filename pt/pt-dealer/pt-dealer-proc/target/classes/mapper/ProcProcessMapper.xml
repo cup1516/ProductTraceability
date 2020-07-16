@@ -48,7 +48,22 @@
 		</where>
 		ORDER BY n.create_time DESC
 	</select>
-
+	<select id="getProcessDtoCheckPage" resultMap="BaseResultMap">
+		<include refid="selectProcProcess"/>
+		<where>
+			n.del_flag = '0' and n.check_status = '1'
+			<if test="query.processCode != null and query.processCode != ''">
+				AND n.process_code like concat('%', #{query.processCode}, '%')
+			</if>
+			<if test="query.processName != null and query.processName != ''">
+				AND n.process_name like concat('%', #{query.processName}, '%')
+			</if>
+			<if test="query.createBy != null and query.createBy != ''">
+				AND n.create_by = #{query.createBy}
+			</if>
+		</where>
+		ORDER BY n.create_time DESC
+	</select>
 
 	<select id="getProcProcessList" resultMap="BaseResultMap">
 		select n.process_id, n.process_code,n.process_name

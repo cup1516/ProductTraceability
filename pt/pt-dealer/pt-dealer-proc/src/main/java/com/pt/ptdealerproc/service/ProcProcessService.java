@@ -35,7 +35,7 @@ import java.util.List;
  */
 public interface ProcProcessService  {
 	IPage getProcessPage(Page page, ProcessDto processDto);
-
+	IPage getProcessCheckPage(Page page, ProcessDto processDto);
 	/**
 	 * 查询流程信息集合
 	 *
