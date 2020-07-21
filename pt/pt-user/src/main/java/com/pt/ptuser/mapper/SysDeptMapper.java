@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptuser.entity.SysDept;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysDeptMapper extends BaseMapper<SysDept> {
+public interface SysDeptMapper  {
     List<SysDept> selectDeptList( SysDept sysDept);
 
     /**

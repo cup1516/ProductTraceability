@@ -30,7 +30,10 @@
 
   export default {
     name: 'AppIndex',
-    components: {NavMenu, Comment, NewsIndex, pictureBanner}
+    components: {NavMenu, Comment, NewsIndex, pictureBanner},
+    created() {
+      this.$store.commit("SET_URL",this.$route.params.id)
+    },
   }
 </script>
 

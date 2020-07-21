@@ -1,7 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import com.pt.ptcommoncore.dto.MenuVO;
 import com.pt.ptuser.entity.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysMenuMapper extends BaseMapper<SysMenu> {
+public interface SysMenuMapper  {
     /**
      * 按角色获取路由
      * @param role
@@ -28,9 +26,9 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      *
      * @return 菜单列表
      */
-    List<SysMenu> listAllMenu(@Param("clientId") String clientId);
+    List<SysMenu> listAllMenu(@Param("companyId") String companyId);
 
-    SysMenu getMenuById(@Param("menuId") String menuId,@Param("clientId") String clientId);
+    SysMenu getMenuByIdAndCompanyId(@Param("menuId") String menuId,@Param("companyId") String companyId);
 
     /**
      * 查询系统菜单列表

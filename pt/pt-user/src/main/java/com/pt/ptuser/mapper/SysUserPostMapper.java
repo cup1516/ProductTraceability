@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptuser.entity.SysUserPost;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysUserPostMapper extends BaseMapper<SysUserPost> {
+public interface SysUserPostMapper  {
 
     /**
      * 通过用户ID删除用户和岗位关联

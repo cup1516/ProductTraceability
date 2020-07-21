@@ -121,12 +121,12 @@
     order by m.parent_id, m.order_num
 </select>
     <!-- 通过用户ID，查询角色信息-->
-    <select id="getMenuById" resultMap="BaseResultMap" statementType="STATEMENT">
+    <select id="getMenuByIdAndCompanyId" resultMap="BaseResultMap" >
         SELECT
         m.*
         FROM
-        ${clientId}_menu m
-        WHERE m.menu_id = '${menuId}'
+        system_menu m
+        WHERE m.menu_id = #{menuId} and m.company_id = #{companyId}
     </select>
 
     <select id="selectMenuById" resultMap="BaseResultMap">
@@ -202,8 +202,9 @@
     <delete id="deleteMenuById" >
         delete from dynamic_menu where menu_id = #{menuId}
     </delete>
-    <select id="listAllMenu" resultMap="BaseResultMap" statementType="STATEMENT">
+    <select id="listAllMenu" resultMap="BaseResultMap" >
         select m.menu_id, m.menu_name, m.parent_id, m.order_num, m.path, m.component, m.is_frame, m.menu_type, m.visible, m.status, ifnull(m.perms,'') as perms, m.icon, m.create_time
-		from ${clientId}_menu m
+		from system_menu m
+		where m.company_id = #{companyId}
     </select>
 </mapper>

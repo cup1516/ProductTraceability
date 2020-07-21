@@ -20,13 +20,10 @@ package com.pt.ptauth.config;
 
 
 import com.pt.ptauth.service.CustomClientDetailsService;
-
-
 import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommonsecurity.component.CustomWebResponseExceptionTranslator;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -37,9 +34,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -47,17 +41,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * @author wl
@@ -125,8 +115,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			CustomUser customUser = (CustomUser) authentication.getUserAuthentication().getPrincipal();
 			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, customUser.getId());
 			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, customUser.getUsername());
+			additionalInfo.put(SecurityConstants.DETAILS_COMPANY_ID,customUser.getCompanyId());
 			additionalInfo.put(SecurityConstants.DETAILS_DEPT_ID, customUser.getDeptId());
-			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, customUser.getUserName());
 			additionalInfo.put(SecurityConstants.DETAILS_NICKNAME, customUser.getNickName());
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;

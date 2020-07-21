@@ -34,39 +34,23 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     RemotePtUserClient remotePtUserClient;
 
-    /**
-     * 通过clientId区分访问客户端，但并未考虑并发登录
-     * @param username
-     * @return
-     * @throws UsernameNotFoundException
-     */
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Object clientIdObject = redisUtils.get(CacheConstants.CLIENT_DETAILS_KEY);
-//        String clientId = clientIdObject.toString();
-//        String uri = UriEnum.valueOf(clientId.toUpperCase()).getUri();
-//        RemoteUserFeignClient service = Feign.builder()
-//                .decoder(new JacksonDecoder())
-//                .encoder(new JacksonEncoder())
-//                .target(RemoteUserFeignClient.class, uri);
-//        UserInfo info = service.info(username);
-//        CustomUser user = getUserDetails(info);
-//        return user;
-//
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Object clientIdObject = redisUtils.get(CacheConstants.CLIENT_DETAILS_KEY);
-        String clientId = clientIdObject.toString();
-        UserInfo info = remotePtUserClient.info(username,clientId);
+        String[] split = username.split("_");
+        username = split[0];
+        String url;
+        if(split.length == 2){
+            url = split[1];
+        }else{
+            url = "";
+        }
+        UserInfo info = remotePtUserClient.info(username,url);
         if (info.getSysUser() == null) {
-                throw new UsernameNotFoundException("用户不存在");
+            throw new UsernameNotFoundException("用户不存在");
         }
         CustomUser user = getUserDetails(info);
-        user.setClientId(clientId);
         return user;
-
     }
     /**
      * 构建userdetails
@@ -85,6 +69,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             Arrays.stream(userInfo.getRoles()).forEach(role ->customAuthorityCollection.add(new CustomAuthority(SecurityConstants.ROLE+role)));
         }
         //构建user对象
-        return new CustomUser(user.getUserName(),user.getPassword(),user.getUserId(),user.getUserName(),user.getNickName(),user.getDeptId(),"", customAuthorityCollection);
+        return new CustomUser(user.getUserName(),user.getPassword(),user.getUserId(),user.getUserName(),user.getNickName(),user.getDeptId(),user.getCompanyId(), customAuthorityCollection);
    }
 }

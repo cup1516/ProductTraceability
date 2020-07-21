@@ -1,11 +1,10 @@
 package com.pt.ptuser.service.serviceImpl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptuser.entity.SysDictData;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.pt.ptuser.mapper.SysDictDataMapper;
 import com.pt.ptuser.service.SysDictDataService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,8 +12,10 @@ import java.util.List;
  * @author wl
  */
 @Service
-public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictData> implements SysDictDataService{
+@AllArgsConstructor
+public class SysDictDataServiceImpl  implements SysDictDataService{
 
+    private final SysDictDataMapper sysDictDataMapper;
     /**
      * 根据字典类型查询字典数据
      *
@@ -24,6 +25,6 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
     @Override
     public List<SysDictData> selectDictDataByType(String dictType)
     {
-        return baseMapper.selectDictDataByType(dictType);
+        return sysDictDataMapper.selectDictDataByType(dictType);
     }
 }

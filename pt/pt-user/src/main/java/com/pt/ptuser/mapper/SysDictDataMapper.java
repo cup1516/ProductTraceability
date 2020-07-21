@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptuser.entity.SysDictData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysDictDataMapper extends BaseMapper<SysDictData> {
+public interface SysDictDataMapper  {
 
     /**
      * 根据字典类型查询字典数据

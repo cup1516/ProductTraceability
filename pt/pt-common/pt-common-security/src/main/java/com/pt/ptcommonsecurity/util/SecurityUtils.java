@@ -42,14 +42,14 @@ public class SecurityUtils {
     /**
      * 获取Authentication
      */
-    public Authentication getAuthentication() {
+    private Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
     /**
      * 获取用户
      */
-    public CustomUser getUser(Authentication authentication) {
+    private CustomUser getUser(Authentication authentication) {
         Object principal = authentication.getPrincipal();
         if (principal instanceof CustomUser) {
             return (CustomUser) principal;
@@ -60,7 +60,7 @@ public class SecurityUtils {
     /**
      * 获取用户
      */
-    public CustomUser getUser() {
+    private CustomUser getUser() {
 
         Authentication authentication = getAuthentication();
         if (authentication == null) {
@@ -106,9 +106,15 @@ public class SecurityUtils {
      * 获取用户
      */
     public String getUserName() {
-        return getUser().getUserName();
+        return getUser().getUserName().split("_")[0];
     }
 
+    /**
+     * 获取用户
+     */
+    public String getCompanyId() {
+        return getUser().getCompanyId();
+    }
     /**
      * 获取部门
      */

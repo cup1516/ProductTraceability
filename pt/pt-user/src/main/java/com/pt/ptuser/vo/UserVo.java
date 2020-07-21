@@ -1,8 +1,6 @@
 package com.pt.ptuser.vo;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,6 +14,7 @@ public class UserVo {
 
     private String deptId;
 
+    private String companyId;
 
     private String userName;
 

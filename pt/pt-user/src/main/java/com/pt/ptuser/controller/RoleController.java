@@ -2,19 +2,14 @@ package com.pt.ptuser.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysRole;
 import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author wl
@@ -81,7 +76,7 @@ public class RoleController {
     {
         sysRoleService.checkRoleNameUnique(role);
         sysRoleService.checkRoleCodeUnique(role);
-        role.setCreateBy(sysUserService.getByUserId(SecurityUtils.getUser().getId()).getUserName());
+        role.setCreateBy(sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId()).getUserName());
         return R.ok(sysRoleService.insertRole(role));
 
     }

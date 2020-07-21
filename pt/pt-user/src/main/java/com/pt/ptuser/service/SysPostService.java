@@ -2,12 +2,11 @@ package com.pt.ptuser.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.entity.SysPost;
 
 import java.util.List;
 
-public interface SysPostService extends IService<SysPost> {
+public interface SysPostService  {
     /**
      * 分页查询职位
      *

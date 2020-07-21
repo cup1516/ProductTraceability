@@ -1,27 +1,19 @@
 package com.pt.ptuser.controller;
 
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.TypeReference;
-import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
-import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.SysUser;
 import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.SysDeptService;
 import com.pt.ptuser.service.SysProfileService;
-import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.beanutils.BeanUtils;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.Map;
-import java.util.Random;
 
 /**
  * 个人信息 业务处理
@@ -47,7 +39,7 @@ public class ProfileController
     @GetMapping
     public R profile() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
-        SysUser sysUser = sysUserService.getByUserId(SecurityUtils.getUser().getId());
+        SysUser sysUser = sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         Map<String, String> result = BeanUtils.describe(sysUser);
         result.put("deptName",sysDeptService.selectDeptById(sysUser.getDeptId()).getDeptName());
         result.put("roleGroup", sysUserService.selectUserRoleGroup(SecurityUtils.getUserName()));
@@ -62,7 +54,7 @@ public class ProfileController
     public R updateProfile(@RequestBody SysUser user)
     {
         sysProfileService.updateUserProfile(user);
-        return R.ok(sysUserService.getByUserId(SecurityUtils.getId()));
+        return R.ok(sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -78,8 +70,7 @@ public class ProfileController
     @PostMapping("/updateAvatar")
     public  R updateAvatar(@RequestBody  String avatar){
 
-        CustomUser user1 = SecurityUtils.getUser();
-        SysUser byUserId = sysUserMapper.getByUserId(user1.getId());
+        SysUser byUserId = sysUserMapper.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         byUserId.setAvatar(avatar);
         boolean save = sysUserMapper.updateUser(byUserId);
         return R.ok();

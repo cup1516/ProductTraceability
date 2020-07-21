@@ -4,23 +4,20 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.*;
+import com.pt.ptuser.mapper.SysMenuMapper;
 import com.pt.ptuser.mapper.SysPostMapper;
 import com.pt.ptuser.mapper.SysRoleMapper;
 import com.pt.ptuser.mapper.SysUserMapper;
 import com.pt.ptuser.service.*;
 import com.pt.ptuser.vo.UserVo;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+public class SysUserServiceImpl implements SysUserService {
 
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     private SysRoleService sysRoleService;
@@ -44,21 +41,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserMapper sysUserMapper;
     private final SysRoleMapper sysRoleMapper;
     private final SysPostMapper sysPostMapper;
-
+    private final SysMenuMapper sysMenuMapper;
     /**
      * auth通过账号与客户端获取用户信息
      * @param username
-     * @param clientId
+     * @param url
      * @return
      */
     @Override
-    public UserInfo findUserByUsername(String username, String clientId) {
-        SysUser sysUser = sysUserMapper.findUserByUsername(username, clientId);
+    public UserInfo findUserByUsernameAndUrl(String username, String url) {
+        SysUser sysUser;
+        if(url == ""){
+            sysUser = sysUserMapper.findUserByUsername(username);
+        }else{
+            sysUser = sysUserMapper.findUserByUsernameAndUrl(username,url);
+        }
+        //重新拼接用户名
+        sysUser.setUserName(sysUser.getUserName()+'_'+url);
         UserInfo userInfo = new UserInfo();
         if(sysUser!=null){
             userInfo.setSysUser(sysUser);
             //设置角色列表  （ID）
-            List<SysRole> dealerSysRoles = sysRoleService.findRolesByUserId(sysUser.getUserId(),clientId);
+            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(),sysUser.getCompanyId());
             List<String> roles = dealerSysRoles.stream()
                     .map(SysRole::getRoleCode)
                     .collect(Collectors.toList());
@@ -66,7 +70,40 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             //设置权限列表（menu.permission）
             Set<String> permissions = new HashSet<>();
             dealerSysRoles.forEach(dealerRole -> {
-                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleId(dealerRole.getRoleId(),clientId);
+                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),sysUser.getCompanyId());
+                permissions.addAll(permissionsByRoleId);
+            });
+            userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        }
+        return userInfo;
+    }
+    /**
+     * 通过账号与公司ID获取用户信息
+     * @param username
+     * @param companyId
+     * @return
+     */
+    @Override
+    public UserInfo findUserByUsernameAndCompanyId(String username, String companyId) {
+        SysUser sysUser;
+        if(companyId == ""){
+            sysUser = sysUserMapper.findUserByUsername(username);
+        }else{
+            sysUser = sysUserMapper.findUserByUsernameAndCompanyId(username,companyId);
+        }
+        UserInfo userInfo = new UserInfo();
+        if(sysUser!=null){
+            userInfo.setSysUser(sysUser);
+            //设置角色列表  （ID）
+            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(),sysUser.getCompanyId());
+            List<String> roles = dealerSysRoles.stream()
+                    .map(SysRole::getRoleCode)
+                    .collect(Collectors.toList());
+            userInfo.setRoles(ArrayUtil.toArray(roles, String.class));
+            //设置权限列表（menu.permission）
+            Set<String> permissions = new HashSet<>();
+            dealerSysRoles.forEach(dealerRole -> {
+                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),sysUser.getCompanyId());
                 permissions.addAll(permissionsByRoleId);
             });
             userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
@@ -75,13 +112,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage getDeptUserWithRolePage(Page page, String clientId,String deptId) {
-        return sysUserMapper.getDeptUserPage(page,clientId,deptId);
+    public IPage getDeptUserWithRolePage(Page page,String companyId,String deptId) {
+        return sysUserMapper.getDeptUserPage(page,companyId,deptId);
     }
 
     @Override
-    public IPage getAllUserWithRolePage(Page page, UserVo userVo) {
-        return sysUserMapper.getAllUserPage(page,userVo);
+    public IPage getAllUserWithRolePage(Page page, UserVo userVo,String companyId) {
+        return sysUserMapper.getAllUserPage(page,userVo,companyId);
     }
 
     /**
@@ -90,8 +127,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public SysUser getByUserId(String userId) {
-        return sysUserMapper.getByUserId(userId);
+    public SysUser getByUserIdAndCompanyId(String userId,String companyId) {
+        return sysUserMapper.getByUserIdAndCompanyId(userId,companyId);
     }
 
     /**
@@ -221,9 +258,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return 结果
      */
     @Override
-    public Boolean resetUserPwd(String userName,String passWord)
+    public Boolean resetUserPwd(String userName,String passWord,String companyId)
     {
-        return sysUserMapper.resetUserPwd(userName,ENCODER.encode(passWord));
+        return sysUserMapper.resetUserPwd(userName,ENCODER.encode(passWord),companyId);
     }
     /**
      * 批量删除用户信息
@@ -232,13 +269,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return 结果
      */
     @Override
-    public Boolean deleteUserByIds(String[] userIds)
+    public Boolean deleteUserByIdsAndCompanyId(String[] userIds,String companyId)
     {
         for (String userId : userIds)
         {
-            checkUserAllowed(sysUserMapper.getByUserId(userId));
+            checkUserAllowed(sysUserMapper.getByUserIdAndCompanyId(userId,companyId));
         }
-        return sysUserMapper.deleteUserByIds(userIds);
+        return sysUserMapper.deleteUserByIds(userIds,companyId);
     }
 
     /**
@@ -282,8 +319,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public List<SysUser> listUser() {
-        return sysUserMapper.listUser();
+    public List<SysUser> listUser(String companyId) {
+        return sysUserMapper.listUser(companyId);
     }
     /**
      * 根据权限获取用户列表
@@ -291,8 +328,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public List<SysUser> listUserByDept(String deptId) {
-        return sysUserMapper.listUserByDept(deptId);
+    public List<SysUser> listUserByDept(String deptId,String companyId) {
+        return sysUserMapper.listUserByDept(deptId,companyId);
     }
 
     /**
@@ -301,8 +338,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public List<SysUser> listUserByPost(String deptId,String[] post) {
-        return sysUserMapper.listUserByPost(deptId,post);
+    public List<SysUser> listUserByPost(String[] post,String companyId) {
+        return sysUserMapper.listUserByPost(post,companyId);
     }
 
     /**
@@ -311,8 +348,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public List<SysUser> listUserByPerms(String[] perms) {
-        return sysUserMapper.listUserByPerms(perms);
+    public List<SysUser> listUserByPerms(String[] perms,String companyId) {
+        return sysUserMapper.listUserByPerms(perms,companyId);
     }
 
     /**
@@ -322,9 +359,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return 结果
      */
     @Override
-    public String selectUserRoleGroup(String userName)
+    public String selectUserRoleGroup(String userName,String companyId)
     {
-        List<SysRole> list = sysRoleMapper.selectRolesByUserName(userName);
+        List<SysRole> list = sysRoleMapper.selectRolesByUserName(userName,companyId);
         StringBuffer idsStr = new StringBuffer();
         for (SysRole role : list)
         {

@@ -44,7 +44,7 @@
       },
       currentPath () {
         return this.$route.path
-      }
+      },
     },
     mounted() {
       this.name = this.$store.state.username.data

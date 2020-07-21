@@ -1,12 +1,10 @@
 package com.pt.ptuser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pt.ptuser.dto.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,6 +13,7 @@ public class SysRole extends BaseEntity {
 
     private String roleId;
 
+    private String companyId;
 
     private String roleName;
 

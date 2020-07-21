@@ -33,7 +33,7 @@
 </template>
 
 <script>
-
+  import {mapGetters} from "vuex"; 
   import NavMenu from '../common/NavMenu'
   export default {
     name: 'newsShow',
@@ -46,6 +46,9 @@
         //pageSize为每页显示的数据条数，total为总数据
         currentPage:'',
       }
+    },
+    computed:{
+      ...mapGetters(['url'])
     },
     mounted () {
       this.loadArticles()

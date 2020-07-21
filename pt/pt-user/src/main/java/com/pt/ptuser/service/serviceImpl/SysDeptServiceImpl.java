@@ -1,30 +1,28 @@
 package com.pt.ptuser.service.serviceImpl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.pt.ptuser.mapper.SysDeptMapper;
 import com.pt.ptuser.service.SysDeptService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService{
+@AllArgsConstructor
+public class SysDeptServiceImpl  implements SysDeptService{
 
+    private final  SysDeptMapper sysDeptMapper;
     @Override
     public List<SysDept> selectDeptList( SysDept sysDept) {
-        return baseMapper.selectDeptList(sysDept);
+        return sysDeptMapper.selectDeptList(sysDept);
     }
 
     /**
@@ -127,7 +125,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public Boolean checkDeptExistUser(String deptId)
     {
-        if(baseMapper.checkDeptExistUser(deptId) != 0){
+        if(sysDeptMapper.checkDeptExistUser(deptId) != 0){
             throw new CustomException("部门存在用户,不允许删除");
         }
         return Boolean.TRUE;
@@ -147,7 +145,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             return Boolean.TRUE;
         }
 
-        SysDept sysDept = baseMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
+        SysDept sysDept = sysDeptMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
         if (sysDept != null && !sysDept.getDeptId().equals(dept.getDeptId()))
         {
             throw new CustomException("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
@@ -163,14 +161,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public Boolean insertDept(SysDept dept)
     {
-        SysDept sysDept = baseMapper.selectDeptById(dept.getParentId());
+        SysDept sysDept = sysDeptMapper.selectDeptById(dept.getParentId());
         // 如果父节点不为正常状态,则不允许新增子节点
         if (CommonConstants.DEPT_DISABLE.equals(sysDept.getStatus()))
         {
             return Boolean.FALSE;
         }
         dept.setAncestors(sysDept.getAncestors() + "," + dept.getParentId());
-        return baseMapper.insertDept(dept);
+        return sysDeptMapper.insertDept(dept);
     }
     /**
      * 根据部门ID查询信息
@@ -181,7 +179,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public SysDept selectDeptById(String deptId)
     {
-        return baseMapper.selectDeptById(deptId);
+        return sysDeptMapper.selectDeptById(deptId);
     }
 
     /**
@@ -193,7 +191,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public Boolean deleteDeptById(String deptId)
     {
-        return baseMapper.deleteDeptById(deptId);
+        return sysDeptMapper.deleteDeptById(deptId);
     }
     /**
      * 是否存在子节点
@@ -204,7 +202,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public Boolean hasChildByDeptId(String deptId)
     {
-        int result = baseMapper.hasChildByDeptId(deptId);
+        int result = sysDeptMapper.hasChildByDeptId(deptId);
         if (result > 0) {
             throw new CustomException("存在下级部门,不允许删除");
         }
@@ -220,7 +218,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public int selectNormalChildrenDeptById(String deptId)
     {
-        return baseMapper.selectNormalChildrenDeptById(deptId);
+        return sysDeptMapper.selectNormalChildrenDeptById(deptId);
     }
     /**
      * 修改保存部门信息
@@ -239,8 +237,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         {
             throw new CustomException("该部门包含未停用的子部门！");
         }
-        SysDept newParentDept = baseMapper.selectDeptById(dept.getParentId());
-        SysDept oldDept = baseMapper.selectDeptById(dept.getDeptId());
+        SysDept newParentDept = sysDeptMapper.selectDeptById(dept.getParentId());
+        SysDept oldDept = sysDeptMapper.selectDeptById(dept.getDeptId());
         if (newParentDept != null && oldDept != null)
         {
             String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
@@ -248,7 +246,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             dept.setAncestors(newAncestors);
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
-        int result = baseMapper.updateDept(dept);
+        int result = sysDeptMapper.updateDept(dept);
         if (CommonConstants.DEPT_NORMAL.equals(dept.getStatus()))
         {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
@@ -264,9 +262,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     private void updateParentDeptStatus(SysDept dept)
     {
         String updateBy = dept.getUpdateBy();
-        dept = baseMapper.selectDeptById(dept.getDeptId());
+        dept = sysDeptMapper.selectDeptById(dept.getDeptId());
         dept.setUpdateBy(updateBy);
-        baseMapper.updateDeptStatus(dept);
+        sysDeptMapper.updateDeptStatus(dept);
     }
 
     /**
@@ -278,14 +276,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     public void updateDeptChildren(String deptId, String newAncestors, String oldAncestors)
     {
-        List<SysDept> children = baseMapper.selectChildrenDeptById(deptId);
+        List<SysDept> children = sysDeptMapper.selectChildrenDeptById(deptId);
         for (SysDept child : children)
         {
             child.setAncestors(child.getAncestors().replace(oldAncestors, newAncestors));
         }
         if (children.size() > 0)
         {
-            baseMapper.updateDeptChildren(children);
+            sysDeptMapper.updateDeptChildren(children);
         }
     }
 }

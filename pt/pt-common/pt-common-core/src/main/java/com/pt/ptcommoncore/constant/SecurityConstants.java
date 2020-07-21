@@ -100,6 +100,10 @@ public interface SecurityConstants {
      */
     String DETAILS_NICKNAME = "nick_name";
     /**
+     * 公司ID字段
+     */
+    String DETAILS_COMPANY_ID = "company_id";
+    /**
      * 用户部门字段
      */
     String DETAILS_DEPT_ID = "dept_id";

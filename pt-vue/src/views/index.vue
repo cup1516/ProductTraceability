@@ -69,6 +69,9 @@ export default {
       lineChartData: lineChartData.newVisitis
     }
   },
+  created() {
+    console.log(this.$route.params)
+  },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]

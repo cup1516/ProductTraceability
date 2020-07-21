@@ -18,18 +18,9 @@
 
 package com.pt.ptcommonmybatis;
 
-import com.baomidou.mybatisplus.extension.parsers.DynamicTableNameParser;
-import com.baomidou.mybatisplus.extension.parsers.ITableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-
-
-import com.pt.ptcommonsecurity.util.SecurityUtils;
-import com.pt.ptcommoncore.constant.CommonConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * @author wl
@@ -47,15 +38,15 @@ public class MybatisAutoConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
-            CommonConstants.DYNAMIC_TABLES.forEach(table -> {
-                put("dynamic_" + table, (metaObject, sql, tableName) ->
-                        tableName.replace("dynamic", SecurityUtils.getUser().getClientId())
-                );
-            });
-        }});
-        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
+//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+//        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
+//            CommonConstants.DYNAMIC_TABLES.forEach(table -> {
+//                put("dynamic_" + table, (metaObject, sql, tableName) ->
+//                        tableName.replace("dynamic", SecurityUtils.getUser().getClientId())
+//                );
+//            });
+//        }});
+//        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
         return paginationInterceptor;
     }
 }

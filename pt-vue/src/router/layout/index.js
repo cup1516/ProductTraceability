@@ -62,6 +62,19 @@ export default [
     ]
   },
   {
+    path: '/:id',
+    redirect: '/:id/index',
+    component: (resolve) => require(['@/views/portal/AppIndex'], resolve),
+    children: [
+      {
+        path: '/:id/index',
+        // component: (resolve) => require(['@/views/portal/AppIndex'], resolve),
+        name: '首页',
+        meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true },
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     hidden: true,

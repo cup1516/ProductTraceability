@@ -1,12 +1,11 @@
 package com.pt.ptuser.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysDept;
 
 import java.util.List;
 
-public interface SysDeptService extends IService<SysDept> {
+public interface SysDeptService  {
 
     /**
      * 获取下级部门列表

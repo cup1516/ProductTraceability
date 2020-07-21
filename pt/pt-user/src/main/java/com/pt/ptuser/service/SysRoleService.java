@@ -2,20 +2,19 @@ package com.pt.ptuser.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.entity.SysRole;
 
 import java.util.List;
 
-public interface SysRoleService extends IService<SysRole> {
-    List<SysRole> findRolesByUserId(String UserId, String clientId);
+public interface SysRoleService {
+    List<SysRole> findRolesByUserId(String UserId, String companyId);
 
     /**
      * 查询所有角色
      *
      * @return 角色列表
      */
-    List<SysRole> selectRoleAll();
+    List<SysRole> selectRoleAll(String companyId);
 
     /**
      * 根据条件查询角色数据
@@ -23,20 +22,20 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 角色数据集合信息
      */
-    List<SysRole> selectRoleList(SysRole role);
+    List<SysRole> selectRoleList(SysRole role,String companyId);
     /**
      * 根据用户ID获取角色选择框列表
      *
      * @param userId 用户ID
      * @return 选中角色ID列表
      */
-    List<String> selectRoleListByUserId(String userId);
+    List<String> selectRoleListByUserId(String userId,String companyId);
     /**
      * 根据角色名获取角色
      * @param roleCode
      * @return
      */
-    SysRole getByRoleCode(String roleCode);
+    SysRole getByRoleCode(String roleCode,String companyId);
 
     /**
      * 分页获取角色
@@ -44,21 +43,21 @@ public interface SysRoleService extends IService<SysRole> {
      * @param sysRole
      * @return
      */
-    IPage<List<SysRole>> getRolePage(Page page, SysRole sysRole);
+    IPage<List<SysRole>> getRolePage(Page page, SysRole sysRole,String companyId);
 
     /**
      * 根据id获取角色
      * @param roleId
      * @return
      */
-    SysRole selectRoleById(String roleId);
+    SysRole selectRoleById(String roleId,String companyId);
 
     /**
      * 校验角色是否允许操作
      *
      * @param role 角色信息
      */
-     Boolean checkRoleAllowed(SysRole role);
+     Boolean checkRoleAllowed(SysRole role,String companyId);
 
     /**
      * 修改角色状态
@@ -66,7 +65,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 结果
      */
-     Boolean updateRoleStatus(SysRole role);
+     Boolean updateRoleStatus(SysRole role,String companyId);
 
     /**
      * 校验角色名称是否唯一
@@ -74,7 +73,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 结果
      */
-    Boolean checkRoleNameUnique(SysRole role);
+    Boolean checkRoleNameUnique(SysRole role,String companyId);
 
     /**
      * 校验角色权限是否唯一
@@ -82,7 +81,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 结果
      */
-    Boolean checkRoleCodeUnique(SysRole role);
+    Boolean checkRoleCodeUnique(SysRole role,String companyId);
 
     /**
      * 修改保存角色信息
@@ -90,7 +89,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 结果
      */
-    Boolean updateRole(SysRole role);
+    Boolean updateRole(SysRole role,String companyId);
 
     /**
      * 新增保存角色信息
@@ -98,7 +97,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param role 角色信息
      * @return 结果
      */
-     Boolean insertRole(SysRole role);
+     Boolean insertRole(SysRole role,String companyId);
 
     /**
      * 批量删除角色信息
@@ -106,7 +105,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param roleIds 需要删除的角色ID
      * @return 结果
      */
-    Boolean deleteRoleByIds(String[] roleIds);
+    Boolean deleteRoleByIds(String[] roleIds,String companyId);
 
     /**
      * 通过角色ID查询角色使用数量
@@ -114,6 +113,6 @@ public interface SysRoleService extends IService<SysRole> {
      * @param roleId 角色ID
      * @return 结果
      */
-     Integer countUserRoleByRoleId(String roleId);
+     Integer countUserRoleByRoleId(String roleId,String companyId);
 
 }

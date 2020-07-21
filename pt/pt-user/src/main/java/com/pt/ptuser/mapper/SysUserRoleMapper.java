@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptuser.entity.SysUserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +10,7 @@ import java.util.List;
  * @author wl
  */
 @Mapper
-public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
+public interface SysUserRoleMapper  {
     /**
      * 根据
      * @param userId
@@ -26,7 +25,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param roleId 角色ID
      * @return 结果
      */
-     Integer countUserRoleByRoleId(String roleId);
+     Integer countUserRoleByRoleId(@Param("roleId") String roleId,@Param("companyId") String companyId);
 
     /**
      * 通过用户ID删除用户和角色关联

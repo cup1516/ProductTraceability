@@ -4,6 +4,7 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="baseResultMap" type="com.pt.ptuser.entity.SysUser">
 		<id column="user_id" property="userId"/>
+		<result column="company_id" property="companyId"/>
 		<result column="dept_id" property="deptId"/>
 		<result column="user_name" property="userName"/>
 		<result column="nick_name" property="nickName"/>
@@ -19,6 +20,7 @@
 	<resultMap id="userVoMap" type="com.pt.ptuser.vo.UserVo">
 		<id column="user_id" property="userId"/>
 		<result column="dept_id" property="deptId"/>
+		<result column="company_id" property="companyId"/>
 		<result column="dept_name" property="deptName"/>
 		<result column="post_id" property="postId"/>
 		<result column="post_name" property="postName"/>
@@ -34,30 +36,44 @@
 	</resultMap>
 
 	<sql id="selectSysUser">
-        select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status,u.create_time
-        from dynamic_user u
+        select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status,u.company_id,u.create_time
+        from system_user u
     </sql>
 
-	<select id="findUserByUsername"  resultMap="baseResultMap" statementType="STATEMENT">
-		select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
-		from ${clientId}_user u
-		where u.user_name = '${username}'
+	<select id="findUserByUsername"  resultMap="baseResultMap">
+	select cu.user_id,cu.company_id,cu.dept_id,cu.user_name,cu.nick_name,cu.password,cu.email,cu.phone,cu.sex,cu.avatar,cu.status
+	from center_user cu
+	where cu.user_name = #{username} and cu.del_flag = '0'
+</select>
+
+	<select id="findUserByUsernameAndUrl"  resultMap="baseResultMap">
+		select su.user_id,su.company_id,su.dept_id,su.user_name,su.nick_name,su.password,su.email,su.phone,su.sex,su.avatar,su.status
+		FROM center_companyid cc
+		LEFT JOIN SYSTEM_USER su ON cc.`company_id` = su.`company_id`
+		WHERE cc.`url` = #{url} and su.user_name = #{username} and su.del_flag = '0'
 	</select>
 
+	<select id="findUserByUsernameAndCompanyId"  resultMap="baseResultMap">
+		select su.user_id,su.company_id,su.dept_id,su.user_name,su.nick_name,su.password,su.email,su.phone,su.sex,su.avatar,su.status
+		FROM  SYSTEM_USER su
+		WHERE su.`company_id` = #{companyId} and su.user_name = #{username} and su.del_flag = '0'
+	</select>
+
+
 	<select id="getDeptUserPage"  resultMap="baseResultMap" >
-		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,d.dept_name
-		from dynamic_user u
-		left join  dynamic_dept d ON u.dept_id = d.dept_id
-		where u.dept_id = #{deptId} and u.del_flag = '0'
+		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,u.company_id,d.dept_name
+		from system_user u
+		left join  system_dept d ON u.dept_id = d.dept_id
+		where u.dept_id = #{deptId} and u.del_flag = '0' and u.company_id = ${companyId}
 		order by u.user_id ASC
 	</select>
 	<select id="getAllUserPage"  resultMap="userVoMap" >
-		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,d.dept_name,u.create_time,p.post_id,p.post_name
-		from dynamic_user u
-		left join  dynamic_dept d ON u.dept_id = d.dept_id
-		left join  dynamic_user_post  up ON up.user_id = u.user_id
-		left join  dynamic_post p ON p.post_id = up.post_id
-		where u.del_flag = 0
+		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,d.dept_name,u.create_time,p.post_id,u.company_id,p.post_name
+		from system_user u
+		left join  system_dept d ON u.dept_id = d.dept_id
+		left join  system_user_post  up ON up.user_id = u.user_id
+		left join  system_post p ON p.post_id = up.post_id
+		where u.del_flag = '0' and u.company_id = ${companyId}
 		<if test="user.userName != null and user.userName != ''">
 			AND u.user_name like concat('%', #{user.userName}, '%')
 		</if>
@@ -74,7 +90,7 @@
 			AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{user.endTime},'%y%m%d')
 		</if>
 		<if test="user.deptId != null and user.deptId != ''">
-			AND (u.dept_id = #{user.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM dynamic_dept t WHERE FIND_IN_SET (#{user.deptId},ancestors) ))
+			AND (u.dept_id = #{user.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM system_dept t WHERE FIND_IN_SET (#{user.deptId},ancestors) ))
 		</if>
 		<if test="user.postId != null and user.postId != ''">
 			AND up.post_id = #{user.postId}
@@ -82,13 +98,13 @@
 		order by u.user_id ASC
 	</select>
 
-	<select id="getByUserId"  resultMap="baseResultMap" >
+	<select id="getByUserIdAndCompanyId"  resultMap="baseResultMap" >
 		<include refid="selectSysUser"/>
-		where u.user_id = #{userId}
+		where u.user_id = #{userId} and u.company_id = #{companyId} and u.del_flag = '0'
 	</select>
 
 	<update id="updateUser" >
-		update dynamic_user u
+		update system_user u
 		<set>
 			<if test="deptId != null and deptId != ''">u.dept_id = #{deptId},</if>
 			<if test="userName != null and userName != ''">u.user_name = #{userName},</if>
@@ -101,12 +117,13 @@
 			<if test="status != null and status != ''">u.status = #{status},</if>
 <!--			update_time = sysdate()-->
 		</set>
-		where u.user_id = #{userId}
+		where u.user_id = #{userId} and u.company_id = #{companyId}
 	</update>
 
 	<insert id="insertUser" >
-		insert into dynamic_user(
+		insert into system_user(
 		<if test="userId != null and userId != ''">user_id,</if>
+		<if test="companyId != null and companyId != ''">company_id,</if>
 		<if test="deptId != null and deptId != ''">dept_id,</if>
 		<if test="userName != null and userName != ''">user_name,</if>
 		<if test="nickName != null and nickName != ''">nick_name,</if>
@@ -120,6 +137,7 @@
 		)values(
 		<if test="userId != null and userId != ''">#{userId},</if>
 		<if test="deptId != null and deptId != ''">#{deptId},</if>
+		<if test="companyId != null and companyId != ''">#{companyId},</if>
 		<if test="userName != null and userName != ''">#{userName},</if>
 		<if test="nickName != null and nickName != ''">#{nickName},</if>
 		<if test="email != null and email != ''">#{email},</if>
@@ -134,61 +152,61 @@
 
 	<select id="checkUserNameUnique"  resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where user_name = #{userName}
+		where user_name = #{userName} and company_id = #{companyId}
 	</select>
 
 	<select id="checkPhoneUnique"  resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where phone = #{phone}
+		where phone = #{phone} and company_id = #{companyId}
 	</select>
 
 	<select id="checkEmailUnique" resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where email = #{email}
+		where email = #{email} and company_id = #{companyId}
 	</select>
 
 	<update id="deleteUserById" >
-		delete from dynamic_user where user_id = #{userId}
+		delete from system_user where user_id = #{userId} and company_id = #{companyId}
 	</update>
 
 	<update id="deleteUserByIds" >
-		update dynamic_user set del_flag = '1' where user_id in
-		<foreach collection="array" item="userId" open="(" separator="," close=")">
+		update system_user set del_flag = '1' where company_id = #{companyId} and user_id in
+		<foreach collection="userIds" item="userId" open="(" separator="," close=")">
 			#{userId}
 		</foreach>
 	</update>
 
 	<update id="resetUserPwd" >
-		update dynamic_user set password = #{password} where user_name = #{username}
+		update system_user set password = #{password} where user_name = #{username} and company_id = #{companyId}
 	</update>
 
 	<select id="listUserByPerms" resultMap="baseResultMap">
 		select distinct u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
-		from dynamic_user u
-		left join dynamic_user_role ur on ur.user_id = u.user_id
-		left join dynamic_role_menu rm on ur.role_id = rm.role_id
-		left join dynamic_menu m on m.menu_id = rm.menu_id
-		where m.perms in
-		<foreach collection="array" item="perm" open="(" separator="," close=")">
+		from system_user u
+		left join system_user_role ur on ur.user_id = u.user_id
+		left join system_role_menu rm on ur.role_id = rm.role_id
+		left join system_menu m on m.menu_id = rm.menu_id
+		where u.company_id = #{companyId} and m.perms in
+		<foreach collection="perms" item="perm" open="(" separator="," close=")">
 			#{perm}
 		</foreach>
 	</select>
 	<select id="listUserByPost" resultMap="baseResultMap">
 		select distinct u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
-		from dynamic_user u
-		left join dynamic_user_post up on up.user_id = u.user_id
-		left join dynamic_post p on p.post_id = up.post_id
-		where p.post_code in
+		from system_user u
+		left join system_user_post up on up.user_id = u.user_id
+		left join system_post p on p.post_id = up.post_id
+		where u.company_id = #{companyId} and p.post_code in
 		<foreach collection="post" item="post" open="(" separator="," close=")">
 			#{post}
 		</foreach>
 	</select>
 	<select id="listUserByDept" resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where u.dept_id = #{deptId}
+		where u.dept_id = #{deptId} and u.company_id = #{companyId}
 	</select>
 	<select id="listUser" resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where u.del_flag = '0'
+		where u.del_flag = '0' and u.company_id = #{companyId}
 	</select>
 </mapper>

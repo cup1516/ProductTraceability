@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-<!--    <NavMenu></NavMenu>-->
+    <!-- <NavMenu></NavMenu> -->
     <router-view />
   </div>
 </template>
@@ -12,3 +12,4 @@
     // components: {NavMenu}
   }
 </script>
+         

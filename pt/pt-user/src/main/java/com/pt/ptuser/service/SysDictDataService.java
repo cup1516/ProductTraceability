@@ -1,11 +1,10 @@
 package com.pt.ptuser.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.entity.SysDictData;
 
 import java.util.List;
 
-public interface SysDictDataService extends IService<SysDictData> {
+public interface SysDictDataService  {
 
     /**
      * 根据字典类型查询字典数据

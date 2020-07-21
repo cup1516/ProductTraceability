@@ -3,19 +3,14 @@ package com.pt.ptuser.service.serviceImpl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
-import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.entity.SysPost;
-import com.pt.ptuser.service.SysUserPostService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.pt.ptuser.mapper.SysPostMapper;
 import com.pt.ptuser.service.SysPostService;
+import com.pt.ptuser.service.SysUserPostService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -24,13 +19,13 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> implements SysPostService {
+public class SysPostServiceImpl  implements SysPostService {
 
     private SysUserPostService sysUserPostService;
-
+    private SysPostMapper sysPostMapper;
     @Override
     public IPage getPostPage(Page page, SysPost sysPost) {
-        return baseMapper.getPostPage(page,sysPost);
+        return sysPostMapper.getPostPage(page,sysPost);
     }
 
     /**
@@ -42,7 +37,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public List<SysPost> selectPostList(SysPost post)
     {
-        return baseMapper.selectPostList(post);
+        return sysPostMapper.selectPostList(post);
     }
 
 
@@ -55,7 +50,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public List<SysPost> selectPostAll()
     {
-        return baseMapper.selectPostAll();
+        return sysPostMapper.selectPostAll();
     }
 
     /**
@@ -67,7 +62,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public SysPost selectPostById(String postId)
     {
-        return baseMapper.selectPostById(postId);
+        return sysPostMapper.selectPostById(postId);
     }
 
     /**
@@ -79,7 +74,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public List<String> selectPostListByUserId(String userId)
     {
-        return baseMapper.selectPostListByUserId(userId);
+        return sysPostMapper.selectPostListByUserId(userId);
     }
 
     /**
@@ -94,7 +89,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
         if(StrUtil.isEmpty(post.getPostId())){
             return Boolean.TRUE;
         }
-        SysPost sysPost = baseMapper.checkPostNameUnique(post.getPostName());
+        SysPost sysPost = sysPostMapper.checkPostNameUnique(post.getPostName());
 
         if (sysPost != null && !sysPost.getPostId().equals(sysPost.getPostId()))
         {
@@ -116,7 +111,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
         if(StrUtil.isEmpty(post.getPostId())){
             return Boolean.TRUE;
         }
-        SysPost sysPost = baseMapper.checkPostCodeUnique(post.getPostCode());
+        SysPost sysPost = sysPostMapper.checkPostCodeUnique(post.getPostCode());
 
         if (sysPost != null && !sysPost.getPostId().equals(sysPost.getPostId()))
         {
@@ -146,7 +141,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public Boolean deletePostById(String postId)
     {
-        return baseMapper.deletePostById(postId);
+        return sysPostMapper.deletePostById(postId);
     }
 
     /**
@@ -167,7 +162,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
                 throw new CustomException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
-        return baseMapper.deletePostByIds(postIds);
+        return sysPostMapper.deletePostByIds(postIds);
     }
 
     /**
@@ -180,7 +175,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     public Boolean insertPost(SysPost post)
     {
         post.setPostId(IdUtils.simpleUUID());
-        return baseMapper.insertPost(post);
+        return sysPostMapper.insertPost(post);
     }
 
     /**
@@ -192,6 +187,6 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPost> imple
     @Override
     public Boolean updatePost(SysPost post)
     {
-        return baseMapper.updatePost(post);
+        return sysPostMapper.updatePost(post);
     }
 }

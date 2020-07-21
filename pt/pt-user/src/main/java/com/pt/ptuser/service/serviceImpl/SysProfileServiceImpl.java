@@ -29,14 +29,14 @@ public class SysProfileServiceImpl implements SysProfileService {
 
     @Override
     public Boolean updatePwd(String oldPassword, String newPassword) {
-        SysUser sysUser = sysUserMapper.getByUserId(SecurityUtils.getId());
+        SysUser sysUser = sysUserMapper.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         if(!ENCODER.encode(oldPassword).equals(sysUser.getPassword())){
             throw new CustomException("密码修改失败，旧密码输入错误!");
         }
         if(oldPassword.equals(newPassword)){
             throw new CustomException("新密码不能与旧密码相同!");
         }
-        if(!sysUserMapper.resetUserPwd(SecurityUtils.getUserName(),ENCODER.encode(newPassword))){
+        if(!sysUserMapper.resetUserPwd(SecurityUtils.getUserName(),ENCODER.encode(newPassword),SecurityUtils.getCompanyId())){
             throw new CustomException("密码修改失败，请联系管理员!");
         }
         return Boolean.TRUE;

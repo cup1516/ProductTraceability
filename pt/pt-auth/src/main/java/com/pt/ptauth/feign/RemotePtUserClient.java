@@ -15,9 +15,9 @@ public interface RemotePtUserClient {
     /**
      * 获取用户信息
      * @param username
-     * @param clientId
+     * @param url
      * @return
      */
     @GetMapping("/user/info/{username}")
-    UserInfo info(@PathVariable String username, @RequestParam(value = "clientId") String clientId);
+    UserInfo info(@PathVariable String username, @RequestParam(value = "url") String url);
 }

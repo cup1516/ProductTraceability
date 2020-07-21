@@ -3,7 +3,6 @@ package com.pt.ptuser.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.constant.*;
-import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.dto.UserInfo;
@@ -13,6 +12,7 @@ import com.pt.ptuser.service.SysRoleService;
 import com.pt.ptuser.service.SysUserService;
 import com.pt.ptuser.vo.UserVo;
 import lombok.AllArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +36,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/info/{username}")
-    private UserInfo findUserByUsername(@PathVariable String username,@RequestParam String clientId){
-        return  sysUserService.findUserByUsername(username,clientId);
+    private UserInfo findUserByUsername(@PathVariable String username,@Param("url") String url ){
+        return  sysUserService.findUserByUsernameAndUrl(username,url);
     }
 
     /**
@@ -46,8 +46,7 @@ public class UserController {
      */
     @GetMapping(value = {"/info"})
     public R info() {
-        CustomUser user = SecurityUtils.getUser();
-        return R.ok(sysUserService.findUserByUsername(user.getUsername(),user.getClientId()));
+        return R.ok(sysUserService.findUserByUsernameAndCompanyId(SecurityUtils.getUserName(),SecurityUtils.getCompanyId()));
     }
     /**
      * 分页查询全部用户
@@ -57,7 +56,7 @@ public class UserController {
      */
     @GetMapping("/page")
     public R getAllUserPage(Page page, UserVo userVo) {
-        return R.ok(sysUserService.getAllUserWithRolePage(page,userVo));
+        return R.ok(sysUserService.getAllUserWithRolePage(page,userVo,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -68,8 +67,7 @@ public class UserController {
      */
     @GetMapping("/dept")
     public R getDeptUserPage(Page page) {
-        CustomUser user = SecurityUtils.getUser();
-        return R.ok(sysUserService.getDeptUserWithRolePage(page,user.getClientId(),user.getDeptId()));
+        return R.ok(sysUserService.getDeptUserWithRolePage(page,SecurityUtils.getCompanyId(),SecurityUtils.getDeptId()));
     }
 
     /**
@@ -83,7 +81,7 @@ public class UserController {
         result.put("posts", sysPostService.selectPostAll());
         if (StrUtil.isNotEmpty(userId))
         {
-            result.put("data", sysUserService.getByUserId(userId));
+            result.put("data", sysUserService.getByUserIdAndCompanyId(userId,SecurityUtils.getCompanyId()));
             result.put("postIds", sysPostService.selectPostListByUserId(userId));
             result.put("roleIds", sysRoleService.selectRoleListByUserId(userId));
         }
@@ -96,7 +94,7 @@ public class UserController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody SysUser user)
     {
-        sysUserService.checkUserAllowed(sysUserService.getByUserId(user.getUserId()));
+        sysUserService.checkUserAllowed(sysUserService.getByUserIdAndCompanyId(user.getUserId(),SecurityUtils.getCompanyId()));
         return R.ok(sysUserService.updateUserStatus(user));
     }
 
@@ -129,7 +127,7 @@ public class UserController {
     @DeleteMapping("/{userIds}")
     public R remove(@PathVariable String[] userIds)
     {
-        return R.ok(sysUserService.deleteUserByIds(userIds));
+        return R.ok(sysUserService.deleteUserByIdsAndCompanyId(userIds,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -139,7 +137,7 @@ public class UserController {
     public R resetPwd(@RequestBody SysUser user)
     {
         if(sysUserService.checkUserAllowed(user)){
-            return R.ok(sysUserService.resetUserPwd(user.getUserName(),CommonConstants.INIT_PASSWORD));
+            return R.ok(sysUserService.resetUserPwd(user.getUserName(),CommonConstants.INIT_PASSWORD,SecurityUtils.getCompanyId()));
         }else {
             return R.failed("重置用户'" + user.getUserName() + "'密码失败，无操作权限");
         }
@@ -166,7 +164,7 @@ public class UserController {
      */
     @GetMapping("/list")
     public R listUser(){
-        return R.ok(sysUserService.listUser());
+        return R.ok(sysUserService.listUser(SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -175,7 +173,7 @@ public class UserController {
      */
     @GetMapping("/list/dept")
     public R listUserByDept(){
-        return R.ok(sysUserService.listUserByDept(SecurityUtils.getDeptId()));
+        return R.ok(sysUserService.listUserByDept(SecurityUtils.getDeptId(),SecurityUtils.getCompanyId()));
     }
     /**
      * 根据职位获取用户列表
@@ -183,7 +181,7 @@ public class UserController {
      */
     @GetMapping("/list/post/{post}")
     public R listUserByPost(@PathVariable String[] post){
-        return R.ok(sysUserService.listUserByPost(SecurityUtils.getDeptId(),post));
+        return R.ok(sysUserService.listUserByPost(post,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -193,6 +191,6 @@ public class UserController {
      */
     @GetMapping("/list/perms/{perms}")
     public R listUserByPerms(@PathVariable String[] perms){
-        return R.ok(sysUserService.listUserByPerms(perms));
+        return R.ok(sysUserService.listUserByPerms(perms,SecurityUtils.getCompanyId()));
     }
 }

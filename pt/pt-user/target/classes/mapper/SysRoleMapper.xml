@@ -23,11 +23,11 @@
     where u.user_id = #{userId}
   </select>
   <!-- 通过用户ID，查询角色信息-->
-  <select id="listRolesByUserId" resultMap="BaseResultMap" statementType="STATEMENT">
-    SELECT
-    r.*
-    FROM
-    ${clientId}_role r, ${clientId}_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 0 and  ur.user_id IN ('${userId}')
+  <select id="listRolesByUserIdAndCompanyId" resultMap="BaseResultMap">
+    SELECT r.*
+    FROM system_role r
+    LEFT JOIN system_user_role ur ON ur.`role_id` = r.`role_id`
+    WHERE ur.`user_id` = #{userId} AND r.`company_id` = #{companyId} AND r.`del_flag` = '0' AND r.`status` = '0'
   </select>
 
   <select id="getByRoleCode"  resultMap="BaseResultMap" >
@@ -149,9 +149,9 @@
     <include refid="selectRoleVo"/>
     WHERE r.del_flag = '0' and u.user_name = #{userName}
   </select>
-  <select id="isAdmin" resultMap="BaseResultMap" statementType="STATEMENT">
+  <select id="checkRole" resultMap="BaseResultMap" >
         select r.role_id,r.role_name,r.role_code,r.role_sort,r.create_by,r.create_time,r.status
-        from ${clientId}_role r
-        where r.role_id = '${roleId}' and r.role_code = '${roleCode}'
+        from system_role r
+        where r.role_id = #{roleId} and r.role_code = #{roleCode} and r.company_id = #{companyId}
   </select>
 </mapper>

@@ -6,15 +6,20 @@ import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.vo.RouterVo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author wl
  */
-public interface SysMenuService extends IService<SysMenu> {
+public interface SysMenuService  {
 
 
-    List<String> findPermissionsByRoleId(String roleId,String clientId);
+    /**
+     * 根据角色Id及公司Id获取权限
+     * @param roleId
+     * @param companyId
+     * @return
+     */
+    List<String> findPermissionsByRoleIdAndCompanyId(String roleId,String companyId);
 
 
 

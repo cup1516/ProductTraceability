@@ -1,11 +1,10 @@
 package com.pt.ptuser.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.entity.SysUserPost;
 
 import java.util.List;
 
-public interface SysUserPostService extends IService<SysUserPost> {
+public interface SysUserPostService  {
 
     /**
      * 通过用户ID删除用户和岗位关联

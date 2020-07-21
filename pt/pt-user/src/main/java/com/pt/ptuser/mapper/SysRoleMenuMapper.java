@@ -8,9 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
+public interface SysRoleMenuMapper  {
 
-    List<SysRoleMenu> listRoleMenu(@Param("roleId") String roleId,@Param("clientId") String clientId);
+    List<SysRoleMenu> listRoleMenu(@Param("roleId") String roleId,@Param("companyId") String companyId);
 
     Boolean deleteRoleMenuByRoleId(@Param("roleId") String roleId);
 

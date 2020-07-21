@@ -1,25 +1,25 @@
 package com.pt.ptuser.service.serviceImpl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptuser.entity.SysRoleMenu;
 import com.pt.ptuser.mapper.SysRoleMenuMapper;
 import com.pt.ptuser.service.SysRoleMenuService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
+@AllArgsConstructor
+public class SysRoleMenuServiceImpl  implements SysRoleMenuService {
+    private final SysRoleMenuMapper sysRoleMenuMapper;
     @Override
     public List<SysRoleMenu> listRoleMenu(String roleId, String clientId) {
-        return baseMapper.listRoleMenu(roleId,clientId);
+        return sysRoleMenuMapper.listRoleMenu(roleId,clientId);
     }
 
     @Override
     public Boolean deleteRoleMenuByRoleId(String roleId) {
-        return baseMapper.deleteRoleMenuByRoleId(roleId);
+        return sysRoleMenuMapper.deleteRoleMenuByRoleId(roleId);
     }
 
     /**
@@ -30,7 +30,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList){
-        return baseMapper.batchRoleMenu(roleMenuList);
+        return sysRoleMenuMapper.batchRoleMenu(roleMenuList);
     };
     /**
      * 查询菜单使用数量
@@ -39,6 +39,6 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      * @return 结果
      */
     @Override
-    public int checkMenuExistRole(String menuId){ return baseMapper.checkMenuExistRole(menuId);};
+    public int checkMenuExistRole(String menuId){ return sysRoleMenuMapper.checkMenuExistRole(menuId);};
 
 }

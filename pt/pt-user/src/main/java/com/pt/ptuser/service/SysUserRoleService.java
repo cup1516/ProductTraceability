@@ -1,7 +1,5 @@
 package com.pt.ptuser.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pt.ptuser.entity.SysUser;
 import com.pt.ptuser.entity.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +8,7 @@ import java.util.List;
 /**
  * @author wl
  */
-public interface SysUserRoleService extends IService<SysUserRole> {
+public interface SysUserRoleService  {
 
     /**
      * 获取用户对应角色列表

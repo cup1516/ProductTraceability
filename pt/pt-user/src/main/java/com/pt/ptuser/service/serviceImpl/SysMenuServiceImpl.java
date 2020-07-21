@@ -1,29 +1,28 @@
 package com.pt.ptuser.service.serviceImpl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.constant.*;
-import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
-import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.dto.TreeSelect;
-import com.pt.ptuser.entity.SysDept;
-import com.pt.ptuser.entity.SysRole;
+import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.entity.SysRoleMenu;
+import com.pt.ptuser.mapper.SysMenuMapper;
 import com.pt.ptuser.mapper.SysRoleMapper;
-import com.pt.ptuser.service.*;
+import com.pt.ptuser.service.SysMenuService;
+import com.pt.ptuser.service.SysRoleMenuService;
+import com.pt.ptuser.service.SysUserRoleService;
 import com.pt.ptuser.vo.MetaVo;
 import com.pt.ptuser.vo.RouterVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.pt.ptuser.mapper.SysMenuMapper;
-import com.pt.ptuser.entity.SysMenu;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
+public class SysMenuServiceImpl implements SysMenuService {
 
     private SysRoleMenuService sysRoleMenuService;
     private SysMenuMapper sysMenuMapper;
@@ -45,10 +44,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     @Override
-    public List<String> findPermissionsByRoleId(String roleId,String clientId) {
+    public List<String> findPermissionsByRoleIdAndCompanyId(String roleId,String companyId) {
         List<String> permissionsList = new ArrayList<>();
-        if(sysRoleMapper.isAdmin(roleId,CommonConstants.ROLE_ADMIN,clientId) != null){
-            List<SysMenu> allMenu = sysMenuMapper.listAllMenu(clientId);
+        if(sysRoleMapper.checkRole(roleId,CommonConstants.ROLE_ADMIN,companyId) != null){
+            List<SysMenu> allMenu = sysMenuMapper.listAllMenu(companyId);
             allMenu.stream().forEach(menu -> {
                 String perms = menu.getPerms();
                 if(perms != null){
@@ -56,9 +55,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 }
             });
         }else{
-            List<SysRoleMenu> sysRoleMenuList = sysRoleMenuService.listRoleMenu(roleId,clientId);
+            List<SysRoleMenu> sysRoleMenuList = sysRoleMenuService.listRoleMenu(roleId,companyId);
             sysRoleMenuList.stream().forEach(dealerRoleMenu -> {
-                String perms = sysMenuMapper.getMenuById(dealerRoleMenu.getMenuId(),clientId).getPerms();
+                String perms = sysMenuMapper.getMenuByIdAndCompanyId(dealerRoleMenu.getMenuId(),companyId).getPerms();
                 if(perms != null){
                     permissionsList.add(perms);
                 }

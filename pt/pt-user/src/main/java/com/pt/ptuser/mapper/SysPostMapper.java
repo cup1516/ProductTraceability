@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptuser.entity.SysPost;
@@ -10,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SysPostMapper extends BaseMapper<SysPost> {
+public interface SysPostMapper  {
     /**
      * 分页获取职位
      * @param page 分页参数

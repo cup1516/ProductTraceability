@@ -9,11 +9,11 @@
   </resultMap>
 
   <!-- 通过用户ID，查询角色信息-->
-  <select id="listRoleMenu" resultMap="BaseResultMap" statementType="STATEMENT">
+  <select id="listRoleMenu" resultMap="BaseResultMap" >
     SELECT
     rm.*
-    FROM ${clientId}_role_menu rm
-    WHERE rm.role_id = '${roleId}'
+    FROM system_role_menu rm
+    WHERE rm.role_id = #{roleId} and rm.company_id = #{companyId}
   </select>
 
   <delete id="deleteRoleMenuByRoleId" >
