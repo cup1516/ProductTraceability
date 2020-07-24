@@ -13,13 +13,13 @@ import java.util.List;
 public class SysRoleMenuServiceImpl  implements SysRoleMenuService {
     private final SysRoleMenuMapper sysRoleMenuMapper;
     @Override
-    public List<SysRoleMenu> listRoleMenu(String roleId, String clientId) {
-        return sysRoleMenuMapper.listRoleMenu(roleId,clientId);
+    public List<SysRoleMenu> listRoleMenu(String roleId, String companyId) {
+        return sysRoleMenuMapper.listRoleMenu(roleId,companyId);
     }
 
     @Override
-    public Boolean deleteRoleMenuByRoleId(String roleId) {
-        return sysRoleMenuMapper.deleteRoleMenuByRoleId(roleId);
+    public Boolean deleteRoleMenuByRoleId(String roleId,String companyId) {
+        return sysRoleMenuMapper.deleteRoleMenuByRoleId(roleId,companyId);
     }
 
     /**
@@ -29,8 +29,8 @@ public class SysRoleMenuServiceImpl  implements SysRoleMenuService {
      * @return 结果
      */
     @Override
-    public Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList){
-        return sysRoleMenuMapper.batchRoleMenu(roleMenuList);
+    public Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList,String companyId){
+        return sysRoleMenuMapper.batchRoleMenu(roleMenuList,companyId);
     };
     /**
      * 查询菜单使用数量
@@ -39,6 +39,6 @@ public class SysRoleMenuServiceImpl  implements SysRoleMenuService {
      * @return 结果
      */
     @Override
-    public int checkMenuExistRole(String menuId){ return sysRoleMenuMapper.checkMenuExistRole(menuId);};
+    public int checkMenuExistRole(String menuId,String companyId){ return sysRoleMenuMapper.checkMenuExistRole(menuId,companyId);};
 
 }

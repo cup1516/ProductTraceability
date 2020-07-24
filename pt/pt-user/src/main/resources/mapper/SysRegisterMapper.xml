@@ -19,14 +19,15 @@
 
 	<sql id="selectSysUser">
         select u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status,u.create_time
-        from ${clientId}_user u
+        from system_user u
     </sql>
 
 
 	<insert id="insertUser" statementType="STATEMENT">
-		insert into ${clientId}_user(
+		insert into system_user(
 		<if test="user.userId != null and user.userId != ''">user_id,</if>
 		<if test="user.deptId != null and user.deptId != ''">dept_id,</if>
+		<if test="user.companyId != null and user.companyId != ''">company_id,</if>
 		<if test="user.userName != null and user.userName != ''">user_name,</if>
 		<if test="user.nickName != null and user.nickName != ''">nick_name,</if>
 		<if test="user.email != null and user.email != ''">email,</if>
@@ -39,6 +40,7 @@
 		)values(
 		<if test="user.userId != null and user.userId != ''">'${user.userId}',</if>
 		<if test="user.deptId != null and user.deptId != ''">'${user.deptId}',</if>
+		<if test="user.companyId != null and user.companyId != ''">'${user.companyId}',</if>
 		<if test="user.userName != null and user.userName != ''">'${user.userName}',</if>
 		<if test="user.nickName != null and user.nickName != ''">'${user.nickName}',</if>
 		<if test="user.email != null and user.email != ''">'${user.email}',</if>
@@ -51,19 +53,19 @@
 		)
 	</insert>
 
-	<select id="checkUserNameUnique"  resultMap="baseResultMap" statementType="STATEMENT">
+	<select id="checkUserNameUnique"  resultMap="baseResultMap" >
 		<include refid="selectSysUser"/>
-		where user_name = '${userName}'
+		where user_name = #{userName} and company_id = #{companyId}
 	</select>
 
-	<select id="checkPhoneUnique"  resultMap="baseResultMap" statementType="STATEMENT">
+	<select id="checkPhoneUnique"  resultMap="baseResultMap" >
 		<include refid="selectSysUser"/>
-		where phone = '${phone}'
+		where phone = #{phone} and company_id = #{companyId}
 	</select>
 
-	<select id="checkEmailUnique" resultMap="baseResultMap" statementType="STATEMENT">
+	<select id="checkEmailUnique" resultMap="baseResultMap">
 		<include refid="selectSysUser"/>
-		where email = '${email}'
+		where email = #{email} and company_id = #{companyId}
 	</select>
 
 

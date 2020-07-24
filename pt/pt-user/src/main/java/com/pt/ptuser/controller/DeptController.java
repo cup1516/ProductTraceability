@@ -3,12 +3,10 @@ package com.pt.ptuser.controller;
 
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommoncore.util.R;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysDept;
 import com.pt.ptuser.service.SysDeptService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class DeptController {
     @GetMapping("/tree")
     public R treeselect(SysDept sysDept)
     {
-        List<SysDept> depts = sysDeptService.selectDeptList(sysDept);
+        List<SysDept> depts = sysDeptService.selectDeptList(sysDept, SecurityUtils.getCompanyId());
         return R.ok(sysDeptService.buildDeptTreeSelect(depts));
     }
     /**
@@ -34,7 +32,7 @@ public class DeptController {
     @GetMapping("/list")
     public R list(SysDept dept)
     {
-        List<SysDept> depts = sysDeptService.selectDeptList(dept);
+        List<SysDept> depts = sysDeptService.selectDeptList(dept, SecurityUtils.getCompanyId());
         return R.ok(depts);
     }
 
@@ -44,10 +42,10 @@ public class DeptController {
     @PostMapping
     public R add(@RequestBody SysDept dept)
     {
-        sysDeptService.checkDeptNameUnique(dept);
+        sysDeptService.checkDeptNameUnique(dept, SecurityUtils.getCompanyId());
         dept.setDeptId(IdUtils.simpleUUID());
 //        dept.setCreateBy(SecurityUtils.getUsername());
-        return R.ok(sysDeptService.insertDept(dept));
+        return R.ok(sysDeptService.insertDept(dept, SecurityUtils.getCompanyId()));
     }
 
 
@@ -57,7 +55,7 @@ public class DeptController {
     @GetMapping(value = "/{deptId}")
     public R getInfo(@PathVariable String deptId)
     {
-        return R.ok(sysDeptService.selectDeptById(deptId));
+        return R.ok(sysDeptService.selectDeptById(deptId, SecurityUtils.getCompanyId()));
     }
     /**
      * 删除部门
@@ -65,9 +63,9 @@ public class DeptController {
     @DeleteMapping("/{deptId}")
     public R remove(@PathVariable String deptId)
     {
-        sysDeptService.hasChildByDeptId(deptId);
-        sysDeptService.checkDeptExistUser(deptId);
-        return R.ok(sysDeptService.deleteDeptById(deptId));
+        sysDeptService.hasChildByDeptId(deptId, SecurityUtils.getCompanyId());
+        sysDeptService.checkDeptExistUser(deptId, SecurityUtils.getCompanyId());
+        return R.ok(sysDeptService.deleteDeptById(deptId, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -76,9 +74,9 @@ public class DeptController {
     @PutMapping
     public R edit( @RequestBody SysDept dept)
     {
-        sysDeptService.checkDeptNameUnique(dept);
+        sysDeptService.checkDeptNameUnique(dept, SecurityUtils.getCompanyId());
 
 //        dept.setUpdateBy(SecurityUtils.getUsername());
-        return R.ok(sysDeptService.updateDept(dept));
+        return R.ok(sysDeptService.updateDept(dept, SecurityUtils.getCompanyId()));
     }
 }

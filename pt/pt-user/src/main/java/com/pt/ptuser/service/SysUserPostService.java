@@ -12,7 +12,7 @@ public interface SysUserPostService  {
      * @param userId 用户ID
      * @return 结果
      */
-    Boolean deleteUserPostByUserId(String userId);
+    Boolean deleteUserPostByUserId(String userId,String companyId);
 
     /**
      * 通过岗位ID查询岗位使用数量
@@ -20,7 +20,7 @@ public interface SysUserPostService  {
      * @param postId 岗位ID
      * @return 结果
      */
-    int countUserPostById(String postId);
+    int countUserPostById(String postId,String companyId);
 
     /**
      * 批量删除用户和岗位关联
@@ -28,7 +28,7 @@ public interface SysUserPostService  {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    Boolean deleteUserPost(String[] ids);
+    Boolean deleteUserPost(String[] ids,String companyId);
 
     /**
      * 批量新增用户岗位信息
@@ -36,5 +36,5 @@ public interface SysUserPostService  {
      * @param userPostList 用户角色列表
      * @return 结果
      */
-    Boolean batchUserPost(List<SysUserPost> userPostList);
+    Boolean batchUserPost(List<SysUserPost> userPostList,String companyId);
 }

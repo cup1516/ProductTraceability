@@ -10,30 +10,24 @@
 
 
   <delete id="deleteUserPostByUserId" >
-    delete from dynamic_user_post where user_id=#{userId}
+    delete from system_user_post where user_id=#{userId} and company_id = #{companyId}
   </delete>
 
   <select id="countUserPostById" resultType="Integer">
-    select count(1) from dynamic_user_post where post_id=#{postId}
+    select count(1) from system_user_post where post_id=#{postId} and company_id = #{companyId}
   </select>
 
   <delete id="deleteUserPost" >
-    delete from dynamic_user_post where user_id in
-    <foreach collection="array" item="userId" open="(" separator="," close=")">
+    delete from system_user_post where company_id = #{companyId} and user_id in
+    <foreach collection="ids" item="userId" open="(" separator="," close=")">
       #{userId}
     </foreach>
   </delete>
 
   <insert id="batchUserPost">
-    insert into dynamic_user_post(user_id, post_id) values
-    <foreach item="item" index="index" collection="list" separator=",">
-      (#{item.userId},#{item.postId})
-    </foreach>
-  </insert>
-  <insert id="batchUserPostWithClientId" statementType="STATEMENT">
-    insert into ${clientId}_user_post(user_id, post_id) values
+    insert into system_user_post(user_id, post_id,company_id) values
     <foreach item="item" index="index" collection="userPostList" separator=",">
-      ('${item.userId}','${item.postId}')
+      (#{item.userId},#{item.postId},#{companyId})
     </foreach>
   </insert>
 </mapper>

@@ -31,7 +31,7 @@ public class RoleController {
     @GetMapping("/page")
     public R list(Page page, SysRole role)
     {
-        return R.ok(sysRoleService.getRolePage(page,role));
+        return R.ok(sysRoleService.getRolePage(page,role, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -40,7 +40,7 @@ public class RoleController {
     @GetMapping(value = "/{roleId}")
     public R getInfo(@PathVariable String roleId)
     {
-        return R.ok(sysRoleService.selectRoleById(roleId));
+        return R.ok(sysRoleService.selectRoleById(roleId, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -50,8 +50,8 @@ public class RoleController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody SysRole role)
     {
-        sysRoleService.checkRoleAllowed(sysRoleService.selectRoleById(role.getRoleId()));
-        return R.ok(sysRoleService.updateRoleStatus(role));
+        sysRoleService.checkRoleAllowed(sysRoleService.selectRoleById(role.getRoleId(),SecurityUtils.getCompanyId()),SecurityUtils.getCompanyId());
+        return R.ok(sysRoleService.updateRoleStatus(role, SecurityUtils.getCompanyId()));
 
     }
 
@@ -62,10 +62,10 @@ public class RoleController {
     @PutMapping
     public R edit(@Validated @RequestBody SysRole role)
     {
-        sysRoleService.checkRoleAllowed(role);
-        sysRoleService.checkRoleNameUnique(role);
-        sysRoleService.checkRoleCodeUnique(role);
-        return R.ok(sysRoleService.updateRole(role));
+        sysRoleService.checkRoleAllowed(role, SecurityUtils.getCompanyId());
+        sysRoleService.checkRoleNameUnique(role, SecurityUtils.getCompanyId());
+        sysRoleService.checkRoleCodeUnique(role, SecurityUtils.getCompanyId());
+        return R.ok(sysRoleService.updateRole(role, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -74,10 +74,10 @@ public class RoleController {
     @PostMapping
     public R add( @RequestBody SysRole role)
     {
-        sysRoleService.checkRoleNameUnique(role);
-        sysRoleService.checkRoleCodeUnique(role);
+        sysRoleService.checkRoleNameUnique(role, SecurityUtils.getCompanyId());
+        sysRoleService.checkRoleCodeUnique(role, SecurityUtils.getCompanyId());
         role.setCreateBy(sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId()).getUserName());
-        return R.ok(sysRoleService.insertRole(role));
+        return R.ok(sysRoleService.insertRole(role, SecurityUtils.getCompanyId()));
 
     }
 
@@ -87,7 +87,7 @@ public class RoleController {
     @DeleteMapping("/{roleIds}")
     public R remove(@PathVariable String[] roleIds)
     {
-        return R.ok(sysRoleService.deleteRoleByIds(roleIds));
+        return R.ok(sysRoleService.deleteRoleByIds(roleIds, SecurityUtils.getCompanyId()));
     }
 
 }

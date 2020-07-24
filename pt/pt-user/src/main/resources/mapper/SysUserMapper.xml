@@ -41,7 +41,7 @@
     </sql>
 
 	<select id="findUserByUsername"  resultMap="baseResultMap">
-	select cu.user_id,cu.company_id,cu.dept_id,cu.user_name,cu.nick_name,cu.password,cu.email,cu.phone,cu.sex,cu.avatar,cu.status
+	select cu.user_id,cu.dept_id,cu.user_name,cu.nick_name,cu.password,cu.email,cu.phone,cu.sex,cu.avatar,cu.status
 	from center_user cu
 	where cu.user_name = #{username} and cu.del_flag = '0'
 </select>

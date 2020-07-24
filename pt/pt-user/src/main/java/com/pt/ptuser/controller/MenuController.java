@@ -6,12 +6,13 @@ import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.service.SysMenuService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wl
@@ -31,7 +32,7 @@ public class MenuController {
     @GetMapping("/routers")
     public R getRouters()
     {
-        List<SysMenu> menus = sysMenuService.selectMenuTreeByUserId(SecurityUtils.getId());
+        List<SysMenu> menus = sysMenuService.selectMenuTreeByUserId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         return R.ok(sysMenuService.buildMenus(menus));
     }
     /**
@@ -40,7 +41,7 @@ public class MenuController {
     @GetMapping("/list")
     public R list(SysMenu menu)
     {
-        List<SysMenu> menus = sysMenuService.selectMenuList(menu, SecurityUtils.getId());
+        List<SysMenu> menus = sysMenuService.selectMenuList(menu);
         return R.ok(menus);
     }
 
@@ -50,7 +51,7 @@ public class MenuController {
     @GetMapping(value = "/{menuId}")
     public R getInfo(@PathVariable String menuId)
     {
-        return R.ok(sysMenuService.selectMenuById(menuId));
+        return R.ok(sysMenuService.selectMenuById(menuId,SecurityUtils.getCompanyId()));
     }
     /**
      * 返回当前用户的树形菜单集合
@@ -62,7 +63,13 @@ public class MenuController {
     public R getTree(SysMenu sysMenu) {
 
         // 获取符合条件的菜单
-        List<SysMenu> menus = sysMenuService.selectMenuList(sysMenu, SecurityUtils.getId());
+//        List<SysMenu> menus = sysMenuService.selectMenuList(sysMenu,SecurityUtils.getId(),SecurityUtils.getCompanyId());
+//        return R.ok(sysMenuService.buildMenuTreeSelect(menus));
+        List<SysMenu> sysMenus = sysMenuService.selectSystemMenuList();
+        List<SysMenu> bussinessMenus = sysMenuService.selectBussinessMenuList(SecurityUtils.getCompanyId());
+        List<SysMenu> menus = new ArrayList<>();
+        menus.addAll(sysMenus);
+        menus.addAll(bussinessMenus);
         return R.ok(sysMenuService.buildMenuTreeSelect(menus));
     }
 
@@ -72,10 +79,10 @@ public class MenuController {
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public R roleMenuTreeselect(@PathVariable("roleId") String roleId)
     {
-        List<SysMenu> menus = sysMenuService.selectMenuList(SecurityUtils.getId());
+        List<SysMenu> menus = sysMenuService.selectMenuList(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         Map result = new HashMap<String, List<String>>();
         //个人菜单
-        result.put("checkedKeys", sysMenuService.selectMenuListByRoleId(roleId));
+        result.put("checkedKeys", sysMenuService.selectMenuListByRoleId(roleId,SecurityUtils.getCompanyId()));
         //全部菜单
         result.put("menus", sysMenuService.buildMenuTreeSelect(menus));
         return R.ok(result);
@@ -99,7 +106,7 @@ public class MenuController {
     {
         sysMenuService.checkMenuNameUnique(menu);
         menu.setUpdateBy(SecurityUtils.getNickName());
-        return R.ok(sysMenuService.updateMenu(menu));
+        return R.ok(sysMenuService.updateMenu(menu,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -108,8 +115,8 @@ public class MenuController {
     @DeleteMapping("/{menuId}")
     public R remove(@PathVariable("menuId") String menuId)
     {
-        sysMenuService.hasChildByMenuId(menuId);
-        sysMenuService.checkMenuExistRole(menuId);
-        return R.ok(sysMenuService.deleteMenuById(menuId));
+        sysMenuService.hasChildByMenuId(menuId,SecurityUtils.getCompanyId());
+        sysMenuService.checkMenuExistRole(menuId,SecurityUtils.getCompanyId());
+        return R.ok(sysMenuService.deleteMenuById(menuId,SecurityUtils.getCompanyId()));
     }
 }

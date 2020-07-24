@@ -1,6 +1,5 @@
 package com.pt.ptuser.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptuser.entity.SysRole;
@@ -12,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper  {
     List<SysRole> listRolesByUserIdAndCompanyId(@Param("userId") String userId, @Param("companyId") String companyId);
-
+    List<SysRole> listRolesByUserId(@Param("userId") String userId);
     SysRole getByRoleCode(@Param("roleCode") String roleCode, @Param("companyId") String companyId);
     /**
      * 根据用户ID获取角色选择框列表

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface SysDeptMapper  {
-    List<SysDept> selectDeptList( SysDept sysDept);
+    List<SysDept> selectDeptList( @Param("sysDept") SysDept sysDept,@Param("companyId") String companyId);
 
     /**
      * 查询部门是否存在用户
@@ -16,7 +16,7 @@ public interface SysDeptMapper  {
      * @param deptId 部门ID
      * @return 结果
      */
-    int checkDeptExistUser(@Param("deptId") String deptId);
+    int checkDeptExistUser(@Param("deptId") String deptId,@Param("companyId") String companyId);
 
     /**
      * 校验部门名称是否唯一
@@ -25,7 +25,7 @@ public interface SysDeptMapper  {
      * @param parentId 父部门ID
      * @return 结果
      */
-    SysDept checkDeptNameUnique(@Param("deptName") String deptName, @Param("parentId") String parentId);
+    SysDept checkDeptNameUnique(@Param("deptName") String deptName, @Param("parentId") String parentId,@Param("companyId") String companyId);
 
     /**
      * 新增部门信息
@@ -33,7 +33,7 @@ public interface SysDeptMapper  {
      * @param dept 部门信息
      * @return 结果
      */
-    Boolean insertDept(SysDept dept);
+    Boolean insertDept(@Param("dept") SysDept dept,@Param("companyId") String companyId);
 
 
     /**
@@ -42,7 +42,7 @@ public interface SysDeptMapper  {
      * @param deptId 部门ID
      * @return 部门信息
      */
-    SysDept selectDeptById(String deptId);
+    SysDept selectDeptById(@Param("deptId") String deptId,@Param("companyId") String companyId);
 
     /**
      * 删除部门管理信息
@@ -50,14 +50,14 @@ public interface SysDeptMapper  {
      * @param deptId 部门ID
      * @return 结果
      */
-    Boolean deleteDeptById(String deptId);
+    Boolean deleteDeptById(@Param("deptId") String deptId,@Param("companyId") String companyId);
     /**
      * 是否存在子节点
      *
      * @param deptId 部门ID
      * @return 结果
      */
-    int hasChildByDeptId(String deptId);
+    int hasChildByDeptId(@Param("deptId") String deptId,@Param("companyId") String companyId);
 
     /**
      * 修改部门信息
@@ -65,14 +65,14 @@ public interface SysDeptMapper  {
      * @param dept 部门信息
      * @return 结果
      */
-    int updateDept(SysDept dept);
+    int updateDept(@Param("dept") SysDept dept,@Param("companyId") String companyId);
 
     /**
      * 修改所在部门的父级部门状态
      *
      * @param dept 部门
      */
-    Boolean updateDeptStatus(SysDept dept);
+    Boolean updateDeptStatus(@Param("dept") SysDept dept,@Param("companyId") String companyId);
 
     /**
      * 修改子元素关系
@@ -80,7 +80,7 @@ public interface SysDeptMapper  {
      * @param depts 子元素
      * @return 结果
      */
-    int updateDeptChildren(@Param("depts") List<SysDept> depts);
+    int updateDeptChildren(@Param("depts") List<SysDept> depts,@Param("companyId") String companyId);
 
     /**
      * 根据ID查询所有子部门
@@ -88,7 +88,7 @@ public interface SysDeptMapper  {
      * @param deptId 部门ID
      * @return 部门列表
      */
-    List<SysDept> selectChildrenDeptById(String deptId);
+    List<SysDept> selectChildrenDeptById(@Param("deptId") String deptId,@Param("companyId") String companyId);
 
     /**
      * 根据ID查询所有子部门（正常状态）
@@ -96,6 +96,6 @@ public interface SysDeptMapper  {
      * @param deptId 部门ID
      * @return 子部门数
      */
-    int selectNormalChildrenDeptById(String deptId);
+    int selectNormalChildrenDeptById(@Param("deptId") String deptId,@Param("companyId") String companyId);
 
 }

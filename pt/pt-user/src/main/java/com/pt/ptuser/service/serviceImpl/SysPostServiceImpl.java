@@ -24,8 +24,8 @@ public class SysPostServiceImpl  implements SysPostService {
     private SysUserPostService sysUserPostService;
     private SysPostMapper sysPostMapper;
     @Override
-    public IPage getPostPage(Page page, SysPost sysPost) {
-        return sysPostMapper.getPostPage(page,sysPost);
+    public IPage getPostPage(Page page, SysPost sysPost,String companyId) {
+        return sysPostMapper.getPostPage(page,sysPost,companyId);
     }
 
     /**
@@ -35,9 +35,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 岗位信息集合
      */
     @Override
-    public List<SysPost> selectPostList(SysPost post)
+    public List<SysPost> selectPostList(SysPost post,String companyId)
     {
-        return sysPostMapper.selectPostList(post);
+        return sysPostMapper.selectPostList(post,companyId);
     }
 
 
@@ -48,9 +48,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 岗位列表
      */
     @Override
-    public List<SysPost> selectPostAll()
+    public List<SysPost> selectPostAll(String companyId)
     {
-        return sysPostMapper.selectPostAll();
+        return sysPostMapper.selectPostAll(companyId);
     }
 
     /**
@@ -60,9 +60,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 角色对象信息
      */
     @Override
-    public SysPost selectPostById(String postId)
+    public SysPost selectPostById(String postId,String companyId)
     {
-        return sysPostMapper.selectPostById(postId);
+        return sysPostMapper.selectPostById(postId,companyId);
     }
 
     /**
@@ -72,9 +72,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 选中岗位ID列表
      */
     @Override
-    public List<String> selectPostListByUserId(String userId)
+    public List<String> selectPostListByUserId(String userId,String companyId)
     {
-        return sysPostMapper.selectPostListByUserId(userId);
+        return sysPostMapper.selectPostListByUserId(userId,companyId);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public Boolean checkPostNameUnique(SysPost post)
+    public Boolean checkPostNameUnique(SysPost post,String companyId)
     {
         if(StrUtil.isEmpty(post.getPostId())){
             return Boolean.TRUE;
@@ -106,7 +106,7 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public Boolean checkPostCodeUnique(SysPost post)
+    public Boolean checkPostCodeUnique(SysPost post,String companyId)
     {
         if(StrUtil.isEmpty(post.getPostId())){
             return Boolean.TRUE;
@@ -127,9 +127,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public int countUserPostById(String postId)
+    public int countUserPostById(String postId,String companyId)
     {
-        return sysUserPostService.countUserPostById(postId);
+        return sysUserPostService.countUserPostById(postId,companyId);
     }
 
     /**
@@ -139,9 +139,9 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public Boolean deletePostById(String postId)
+    public Boolean deletePostById(String postId,String companyId)
     {
-        return sysPostMapper.deletePostById(postId);
+        return sysPostMapper.deletePostById(postId,companyId);
     }
 
     /**
@@ -152,17 +152,17 @@ public class SysPostServiceImpl  implements SysPostService {
      * @throws Exception 异常
      */
     @Override
-    public Boolean deletePostByIds(String[] postIds)
+    public Boolean deletePostByIds(String[] postIds,String companyId)
     {
         for (String postId : postIds)
         {
-            SysPost post = selectPostById(postId);
-            if (countUserPostById(postId) > 0)
+            SysPost post = selectPostById(postId,companyId);
+            if (countUserPostById(postId,companyId) > 0)
             {
                 throw new CustomException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
-        return sysPostMapper.deletePostByIds(postIds);
+        return sysPostMapper.deletePostByIds(postIds,companyId);
     }
 
     /**
@@ -172,10 +172,10 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public Boolean insertPost(SysPost post)
+    public Boolean insertPost(SysPost post,String companyId)
     {
         post.setPostId(IdUtils.simpleUUID());
-        return sysPostMapper.insertPost(post);
+        return sysPostMapper.insertPost(post,companyId);
     }
 
     /**
@@ -185,8 +185,8 @@ public class SysPostServiceImpl  implements SysPostService {
      * @return 结果
      */
     @Override
-    public Boolean updatePost(SysPost post)
+    public Boolean updatePost(SysPost post,String companyId)
     {
-        return sysPostMapper.updatePost(post);
+        return sysPostMapper.updatePost(post,companyId);
     }
 }

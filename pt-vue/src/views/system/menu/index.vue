@@ -1,6 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :inline="true">
+      <el-form-item label="菜单类型">
+        <el-select v-model="queryParams.type" placeholder="菜单类型" clearable size="small">
+          <el-option
+            v-for="dict in menuTypeOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="系统类型" v-if="queryParams.type == '1'">
+        <el-select v-model="queryParams.clientType" placeholder="系统类型" clearable size="small">
+          <el-option
+            v-for="dict in clientOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="菜单名称">
         <el-input
           v-model="queryParams.menuName"
@@ -33,6 +53,7 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
+        <el-table-column prop="clientType" label="系统类型" :formatter="clientTypeFormat" width="80"></el-table-column>
       <el-table-column prop="icon" label="图标" align="center" width="100">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon" />
@@ -59,7 +80,7 @@
             size="mini" 
             type="text" 
             icon="el-icon-plus" 
-            @click="handleAdd(scope.row)"
+            @click="handleAddRow(scope.row)"
             v-hasPermi="['system:menu:add']"
           >新增</el-button>
           <el-button
@@ -77,8 +98,8 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="24">
-            <el-form-item label="上级菜单">
+          <!-- <el-col :span="24">
+            <el-form-item label="上级菜单"  >
               <treeselect
                 v-model="form.parentId"
                 :options="menuOptions"
@@ -87,7 +108,7 @@
                 placeholder="选择上级菜单"
               />
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="24">
             <el-form-item label="菜单类型" prop="menuType">
               <el-radio-group v-model="form.menuType">
@@ -97,6 +118,28 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
+          <el-col :span="24" v-if="!addRow">
+            <el-form-item label="菜单类型" prop="type">
+              <el-select v-model="form.type" placeholder="菜单类型" clearable size="small">
+                <el-option
+                  v-for="dict in menuTypeOptions"
+                  :key="dict.dictValue"
+                  :label="dict.dictLabel"
+                  :value="dict.dictValue"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="系统类型" v-if="form.type == '1'&&!addRow " prop="clientType">
+              <el-select v-model="form.clientType" placeholder="系统类型" clearable size="small">
+                <el-option
+                  v-for="dict in clientOptions"
+                  :key="dict.dictValue"
+                  :label="dict.dictLabel"
+                  :value="dict.dictValue"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>          
           <el-col :span="24">
             <el-form-item v-if="form.menuType != 'F'" label="菜单图标">
               <el-popover
@@ -205,15 +248,18 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 是否添加子菜单
+      addRow: true,
       // 显示状态数据字典
       visibleOptions: [],
       // 菜单状态数据字典
       statusOptions: [],
+      // 系统类型数据字典
+      clientOptions: [],   
+      // 菜单类型数据字典
+      menuTypeOptions: [],   
       // 查询参数
-      queryParams: {
-        menuName: undefined,
-        visible: undefined
-      },
+      queryParams: {},
       // 表单参数
       form: {},
       // 表单校验
@@ -226,18 +272,29 @@ export default {
         ],
         path: [
           { required: true, message: "路由地址不能为空", trigger: "blur" }
-        ]
+        ],
       }
     };
   },
   created() {
-    this.getList();
+
     this.getDicts("sys_show_hide").then(response => {
       this.visibleOptions = response.data;
     });
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
     });
+    this.getDicts("sys_client_type").then(response => {
+      this.clientOptions = response.data;
+    });
+    this.getDicts("sys_menu_type").then(response => {
+      this.menuTypeOptions = response.data;
+    });
+    this.queryParams ={
+        type: '0',
+        status: '0'
+      }
+    this.getList();
   },
   methods: {
     // 选择图标
@@ -286,6 +343,10 @@ export default {
       }
       return this.selectDictLabel(this.statusOptions, row.status);
     },
+    // 系统类型字典翻译
+    clientTypeFormat(row, column) {
+      return this.selectDictLabel(this.clientOptions, row.clientType);
+    },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -295,27 +356,39 @@ export default {
     reset() {
       this.form = {
         menuId: undefined,
-        parentId: 0,
+        parentId: '0',
         menuName: undefined,
         icon: undefined,
         menuType: "M",
+        type:undefined,
+        clientType:undefined,
         orderNum: undefined,
         isFrame: "1",
         visible: "0",
         status: "0"
       };
-      this.resetForm("form");
     },
     /** 搜索按钮操作 */
     handleQuery() {
       this.getList();
     },
     /** 新增按钮操作 */
-    handleAdd(row) {
+    handleAdd() {
+      this.addRow = false
+      this.reset();
+      this.getTreeselect();
+      this.open = true;
+      this.title = "添加菜单";
+    },
+    handleAddRow(row) {
+      this.addRow = true,
       this.reset();
       this.getTreeselect();
       if (row != null) {
         this.form.parentId = row.menuId;
+        this.form.type = row.type;
+        this.form.menuType = 'C';
+        this.form.clientType = row .clientType
       }
       this.open = true;
       this.title = "添加菜单";

@@ -15,7 +15,7 @@ public interface SysUserPostMapper  {
      * @param userId 用户ID
      * @return 结果
      */
-    Boolean deleteUserPostByUserId(String userId);
+    Boolean deleteUserPostByUserId(@Param("userId") String userId,@Param("companyId") String companyId);
 
     /**
      * 通过岗位ID查询岗位使用数量
@@ -23,7 +23,7 @@ public interface SysUserPostMapper  {
      * @param postId 岗位ID
      * @return 结果
      */
-    int countUserPostById(String postId);
+    int countUserPostById(@Param("postId") String postId,@Param("companyId") String companyId);
 
     /**
      * 批量删除用户和岗位关联
@@ -31,7 +31,7 @@ public interface SysUserPostMapper  {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    Boolean deleteUserPost(String[] ids);
+    Boolean deleteUserPost(@Param("ids") String[] ids,@Param("companyId") String companyId);
 
     /**
      * 批量新增用户岗位信息
@@ -39,11 +39,6 @@ public interface SysUserPostMapper  {
      * @param userPostList 用户角色列表
      * @return 结果
      */
-    Boolean batchUserPost(List<SysUserPost> userPostList);
-    /**
-     * 批量新增用户岗位信息
-     *
-     * @param userPostList 用户角色列表
-     * @return 结果
-     */
-    Boolean batchUserPostWithClientId(@Param("userPostList") List<SysUserPost> userPostList,@Param("clientId") String clientId);}
+    Boolean batchUserPost(@Param("userPostList") List<SysUserPost> userPostList,@Param("companyId") String companyId);
+
+}

@@ -43,7 +43,7 @@ public interface SysUserService  {
     *
     * @param user 用户信息
     */
-   Boolean checkUserAllowed(SysUser user);
+   Boolean checkUserAllowed(SysUser user,String companyId);
    /**
     * 修改用户状态
     *
@@ -58,7 +58,7 @@ public interface SysUserService  {
     * @param user 用户信息
     * @return 结果
     */
-   Boolean insertUser(SysUser user);
+   Boolean insertUser(SysUser user,String companyId);
    /**
     * 校验用户名称是否唯一
     *
@@ -104,7 +104,7 @@ public interface SysUserService  {
     * @param userId 用户ID
     * @return 结果
     */
-   Boolean deleteUserById(String userId);
+   Boolean deleteUserById(String userId,String companyId);
 
    /**
     * 修改用户信息
@@ -112,7 +112,7 @@ public interface SysUserService  {
     * @param user 用户信息
     * @return 结果
     */
-   Boolean updateUser(SysUser user);
+   Boolean updateUser(SysUser user,String companyId);
    /**
     * 获取用户列表
     * @return
@@ -149,6 +149,6 @@ public interface SysUserService  {
     * @param userName 用户名
     * @return 结果
     */
-   String selectUserPostGroup(String userName);
+   String selectUserPostGroup(String userName,String companyId);
 
 }

@@ -14,21 +14,21 @@ public interface SysPostService  {
      * @param sysPost
      * @return
      */
-    IPage getPostPage(Page page, SysPost sysPost);
+    IPage getPostPage(Page page, SysPost sysPost,String companyId);
     /**
      * 查询岗位信息集合
      *
      * @param post 岗位信息
      * @return 岗位列表
      */
-    List<SysPost> selectPostList(SysPost post);
+    List<SysPost> selectPostList(SysPost post,String companyId);
 
     /**
      * 查询所有岗位
      *
      * @return 岗位列表
      */
-    List<SysPost> selectPostAll();
+    List<SysPost> selectPostAll(String companyId);
 
     /**
      * 通过岗位ID查询岗位信息
@@ -36,7 +36,7 @@ public interface SysPostService  {
      * @param postId 岗位ID
      * @return 角色对象信息
      */
-    SysPost selectPostById(String postId);
+    SysPost selectPostById(String postId,String companyId);
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -44,7 +44,7 @@ public interface SysPostService  {
      * @param userId 用户ID
      * @return 选中岗位ID列表
      */
-    List<String> selectPostListByUserId(String userId);
+    List<String> selectPostListByUserId(String userId,String companyId);
 
     /**
      * 校验岗位名称
@@ -52,7 +52,7 @@ public interface SysPostService  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean checkPostNameUnique(SysPost post);
+    Boolean checkPostNameUnique(SysPost post,String companyId);
 
     /**
      * 校验岗位编码
@@ -60,7 +60,7 @@ public interface SysPostService  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean checkPostCodeUnique(SysPost post);
+    Boolean checkPostCodeUnique(SysPost post,String companyId);
 
     /**
      * 通过岗位ID查询岗位使用数量
@@ -68,7 +68,7 @@ public interface SysPostService  {
      * @param postId 岗位ID
      * @return 结果
      */
-    int countUserPostById(String postId);
+    int countUserPostById(String postId,String companyId);
 
     /**
      * 删除岗位信息
@@ -76,7 +76,7 @@ public interface SysPostService  {
      * @param postId 岗位ID
      * @return 结果
      */
-    Boolean deletePostById(String postId);
+    Boolean deletePostById(String postId,String companyId);
 
     /**
      * 批量删除岗位信息
@@ -85,7 +85,7 @@ public interface SysPostService  {
      * @return 结果
      * @throws Exception 异常
      */
-    Boolean deletePostByIds(String[] postIds);
+    Boolean deletePostByIds(String[] postIds,String companyId);
 
     /**
      * 新增保存岗位信息
@@ -93,7 +93,7 @@ public interface SysPostService  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean insertPost(SysPost post);
+    Boolean insertPost(SysPost post,String companyId);
 
     /**
      * 修改保存岗位信息
@@ -101,5 +101,5 @@ public interface SysPostService  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean updatePost(SysPost post);
+    Boolean updatePost(SysPost post,String companyId);
 }

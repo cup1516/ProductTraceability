@@ -41,7 +41,7 @@
     </sql>
 
 	<select id="findUserByUsername"  resultMap="baseResultMap">
-	select cu.user_id,cu.company_id,cu.dept_id,cu.user_name,cu.nick_name,cu.password,cu.email,cu.phone,cu.sex,cu.avatar,cu.status
+	select cu.user_id,cu.dept_id,cu.user_name,cu.nick_name,cu.password,cu.email,cu.phone,cu.sex,cu.avatar,cu.status
 	from center_user cu
 	where cu.user_name = #{username} and cu.del_flag = '0'
 </select>
@@ -63,16 +63,16 @@
 	<select id="getDeptUserPage"  resultMap="baseResultMap" >
 		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,u.company_id,d.dept_name
 		from system_user u
-		left join  system_dept d ON u.dept_id = d.dept_id
+		left join  system_dept d ON u.dept_id = d.dept_id AND u.company_id = d.company_id
 		where u.dept_id = #{deptId} and u.del_flag = '0' and u.company_id = ${companyId}
 		order by u.user_id ASC
 	</select>
 	<select id="getAllUserPage"  resultMap="userVoMap" >
 		select u.user_id,u.user_name,u.nick_name,u.email,u.phone,u.sex,u.avatar,u.status,u.password,u.dept_id,d.dept_name,u.create_time,p.post_id,u.company_id,p.post_name
 		from system_user u
-		left join  system_dept d ON u.dept_id = d.dept_id
-		left join  system_user_post  up ON up.user_id = u.user_id
-		left join  system_post p ON p.post_id = up.post_id
+		left join  system_dept d ON u.dept_id = d.dept_id and u.company_id = d.company_id
+		left join  system_user_post  up ON up.user_id = u.user_id and u.company_id = up.company_id
+		left join  system_post p ON p.post_id = up.post_id and p.company_id = u.company_id
 		where u.del_flag = '0' and u.company_id = ${companyId}
 		<if test="user.userName != null and user.userName != ''">
 			AND u.user_name like concat('%', #{user.userName}, '%')
@@ -90,7 +90,7 @@
 			AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{user.endTime},'%y%m%d')
 		</if>
 		<if test="user.deptId != null and user.deptId != ''">
-			AND (u.dept_id = #{user.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM system_dept t WHERE FIND_IN_SET (#{user.deptId},ancestors) ))
+			AND (u.dept_id = #{user.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM system_dept t WHERE t.company_id = #{companyId} and FIND_IN_SET (#{user.deptId},ancestors) ))
 		</if>
 		<if test="user.postId != null and user.postId != ''">
 			AND up.post_id = #{user.postId}
@@ -183,9 +183,9 @@
 	<select id="listUserByPerms" resultMap="baseResultMap">
 		select distinct u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
 		from system_user u
-		left join system_user_role ur on ur.user_id = u.user_id
-		left join system_role_menu rm on ur.role_id = rm.role_id
-		left join system_menu m on m.menu_id = rm.menu_id
+		left join system_user_role ur on ur.user_id = u.user_id and u.company_id = ur.company_id
+		left join system_role_menu rm on ur.role_id = rm.role_id and ur.company_id = rm.company_id
+		left join system_menu m on m.menu_id = rm.menu_id and rm.company_id = m.company_id
 		where u.company_id = #{companyId} and m.perms in
 		<foreach collection="perms" item="perm" open="(" separator="," close=")">
 			#{perm}
@@ -194,8 +194,8 @@
 	<select id="listUserByPost" resultMap="baseResultMap">
 		select distinct u.user_id,u.dept_id,u.user_name,u.nick_name,u.password,u.email,u.phone,u.sex,u.avatar,u.status
 		from system_user u
-		left join system_user_post up on up.user_id = u.user_id
-		left join system_post p on p.post_id = up.post_id
+		left join system_user_post up on up.user_id = u.user_id and u.company_id = up.company_id
+		left join system_post p on p.post_id = up.post_id and up.company_id = p.company_id
 		where u.company_id = #{companyId} and p.post_code in
 		<foreach collection="post" item="post" open="(" separator="," close=")">
 			#{post}

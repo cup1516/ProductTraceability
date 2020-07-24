@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.*;
 
@@ -29,6 +28,16 @@ public class SysMenu  {
     @ApiModelProperty(value="父菜单ID")
     private String parentId;
 
+    /**
+     * 类型
+     */
+    @ApiModelProperty(value="菜单类型（0 基础菜单 1 业务菜单）")
+    private String type;
+    /**
+     * 类型
+     */
+    @ApiModelProperty(value="系统类型")
+    private String clientType;
     /**
      * 显示顺序
      */

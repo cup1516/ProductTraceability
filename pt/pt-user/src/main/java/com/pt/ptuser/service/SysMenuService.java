@@ -1,6 +1,5 @@
 package com.pt.ptuser.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptuser.dto.TreeSelect;
 import com.pt.ptuser.entity.SysMenu;
 import com.pt.ptuser.vo.RouterVo;
@@ -22,7 +21,21 @@ public interface SysMenuService  {
     List<String> findPermissionsByRoleIdAndCompanyId(String roleId,String companyId);
 
 
+    /**
+     * 根据用户查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuList(SysMenu menu, String userId,String companyId);
 
+    /**
+     * 根据用户查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuList(SysMenu menu);
     /**
      * 根据用户查询系统菜单列表
      *
@@ -30,14 +43,22 @@ public interface SysMenuService  {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuList(SysMenu menu, String userId);
+    List<SysMenu> selectBussinessMenuList(String companyId);
+    /**
+     * 根据用户查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    List<SysMenu> selectSystemMenuList();
     /**
      * 根据用户查询系统菜单列表
      *
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuList(String userId);
+    List<SysMenu> selectMenuList(String userId,String companyId);
     /**
      * 构建前端路由所需要的菜单
      *
@@ -67,7 +88,7 @@ public interface SysMenuService  {
      * @param roleId 角色ID
      * @return 选中菜单列表
      */
-    List<String> selectMenuListByRoleId(String roleId);
+    List<String> selectMenuListByRoleId(String roleId,String companyId);
 
     /**
      * 根据用户ID查询菜单树信息
@@ -75,7 +96,7 @@ public interface SysMenuService  {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuTreeByUserId(String userId);
+    List<SysMenu> selectMenuTreeByUserId(String userId,String companyId);
 
 
     /**
@@ -84,7 +105,7 @@ public interface SysMenuService  {
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    SysMenu selectMenuById(String menuId);
+    SysMenu selectMenuById(String menuId,String companyId);
 
 
     /**
@@ -101,7 +122,7 @@ public interface SysMenuService  {
      * @param menu 菜单信息
      * @return 结果
      */
-    Boolean updateMenu(SysMenu menu);
+    Boolean updateMenu(SysMenu menu,String companyId);
 
 
     /**
@@ -117,7 +138,7 @@ public interface SysMenuService  {
      * @param menuId 菜单ID
      * @return 结果 true 存在 false 不存在
      */
-    Boolean hasChildByMenuId(String menuId);
+    Boolean hasChildByMenuId(String menuId,String companyId);
 
     /**
      * 查询菜单是否存在角色
@@ -125,13 +146,13 @@ public interface SysMenuService  {
      * @param menuId 菜单ID
      * @return 结果 true 存在 false 不存在
      */
-    Boolean checkMenuExistRole(String menuId);
+    Boolean checkMenuExistRole(String menuId,String companyId);
     /**
      * 删除菜单管理信息
      *
      * @param menuId 菜单ID
      * @return 结果
      */
-    Boolean deleteMenuById(String menuId);
+    Boolean deleteMenuById(String menuId,String companyId);
 
 }

@@ -51,6 +51,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public UserInfo findUserByUsernameAndUrl(String username, String url) {
         SysUser sysUser;
+        //url为空则为数据中心用户
         if(url == ""){
             sysUser = sysUserMapper.findUserByUsername(username);
         }else{
@@ -62,7 +63,12 @@ public class SysUserServiceImpl implements SysUserService {
         if(sysUser!=null){
             userInfo.setSysUser(sysUser);
             //设置角色列表  （ID）
-            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(),sysUser.getCompanyId());
+            List<SysRole> dealerSysRoles;
+            if(url == "") {
+                dealerSysRoles = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
+            }else {
+                dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(), sysUser.getCompanyId());
+            }
             List<String> roles = dealerSysRoles.stream()
                     .map(SysRole::getRoleCode)
                     .collect(Collectors.toList());
@@ -137,9 +143,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @param user 用户信息
      */
     @Override
-    public Boolean checkUserAllowed(SysUser user)
+    public Boolean checkUserAllowed(SysUser user,String companyId)
     {
-        if (StrUtil.isNotEmpty(user.getUserId()) && sysUserRoleService.isAdmin(user.getUserId())) {
+        if (StrUtil.isNotEmpty(user.getUserId()) && sysUserRoleService.isAdmin(user.getUserId(),companyId)) {
             throw new CustomException("修改用户'" + user.getUserName() + "'失败，无修改权限");
         }
         return Boolean.TRUE;
@@ -158,11 +164,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Boolean insertUser(SysUser user) {
+    public Boolean insertUser(SysUser user,String companyId) {
         user.setUserId(IdUtils.simpleUUID());
         user.setPassword(ENCODER.encode(user.getPassword()));
-        insertUserPost(user);
-        insertUserRole(user);
+        insertUserPost(user,companyId);
+        insertUserRole(user,companyId);
         return sysUserMapper.insertUser(user);
     }
     /**
@@ -170,7 +176,7 @@ public class SysUserServiceImpl implements SysUserService {
      *
      * @param user 用户对象
      */
-    public void insertUserRole(SysUser user)
+    public void insertUserRole(SysUser user,String companyId)
     {
         String[] roles = user.getRoleIds();
         if (roles.length>0)
@@ -186,7 +192,7 @@ public class SysUserServiceImpl implements SysUserService {
             }
             if (list.size() > 0)
             {
-                sysUserRoleService.batchUserRole(list);
+                sysUserRoleService.batchUserRole(list,companyId);
             }
         }
     }
@@ -196,7 +202,7 @@ public class SysUserServiceImpl implements SysUserService {
      *
      * @param user 用户对象
      */
-    public void insertUserPost(SysUser user)
+    public void insertUserPost(SysUser user,String companyId)
     {
         String[] posts = user.getPostIds();
         if (posts.length>0)
@@ -212,7 +218,7 @@ public class SysUserServiceImpl implements SysUserService {
             }
             if (list.size() > 0)
             {
-                sysUserPostService.batchUserPost(list);
+                sysUserPostService.batchUserPost(list,companyId);
             }
         }
     }
@@ -273,7 +279,7 @@ public class SysUserServiceImpl implements SysUserService {
     {
         for (String userId : userIds)
         {
-            checkUserAllowed(sysUserMapper.getByUserIdAndCompanyId(userId,companyId));
+            checkUserAllowed(sysUserMapper.getByUserIdAndCompanyId(userId,companyId),companyId);
         }
         return sysUserMapper.deleteUserByIds(userIds,companyId);
     }
@@ -285,12 +291,12 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 结果
      */
     @Override
-    public Boolean deleteUserById(String userId)
+    public Boolean deleteUserById(String userId,String companyId)
     {
         // 删除用户与角色关联
-        sysUserRoleService.deleteUserRoleByUserId(userId);
+        sysUserRoleService.deleteUserRoleByUserId(userId,companyId);
         // 删除用户与岗位表
-        sysUserPostService.deleteUserPostByUserId(userId);
+        sysUserPostService.deleteUserPostByUserId(userId,companyId);
         return sysUserMapper.deleteUserById(userId);
     }
 
@@ -301,17 +307,17 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 结果
      */
     @Override
-    public Boolean updateUser(SysUser user)
+    public Boolean updateUser(SysUser user,String companyId)
     {
         String userId = user.getUserId();
         // 删除用户与角色关联
-        sysUserRoleService.deleteUserRoleByUserId(userId);
+        sysUserRoleService.deleteUserRoleByUserId(userId,companyId);
         // 新增用户与角色管理
-        insertUserRole(user);
+        insertUserRole(user,companyId);
         // 删除用户与岗位关联
-        sysUserPostService.deleteUserPostByUserId(userId);
+        sysUserPostService.deleteUserPostByUserId(userId,companyId);
         // 新增用户与岗位管理
-        insertUserPost(user);
+        insertUserPost(user,companyId);
         return sysUserMapper.updateUser(user);
     }
     /**
@@ -381,9 +387,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 结果
      */
     @Override
-    public String selectUserPostGroup(String userName)
+    public String selectUserPostGroup(String userName,String companyId)
     {
-        List<SysPost> list = sysPostMapper.selectPostsByUserName(userName);
+        List<SysPost> list = sysPostMapper.selectPostsByUserName(userName,companyId);
         StringBuffer idsStr = new StringBuffer();
         for (SysPost post : list)
         {

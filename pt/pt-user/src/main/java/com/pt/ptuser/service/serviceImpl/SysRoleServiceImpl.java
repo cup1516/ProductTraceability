@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.constant.*;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysRole;
 import com.pt.ptuser.entity.SysRoleMenu;
 import com.pt.ptuser.mapper.SysRoleMapper;
@@ -156,7 +157,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
         // 修改角色信息
         sysRoleMapper.updateRole(role,companyId);
         // 删除角色与菜单关联
-        roleMenuService.deleteRoleMenuByRoleId(role.getRoleId());
+        roleMenuService.deleteRoleMenuByRoleId(role.getRoleId(),SecurityUtils.getCompanyId());
         return insertRoleMenu(role);
     }
     /**
@@ -192,7 +193,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
         }
         if (list.size() > 0)
         {
-            return roleMenuService.batchRoleMenu(list);
+            return roleMenuService.batchRoleMenu(list, SecurityUtils.getCompanyId());
         }
         return Boolean.FALSE;
     }

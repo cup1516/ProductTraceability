@@ -1,14 +1,11 @@
 package com.pt.ptuser.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptuser.entity.SysPost;
 import com.pt.ptuser.service.SysPostService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +28,7 @@ public class PostController {
     @GetMapping("/list")
     public R list(Page page, SysPost post)
     {
-        return R.ok( sysPostService.getPostPage(page,post));
+        return R.ok( sysPostService.getPostPage(page,post, SecurityUtils.getCompanyId()));
     }
 
 
@@ -50,7 +47,7 @@ public class PostController {
     @GetMapping(value = "/{postId}")
     public R getInfo(@PathVariable String postId)
     {
-        return R.ok(sysPostService.selectPostById(postId));
+        return R.ok(sysPostService.selectPostById(postId, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -60,10 +57,10 @@ public class PostController {
     @PostMapping
     public R add( @RequestBody SysPost post)
     {
-        sysPostService.checkPostNameUnique(post);
-        sysPostService.checkPostCodeUnique(post);
+        sysPostService.checkPostNameUnique(post, SecurityUtils.getCompanyId());
+        sysPostService.checkPostCodeUnique(post, SecurityUtils.getCompanyId());
         post.setCreateBy(SecurityUtils.getNickName());
-        return R.ok(sysPostService.insertPost(post));
+        return R.ok(sysPostService.insertPost(post, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -73,10 +70,10 @@ public class PostController {
     @PutMapping
     public R edit(@Validated @RequestBody SysPost post)
     {
-        sysPostService.checkPostNameUnique(post);
-        sysPostService.checkPostCodeUnique(post);
+        sysPostService.checkPostNameUnique(post, SecurityUtils.getCompanyId());
+        sysPostService.checkPostCodeUnique(post, SecurityUtils.getCompanyId());
         post.setUpdateBy(SecurityUtils.getNickName());
-        return R.ok(sysPostService.updatePost(post));
+        return R.ok(sysPostService.updatePost(post, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -86,7 +83,7 @@ public class PostController {
     @DeleteMapping("/{postIds}")
     public R remove(@PathVariable String[] postIds)
     {
-        return R.ok(sysPostService.deletePostByIds(postIds));
+        return R.ok(sysPostService.deletePostByIds(postIds, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -95,7 +92,7 @@ public class PostController {
     @GetMapping("/optionselect")
     public R optionselect()
     {
-        List<SysPost> posts = sysPostService.selectPostAll();
+        List<SysPost> posts = sysPostService.selectPostAll(SecurityUtils.getCompanyId());
         return R.ok(posts);
     }
 }

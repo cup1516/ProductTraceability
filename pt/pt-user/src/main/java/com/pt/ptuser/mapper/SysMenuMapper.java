@@ -14,13 +14,13 @@ public interface SysMenuMapper  {
      * @param role
      * @return
      */
-    List<SysMenu> listRoutesByRole(@Param("role") String role);
+    List<SysMenu> listRoutesByRole(@Param("role") String role,@Param("companyId") String companyId);
     /**
      * 按角色获取菜单
      * @param role
      * @return
      */
-    List<MenuVO> listMenuByRole(@Param("role") String role);
+    List<MenuVO> listMenuByRole(@Param("role") String role,@Param("companyId") String companyId);
     /**
      * 获取所有菜单
      *
@@ -36,22 +36,42 @@ public interface SysMenuMapper  {
      * @param menu 菜单信息
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuList(SysMenu menu);
+    List<SysMenu> selectMenuList(@Param("menu") SysMenu menu,@Param("companyId") String companyId);
 
+    /**
+     * 查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuList(@Param("menu") SysMenu menu);
+
+    /**
+     * 查询系统菜单列表
+     *
+     * @return 菜单列表
+     */
+    List<SysMenu> selectSystemMenuList();
+    /**
+     * 查询系统菜单列表
+     *
+     * @return 菜单列表
+     */
+    List<SysMenu> selectBussinessMenuList(String companyId);
     /**
      * 根据用户查询系统菜单列表
      *
      * @param menu 菜单信息
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuListByUserId(SysMenu menu);
+    List<SysMenu> selectMenuListByUserId(@Param("menu")SysMenu menu,@Param("companyId") String companyId);
 
     /**
      * 根据角色获取菜单列表
      * @param roleId
      * @return
      */
-    List<String> selectMenuListByRoleId(@Param("roleId") String roleId);
+    List<String> selectMenuListByRoleId(@Param("roleId") String roleId,@Param("companyId") String companyId);
 
     /**
      * 根据菜单ID查询信息
@@ -59,14 +79,14 @@ public interface SysMenuMapper  {
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    SysMenu selectMenuById(String menuId);
+    SysMenu selectMenuById(@Param("menuId")String menuId,@Param("companyId") String companyId);
     /**
      * 新增菜单信息
      *
      * @param menu 菜单信息
      * @return 结果
      */
-    Boolean insertMenu(SysMenu menu);
+    Boolean insertMenu(@Param("menu")SysMenu menu);
 
     /**
      * 修改菜单信息
@@ -74,16 +94,14 @@ public interface SysMenuMapper  {
      * @param menu 菜单信息
      * @return 结果
      */
-    Boolean updateMenu(SysMenu menu);
+    Boolean updateMenu(@Param("menu")SysMenu menu,@Param("companyId") String companyId);
 
     /**
      * 校验菜单名称是否唯一
      *
-     * @param menuName 菜单名称
-     * @param parentId 父菜单ID
      * @return 结果
      */
-    SysMenu checkMenuNameUnique(@Param("menuName") String menuName, @Param("parentId") String parentId);
+    SysMenu checkMenuNameUnique(SysMenu menu);
 
     /**
      * 是否存在菜单子节点
@@ -91,7 +109,7 @@ public interface SysMenuMapper  {
      * @param menuId 菜单ID
      * @return 结果
      */
-    int hasChildByMenuId(String menuId);
+    int hasChildByMenuId(@Param("menuId")String menuId,@Param("companyId") String companyId);
 
     /**
      * 删除菜单管理信息
@@ -99,14 +117,14 @@ public interface SysMenuMapper  {
      * @param menuId 菜单ID
      * @return 结果
      */
-    Boolean deleteMenuById(String menuId);
+    Boolean deleteMenuById(@Param("menuId")String menuId,@Param("companyId") String companyId);
 
     /**
      * 根据用户ID查询菜单
      *
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeAll();
+    public List<SysMenu> selectMenuTreeAll(@Param("companyId") String companyId);
 
     /**
      * 根据用户ID查询菜单
@@ -114,5 +132,5 @@ public interface SysMenuMapper  {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeByUserId(String userId);
+    public List<SysMenu> selectMenuTreeByUserId(@Param("userId")String userId,@Param("companyId") String companyId);
 }

@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface SysRoleMenuService  {
 
-    List<SysRoleMenu> listRoleMenu(String roleId,String clientId);
+    List<SysRoleMenu> listRoleMenu(String roleId,String companyId);
 
-    Boolean deleteRoleMenuByRoleId(String roleId);
+    Boolean deleteRoleMenuByRoleId(String roleId,String companyId);
 
     /**
      * 批量新增角色菜单信息
@@ -20,7 +20,7 @@ public interface SysRoleMenuService  {
      * @param roleMenuList 角色菜单列表
      * @return 结果
      */
-    Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList);
+    Boolean batchRoleMenu(List<SysRoleMenu> roleMenuList,String companyId);
 
     /**
      * 查询菜单使用数量
@@ -28,5 +28,5 @@ public interface SysRoleMenuService  {
      * @param menuId 菜单ID
      * @return 结果
      */
-    int checkMenuExistRole(String menuId);
+    int checkMenuExistRole(String menuId,String companyId);
 }

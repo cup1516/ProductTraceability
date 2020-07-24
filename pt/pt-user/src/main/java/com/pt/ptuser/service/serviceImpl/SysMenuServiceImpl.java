@@ -75,9 +75,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuList(String userId)
+    public List<SysMenu> selectMenuList(String userId,String companyId)
     {
-        return selectMenuList(new SysMenu(), userId);
+        return selectMenuList(new SysMenu(), userId,companyId);
     }
     /**
      * 查询系统菜单列表
@@ -86,23 +86,44 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuList(SysMenu menu, String userId)
+    public List<SysMenu> selectMenuList(SysMenu menu, String userId,String companyId)
     {
         List<SysMenu> menuList = null;
-        Boolean isAdmin = sysUserRoleService.isAdmin(userId);
+        Boolean isAdmin = sysUserRoleService.isAdmin(userId,companyId);
         // 管理员显示所有菜单信息
         if (isAdmin)
         {
-            menuList = sysMenuMapper.selectMenuList(menu);
+            menuList = sysMenuMapper.selectMenuList(menu,companyId);
         }
         else
         {
             menu.getParams().put("userId", userId);
-            menuList = sysMenuMapper.selectMenuListByUserId(menu);
+            menuList = sysMenuMapper.selectMenuListByUserId(menu,companyId);
         }
         return menuList;
     }
 
+    /**
+     * 查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    @Override
+    public List<SysMenu> selectMenuList(SysMenu menu)
+    {
+        return sysMenuMapper.selectMenuList(menu);
+    }
+
+    @Override
+    public List<SysMenu> selectSystemMenuList(){
+        return sysMenuMapper.selectSystemMenuList();
+    };
+
+    @Override
+    public List<SysMenu> selectBussinessMenuList(String companyId){
+        return sysMenuMapper.selectBussinessMenuList(companyId);
+    };
     /**
      * 根据角色ID查询菜单树信息
      *
@@ -110,9 +131,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 选中菜单列表
      */
     @Override
-    public List<String> selectMenuListByRoleId(String roleId)
+    public List<String> selectMenuListByRoleId(String roleId,String companyId)
     {
-        return sysMenuMapper.selectMenuListByRoleId(roleId);
+        return sysMenuMapper.selectMenuListByRoleId(roleId,companyId);
     }
     /**
      * 根据用户ID查询菜单
@@ -121,17 +142,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuTreeByUserId(String userId)
+    public List<SysMenu> selectMenuTreeByUserId(String userId,String companyId)
     {
-        List<SysMenu> menus = null;
-        if (sysUserRoleService.isAdmin(userId))
-        {
-            menus = sysMenuMapper.selectMenuTreeAll();
-        }
-        else
-        {
-            menus = sysMenuMapper.selectMenuTreeByUserId(userId);
-        }
+        List<SysMenu> menus = sysMenuMapper.selectMenuTreeByUserId(userId,companyId);
         return getChildPerms(menus, CommonConstants.TREE_ROOT);
     }
     /**
@@ -298,9 +311,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 菜单信息
      */
     @Override
-    public SysMenu selectMenuById(String menuId)
+    public SysMenu selectMenuById(String menuId,String companyId)
     {
-        return sysMenuMapper.selectMenuById(menuId);
+        return sysMenuMapper.selectMenuById(menuId,companyId);
     }
 
     /**
@@ -326,12 +339,12 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean updateMenu(SysMenu menu)
+    public Boolean updateMenu(SysMenu menu,String companyId)
     {
         if(menu.getMenuType().equals("M")){
             menu.setComponent("Layout");
         }
-        return sysMenuMapper.updateMenu(menu);
+        return sysMenuMapper.updateMenu(menu,companyId);
     }
     /**
      * 校验菜单名称是否唯一
@@ -346,7 +359,7 @@ public class SysMenuServiceImpl implements SysMenuService {
             return Boolean.TRUE;
         }
 
-        SysMenu sysMenu = sysMenuMapper.checkMenuNameUnique(menu.getMenuName(),menu.getParentId());
+        SysMenu sysMenu = sysMenuMapper.checkMenuNameUnique(menu);
         if (sysMenu != null && !sysMenu.getMenuId().equals(menu.getMenuId()))
         {
             throw new CustomException("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -361,9 +374,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean hasChildByMenuId(String menuId)
+    public Boolean hasChildByMenuId(String menuId,String companyId)
     {
-        int result = sysMenuMapper.hasChildByMenuId(menuId);
+        int result = sysMenuMapper.hasChildByMenuId(menuId,companyId);
         if(result > 0){
             throw new CustomException("存在子菜单,不允许删除");
         }
@@ -376,9 +389,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean checkMenuExistRole(String menuId)
+    public Boolean checkMenuExistRole(String menuId,String companyId)
     {
-        int result = sysRoleMenuService.checkMenuExistRole(menuId);
+        int result = sysRoleMenuService.checkMenuExistRole(menuId,companyId);
         if(result > 0){
             throw new CustomException("菜单已分配,不允许删除");
         }
@@ -391,8 +404,8 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean deleteMenuById(String menuId)
+    public Boolean deleteMenuById(String menuId,String companyId)
     {
-        return sysMenuMapper.deleteMenuById(menuId);
+        return sysMenuMapper.deleteMenuById(menuId,companyId);
     }
 }

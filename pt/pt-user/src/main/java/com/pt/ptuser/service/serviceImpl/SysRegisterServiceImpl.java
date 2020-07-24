@@ -1,27 +1,22 @@
 package com.pt.ptuser.service.serviceImpl;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
-import com.pt.ptuser.dto.UserInfo;
-import com.pt.ptuser.entity.*;
-import com.pt.ptuser.mapper.*;
-import com.pt.ptuser.service.*;
-import com.pt.ptuser.vo.UserVo;
+import com.pt.ptuser.entity.SysUser;
+import com.pt.ptuser.entity.SysUserPost;
+import com.pt.ptuser.entity.SysUserRole;
+import com.pt.ptuser.mapper.SysRegisterMapper;
+import com.pt.ptuser.mapper.SysUserPostMapper;
+import com.pt.ptuser.mapper.SysUserRoleMapper;
+import com.pt.ptuser.service.SysRegisterService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author wl
@@ -52,7 +47,7 @@ public class SysRegisterServiceImpl  implements SysRegisterService {
      *
      * @param user 用户对象
      */
-    public void insertUserRole(SysUser user,String clientId)
+    public void insertUserRole(SysUser user,String companyId)
     {
         String[] roles = user.getRoleIds();
         if (roles.length>0)
@@ -68,7 +63,7 @@ public class SysRegisterServiceImpl  implements SysRegisterService {
             }
             if (list.size() > 0)
             {
-                sysUserRoleMapper.batchUserRoleWithClientId(list,clientId);
+                sysUserRoleMapper.batchUserRole(list,companyId);
             }
         }
     }
@@ -78,7 +73,7 @@ public class SysRegisterServiceImpl  implements SysRegisterService {
      *
      * @param user 用户对象
      */
-    public void insertUserPost(SysUser user,String clientId)
+    public void insertUserPost(SysUser user,String companyId)
     {
         String[] posts = user.getPostIds();
         if (posts.length>0)
@@ -94,7 +89,7 @@ public class SysRegisterServiceImpl  implements SysRegisterService {
             }
             if (list.size() > 0)
             {
-                sysUserPostMapper.batchUserPostWithClientId(list,clientId);
+                sysUserPostMapper.batchUserPost(list,companyId);
             }
         }
     }

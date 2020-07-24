@@ -16,21 +16,21 @@ public interface SysPostMapper  {
      * @param sysPost
      * @return
      */
-    IPage<List<SysPost>> getPostPage(Page page,@Param("sysPost") SysPost sysPost);
+    IPage<List<SysPost>> getPostPage(Page page,@Param("sysPost") SysPost sysPost,@Param("companyId") String companyId);
     /**
      * 查询岗位数据集合
      *
      * @param post 岗位信息
      * @return 岗位数据集合
      */
-    List<SysPost> selectPostList(SysPost post);
+    List<SysPost> selectPostList(@Param("post") SysPost post,@Param("companyId") String companyId);
 
     /**
      * 查询所有岗位
      *
      * @return 岗位列表
      */
-    List<SysPost> selectPostAll();
+    List<SysPost> selectPostAll(@Param("companyId") String companyId);
 
     /**
      * 通过岗位ID查询岗位信息
@@ -38,7 +38,7 @@ public interface SysPostMapper  {
      * @param postId 岗位ID
      * @return 角色对象信息
      */
-    SysPost selectPostById(String postId);
+    SysPost selectPostById(@Param("postId") String postId,@Param("companyId") String companyId);
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -46,7 +46,7 @@ public interface SysPostMapper  {
      * @param userId 用户ID
      * @return 选中岗位ID列表
      */
-    List<String> selectPostListByUserId(String userId);
+    List<String> selectPostListByUserId(@Param("userId") String userId,@Param("companyId") String companyId);
 
     /**
      * 查询用户所属岗位组
@@ -54,7 +54,7 @@ public interface SysPostMapper  {
      * @param userName 用户名
      * @return 结果
      */
-    List<SysPost> selectPostsByUserName(String userName);
+    List<SysPost> selectPostsByUserName(@Param("userName") String userName,@Param("companyId") String companyId);
 
     /**
      * 删除岗位信息
@@ -62,7 +62,7 @@ public interface SysPostMapper  {
      * @param postId 岗位ID
      * @return 结果
      */
-    Boolean deletePostById(String postId);
+    Boolean deletePostById(@Param("postId") String postId,@Param("companyId") String companyId);
 
     /**
      * 批量删除岗位信息
@@ -70,7 +70,7 @@ public interface SysPostMapper  {
      * @param postIds 需要删除的岗位ID
      * @return 结果
      */
-    Boolean deletePostByIds(String[] postIds);
+    Boolean deletePostByIds(@Param("postIds") String[] postIds,@Param("companyId") String companyId);
 
     /**
      * 修改岗位信息
@@ -78,7 +78,7 @@ public interface SysPostMapper  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean updatePost(SysPost post);
+    Boolean updatePost(@Param("post") SysPost post,@Param("companyId") String companyId);
 
     /**
      * 新增岗位信息
@@ -86,7 +86,7 @@ public interface SysPostMapper  {
      * @param post 岗位信息
      * @return 结果
      */
-    Boolean insertPost(SysPost post);
+    Boolean insertPost(@Param("post") SysPost post,@Param("companyId") String companyId);
 
     /**
      * 校验岗位名称

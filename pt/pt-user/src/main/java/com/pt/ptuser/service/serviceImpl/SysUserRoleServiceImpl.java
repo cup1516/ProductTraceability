@@ -15,38 +15,38 @@ public class SysUserRoleServiceImpl implements SysUserRoleService{
     private final SysUserRoleMapper sysUserRoleMapper;
     
     @Override
-    public List<SysUserRole> getListByUserId(String userId) {
-        return sysUserRoleMapper.getUserRoleList(userId,"");
+    public List<SysUserRole> getListByUserId(String userId,String companyId) {
+        return sysUserRoleMapper.getUserRoleList(userId,"",companyId);
     }
 
     @Override
-    public Boolean isAdmin(String userId) {
-        return sysUserRoleMapper.getUserRoleList(userId, CommonConstants.ROLE_ADMIN).size() != 0;
+    public Boolean isAdmin(String userId,String companyId) {
+        return sysUserRoleMapper.getUserRoleList(userId, CommonConstants.ROLE_ADMIN,companyId).size() != 0;
     }
 
 
     @Override
-    public Boolean deleteUserRoleByUserId(String userId) {
-        return sysUserRoleMapper.deleteUserRoleByUserId(userId);
+    public Boolean deleteUserRoleByUserId(String userId,String companyId) {
+        return sysUserRoleMapper.deleteUserRoleByUserId(userId,companyId);
     }
 
     @Override
-    public Boolean deleteUserRole(String[] ids) {
-        return sysUserRoleMapper.deleteUserRole(ids);
+    public Boolean deleteUserRole(String[] ids,String companyId) {
+        return sysUserRoleMapper.deleteUserRole(ids,companyId);
     }
 
     @Override
-    public Boolean batchUserRole(List<SysUserRole> userRoleList) {
-        return sysUserRoleMapper.batchUserRole(userRoleList);
+    public Boolean batchUserRole(List<SysUserRole> userRoleList,String companyId) {
+        return sysUserRoleMapper.batchUserRole(userRoleList,companyId);
     }
 
     @Override
-    public Boolean deleteUserRoleInfo(SysUserRole userRole) {
-        return sysUserRoleMapper.deleteUserRoleInfo(userRole);
+    public Boolean deleteUserRoleInfo(SysUserRole userRole,String companyId) {
+        return sysUserRoleMapper.deleteUserRoleInfo(userRole,companyId);
     }
 
     @Override
-    public Boolean deleteUserRoleInfos(String roleId, String[] userIds) {
-        return sysUserRoleMapper.deleteUserRoleInfos(roleId,userIds);
+    public Boolean deleteUserRoleInfos(String roleId, String[] userIds,String companyId) {
+        return sysUserRoleMapper.deleteUserRoleInfos(roleId,userIds,companyId);
     }
 }

@@ -41,9 +41,9 @@ public class ProfileController
 
         SysUser sysUser = sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         Map<String, String> result = BeanUtils.describe(sysUser);
-        result.put("deptName",sysDeptService.selectDeptById(sysUser.getDeptId()).getDeptName());
-        result.put("roleGroup", sysUserService.selectUserRoleGroup(SecurityUtils.getUserName()));
-        result.put("postGroup", sysUserService.selectUserPostGroup(SecurityUtils.getUserName()));
+        result.put("deptName",sysDeptService.selectDeptById(sysUser.getDeptId(), SecurityUtils.getCompanyId()).getDeptName());
+        result.put("roleGroup", sysUserService.selectUserRoleGroup(SecurityUtils.getUserName(), SecurityUtils.getCompanyId()));
+        result.put("postGroup", sysUserService.selectUserPostGroup(SecurityUtils.getUserName(), SecurityUtils.getCompanyId()));
         return R.ok(result);
     }
 

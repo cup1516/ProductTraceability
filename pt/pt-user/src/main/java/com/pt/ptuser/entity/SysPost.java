@@ -35,7 +35,7 @@ public class SysPost {
     * 显示顺序
     */
     @ApiModelProperty(value="显示顺序")
-    private Integer postSort;
+    private String postSort;
 
     /**
     * 状态（0正常 1停用）
@@ -72,4 +72,12 @@ public class SysPost {
     */
     @ApiModelProperty(value="备注")
     private String remark;
+
+
+    /**
+     * 删除标志（0代表存在 2代表删除）
+     */
+    @ApiModelProperty(value="删除标志（0代表存在 1代表删除）")
+    private String delFlag;
+
 }

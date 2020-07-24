@@ -6,6 +6,7 @@
     <!--@Table dealer_user_role-->
     <id column="user_id" jdbcType="VARCHAR" property="userId" />
     <id column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <id column="company_id" jdbcType="VARCHAR" property="companyId" />
   </resultMap>
   <sql id="selectSysUserRole">
         select ur.user_id,ur.role_id
@@ -14,42 +15,37 @@
 
   <select id="getUserRoleList"  resultMap="BaseResultMap" >
     <include refid="selectSysUserRole"/>
-    left join system_role r on ur.role_id = r.role_id
-    where ur.user_id = #{userId} and r.role_code = #{roleCode}
+    left join system_role r on ur.role_id = r.role_id and ur.company_id = r.company_id
+    where ur.user_id = #{userId} and r.role_code = #{roleCode} and ur.company_id = #{companyId}
   </select>
   <select id="countUserRoleByRoleId" resultType="Integer">
-    select count(1) from system_user_role where role_id=#{roleId}
+    select count(1) from system_user_role where role_id=#{roleId} and company_id = #{companyId}
   </select>
 
   <delete id="deleteUserRoleByUserId">
-    delete from system_user_role where user_id=#{userId}
+    delete from system_user_role where user_id=#{userId} and company_id = #{companyId}
   </delete>
 
   <delete id="deleteUserRole" >
-    delete from system_user_role where user_id in
-    <foreach collection="array" item="userId" open="(" separator="," close=")">
+    delete from system_user_role where company_id = #{companyId} and user_id in
+    <foreach collection="ids" item="userId" open="(" separator="," close=")">
       #{userId}
     </foreach>
   </delete>
 
   <insert id="batchUserRole">
-    insert into system_user_role(user_id, role_id) values
-    <foreach item="item" index="index" collection="list" separator=",">
-      (#{item.userId},#{item.roleId})
-    </foreach>
-  </insert>
-  <insert id="batchUserRoleWithClientId" statementType="STATEMENT">
-    insert into ${clientId}_user_role(user_id, role_id) values
+    insert into system_user_role(user_id, role_id,company_id) values
     <foreach item="item" index="index" collection="userRoleList" separator=",">
-      ('${item.userId}','${item.roleId}')
+      (#{item.userId},#{item.roleId},#{companyId})
     </foreach>
   </insert>
+
   <delete id="deleteUserRoleInfo">
-    delete from system_user_role where user_id=#{userId} and role_id=#{roleId}
+    delete from system_user_role where user_id=#{userRole.userId} and role_id=#{userRole.roleId} and company_id = #{companyId}
   </delete>
 
   <delete id="deleteUserRoleInfos">
-    delete from system_user_role where role_id=#{roleId} and user_id in
+    delete from system_user_role where role_id=#{roleId} and  company_id = #{companyId} and user_id in
     <foreach collection="userIds" item="userId" open="(" separator="," close=")">
       #{userId}
     </foreach>

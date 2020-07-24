@@ -77,13 +77,13 @@ public class UserController {
     public R getInfo(@PathVariable(value = "userId", required = false) String userId)
     {
         Map result = new HashMap<String, List<String>>();
-        result.put("roles", sysRoleService.selectRoleAll());
-        result.put("posts", sysPostService.selectPostAll());
+        result.put("roles", sysRoleService.selectRoleAll(SecurityUtils.getCompanyId()));
+        result.put("posts", sysPostService.selectPostAll(SecurityUtils.getCompanyId()));
         if (StrUtil.isNotEmpty(userId))
         {
             result.put("data", sysUserService.getByUserIdAndCompanyId(userId,SecurityUtils.getCompanyId()));
-            result.put("postIds", sysPostService.selectPostListByUserId(userId));
-            result.put("roleIds", sysRoleService.selectRoleListByUserId(userId));
+            result.put("postIds", sysPostService.selectPostListByUserId(userId, SecurityUtils.getCompanyId()));
+            result.put("roleIds", sysRoleService.selectRoleListByUserId(userId, SecurityUtils.getCompanyId()));
         }
         return R.ok(result);
     }
@@ -94,7 +94,7 @@ public class UserController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody SysUser user)
     {
-        sysUserService.checkUserAllowed(sysUserService.getByUserIdAndCompanyId(user.getUserId(),SecurityUtils.getCompanyId()));
+        sysUserService.checkUserAllowed(sysUserService.getByUserIdAndCompanyId(user.getUserId(),SecurityUtils.getCompanyId()), SecurityUtils.getCompanyId());
         return R.ok(sysUserService.updateUserStatus(user));
     }
 
@@ -118,7 +118,7 @@ public class UserController {
         sysUserService.checkEmailUnique(user);
 //        user.setCreateBy(SecurityUtils.getUsername());
 //        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        return R.ok(sysUserService.insertUser(user));
+        return R.ok(sysUserService.insertUser(user, SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -136,7 +136,7 @@ public class UserController {
     @PutMapping("/resetPwd")
     public R resetPwd(@RequestBody SysUser user)
     {
-        if(sysUserService.checkUserAllowed(user)){
+        if(sysUserService.checkUserAllowed(user, SecurityUtils.getCompanyId())){
             return R.ok(sysUserService.resetUserPwd(user.getUserName(),CommonConstants.INIT_PASSWORD,SecurityUtils.getCompanyId()));
         }else {
             return R.failed("重置用户'" + user.getUserName() + "'密码失败，无操作权限");
@@ -152,11 +152,11 @@ public class UserController {
     @PutMapping
     public R edit(@Validated @RequestBody SysUser user)
     {
-        sysUserService.checkUserAllowed(user);
+        sysUserService.checkUserAllowed(user, SecurityUtils.getCompanyId());
         sysUserService.checkPhoneUnique(user);
         sysUserService.checkEmailUnique(user);
 //        user.setUpdateBy(SecurityUtils.getUsername());
-        return R.ok(sysUserService.updateUser(user));
+        return R.ok(sysUserService.updateUser(user, SecurityUtils.getCompanyId()));
     }
     /**
      * 获取用户列表

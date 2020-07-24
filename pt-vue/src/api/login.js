@@ -9,9 +9,7 @@ export function login(username, password, code ) {
     url: '/auth/oauth/token',
     headers: {
       isToken:false,
-     'Authorization': 'Basic ZGVhbGVyOnNlY3JldA=='//dealer:secret
-      // 'Authorization': 'Basic Y2VudGVyOnNlY3JldA=='//center:secret
-      //'Authorization': 'Basic bWFub3I6c2VjcmV0'//dealer:manor
+     'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='//client:secret
     },
     method: 'post',
     params: { username, password, code, grant_type, scope }
