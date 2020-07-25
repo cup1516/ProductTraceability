@@ -37,7 +37,6 @@ public interface SysUserMapper  {
     /**
      * 分页获取本部门全部用户
      * @param page 分页参数
-     * @param clientId
      * @param deptId
      * @return
      */
@@ -63,7 +62,7 @@ public interface SysUserMapper  {
      * @param user 用户信息
      * @return 结果
      */
-     Boolean updateUser(SysUser user);
+     Boolean updateUser(@Param("user") SysUser user,@Param("companyId") String companyId);
 
     /**
      * 新增用户信息
@@ -71,22 +70,22 @@ public interface SysUserMapper  {
      * @param user 用户信息
      * @return 结果
      */
-    Boolean insertUser(SysUser user);
+    Boolean insertUser(@Param("user") SysUser user,@Param("companyId") String companyId);
     /**
      * 校验用户名称是否唯一
      *
      * @param userName 用户名称
      * @return 结果
      */
-    SysUser checkUserNameUnique(String userName);
+    SysUser checkUserNameUnique(@Param("userName") String userName,@Param("companyId") String companyId);
 
     /**
      * 校验手机号码是否唯一
      *
-     * @param phonenumber 手机号码
+     * @param phone 手机号码
      * @return 结果
      */
-    SysUser checkPhoneUnique(String phonenumber);
+    SysUser checkPhoneUnique(@Param("phone") String phone,@Param("companyId") String companyId);
 
     /**
      * 校验email是否唯一
@@ -94,7 +93,7 @@ public interface SysUserMapper  {
      * @param email 用户邮箱
      * @return 结果
      */
-    SysUser checkEmailUnique(String email);
+    SysUser checkEmailUnique(@Param("email") String email,@Param("companyId") String companyId);
 
     /**
      * 通过用户ID删除用户
@@ -102,7 +101,7 @@ public interface SysUserMapper  {
      * @param userId 用户ID
      * @return 结果
      */
-    Boolean deleteUserById(String userId);
+    Boolean deleteUserById(@Param("userId") String userId,@Param("companyId") String companyId);
 
     /**
      * 批量删除用户信息

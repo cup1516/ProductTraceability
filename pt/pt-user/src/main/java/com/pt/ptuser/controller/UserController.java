@@ -95,7 +95,7 @@ public class UserController {
     public R changeStatus(@RequestBody SysUser user)
     {
         sysUserService.checkUserAllowed(sysUserService.getByUserIdAndCompanyId(user.getUserId(),SecurityUtils.getCompanyId()), SecurityUtils.getCompanyId());
-        return R.ok(sysUserService.updateUserStatus(user));
+        return R.ok(sysUserService.updateUserStatus(user,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -113,9 +113,9 @@ public class UserController {
     @PostMapping
     public R add(@Validated @RequestBody SysUser user)
     {
-        sysUserService.checkUserNameUnique(user);
-        sysUserService.checkPhoneUnique(user);
-        sysUserService.checkEmailUnique(user);
+        sysUserService.checkUserNameUnique(user,SecurityUtils.getCompanyId());
+        sysUserService.checkPhoneUnique(user,SecurityUtils.getCompanyId());
+        sysUserService.checkEmailUnique(user,SecurityUtils.getCompanyId());
 //        user.setCreateBy(SecurityUtils.getUsername());
 //        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return R.ok(sysUserService.insertUser(user, SecurityUtils.getCompanyId()));
@@ -137,7 +137,7 @@ public class UserController {
     public R resetPwd(@RequestBody SysUser user)
     {
         if(sysUserService.checkUserAllowed(user, SecurityUtils.getCompanyId())){
-            return R.ok(sysUserService.resetUserPwd(user.getUserName(),CommonConstants.INIT_PASSWORD,SecurityUtils.getCompanyId()));
+            return R.ok(sysUserService.resetUserPwd(user.getUserName(),user.getPassword(),SecurityUtils.getCompanyId()));
         }else {
             return R.failed("重置用户'" + user.getUserName() + "'密码失败，无操作权限");
         }
@@ -153,8 +153,8 @@ public class UserController {
     public R edit(@Validated @RequestBody SysUser user)
     {
         sysUserService.checkUserAllowed(user, SecurityUtils.getCompanyId());
-        sysUserService.checkPhoneUnique(user);
-        sysUserService.checkEmailUnique(user);
+        sysUserService.checkPhoneUnique(user,SecurityUtils.getCompanyId());
+        sysUserService.checkEmailUnique(user,SecurityUtils.getCompanyId());
 //        user.setUpdateBy(SecurityUtils.getUsername());
         return R.ok(sysUserService.updateUser(user, SecurityUtils.getCompanyId()));
     }

@@ -82,9 +82,10 @@ export function exportUser(query) {
 }
 
 // 用户密码重置
-export function resetUserPwd(userId, password) {
+export function resetUserPwd(userId, userName, password) {
   const data = {
     userId,
+    userName,
     password
   }
   return request({

@@ -50,7 +50,7 @@ public interface SysUserService  {
     * @param user 用户信息
     * @return 结果
     */
-   Boolean updateUserStatus(SysUser user);
+   Boolean updateUserStatus(SysUser user,String companyId);
 
    /**
     * 新增用户信息
@@ -65,7 +65,7 @@ public interface SysUserService  {
     * @param user 用户
     * @return 结果
     */
-   Boolean checkUserNameUnique(SysUser user);
+   Boolean checkUserNameUnique(SysUser user,String companyId);
 
    /**
     * 校验手机号码是否唯一
@@ -73,7 +73,7 @@ public interface SysUserService  {
     * @param user 用户信息
     * @return 结果
     */
-   Boolean checkPhoneUnique(SysUser user);
+   Boolean checkPhoneUnique(SysUser user,String companyId);
 
    /**
     * 校验email是否唯一
@@ -81,7 +81,7 @@ public interface SysUserService  {
     * @param user 用户信息
     * @return 结果
     */
-   Boolean checkEmailUnique(SysUser user);
+   Boolean checkEmailUnique(SysUser user,String companyId);
 
    /**
     * 重置用户密码
@@ -135,20 +135,20 @@ public interface SysUserService  {
     * @return
     */
    List<SysUser> listUserByPerms(String[] perms,String companyId);
-   /**
-    * 根据用户ID查询用户所属角色组
-    *
-    * @param userName 用户名
-    * @return 结果
-    */
-   String selectUserRoleGroup(String userName,String companyId);
-
-   /**
-    * 根据用户ID查询用户所属岗位组
-    *
-    * @param userName 用户名
-    * @return 结果
-    */
-   String selectUserPostGroup(String userName,String companyId);
+//   /**
+//    * 根据用户ID查询用户所属角色组
+//    *
+//    * @param userName 用户名
+//    * @return 结果
+//    */
+//   String selectUserRoleGroup(String userName,String companyId);
+//
+//   /**
+//    * 根据用户ID查询用户所属岗位组
+//    *
+//    * @param userName 用户名
+//    * @return 结果
+//    */
+//   String selectUserPostGroup(String userName,String companyId);
 
 }

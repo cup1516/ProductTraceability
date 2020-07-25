@@ -65,11 +65,11 @@ export default {
       codeUrl: "",
       cookiePassword: "",
       loginForm: {
-        username: "admin",
-        password: "123456",
-        rememberMe: false,
-        code: "",
-        client: "Basic ZGVhbGVyOnNlY3JldA=="//dealer:secret
+        // username: "admin",
+        // password: "123456",
+        // rememberMe: false,
+        // code: "",
+        // client: "Basic ZGVhbGVyOnNlY3JldA=="//dealer:secret
       },
       loginRules: {
         username: [

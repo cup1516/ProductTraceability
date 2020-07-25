@@ -4,8 +4,8 @@ package com.pt.ptuser.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -34,7 +34,7 @@ public class SysUser  {
     private char sex;
 
     private String avatar;
-
+    private String remark;
     private char status;
 
     private String[] roleIds;
@@ -48,6 +48,6 @@ public class SysUser  {
     /**
      * 创建时间
      */
-//    @ApiModelProperty(value="创建时间")
+    @ApiModelProperty(value="创建时间")
     private Date createTime;
 }

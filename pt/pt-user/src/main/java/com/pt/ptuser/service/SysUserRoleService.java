@@ -22,6 +22,7 @@ public interface SysUserRoleService  {
      * @return
      */
     Boolean isAdmin(String userId,String companyId);
+
     /**
      * 通过用户ID删除用户和角色关联
      *

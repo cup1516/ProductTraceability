@@ -20,8 +20,6 @@ router.beforeEach((to, from, next) => {
   //   }else{
   //     next()
   //   }  
-  // console.log(from)
-  // console.log(to)
   // next()
   // if(to.fullpath!=null){
   //   next({path:'/AppIndex',query: { id:to.path }})

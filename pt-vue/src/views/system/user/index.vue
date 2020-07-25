@@ -547,10 +547,10 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(({ value }) => {
-          resetUserPwd(row.userId, value).then(response => {
+          resetUserPwd(row.userId,row.userName, value).then(response => {
               this.msgSuccess("修改成功，新密码是：" + value);
           }).catch(response=>{
-              this.msgError(response.msg);
+              this.msgError(response);
           });
         }).catch(() => {});
     },

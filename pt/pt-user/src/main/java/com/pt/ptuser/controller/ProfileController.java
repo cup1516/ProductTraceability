@@ -9,11 +9,9 @@ import com.pt.ptuser.service.SysDeptService;
 import com.pt.ptuser.service.SysProfileService;
 import com.pt.ptuser.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * 个人信息 业务处理
@@ -38,13 +36,7 @@ public class ProfileController
      */
     @GetMapping
     public R profile() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-
-        SysUser sysUser = sysUserService.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
-        Map<String, String> result = BeanUtils.describe(sysUser);
-        result.put("deptName",sysDeptService.selectDeptById(sysUser.getDeptId(), SecurityUtils.getCompanyId()).getDeptName());
-        result.put("roleGroup", sysUserService.selectUserRoleGroup(SecurityUtils.getUserName(), SecurityUtils.getCompanyId()));
-        result.put("postGroup", sysUserService.selectUserPostGroup(SecurityUtils.getUserName(), SecurityUtils.getCompanyId()));
-        return R.ok(result);
+        return R.ok(sysProfileService.profile());
     }
 
     /**
@@ -72,7 +64,7 @@ public class ProfileController
 
         SysUser byUserId = sysUserMapper.getByUserIdAndCompanyId(SecurityUtils.getId(),SecurityUtils.getCompanyId());
         byUserId.setAvatar(avatar);
-        boolean save = sysUserMapper.updateUser(byUserId);
+        boolean save = sysUserMapper.updateUser(byUserId,SecurityUtils.getCompanyId());
         return R.ok();
     }
 

@@ -58,9 +58,9 @@ public class SysUserServiceImpl implements SysUserService {
             sysUser = sysUserMapper.findUserByUsernameAndUrl(username,url);
         }
         //重新拼接用户名
-        sysUser.setUserName(sysUser.getUserName()+'_'+url);
         UserInfo userInfo = new UserInfo();
         if(sysUser!=null){
+            sysUser.setUserName(sysUser.getUserName()+'_'+url);
             userInfo.setSysUser(sysUser);
             //设置角色列表  （ID）
             List<SysRole> dealerSysRoles;
@@ -158,9 +158,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 结果
      */
     @Override
-    public Boolean updateUserStatus(SysUser user)
+    public Boolean updateUserStatus(SysUser user,String companyId)
     {
-        return sysUserMapper.updateUser(user);
+        return sysUserMapper.updateUser(user,companyId);
     }
 
     @Override
@@ -169,7 +169,7 @@ public class SysUserServiceImpl implements SysUserService {
         user.setPassword(ENCODER.encode(user.getPassword()));
         insertUserPost(user,companyId);
         insertUserRole(user,companyId);
-        return sysUserMapper.insertUser(user);
+        return sysUserMapper.insertUser(user,companyId);
     }
     /**
      * 新增用户角色信息
@@ -223,8 +223,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
     @Override
-    public Boolean checkUserNameUnique(SysUser user) {
-        SysUser sysUser = sysUserMapper.checkUserNameUnique(user.getUserName());
+    public Boolean checkUserNameUnique(SysUser user,String companyId) {
+        SysUser sysUser = sysUserMapper.checkUserNameUnique(user.getUserName(),companyId);
         if(sysUser != null){
             throw new CustomException("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         }
@@ -232,11 +232,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Boolean checkPhoneUnique(SysUser user) {
+    public Boolean checkPhoneUnique(SysUser user,String companyId) {
         if(StrUtil.isEmpty(user.getUserId())){
             return Boolean.TRUE;
         }
-        SysUser sysUser = sysUserMapper.checkPhoneUnique(user.getPhone());
+        SysUser sysUser = sysUserMapper.checkPhoneUnique(user.getPhone(),companyId);
 
         if (sysUser != null && !sysUser.getUserId().equals(user.getUserId()))
         {
@@ -246,11 +246,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Boolean checkEmailUnique(SysUser user) {
+    public Boolean checkEmailUnique(SysUser user,String companyId) {
         if(StrUtil.isEmpty(user.getUserId())){
             return Boolean.TRUE;
         }
-        SysUser sysUser = sysUserMapper.checkEmailUnique(user.getEmail());
+        SysUser sysUser = sysUserMapper.checkEmailUnique(user.getEmail(),companyId);
 
         if (sysUser != null && !sysUser.getUserId().equals(user.getUserId()))
         {
@@ -297,7 +297,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserRoleService.deleteUserRoleByUserId(userId,companyId);
         // 删除用户与岗位表
         sysUserPostService.deleteUserPostByUserId(userId,companyId);
-        return sysUserMapper.deleteUserById(userId);
+        return sysUserMapper.deleteUserById(userId,companyId);
     }
 
     /**
@@ -318,7 +318,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserPostService.deleteUserPostByUserId(userId,companyId);
         // 新增用户与岗位管理
         insertUserPost(user,companyId);
-        return sysUserMapper.updateUser(user);
+        return sysUserMapper.updateUser(user,companyId);
     }
     /**
      * 获取用户列表
@@ -358,47 +358,5 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.listUserByPerms(perms,companyId);
     }
 
-    /**
-     * 查询用户所属角色组
-     *
-     * @param userName 用户名
-     * @return 结果
-     */
-    @Override
-    public String selectUserRoleGroup(String userName,String companyId)
-    {
-        List<SysRole> list = sysRoleMapper.selectRolesByUserName(userName,companyId);
-        StringBuffer idsStr = new StringBuffer();
-        for (SysRole role : list)
-        {
-            idsStr.append(role.getRoleName()).append(",");
-        }
-        if (StrUtil.isNotEmpty(idsStr.toString()))
-        {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
-    }
 
-    /**
-     * 查询用户所属岗位组
-     *
-     * @param userName 用户名
-     * @return 结果
-     */
-    @Override
-    public String selectUserPostGroup(String userName,String companyId)
-    {
-        List<SysPost> list = sysPostMapper.selectPostsByUserName(userName,companyId);
-        StringBuffer idsStr = new StringBuffer();
-        for (SysPost post : list)
-        {
-            idsStr.append(post.getPostName()).append(",");
-        }
-        if (StrUtil.isNotEmpty(idsStr.toString()))
-        {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
-    }
 }

@@ -29,7 +29,7 @@ public class UserVo {
     private char sex;
 
     private String avatar;
-
+    private char remark;
     private char status;
 
     private String deptName;

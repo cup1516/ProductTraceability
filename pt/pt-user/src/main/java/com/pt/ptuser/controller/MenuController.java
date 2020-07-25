@@ -79,7 +79,11 @@ public class MenuController {
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public R roleMenuTreeselect(@PathVariable("roleId") String roleId)
     {
-        List<SysMenu> menus = sysMenuService.selectMenuList(SecurityUtils.getId(),SecurityUtils.getCompanyId());
+        List<SysMenu> sysMenus = sysMenuService.selectSystemMenuList();
+        List<SysMenu> bussinessMenus = sysMenuService.selectBussinessMenuList(SecurityUtils.getCompanyId());
+        List<SysMenu> menus = new ArrayList<>();
+        menus.addAll(sysMenus);
+        menus.addAll(bussinessMenus);
         Map result = new HashMap<String, List<String>>();
         //个人菜单
         result.put("checkedKeys", sysMenuService.selectMenuListByRoleId(roleId,SecurityUtils.getCompanyId()));

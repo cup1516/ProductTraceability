@@ -37,6 +37,7 @@
 
   <select id="selectPostAll" resultMap="BaseResultMap">
     <include refid="selectSysPost"/>
+    where del_flag = '0' and company_id = #{companyId}
   </select>
 
   <select id="selectPostById"  resultMap="BaseResultMap">
@@ -45,19 +46,19 @@
   </select>
 
   <select id="selectPostListByUserId"  resultType="String">
-    select p.post_id
-    from system_post p
-    left join system_user_post up on up.post_id = p.post_id
-    left join system_user u on u.user_id = up.user_id
-    where u.user_id = #{userId} and company_id =#{companyId}
+    SELECT p.post_id
+    FROM system_post p
+    LEFT JOIN system_user_post up ON up.post_id = p.post_id AND up.`company_id` = p.`company_id`
+    LEFT JOIN SYSTEM_USER u ON u.user_id = up.user_id AND u.`company_id` = up.`company_id`
+    where u.user_id = #{userId} and u.company_id =#{companyId}
   </select>
 
   <select id="selectPostsByUserName"  resultMap="BaseResultMap">
     select p.post_id, p.post_name, p.post_code
     from system_post p
-    left join system_user_post up on up.post_id = p.post_id
-    left join system_user u on u.user_id = up.user_id
-    where u.user_name = #{userName} and company_id =#{companyId}
+    left join system_user_post up on up.post_id = p.post_id and up.company_id = p.company_id
+    left join system_user u on u.user_id = up.user_id and u.company_id = up.company_id
+    where u.user_name = #{userName} and u.company_id =#{companyId}
   </select>
 
   <select id="checkPostNameUnique"  resultMap="BaseResultMap">

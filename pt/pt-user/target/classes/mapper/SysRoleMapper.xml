@@ -114,6 +114,7 @@
   <insert id="insertRole"  keyProperty="roleId">
     insert into system_role(
     <if test="role.roleId != null and role.roleId != ''">role_id,</if>
+    <if test="companyId != null and companyId != ''">company_id,</if>
     <if test="role.roleName != null and role.roleName != ''">role_name,</if>
     <if test="role.roleCode != null and role.roleCode != ''">role_code,</if>
     <if test="role.roleSort != null and role.roleSort != ''">role_sort,</if>
@@ -122,6 +123,7 @@
     create_time
     )values(
     <if test="role.roleId != null and role.roleId != ''">#{role.roleId},</if>
+    <if test="companyId != null and companyId != ''">#{companyId},</if>
     <if test="role.roleName != null and role.roleName != ''">#{role.roleName},</if>
     <if test="role.roleCode != null and role.roleCode != ''">#{role.roleCode},</if>
     <if test="role.roleSort != null and role.roleSort != ''">#{role.roleSort},</if>
@@ -132,7 +134,7 @@
   </insert>
 
   <update id="deleteRoleByIds"  >
-    update system_role set del_flag = '1' where role_id and company_id = #{companyId} in
+    update system_role set del_flag = '1' where company_id = #{companyId} and role_id in
     <foreach collection="roles" item="roleId" open="(" separator="," close=")">
       #{roleId,jdbcType=VARCHAR}
     </foreach>
@@ -144,17 +146,17 @@
 
 
   <sql id="selectRoleVo">
-	    select distinct r.role_id, r.role_name, r.role_code, r.role_sort,
+	    SELECT DISTINCT r.role_id, r.role_name, r.role_code, r.role_sort,
             r.status, r.del_flag, r.create_time,r.company_id
-        from system_role r
-	        left join system_user_role ur on ur.role_id = r.role_id
-	        left join system_user u on u.user_id = ur.user_id
-	        left join system_dept d on u.dept_id = d.dept_id
+		FROM system_role r
+	        LEFT JOIN system_user_role ur ON ur.role_id = r.role_id AND ur.`company_id` = r.`company_id`
+	        LEFT JOIN SYSTEM_USER u ON u.user_id = ur.user_id AND ur.`company_id` = u.`company_id`
+	        LEFT JOIN system_dept d ON u.dept_id = d.dept_id AND u.`company_id` = d.`company_id`
     </sql>
 
   <select id="selectRolesByUserName"  resultMap="BaseResultMap">
     <include refid="selectRoleVo"/>
-    WHERE r.del_flag = '0' and u.user_name = #{userName}
+    WHERE r.del_flag = '0' and u.user_name = #{userName} and u.company_id = #{companyId}
   </select>
   <select id="checkRole" resultMap="BaseResultMap" >
         select r.role_id,r.role_name,r.role_code,r.role_sort,r.create_by,r.create_time,r.status,r.company_id
