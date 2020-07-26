@@ -23,8 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pt.ptcommonsecurity.component.CustomAuth2ExceptionSerializer;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author
  */
 @JsonSerialize(using = CustomAuth2ExceptionSerializer.class)
 public class InvalidException extends CustomAuth2Exception {

@@ -23,8 +23,7 @@ import com.pt.ptcommonsecurity.component.CustomAuth2ExceptionSerializer;
 import org.springframework.http.HttpStatus;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author
  */
 @JsonSerialize(using = CustomAuth2ExceptionSerializer.class)
 public class  UnauthorizedException extends CustomAuth2Exception {

@@ -3,7 +3,7 @@
 <mapper namespace="com.pt.ptuser.mapper.SysMenuMapper">
   <resultMap id="BaseResultMap" type="com.pt.ptuser.entity.SysMenu">
     <!--@mbg.generated-->
-    <!--@Table dealer_menu-->
+    <!--@Table system_menu-->
     <id column="menu_id"  property="menuId" />
     <result column="menu_name" property="menuName" />
     <result column="parent_id" property="parentId" />
@@ -27,7 +27,7 @@
 
     <resultMap id="MenuTreeVoResultMap" type="com.pt.ptcommoncore.dto.MenuVO">
         <!--@mbg.generated-->
-        <!--@Table dealer_menu-->
+        <!--@Table system_menu-->
         <id column="menu_id"  property="menuId" />
         <result column="menu_name" property="menuName" />
         <result column="parent_id" property="parentId" />
@@ -69,7 +69,7 @@
     <select id="selectMenuTreeAll" resultMap="BaseResultMap">
 		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.menu_type, m.type,m.client_type,m.icon, m.order_num, m.create_time
 		from system_menu m
-		right join center_companyid cc on cc.type = m.type
+		right join system_company_info cc on cc.type = m.type
 		where m.menu_type in ('M', 'C') and m.status = 0 and cc.company_id = #{companyId}
 		order by m.parent_id, m.order_num
 	</select>
@@ -116,18 +116,18 @@
   <select id="listRoutesByRole"  resultMap="BaseResultMap">
 <!--    select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.menu_type, m.icon, m.order_num, m.create_time-->
     select distinct m.*
-    from dealer_menu m
-    left join dealer_role_menu rm on m.menu_id = rm.menu_id
-    left join dealer_role ro on rm.role_id = ro.role_id
+    from system_menu m
+    left join system_role_menu rm on m.menu_id = rm.menu_id
+    left join system_role ro on rm.role_id = ro.role_id
     where ro.role_code = #{role}
     order by m.parent_id, m.order_num
   </select>
 <!-- 通过用户ID，查询角色信息-->
 <select id="listMenuByRole"  resultMap="MenuTreeVoResultMap">
     select distinct m.menu_id, m.parent_id, m.menu_name, m.path,m.component, ifnull(m.perms,'') as perms, m.menu_type, m.type,m.client_type,m.icon, m.order_num, m.create_time,m.update_time
-    from dealer_menu m
-    left join dealer_role_menu rm on m.menu_id = rm.menu_id
-    left join dealer_role ro on rm.role_id = ro.role_id
+    from system_menu m
+    left join system_role_menu rm on m.menu_id = rm.menu_id
+    left join system_role ro on rm.role_id = ro.role_id
     where ro.role_code = #{role} and  m.menu_type in ('M', 'C') and m.status = 0
     order by m.parent_id, m.order_num
 </select>
@@ -233,7 +233,7 @@
     </select>
     <select id="selectBussinessMenuList" resultMap="BaseResultMap">
         <include refid="selectSysMenu"/>
-        right join  center_companyid  cc on cc.type = m.client_type
+        right join  system_company_info  cc on cc.type = m.client_type
         where m.type = '1' and cc.company_id = #{companyId}
     </select>
 </mapper>

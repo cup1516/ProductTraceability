@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper  {
     List<SysRole> listRolesByUserIdAndCompanyId(@Param("userId") String userId, @Param("companyId") String companyId);
-    List<SysRole> listRolesByUserId(@Param("userId") String userId);
     SysRole getByRoleCode(@Param("roleCode") String roleCode, @Param("companyId") String companyId);
     /**
      * 根据用户ID获取角色选择框列表

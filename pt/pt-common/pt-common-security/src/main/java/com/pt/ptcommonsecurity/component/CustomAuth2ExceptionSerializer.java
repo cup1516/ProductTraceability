@@ -25,9 +25,7 @@ import com.pt.ptcommonsecurity.exception.CustomAuth2Exception;
 import lombok.SneakyThrows;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * <p>
+ * @author
  * OAuth2 异常格式化
  */
 public class CustomAuth2ExceptionSerializer extends StdSerializer<CustomAuth2Exception> {

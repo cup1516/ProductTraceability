@@ -24,8 +24,7 @@ import lombok.Getter;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author
  * 自定义OAuth2Exception
  */
 @JsonSerialize(using = CustomAuth2ExceptionSerializer.class)

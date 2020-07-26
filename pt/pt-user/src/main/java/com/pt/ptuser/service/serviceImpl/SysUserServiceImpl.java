@@ -50,25 +50,14 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public UserInfo findUserByUsernameAndUrl(String username, String url) {
-        SysUser sysUser;
-        //url为空则为数据中心用户
-        if(url == ""){
-            sysUser = sysUserMapper.findUserByUsername(username);
-        }else{
-            sysUser = sysUserMapper.findUserByUsernameAndUrl(username,url);
-        }
+        SysUser sysUser = sysUserMapper.findUserByUsernameAndUrl(username,url);
         //重新拼接用户名
         UserInfo userInfo = new UserInfo();
         if(sysUser!=null){
             sysUser.setUserName(sysUser.getUserName()+'_'+url);
             userInfo.setSysUser(sysUser);
             //设置角色列表  （ID）
-            List<SysRole> dealerSysRoles;
-            if(url == "") {
-                dealerSysRoles = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
-            }else {
-                dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(), sysUser.getCompanyId());
-            }
+            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(), sysUser.getCompanyId());
             List<String> roles = dealerSysRoles.stream()
                     .map(SysRole::getRoleCode)
                     .collect(Collectors.toList());
@@ -91,12 +80,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public UserInfo findUserByUsernameAndCompanyId(String username, String companyId) {
-        SysUser sysUser;
-        if(companyId == ""){
-            sysUser = sysUserMapper.findUserByUsername(username);
-        }else{
-            sysUser = sysUserMapper.findUserByUsernameAndCompanyId(username,companyId);
-        }
+        SysUser sysUser = sysUserMapper.findUserByUsernameAndCompanyId(username,companyId);
         UserInfo userInfo = new UserInfo();
         if(sysUser!=null){
             userInfo.setSysUser(sysUser);

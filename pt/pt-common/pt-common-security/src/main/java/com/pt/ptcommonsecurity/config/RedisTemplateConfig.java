@@ -40,8 +40,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.Duration;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author
  * Redis 配置类
  */
 @EnableCaching

@@ -29,12 +29,6 @@ public interface SysUserMapper  {
      */
     SysUser findUserByUsernameAndCompanyId(@Param("username") String username,@Param("companyId") String companyId);
     /**
-     * 根据username查找用户
-     * @param username 账号
-     * @return
-     */
-    SysUser findUserByUsername(@Param("username") String username);
-    /**
      * 分页获取本部门全部用户
      * @param page 分页参数
      * @param deptId

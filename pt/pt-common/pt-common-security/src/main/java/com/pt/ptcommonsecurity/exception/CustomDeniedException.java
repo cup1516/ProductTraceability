@@ -21,8 +21,7 @@ package com.pt.ptcommonsecurity.exception;
 import lombok.NoArgsConstructor;
 
 /**
- * @author lengleng
- * @date 2018年06月22日16:22:03
+ * @author
  * 403 授权拒绝
  */
 @NoArgsConstructor

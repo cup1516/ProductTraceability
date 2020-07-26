@@ -20,7 +20,7 @@ package com.pt.ptcommoncore.util;
 
 
 
-import com.pt.ptcommoncore.constant.CommonConstants;
+import com.pt.ptcommoncore.constant.*;
 import lombok.*;
 
 import java.io.Serializable;

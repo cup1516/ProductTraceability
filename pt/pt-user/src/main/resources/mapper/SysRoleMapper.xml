@@ -30,13 +30,6 @@
     LEFT JOIN system_user_role ur ON ur.`role_id` = r.`role_id` and ur.company_id = r.company_id
     WHERE ur.`user_id` = #{userId} AND r.`company_id` = #{companyId} AND r.`del_flag` = '0' AND r.`status` = '0'
   </select>
-  <!-- 通过用户ID，查询角色信息-->
-  <select id="listRolesByUserId" resultMap="BaseResultMap">
-    SELECT r.*
-  FROM center_role r
-  LEFT JOIN center_user_role ur ON ur.`role_id` = r.`role_id`
-  WHERE ur.`user_id` = #{userId}  AND r.`del_flag` = '0' AND r.`status` = '0'
-</select>
   <select id="getByRoleCode"  resultMap="BaseResultMap" >
     <include refid="selectSysRole"/>
     where r.role_code = #{roleCode} and r.company_id = #{companyId}

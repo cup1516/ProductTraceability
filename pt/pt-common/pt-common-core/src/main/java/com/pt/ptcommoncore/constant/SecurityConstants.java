@@ -30,7 +30,7 @@ public interface SecurityConstants {
     /**
      * 前缀
      */
-    String PROJECT_PREFIX = "pig_";
+    String PROJECT_PREFIX = "pt_";
 
 
     /**

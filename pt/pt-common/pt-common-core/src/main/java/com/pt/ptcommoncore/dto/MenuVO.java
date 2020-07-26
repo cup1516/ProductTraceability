@@ -24,12 +24,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 菜单权限表
- * </p>
- *
- * @author lengleng
- * @since 2017-11-08
+ * @author
  */
 @Data
 public class MenuVO implements Serializable {

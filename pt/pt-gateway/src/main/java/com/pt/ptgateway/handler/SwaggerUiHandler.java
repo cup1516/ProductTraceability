@@ -34,8 +34,7 @@ import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import java.util.Optional;
 
 /**
- * @author lengleng
- * @date 2018-07-19
+ * @author
  * SwaggerUiHandler
  */
 @Slf4j

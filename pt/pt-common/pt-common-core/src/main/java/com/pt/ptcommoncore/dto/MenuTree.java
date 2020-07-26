@@ -24,8 +24,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * @author lengleng
- * @date 2017年11月9日23:33:27
+ * @author
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

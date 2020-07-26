@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2017年11月9日23:33:45
+ * @author
  */
 @Data
 public class TreeNode {
