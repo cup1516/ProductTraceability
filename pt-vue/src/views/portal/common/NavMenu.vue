@@ -47,7 +47,6 @@
       },
     },
     mounted() {
-      this.name = this.$store.state.username.data
     },
     methods: {
       handleSelect(key, keyPath) {

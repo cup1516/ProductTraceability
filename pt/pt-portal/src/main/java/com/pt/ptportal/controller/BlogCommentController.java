@@ -18,19 +18,19 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(value = "/Blogcomment")
 public class BlogCommentController {
-
     private final BlogCommentDao blogCommentDao;
-
     @Autowired
     public BlogCommentController(BlogCommentDao commentDao) {
         this.blogCommentDao = commentDao;
     }
     @GetMapping("/getAll")
     public List<BlogComments> getAll(){
-      return blogCommentDao.findAll();
+      return blogCommentDao.findAllByStateIsTrueAndCompanyId("1");
     }
+
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody BlogComments blogComments){
+        blogComments.setCompanyId("1");
         BlogComments result = blogCommentDao.save(blogComments);
         if(result !=null){
             return "success";
@@ -42,44 +42,6 @@ public class BlogCommentController {
 
     @GetMapping("/get/by-blog/{id}")
     public Iterable<BlogComments> getCommentByBlog(@PathVariable("id")  int id){
-
-        return blogCommentDao.findAllByBlogId(id);
-    }
-    @PutMapping("/update")
-    public ResponseEntity updateComment(@RequestHeader("uid") String uid, @RequestBody BlogComments comments){
-        //获取当前系统时间
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = dateFormat.format( now );
-        BlogComments commentsNew = new BlogComments(
-                comments.getCommentId(),
-                comments.getUserId(),
-                comments.getUserName(),
-                comments.getContent(),
-                comments.getBlogId(),
-                comments.getParentId(),
-                comments.getParentName(),
-                comments.getCreateTime(),
-                comments.getState()
-
-        );
-        return new ResponseEntity<>(blogCommentDao.save(commentsNew),OK);
-    }
-    //此处第一个参数id：commentId
-    @PutMapping("/set/state")
-    public ResponseEntity setState(@RequestHeader("uid") String uid, @RequestBody List<String> list) {
-        final Iterable<BlogComments> commentList = blogCommentDao.findAllByCommentIdIn(list);
-       if(commentList.iterator().hasNext()){
-           //获取当前系统时间
-           Date now = new Date();
-           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           String date = dateFormat.format(now);
-           for(BlogComments comment:commentList){
-               comment.setState(!comment.getState());
-
-               blogCommentDao.save(comment);
-           }
-           return new ResponseEntity<>(commentList,OK);
-       }else return new ResponseEntity<>(NOT_MODIFIED);
+        return blogCommentDao.findAllByBlogIdAndCompanyIdAndState(id,"1",true);
     }
 }

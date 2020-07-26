@@ -35,6 +35,9 @@ spring:
       pool:
         max-active: 8
         max-idle: 8
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 eureka:
   client:

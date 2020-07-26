@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnnouncementDao extends JpaRepository<Announcement, Integer>, JpaSpecificationExecutor<Announcement> {
-    List<Announcement> findAllById(Integer id);
-      Optional<Announcement> findById(Integer id);
+    List<Announcement> findAllByIdAndCompanyId(Integer id, String companyId);
+    Optional<Announcement> findByIdAndCompanyId(Integer id, String companyId);
 
 }

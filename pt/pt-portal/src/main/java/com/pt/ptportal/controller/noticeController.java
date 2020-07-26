@@ -18,11 +18,11 @@ public class noticeController {
     com.pt.ptportal.dao.noticeDao noticeDao;
     @GetMapping("/findAll/{name}")
     public List<notice> findAllbyName(@PathVariable("name") String name){
-        return noticeDao.findAllByNameAndStatus(name,1);
+        return noticeDao.findAllByNameAndStatusAndCompanyId(name,1,"1");
     }
     @GetMapping("/findAll")
     public List<notice> findAll(){
-        return noticeDao.findAllByStatusAndIsCheck(1,2);
+        return noticeDao.findAllByStatusAndIsCheckAndCompanyId(1,2,"1");
     }
     @PostMapping("/tocheck")
     public notice tocheck( @RequestBody notice notice){
@@ -49,45 +49,48 @@ public class noticeController {
         return notice;
     }
 
-    @GetMapping("/findAll/{page}/{size}")
-    public Page<notice> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
-        Specification spec = new Specification() {
-            @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                //1.1 获取比较的属性
-                Path<Object> status =root.get("status");
-                Path<Object> isCheck = root.get("isCheck");
-                //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(isCheck,1));
-                return predicate;
-            }
-        };
-        PageRequest request = PageRequest.of(page,size);
-        return noticeDao.findAll(spec,request);
-    }
-
     //降序
     @GetMapping("/findAllDesc/{page}/{size}")
     public Page<notice> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
-        Specification spec = new Specification() {
+         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Path<Object> status =root.get("status");
                 Path<Object> isCheck = root.get("isCheck");
+                Path<Object> companyId = root.get("companyId");
+
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(isCheck,2));
+                Predicate predicate =criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(isCheck,1),criteriaBuilder.equal(companyId,1)) ;
                 return predicate;
             }
         };
         PageRequest request = PageRequest.of(page,size, Sort.Direction.DESC,"id");
         return noticeDao.findAll(spec,request);
     }
+    @GetMapping("/findAll/{page}/{size}")
+    public Page<notice> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        Specification spec = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Path<Object> status =root.get("status");
+                Path<Object> isCheck = root.get("isCheck");
+                Path<Object> companyId = root.get("companyId");
+
+                //1.2构造查询条件
+                Predicate predicate =criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(isCheck,1),criteriaBuilder.equal(companyId,1)) ;
+                return predicate;
+            }
+        };
+        PageRequest request = PageRequest.of(page,size);
+        return noticeDao.findAll(spec,request);
+    }
     @GetMapping("/findById/{id}")
     public notice findById(@PathVariable("id") Integer id){
-        return noticeDao.findById(id).get();
+        return noticeDao.findByIdAndCompanyIdAndStatus(id,"1",1).get();
     }
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody notice notice ){
+        notice.setCompanyId("1");
         notice result = noticeDao.save(notice);
         if(result !=null){
             return "success";
@@ -98,7 +101,7 @@ public class noticeController {
     }
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Integer id){
-        notice notice = noticeDao.findById(id).get();
+        notice notice = noticeDao.findByIdAndCompanyIdAndStatus(id,"1",1).get();
         notice.setStatus(0);
         noticeDao.save(notice);
 

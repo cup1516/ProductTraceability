@@ -22,6 +22,8 @@ public class comment {
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false,updatable = false)
     @Generated(GenerationTime.INSERT)
     private Timestamp createTime;
+    // 企业id
+    private String companyId;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public Timestamp getCreateTime() {
         return createTime;

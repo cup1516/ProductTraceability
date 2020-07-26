@@ -19,6 +19,7 @@ public class notice {
     private Integer id;
     //名称
     private String name;
+    //状态位
     private Integer status=1;
     //标题
     private String title;
@@ -35,7 +36,12 @@ public class notice {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date failTime;
+
+    //审核状态 0是未送审  1送审  2送审通过状态 3送审未通过
     private int isCheck=0;
+
+    // 企业id
+    private String companyId;
 
     //自定义返回时间的格式
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

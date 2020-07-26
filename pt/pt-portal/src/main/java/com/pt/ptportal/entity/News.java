@@ -37,6 +37,9 @@ public class News {
     private String newsHtml;
     //设置状态位0或者是1,0为不可见，1为可见（默认为1）
     private Integer status=1;
+    // 企业id
+    private String companyId;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public Timestamp getCreateTime() {
         return createTime;

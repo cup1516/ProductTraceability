@@ -33,6 +33,8 @@ public class Blog {
     private Boolean state=true;
     //帖子的点赞数
     private int likeNum;
+    // 企业id
+    private String companyId;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public Timestamp getCreateTime() {
         return createTime;

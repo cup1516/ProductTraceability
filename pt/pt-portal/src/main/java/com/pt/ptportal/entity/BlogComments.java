@@ -30,13 +30,15 @@ public class BlogComments {
     private String parentId;
     private String parentName;
     //创建时间
-    //创建时间
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false,updatable = false)
     @Generated(GenerationTime.INSERT)
     private Timestamp createTime;
+
     //状态(1表示有效，0表示失效)
     @Column(nullable = false)
     private Boolean state=true;
+    // 企业id
+    private String companyId;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public Timestamp getCreateTime() {
         return createTime;

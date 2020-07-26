@@ -12,7 +12,8 @@ import java.util.Optional;
 
 public interface newsDao  extends JpaRepository<News, Integer>, JpaSpecificationExecutor<News> {
 
-     List<News> findAllById(Integer id);
-     Optional<News> findById(Integer id);
+     List<News> findAllByIdAndCompanyIdAndStatus(Integer id,String companyId,Integer status);
+     News  findByIdAndCompanyIdAndStatus(Integer id,String companyId,Integer status);
+
 
 }
