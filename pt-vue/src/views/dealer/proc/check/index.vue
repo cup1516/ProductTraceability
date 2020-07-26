@@ -19,24 +19,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="启用状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="启用状态" clearable size="small">
+      <el-form-item label="创建人员" prop="createBy" >
+        <el-select v-model="queryParams.createBy" placeholder="创建人员" clearable size="small">
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="送审状态" prop="checkStatus">
-        <el-select v-model="queryParams.checkStatus" placeholder="送审状态" clearable size="small">
-          <el-option
-            v-for="dict in checkStatusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
+            v-for="item in userList"
+            :key="item.userName"
+            :label="item.nickName"
+            :value="item.userName"
+          ><span style="float: left;font-size: 6px" >{{ item.nickName }}</span>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -45,45 +36,12 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['dealer:process:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['dealer:process:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['dealer:process:remove']"
-        >删除</el-button>
-      </el-col>
-    </el-row>
 
     <el-table v-loading="loading" :data="processList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="流程编号" width="280" align="center" prop="processId" />
       <el-table-column label="流程编码" align="center" prop="processCode" />
       <el-table-column label="流程名称" align="center" prop="processName" />
-      <el-table-column label="启用状态" width="80" align="center" prop="status" :formatter="statusFormat" />
-      <el-table-column label="送审状态" width="80" align="center" prop="checkStatus" :formatter="checkStatusFormat" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -92,41 +50,25 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.checkStatus === '0'||scope.row.checkStatus === '3'"
             size="mini"
             type="text"
             icon="el-icon-check"
-            @click="handleCheck(scope.row)"
-            v-hasPermi="['dealer:process:edit']"
-          >送审</el-button>
+            @click="handlePass(scope.row)"
+
+          >通过</el-button>
           <el-button
-            v-if="scope.row.checkStatus === '1'"
             size="mini"
             type="text"
             icon="el-icon-close"
-            @click="handleRetrack(scope.row)"
-            v-hasPermi="['dealer:process:edit']"
-          >撤回</el-button>
+            @click="handleFail(scope.row)"
+
+          >打回</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row)"
           >查看</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['dealer:process:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['dealer:process:remove']"
-          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -155,26 +97,11 @@
           </el-col>
         </el-row>
         <el-form-item label="流程节点" prop="processNodes">
-          <el-button 
-            v-if="!isView"
-            icon="el-icon-plus"
-            size="mini"
-            @click="handleRowAdd"
-            circle></el-button>
-          <el-button 
-              v-if="!isView"
-              icon="el-icon-minus"
-              size="mini"
-              @click="handleRowDelete"
-              :disabled="rowIds.length === 0"
-              circle></el-button>
               <el-table
                     style="width: 100%"
                     :disabled="isView"
-                    @selection-change="handleRowSelectionChange"
                     :data="form.processNodes">
-                  <el-table-column v-if="!isView" type="selection" width="55" align="center" />
-                  <el-table-column label="序号" type="index" :index="rowIndex" width="55" align="center" />
+                  <el-table-column label="序号" type="index"  width="55" align="center" />
                   <el-table-column label="节点" align="center" prop="nodeId">
                     <template slot-scope="scope">
                       <el-select size="mini" placeholder=" " v-model="scope.row.nodeId" :disabled="isView">
@@ -259,19 +186,18 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="cancel">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listProcess,addProcess,updateProcess,delProcess,getProcess,changeCheckStatus} from "@/api/dealer/process";
+import { listProcessCheck,getProcess,changeCheckStatus} from "@/api/dealer/process";
 import { getUserListPost, getUserListDept } from "@/api/system/user";
 import { getList as getNodeList } from "@/api/dealer/node";
 export default {
-  name: "process",
+  name: "check",
   data() {
     return {
       // 是否查看
@@ -349,7 +275,7 @@ export default {
     /** 查询流程列表 */
     getList() {
       this.loading = true;
-      listProcess(this.queryParams).then(response => {
+      listProcessCheck(this.queryParams).then(response => {
         this.processList = response.data.records;
         this.total = response.data.total;
         this.loading = false;
@@ -396,15 +322,7 @@ export default {
       this.single = selection.length!=1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      getNodeList().then(res=>{
-        this.nodeList = res.data
-      })
-      this.open = true;
-      this.title = "添加流程";
-    },
+
     /** 关闭对话框回调函数 */
     handleClose(){
       this.isView = false
@@ -414,7 +332,7 @@ export default {
         row.checkStatus = '2'
         changeCheckStatus(row).then(()=>{
           this.msgSuccess("通过成功")
-          this.getList
+          this.getList()
         }).catch(res =>{
           this.msgError(res)
         })
@@ -424,31 +342,12 @@ export default {
         row.checkStatus = '3'
         changeCheckStatus(row).then(()=>{
           this.msgSuccess("打回成功")
-          this.getList
+          this.getList()
         }).catch(res =>{
           this.msgError(res)
         })
     },
-    /** 送审按钮操作 */
-    handleCheck(row){
-        row.checkStatus = '1'
-        changeCheckStatus(row).then(()=>{
-          this.msgSuccess("送审成功")
-          this.getList
-        }).catch(res =>{
-          this.msgError(res)
-        })
-    },
-    /** 撤回按钮操作 */
-    handleRetrack(row){
-        row.checkStatus = '0'
-        changeCheckStatus(row).then(()=>{
-          this.msgSuccess("撤回成功")
-          this.getList
-        }).catch(res =>{
-          this.msgError(res)
-        })
-    },
+
     /** 查看按钮操作 */
     handleView(row) {
       this.reset();
@@ -463,19 +362,7 @@ export default {
         this.title = "查看流程";
       });
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const processId = row.processId || this.ids
-      getNodeList().then(res=>{
-        this.nodeList = res.data
-      })
-      getProcess(processId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改流程";
-      });
-    },
+
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
@@ -500,48 +387,9 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const processIds = row.processId || this.ids;
-      this.$confirm('是否确认删除流程编号为"' + processIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delProcess(processIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
-    },
 
 
-    //添加行
-    handleRowAdd(){
-      let row = {
-        nodeId: '',
-        sort: '',
-        remark: '',
-        status: '0',
-        
-      }
-      this.form.processNodes.push(row)
-    },
-    //在行数据中添加index
-    rowIndex(index){
-      this.form.processNodes[index].index = index
-      this.form.processNodes[index].sort = index+1
-      return index+1
-    },
-    // 对话框多选框选中数据
-    handleRowSelectionChange(selection) {
-      this.rowIds = selection.map(item => item.index)
-    },
-    //删除行
-    handleRowDelete(){
-      this.rowIds.forEach((id,index) => this.form.processNodes.splice(id-index,1))
-      this.rowIds = []
-    },
+    
   }
 };
 </script>

@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerproc.dto.NodeDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
@@ -65,9 +66,19 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 */
 	@Override
 	public IPage getProcessPage(Page page, ProcessDto processDto) {
+		processDto.setCreateBy(SecurityUtils.getUserName());
 		return procProcessMapper.getProcessDtoPage(page,processDto);
 	}
-
+	/**
+	 * 获取加工流程表
+	 * @param page
+	 * @param processDto
+	 * @return
+	 */
+	@Override
+	public IPage getProcessCheckPage(Page page, ProcessDto processDto) {
+		return procProcessMapper.getProcessDtoCheckPage(page,processDto);
+	}
 	/**
 	 * 查询流程信息集合
 	 *
