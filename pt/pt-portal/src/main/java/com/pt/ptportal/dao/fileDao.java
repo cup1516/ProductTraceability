@@ -8,7 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 
 public interface fileDao extends JpaRepository<file, Integer>, JpaSpecificationExecutor<file> {
- @Override
- Optional<file> findById(Integer id);
 
 }

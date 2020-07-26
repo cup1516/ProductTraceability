@@ -69,16 +69,13 @@
         })
       },
       deleteComment(row) {
-        console.log("aassa")
         this.$confirm('是否删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
             this.$axios.delete('/portal/comment/delete/' + row.id).then(resp => {
-              console.log(resp)
-
-                this.$message({
+              this.$message({
                   type: 'info',
                   message: '已删除成功',
                   callback: action => {

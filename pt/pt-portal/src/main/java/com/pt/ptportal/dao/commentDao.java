@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface commentDao extends JpaRepository<comment, Integer>, JpaSpecificationExecutor<comment> {
-    List<comment> findAllById(Integer id);
-    Optional<comment> findById(Integer id);
+    List<comment> findAllByIdAndCompanyIdAndStatus(Integer id,String companyId,Integer status);
+    comment findByIdAndCompanyIdAndStatus(Integer id,String companyId,Integer status);
 
 
 }

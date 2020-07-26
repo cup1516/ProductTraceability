@@ -28,8 +28,10 @@ public class commentController {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 //1.1 获取比较的属性
                 Path<Object> status =root.get("status");
+                Path<Object> companyId =root.get("companyId");
+
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.equal(status, 1);
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
                 return predicate;
             }
         };
@@ -44,8 +46,10 @@ public class commentController {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 //1.1 获取比较的属性
                 Path<Object> status =root.get("status");
+                Path<Object> companyId =root.get("companyId");
+
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.equal(status, 1);
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
                 return predicate;
             }
         };
@@ -55,19 +59,20 @@ public class commentController {
     //查询，返回的数组类型
     @GetMapping("/findAllById/filter={id}")
     public List<comment> findAllById(@PathVariable("id") Integer id){
-        return commentDao.findAllById(id);
+        return commentDao.findAllByIdAndCompanyIdAndStatus(id,"1",1);
     }
 
     //返回对象类型
     @GetMapping("/findById/{id}")
     public comment findById(@PathVariable("id") Integer id){
-        return commentDao.findById(id).get();
+        return commentDao.findByIdAndCompanyIdAndStatus(id,"1",1);
     }
 
 
 
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody comment comment ){
+        comment.setCompanyId("1");
         com.pt.ptportal.entity.comment result = commentDao.save(comment);
         if(result !=null){
             return "success";
@@ -78,7 +83,7 @@ public class commentController {
     }
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Integer id){
-        comment comment = commentDao.findById(id).get();
+        comment comment = commentDao.findByIdAndCompanyIdAndStatus(id,"1",1);
         comment.setStatus(0);
         commentDao.save(comment);
 

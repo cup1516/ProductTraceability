@@ -58,7 +58,17 @@ public class ProcProcessController {
     public R getProcProcessPage(Page page, ProcessDto processDto) {
         return R.ok(procProcessService.getProcessPage(page,processDto));
     }
-    
+    /**
+     * 分页查询
+     * @param page 分页对象
+     * @param processDto 加工流程表
+     * @return
+     */
+    @ApiOperation(value = "分页查询", notes = "分页查询")
+    @GetMapping("/check/page" )
+    public R getProcProcessCheckPage(Page page, ProcessDto processDto) {
+        return R.ok(procProcessService.getProcessCheckPage(page,processDto));
+    }
     /**
      * 获取节点列表
      * @return

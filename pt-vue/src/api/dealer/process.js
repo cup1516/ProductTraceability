@@ -8,7 +8,14 @@ export function listProcess(query) {
       params: query
     })
   }
-  
+  // 查询送审流程列表
+export function listProcessCheck(query) {
+  return request({
+    url: '/proc/process/check/page',
+    method: 'get',
+    params: query
+  })
+}
   // 查询流程详细
   export function getProcess(processId) {
     return request({

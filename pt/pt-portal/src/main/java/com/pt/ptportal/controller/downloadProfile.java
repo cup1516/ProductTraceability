@@ -4,11 +4,13 @@ import com.pt.ptportal.entity.file;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.criteria.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +22,16 @@ public class downloadProfile {
     com.pt.ptportal.dao.fileDao fileDao;
     @GetMapping("/download/findAllFile/{page}/{size}")
     public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        Specification spec = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                //1.1 获取比较的属性
+                Path<Object> companyId =root.get("companyId");
+                //1.2构造查询条件
+                Predicate predicate = criteriaBuilder.equal(companyId,1);
+                return predicate;
+            }
+        };
         PageRequest request = PageRequest.of(page,size);
         return fileDao.findAll(request);
     }

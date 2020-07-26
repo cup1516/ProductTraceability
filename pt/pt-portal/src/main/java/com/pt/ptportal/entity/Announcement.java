@@ -33,6 +33,8 @@ public class Announcement {
     private String announcementHtml;
     //状态位
     private Integer status=1;
+    // 企业id
+     private String companyId;
     //自定义返回时间的格式
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public Timestamp getCreateTime() {

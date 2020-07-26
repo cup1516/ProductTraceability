@@ -80,7 +80,7 @@
         const _this = this
         this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5').then(resp => {
           console.log(resp)
-          _this.tableData = resp.content;
+          _this.tableData = resp;
           _this.pageSize = resp.size;
           _this.total = resp.totalElements
         })

@@ -38,7 +38,7 @@ import java.util.List;
 @Mapper
 public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	IPage<List<ProcessDto>> getProcessDtoPage(Page page, @Param("query") ProcessDto processDto);
-	
+	IPage<List<ProcessDto>> getProcessDtoCheckPage(Page page, @Param("query") ProcessDto processDto);
 
 	/**
 	 * 查询流程数据集合

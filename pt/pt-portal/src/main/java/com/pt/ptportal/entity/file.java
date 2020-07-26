@@ -14,5 +14,7 @@ public class file {
     private String name;
     //在后端静态文件中文件的实际名称
     private String model;
+    // 企业id
+    private String companyId;
 
 }

@@ -1,4 +1,5 @@
 package com.pt.ptportal.controller;
+import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptportal.dao.AnnouncementDao;
 import com.pt.ptportal.entity.Announcement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ public class AnnouncementController {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 //1.1 获取比较的属性
                 Path<Object> status =root.get("status");
+                Path<Object> companyId =root.get("companyId");
+
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.equal(status, 1);
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
                 return predicate;
             }
         };
@@ -39,8 +42,9 @@ public class AnnouncementController {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 //1.1 获取比较的属性
                 Path<Object> status =root.get("status");
+                Path<Object> companyId =root.get("companyId");
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.equal(status, 1);
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
                 return predicate;
             }
         };
@@ -52,10 +56,10 @@ public class AnnouncementController {
     //查询，返回的数组类型
     @GetMapping("/findAllById/filter={id}")
     public List<Announcement> findAllById(@PathVariable("id") Integer id){
-
+        //使用工具类获取企业的id，待修改
+        SecurityUtils.getNickName();
         if(announcementDao.findById(id).get().getStatus()==1){
-            System.out.println(announcementDao.findById(id).get().getStatus());
-            return announcementDao.findAllById(id);
+            return  announcementDao.findAllByIdAndCompanyId(id,"1");
         }
         else {
             return null;
@@ -64,11 +68,12 @@ public class AnnouncementController {
 
     @GetMapping("/findById/{id}")
     public Announcement findById(@PathVariable("id") Integer id){
-            return announcementDao.findById(id).get();
+            return announcementDao.findByIdAndCompanyId(id,"1").get();
     }
 
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody Announcement announcement){
+        announcement.setCompanyId("1");
         Announcement result = announcementDao.save(announcement);
         if(result !=null){
             return "success";
@@ -80,7 +85,7 @@ public class AnnouncementController {
     //逻辑删除，将1变为0
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Integer id){
-        Announcement announcement = announcementDao.findById(id).get();
+        Announcement announcement = announcementDao.findByIdAndCompanyId(id,"1").get();
         announcement.setStatus(0);
         announcementDao.save(announcement);
         //newsDao.deleteById(id);
