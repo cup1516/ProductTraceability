@@ -39,16 +39,12 @@ public interface SysMenuService  {
     /**
      * 根据用户查询系统菜单列表
      *
-     * @param menu 菜单信息
-     * @param userId 用户ID
      * @return 菜单列表
      */
     List<SysMenu> selectBussinessMenuList(String companyId);
     /**
      * 根据用户查询系统菜单列表
      *
-     * @param menu 菜单信息
-     * @param userId 用户ID
      * @return 菜单列表
      */
     List<SysMenu> selectSystemMenuList();
@@ -105,7 +101,7 @@ public interface SysMenuService  {
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    SysMenu selectMenuById(String menuId,String companyId);
+    SysMenu selectMenuById(String menuId);
 
 
     /**
@@ -122,7 +118,7 @@ public interface SysMenuService  {
      * @param menu 菜单信息
      * @return 结果
      */
-    Boolean updateMenu(SysMenu menu,String companyId);
+    Boolean updateMenu(SysMenu menu);
 
 
     /**
@@ -135,24 +131,22 @@ public interface SysMenuService  {
     /**
      * 是否存在菜单子节点
      *
-     * @param menuId 菜单ID
      * @return 结果 true 存在 false 不存在
      */
-    Boolean hasChildByMenuId(String menuId,String companyId);
+    Boolean hasChild(SysMenu menu);
 
     /**
      * 查询菜单是否存在角色
      *
-     * @param menuId 菜单ID
      * @return 结果 true 存在 false 不存在
      */
-    Boolean checkMenuExistRole(String menuId,String companyId);
+    Boolean checkMenuExistRole(SysMenu menu);
     /**
      * 删除菜单管理信息
      *
-     * @param menuId 菜单ID
+     * @param menu 菜单
      * @return 结果
      */
-    Boolean deleteMenuById(String menuId,String companyId);
+    Boolean deleteMenu(SysMenu menu);
 
 }

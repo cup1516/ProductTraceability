@@ -25,8 +25,7 @@ public interface SysRoleMenuService  {
     /**
      * 查询菜单使用数量
      *
-     * @param menuId 菜单ID
      * @return 结果
      */
-    int checkMenuExistRole(String menuId,String companyId);
+    int checkMenuExistRole(String menuId);
 }

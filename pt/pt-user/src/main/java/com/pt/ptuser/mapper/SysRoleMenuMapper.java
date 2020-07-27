@@ -27,5 +27,5 @@ public interface SysRoleMenuMapper  {
      * @param menuId 菜单ID
      * @return 结果
      */
-    int checkMenuExistRole(@Param("menuId")String menuId,@Param("companyId") String companyId);
+    int checkMenuExistRole(@Param("menuId")String menuId);
 }

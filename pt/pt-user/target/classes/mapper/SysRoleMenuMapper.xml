@@ -29,6 +29,6 @@
   </insert>
 
   <select id="checkMenuExistRole" resultType="Integer">
-    select count(1) from system_role_menu where menu_id = #{menuId} and company_id = #{companyId}
+    select count(1) from system_role_menu where menu_id = #{menuId}
   </select>
 </mapper>

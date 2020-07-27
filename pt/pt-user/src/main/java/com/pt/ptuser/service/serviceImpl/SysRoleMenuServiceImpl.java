@@ -39,6 +39,6 @@ public class SysRoleMenuServiceImpl  implements SysRoleMenuService {
      * @return 结果
      */
     @Override
-    public int checkMenuExistRole(String menuId,String companyId){ return sysRoleMenuMapper.checkMenuExistRole(menuId,companyId);};
+    public int checkMenuExistRole(String menuId){ return sysRoleMenuMapper.checkMenuExistRole(menuId);};
 
 }

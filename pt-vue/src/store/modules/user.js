@@ -46,7 +46,7 @@ const user = {
         key: '-www.cup.edu.cn-',
         param: ['password']
       })
-      const url = "dealer"
+      const url = ""
       const username = user.username.trim()+"_"+url
       // const username = user.username.trim()
       const password = user.password

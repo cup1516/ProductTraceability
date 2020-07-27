@@ -434,7 +434,7 @@ export default {
           cancelButtonText: "取消",
           type: "warning"
         }).then(()=>{
-            delMenu(row.menuId).then(res => {
+            delMenu(row.menuId,row.type,row.clientType).then(res => {
                 this.getList();
                 this.msgSuccess("删除成功");
             }).catch(res=>{

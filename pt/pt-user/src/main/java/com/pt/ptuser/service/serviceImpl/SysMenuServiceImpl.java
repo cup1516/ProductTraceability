@@ -57,7 +57,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         }else{
             List<SysRoleMenu> sysRoleMenuList = sysRoleMenuService.listRoleMenu(roleId,companyId);
             sysRoleMenuList.stream().forEach(dealerRoleMenu -> {
-                String perms = sysMenuMapper.getMenuByIdAndCompanyId(dealerRoleMenu.getMenuId(),companyId).getPerms();
+                String perms = sysMenuMapper.getMenuById(dealerRoleMenu.getMenuId()).getPerms();
                 if(perms != null){
                     permissionsList.add(perms);
                 }
@@ -311,9 +311,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 菜单信息
      */
     @Override
-    public SysMenu selectMenuById(String menuId,String companyId)
+    public SysMenu selectMenuById(String menuId)
     {
-        return sysMenuMapper.selectMenuById(menuId,companyId);
+        return sysMenuMapper.selectMenuById(menuId);
     }
 
     /**
@@ -339,12 +339,12 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean updateMenu(SysMenu menu,String companyId)
+    public Boolean updateMenu(SysMenu menu)
     {
         if(menu.getMenuType().equals("M")){
             menu.setComponent("Layout");
         }
-        return sysMenuMapper.updateMenu(menu,companyId);
+        return sysMenuMapper.updateMenu(menu);
     }
     /**
      * 校验菜单名称是否唯一
@@ -374,9 +374,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean hasChildByMenuId(String menuId,String companyId)
+    public Boolean hasChild(SysMenu menu)
     {
-        int result = sysMenuMapper.hasChildByMenuId(menuId,companyId);
+        int result = sysMenuMapper.hasChild(menu);
         if(result > 0){
             throw new CustomException("存在子菜单,不允许删除");
         }
@@ -389,9 +389,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 结果
      */
     @Override
-    public Boolean checkMenuExistRole(String menuId,String companyId)
+    public Boolean checkMenuExistRole(SysMenu menu)
     {
-        int result = sysRoleMenuService.checkMenuExistRole(menuId,companyId);
+        int result = sysRoleMenuService.checkMenuExistRole(menu.getMenuId());
         if(result > 0){
             throw new CustomException("菜单已分配,不允许删除");
         }
@@ -400,12 +400,11 @@ public class SysMenuServiceImpl implements SysMenuService {
     /**
      * 删除菜单管理信息
      *
-     * @param menuId 菜单ID
      * @return 结果
      */
     @Override
-    public Boolean deleteMenuById(String menuId,String companyId)
+    public Boolean deleteMenu(SysMenu menu)
     {
-        return sysMenuMapper.deleteMenuById(menuId,companyId);
+        return sysMenuMapper.deleteMenu(menu);
     }
 }

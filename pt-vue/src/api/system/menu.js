@@ -52,10 +52,16 @@ export function updateMenu(data) {
 }
 
 // 删除菜单
-export function delMenu(menuId) {
+export function delMenu(menuId,type,clientType) {
+  const data = {
+    menuId,
+    type,
+    clientType
+  }
   return request({
-    url: '/user/menu/' + menuId,
-    method: 'delete'
+    url: '/user/menu' ,
+    method: 'delete',
+    data: data
   })
 }
 // 获取路由

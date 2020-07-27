@@ -91,7 +91,7 @@
         left join system_role_menu rm on m.menu_id = rm.menu_id
         left join system_user_role ur on rm.role_id = ur.role_id
         left join system_role ro on ur.role_id = ro.role_id
-        where ur.user_id = #{params.userId} and  m.menu_type in ('M', 'C') and m.status = 0
+        where ur.user_id = #{userId} and  m.menu_type in ('M', 'C') and m.status = 0
 <!--        <if test="menuName != null and menuName != ''">-->
 <!--            AND menu_name like concat('%', #{menuName}, '%')-->
 <!--        </if>-->
@@ -126,13 +126,13 @@
 <select id="listMenuByRole"  resultMap="MenuTreeVoResultMap">
     select distinct m.menu_id, m.parent_id, m.menu_name, m.path,m.component, ifnull(m.perms,'') as perms, m.menu_type, m.type,m.client_type,m.icon, m.order_num, m.create_time,m.update_time
     from system_menu m
-    left join system_role_menu rm on m.menu_id = rm.menu_id
-    left join system_role ro on rm.role_id = ro.role_id
-    where ro.role_code = #{role} and  m.menu_type in ('M', 'C') and m.status = 0
+    left join system_role_menu rm on m.menu_id = rm.menu_id and
+    left join system_role ro on rm.role_id = ro.role_id AND ro.`company_id` = rm.`company_id`
+    where ro.role_code = #{role} and  m.menu_type in ('M', 'C') and m.status = 0 and ro.company_id = #{companyId}
     order by m.parent_id, m.order_num
 </select>
     <!-- 通过用户ID，查询角色信息-->
-    <select id="getMenuByIdAndCompanyId" resultMap="BaseResultMap" >
+    <select id="getMenuById" resultMap="BaseResultMap" >
         SELECT
         m.*
         FROM
@@ -174,6 +174,13 @@
             update_time = sysdate()
         </set>
         where menu_id = #{menu.menuId}
+        <if test="menu.type != null and menu.type != '' ">
+            AND type = #{menu.type}
+        </if>
+        <!--仅在业务菜单情况下系统类型有效-->
+        <if test="menu.clientType != null and menu.clientType != '' and menu.type == '1'.toString()">
+            AND client_type = #{menu.clientType}
+        </if>
     </update>
 
     <insert id="insertMenu" >
@@ -216,13 +223,28 @@
         )
     </insert>
 
-    <select id="hasChildByMenuId" resultType="Integer">
+    <select id="hasChild" resultType="Integer">
         select count(1) from system_menu where parent_id = #{menuId}
+        <if test="type != null and type != '' ">
+            AND type = #{type}
+        </if>
+        <!--仅在业务菜单情况下系统类型有效-->
+        <if test="clientType != null and clientType != '' and type == '1'.toString()">
+            AND client_type = #{clientType}
+        </if>
     </select>
 
-    <delete id="deleteMenuById" >
-        delete from system_menu where menu_id = #{menuId}
-    </delete>
+
+    <update id="deleteMenu" >
+        update system_menu set status = '1'  where menu_id = #{menuId}
+        <if test="type != null and type != '' ">
+            AND type = #{type}
+        </if>
+        <!--仅在业务菜单情况下系统类型有效-->
+        <if test="clientType != null and clientType != '' and type == '1'.toString()">
+            AND client_type = #{clientType}
+        </if>
+    </update>
     <select id="listAllMenu" resultMap="BaseResultMap" >
         select m.menu_id, m.menu_name, m.parent_id, m.order_num, m.path, m.component, m.is_frame, m.menu_type,m.type,m.client_type, m.visible, m.status, ifnull(m.perms,'') as perms, m.icon, m.create_time
 		from system_menu m

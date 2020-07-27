@@ -51,7 +51,7 @@ public class MenuController {
     @GetMapping(value = "/{menuId}")
     public R getInfo(@PathVariable String menuId)
     {
-        return R.ok(sysMenuService.selectMenuById(menuId,SecurityUtils.getCompanyId()));
+        return R.ok(sysMenuService.selectMenuById(menuId));
     }
     /**
      * 返回当前用户的树形菜单集合
@@ -110,17 +110,17 @@ public class MenuController {
     {
         sysMenuService.checkMenuNameUnique(menu);
         menu.setUpdateBy(SecurityUtils.getNickName());
-        return R.ok(sysMenuService.updateMenu(menu,SecurityUtils.getCompanyId()));
+        return R.ok(sysMenuService.updateMenu(menu));
     }
 
     /**
      * 删除菜单
      */
-    @DeleteMapping("/{menuId}")
-    public R remove(@PathVariable("menuId") String menuId)
+    @DeleteMapping()
+    public R remove(@RequestBody SysMenu menu)
     {
-        sysMenuService.hasChildByMenuId(menuId,SecurityUtils.getCompanyId());
-        sysMenuService.checkMenuExistRole(menuId,SecurityUtils.getCompanyId());
-        return R.ok(sysMenuService.deleteMenuById(menuId,SecurityUtils.getCompanyId()));
+        sysMenuService.hasChild(menu);
+        sysMenuService.checkMenuExistRole(menu);
+        return R.ok(sysMenuService.deleteMenu(menu));
     }
 }

@@ -93,17 +93,10 @@ export default {
     }
   },
   created() {
-    // console.log(this.$root)
-    // this.getCode();
-    // this.getCookie();
+
   },
   methods: {
-    getCode() {
-      // getCodeImg().then(res => {
-      //   this.codeUrl = "data:image/gif;base64," + res.img;
-      //   this.loginForm.uuid = res.uuid;
-      // });
-    },
+
     getCookie() {
       const username = Cookies.get("username");
       const password = Cookies.get("password");
@@ -118,15 +111,6 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          // if (this.loginForm.rememberMe) {
-          //   Cookies.set("username", this.loginForm.username, { expires: 30 });
-          //   Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
-          //   Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
-          // } else {
-          //   Cookies.remove("username");
-          //   Cookies.remove("password");
-          //   Cookies.remove('rememberMe');
-          // }
           this.$store
             .dispatch("Login", this.loginForm)
             .then(() => {
