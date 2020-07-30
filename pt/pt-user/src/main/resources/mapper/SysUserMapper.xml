@@ -184,7 +184,7 @@
 		from system_user u
 		left join system_user_role ur on ur.user_id = u.user_id and u.company_id = ur.company_id
 		left join system_role_menu rm on ur.role_id = rm.role_id and ur.company_id = rm.company_id
-		left join system_menu m on m.menu_id = rm.menu_id and rm.company_id = m.company_id
+		left join system_menu m on m.menu_id = rm.menu_id
 		where u.company_id = #{companyId} and m.perms in
 		<foreach collection="perms" item="perm" open="(" separator="," close=")">
 			#{perm}
