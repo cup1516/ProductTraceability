@@ -20,7 +20,8 @@ package com.pt.ptauth.config;
 
 
 import com.pt.ptauth.service.CustomClientDetailsService;
-import com.pt.ptcommoncore.constant.*;
+import com.pt.ptcommoncore.constant.CacheConstants;
+import com.pt.ptcommoncore.constant.SecurityConstants;
 import com.pt.ptcommoncore.security.CustomUser;
 import com.pt.ptcommonsecurity.component.CustomWebResponseExceptionTranslator;
 import lombok.AllArgsConstructor;

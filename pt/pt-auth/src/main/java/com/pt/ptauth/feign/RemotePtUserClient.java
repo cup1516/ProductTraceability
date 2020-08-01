@@ -1,6 +1,6 @@
 package com.pt.ptauth.feign;
 
-import com.pt.ptuser.dto.UserInfo;
+import com.pt.ptcommoncore.security.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,5 +19,5 @@ public interface RemotePtUserClient {
      * @return
      */
     @GetMapping("/user/info/{username}")
-    UserInfo info(@PathVariable String username, @RequestParam(value = "url") String url);
+    UserInfo info(@PathVariable(value = "username") String username, @RequestParam(value = "url") String url);
 }

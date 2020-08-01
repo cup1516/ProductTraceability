@@ -6,14 +6,12 @@
         <groupId>com.producttraceability</groupId>
         <artifactId>pt</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.pt</groupId>
+    <groupId>com.producttraceability</groupId>
     <artifactId>pt-auth</artifactId>
     <version>0.0.1</version>
     <name>pt-auth</name>
-
 
     <dependencies>
         <dependency>
@@ -47,22 +45,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikaricp.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <exclusions>
-                <!-- 排除 tomcat-jdbc 以使用 HikariCP -->
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -73,7 +55,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,29 +75,20 @@
             <artifactId>feign-jackson</artifactId>
             <version>10.8</version>
         </dependency>
-        <dependency>
-            <groupId>com.pt</groupId>
-            <artifactId>pt-user</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.pt</groupId>-->
-<!--            <artifactId>pt-common</artifactId>-->
+<!--            <groupId>com.producttraceability</groupId>-->
+<!--            <artifactId>pt-user</artifactId>-->
 <!--            <version>0.0.1</version>-->
-<!--            <scope>compile</scope>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-security</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -125,6 +97,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.pt.ptauth.PtAuthApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
