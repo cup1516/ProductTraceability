@@ -19,6 +19,13 @@ import Pagination from "@/components/Pagination";
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css'
 
+
+import './assets/fonts/iconfont.css'
+// 引入自定义指令
+import './views/chat/directives';
+// import WebRTC from 'vue-webrtc'
+// Vue.use(WebRTC)
+
 var axios = require('axios')
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false

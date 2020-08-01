@@ -8,12 +8,19 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   user_id: state => state.user.user_id,
+  nick_name: state =>state.user.nick_name,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
   permissions: state => state.user.permissions,
   permission_routes: state => state.permission.routes,
   menu : state => state.user.menu,
   url : state => state.portal.url,
-  company_id : state => state.portal.company_id
+  company_id : state => state.portal.company_id,
+  userList : state => state.chat.userList,
+  emojis : state => state.chat.emojis,
+  conversationsList: state => state.chat.conversationsList,
+  selectedRoom: state => state.chat.selectedRoom,
+  groupMemberMap: state => state.chat.groupMemberMap,
+
 }
 export default getters
