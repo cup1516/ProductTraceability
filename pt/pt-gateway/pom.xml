@@ -6,10 +6,9 @@
         <groupId>com.producttraceability</groupId>
         <artifactId>pt</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.pt</groupId>
+    <groupId>com.producttraceability</groupId>
     <artifactId>pt-gateway</artifactId>
     <version>0.0.1</version>
     <name>pt-gateway</name>
@@ -54,6 +53,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.pt.ptgateway.PtGatewayApplication</mainClass>
+                </configuration>
+                <!--解决jar没有主类目错误-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

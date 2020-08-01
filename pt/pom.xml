@@ -2,12 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<!--    <parent>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-<!--        <version>2.2.7.RELEASE</version>-->
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-<!--    </parent>-->
+
     <groupId>com.producttraceability</groupId>
     <artifactId>pt</artifactId>
     <version>0.0.1</version>
@@ -61,31 +56,20 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <modules>
         <module>pt-eureka</module>
         <module>pt-auth</module>
         <module>pt-gateway</module>
         <module>pt-center</module>
-        <module>pt-common</module>
         <module>pt-dealer</module>
         <module>pt-warehouse</module>
         <module>pt-user</module>
         <module>pt-chat</module>
         <module>pt-upload</module>
+        <module>pt-common/pt-common-security</module>
+        <module>pt-common/pt-common-core</module>
+        <module>pt-common/pt-common-mybatis</module>
     </modules>
     <build>
         <plugins>

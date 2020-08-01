@@ -6,10 +6,9 @@
         <groupId>com.producttraceability</groupId>
         <artifactId>pt</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.pt</groupId>
+    <groupId>com.producttraceability</groupId>
     <artifactId>pt-user</artifactId>
     <version>0.0.1</version>
     <name>pt-user</name>
@@ -58,22 +57,19 @@
             <version>${hutool.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-mybatis</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-security</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
