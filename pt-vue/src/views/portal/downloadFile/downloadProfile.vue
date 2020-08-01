@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
     <div v-for="item in item"  style="margin-top: 30px;text-align:center">
       {{item.id+item.name}}
       {{item.model}}

@@ -39,6 +39,7 @@ export default {
 	  //点击评论按钮后，触发的事件。
 	  //（在这之前会先检验是否为空、是否输入验证码）
 	  submit_click(){
+      console.log(this.$store.getters.company_id)
       this.$confirm('是否保存并发布评论?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -47,7 +48,8 @@ export default {
           this.$axios
             .post('/portal/comment/addOrUpdate',{
                 commentName: this.comment_name,
-                commentText: this.comment_text
+                commentText: this.comment_text,
+                companyId :  this.$store.getters.company_id
               }
             ).then(resp => {
             console.log(resp);

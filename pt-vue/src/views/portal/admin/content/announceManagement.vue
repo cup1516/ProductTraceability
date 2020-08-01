@@ -4,7 +4,6 @@
     <announcement-editor @onSubmit="loadAnnouncement()" ref="edit" style="text-align: left;margin-bottom: 20px;margin-top: 20px"></announcement-editor>
     <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters">
-
         <el-form-item>
           <el-input v-model="filters.id" placeholder="公告编号"></el-input>
         </el-form-item>
@@ -14,6 +13,18 @@
       </el-form>
     </el-row>
 
+    <el-dialog :visible.sync="isShow2">
+      <el-card style="margin: 35px auto 0 auto">
+        <div>
+          <span style="font-size: 20px;text-align: center"><strong>{{announcement.announcementTitle}}</strong></span>
+          <el-divider content-position="left" style="text-align: center;color: #475669"><span style="text-align: center">发布时间:{{announcement.createTime}}</span></el-divider>
+          <div class="markdown-body">
+            <!--          <video :src="news.profile" controls="controls"></video>-->
+            <div style="text-align: left" v-html="announcement.announcementHtml"></div>
+          </div>
+        </div>
+      </el-card>
+    </el-dialog>
     <el-table
       :data="tableData"
       border
@@ -33,12 +44,15 @@
       <el-table-column
         label="公告标题">
         <template slot-scope="scope">
-          <router-link class="article-link" :to="{path:'/announcementDetail',query:{id: scope.row.id}}">
-            <a :href="scope.row.announcementTitle" title="点击查看公告内容详情" target="_blank" class="article-link">{{scope.row.announcementTitle}}</a>
-          </router-link>
-        </template>
+<!--          <router-link class="article-link" :to="{path:'/announcementDetail',query:{id: scope.row.id}}">-->
+<!--            <a :href="scope.row.announcementTitle" title="点击查看公告内容详情" target="_blank" class="article-link">{{scope.row.announcementTitle}}</a>-->
+<!--          </router-link>-->
+          <p :href="scope.row.announcementTitle" title="点击查看公告内容详情"  class="article-link" @click="showAnnouncement(scope.row)">{{scope.row.announcementTitle}}</p>
 
+        </template>
       </el-table-column>
+
+
 
       <el-table-column
         label="操作">
@@ -71,6 +85,14 @@
   export default {
     components: {AnnouncementEditor},
     methods: {
+
+      showAnnouncement(item){
+        this.isShow2 = true
+        this.announcement.id = item.id
+        this.announcement.announcementTitle = item.announcementTitle
+        this.announcement.announcementHtml = item.announcementHtml
+        this.announcement.createTime = item.createTime
+      },
       edit(item){
         this.$refs.edit.dialogFormVisible = true
         this.$refs.edit.announcement = {
@@ -86,15 +108,13 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('/portal/Announcement/delete/' + row.id).then(resp => {
+          this.$axios.delete('/portal/Announcement/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
                 console.log(resp)
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
-                  callback: action => {
-                    window.location.reload();
-                  }
                 })
+            this.loadAnnouncement()
             })
           }
         ).catch(() => {
@@ -106,8 +126,7 @@
       },
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/5').then(resp => {
-
+        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.content;
           _this.pageSize = resp.size;
@@ -116,7 +135,7 @@
       },
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/Announcement/findAllById/'+qs.stringify(param)).then(resp =>{
+        this.$axios.get('/portal/Announcement/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
             console.log(resp)
             this.tableData = resp;
           }
@@ -127,7 +146,7 @@
       },
       loadAnnouncement(){
         var _this = this
-        this.$axios.get('/portal/Announcement/findAll/0/5').then(resp => {
+        this.$axios.get('/portal/Announcement/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.content;
           _this.pageSize = resp.size;
@@ -138,13 +157,15 @@
     data(){
       return {
         //pageSize为每页显示的数据条数，total为总数据
+        isShow2:false,
         pageSize:'2',
         total:'20',
         currentPage:'',
         filters:{
           id:''
         },
-        tableData: []
+        tableData: [],
+        announcement: {}
       }
     },
     created() {

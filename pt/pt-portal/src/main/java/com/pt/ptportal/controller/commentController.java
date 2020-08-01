@@ -21,8 +21,8 @@ public class commentController {
     @Autowired
     com.pt.ptportal.dao.commentDao commentDao;
 
-    @GetMapping("/findAll/{page}/{size}")
-    public Page<News> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+    @GetMapping("/findAll/{page}/{size}/{company_id}")
+    public Page<News> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -31,7 +31,7 @@ public class commentController {
                 Path<Object> companyId =root.get("companyId");
 
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,String.valueOf(company_id)));
                 return predicate;
             }
         };
@@ -39,8 +39,8 @@ public class commentController {
         return commentDao.findAll(spec,request);
     }
     //降序
-    @GetMapping("/findAllDesc/{page}/{size}")
-    public Page<News> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+    @GetMapping("/findAllDesc/{page}/{size}/{company_id}")
+    public Page<News> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -49,7 +49,7 @@ public class commentController {
                 Path<Object> companyId =root.get("companyId");
 
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,1));
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(status, 1),criteriaBuilder.equal(companyId,String.valueOf(company_id)));
                 return predicate;
             }
         };
@@ -57,22 +57,21 @@ public class commentController {
         return commentDao.findAll(spec,request);
     }
     //查询，返回的数组类型
-    @GetMapping("/findAllById/filter={id}")
-    public List<comment> findAllById(@PathVariable("id") Integer id){
-        return commentDao.findAllByIdAndCompanyIdAndStatus(id,"1",1);
+    @GetMapping("/findAllById/filter={id}/{company_id}")
+    public List<comment> findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        return commentDao.findAllByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
     }
 
     //返回对象类型
-    @GetMapping("/findById/{id}")
-    public comment findById(@PathVariable("id") Integer id){
-        return commentDao.findByIdAndCompanyIdAndStatus(id,"1",1);
+    @GetMapping("/findById/{id}/{company_id}")
+    public comment findById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        return commentDao.findByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
     }
 
 
 
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody comment comment ){
-        comment.setCompanyId("1");
         com.pt.ptportal.entity.comment result = commentDao.save(comment);
         if(result !=null){
             return "success";
@@ -81,9 +80,9 @@ public class commentController {
             return "error";
         }
     }
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Integer id){
-        comment comment = commentDao.findByIdAndCompanyIdAndStatus(id,"1",1);
+    @DeleteMapping("/delete/{id}/{company_id}")
+    public void delete(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        comment comment = commentDao.findByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
         comment.setStatus(0);
         commentDao.save(comment);
 

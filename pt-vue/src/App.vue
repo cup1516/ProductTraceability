@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <!-- <NavMenu></NavMenu> -->
     <router-view />
   </div>
 </template>
 
 <script>
-  // import NavMenu from "./views/portal/common/NavMenu";
   export default  {
     name:  'App',
-    // components: {NavMenu}
+    created() {
+      //根据url从数据中心获取companyid
+      this.$store.commit("SET_COMPANY_ID",1)
+
+    },
   }
 </script>
-         

@@ -71,7 +71,7 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5').then(resp => {
+        this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.data.content;
           _this.pageSize = resp.data.size;
@@ -91,7 +91,7 @@
 
       loadNotice(){
         var _this = this
-        this.$axios.get('/portal/notice/findAllDesc/0/5').then(resp => {
+        this.$axios.get('/portal/notice/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.content;
           _this.pageSize = resp.size;

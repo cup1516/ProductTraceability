@@ -24,7 +24,7 @@ public class BlogController {
 
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody Blog blog){
-        blog.setCompanyId("1");
+
         Blog result = blogDao.save(blog);
         if(result !=null){
             return "success";
@@ -33,16 +33,16 @@ public class BlogController {
             return "error";
         }
     }
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") int id){
-        Blog blog = blogDao.findByBlogIdAndCompanyId(id,"1");
+    @DeleteMapping("/delete/{id}/{company_id}")
+    public void delete(@PathVariable("id") int id,@PathVariable("company_id") String company_id){
+        Blog blog = blogDao.findByBlogIdAndCompanyId(id,String.valueOf(company_id));
         blog.setState(false);
         blogDao.save(blog);
     }
 
     //降序
-    @GetMapping("/findAllDesc/{page}/{size}")
-    public Page<Blog> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+    @GetMapping("/findAllDesc/{page}/{size}/{company_id}")
+    public Page<Blog> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -51,7 +51,7 @@ public class BlogController {
                 Path<Object> companyId =root.get("companyId");
 
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(state, true),criteriaBuilder.equal(companyId,"1"));
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(state, true),criteriaBuilder.equal(companyId,String.valueOf(company_id)));
                 return predicate;
             }
         };
@@ -59,18 +59,18 @@ public class BlogController {
         return blogDao.findAll(spec,request);
     }
 
-    @GetMapping("/get/available")
-    public List<Blog> getAvailable(){
-        return blogDao.findAllByStateIsTrueAndCompanyId("1");
+    @GetMapping("/get/available/{company_id}")
+    public List<Blog> getAvailable(@PathVariable( "company_id") String company_id){
+        return blogDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id));
     }
 
-    @GetMapping("/get/by-user/{id}")
-    public Iterable<Blog> getBlogByUser(@PathVariable("id") String id) {
-        return blogDao.findAllByUserIdAndCompanyId(id,"1");
+    @GetMapping("/get/by-user/{id}/{company_id}")
+    public Iterable<Blog> getBlogByUser(@PathVariable("id") String id,@PathVariable( "company_id") String company_id){
+        return blogDao.findAllByUserIdAndCompanyId(id,String.valueOf(company_id));
     }
-    @GetMapping("/get/by-BlogId/{id}")
-    public List<Blog> getBlogByBlogId(@PathVariable("id") int id) {
-        return blogDao.findAllByBlogIdAndCompanyId(id,"1");
+    @GetMapping("/get/by-BlogId/{id}/{company_id}")
+    public List<Blog> getBlogByBlogId(@PathVariable("id") int id,@PathVariable( "company_id") String company_id){
+        return blogDao.findAllByBlogIdAndCompanyId(id,String.valueOf(company_id));
     }
 
 

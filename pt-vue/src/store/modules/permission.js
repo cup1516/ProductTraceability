@@ -1,6 +1,7 @@
 import Router from '@/router'
 import Layout from '@/layout/index'
 import {getRouters} from '@/api/system/menu'
+import store from '../../store/modules/portal'
 
 const permission = {
   state: {
@@ -41,9 +42,9 @@ function filterAsyncRouter(asyncRouterMap) {
         route.component = loadView(route.component)
       }
     }
-    //一级菜单的path补全 "/" 
+    //一级菜单的path补全
     // if(route.parentId === "-1"){
-    //   route.path = '/' + route.path
+      route.path = '/'+store.state.url +'/'+ route.path
     // }
     if (route.children != null && route.children && route.children.length) {
       route.children = filterAsyncRouter(route.children)

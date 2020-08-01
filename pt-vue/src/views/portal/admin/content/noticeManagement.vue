@@ -121,7 +121,7 @@
       },
       loadNotice(){
           this.userName= store.getters.name
-          this.$axios.get('/portal/notice/findAll/' + this.userName).then(resp => {
+          this.$axios.get('/portal/notice/findAll/' + this.userName+'/'+this.$store.getters.company_id).then(resp => {
             console.log(resp)
             this.tableData = resp;
           })
@@ -143,7 +143,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/notice/delete/' + row.id).then(resp => {
+            this.$axios.delete('/portal/notice/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
@@ -161,7 +161,7 @@
 
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/notice/findAllById/'+qs.stringify(param)).then(resp =>{
+        this.$axios.get('/portal/notice/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
             this.tableData = resp;
           }
         )

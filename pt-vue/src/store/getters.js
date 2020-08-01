@@ -13,6 +13,7 @@ const getters = {
   permissions: state => state.user.permissions,
   permission_routes: state => state.permission.routes,
   menu : state => state.user.menu,
-  url : state => state.portal.url
+  url : state => state.portal.url,
+  company_id : state => state.portal.company_id
 }
 export default getters

@@ -78,7 +78,7 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5').then(resp => {
+        this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp;
           _this.pageSize = resp.size;
@@ -109,7 +109,7 @@
       },
       loadNotice(){
         var _this = this
-        this.$axios.get('/portal/notice/findAll/0/5').then(resp => {
+        this.$axios.get('/portal/notice/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.content;
           _this.pageSize = resp.size;
@@ -133,7 +133,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/notice/delete/' + row.id).then(resp => {
+            this.$axios.delete('/portal/notice/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
               console.log(resp)
                 this.$message({
                   type: 'info',
@@ -152,7 +152,7 @@
 
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/notice/findAllById/'+qs.stringify(param)).then(resp =>{
+        this.$axios.get('/portal/notice/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
             this.tableData = resp;
           }
         )

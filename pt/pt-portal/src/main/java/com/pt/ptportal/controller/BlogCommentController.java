@@ -23,14 +23,14 @@ public class BlogCommentController {
     public BlogCommentController(BlogCommentDao commentDao) {
         this.blogCommentDao = commentDao;
     }
-    @GetMapping("/getAll")
-    public List<BlogComments> getAll(){
-      return blogCommentDao.findAllByStateIsTrueAndCompanyId("1");
+
+    @GetMapping("/getAll/{company_id}")
+    public List<BlogComments> getAll(@PathVariable("company_id") String company_id){
+      return blogCommentDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id));
     }
 
     @PostMapping("/addOrUpdate")
     public String addOrUpdate(@RequestBody BlogComments blogComments){
-        blogComments.setCompanyId("1");
         BlogComments result = blogCommentDao.save(blogComments);
         if(result !=null){
             return "success";
@@ -40,8 +40,8 @@ public class BlogCommentController {
         }
     }
 
-    @GetMapping("/get/by-blog/{id}")
-    public Iterable<BlogComments> getCommentByBlog(@PathVariable("id")  int id){
-        return blogCommentDao.findAllByBlogIdAndCompanyIdAndState(id,"1",true);
+    @GetMapping("/get/by-blog/{id}/{company_id}")
+    public Iterable<BlogComments> getCommentByBlog(@PathVariable("id")  int id,@PathVariable("company_id") String company_id){
+        return blogCommentDao.findAllByBlogIdAndCompanyIdAndState(id,String.valueOf(company_id),true);
     }
 }

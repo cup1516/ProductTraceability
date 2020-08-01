@@ -10,7 +10,7 @@
           <div class="div-mask-one">
             <div>
               <p>{{item.name}}</p>
-              <router-link class="mask-one-p" :to="{path:'/noticeDetails',query:{id: item.id}}"><span style="font-size: 30px"><strong>{{item.title}}</strong></span></router-link>
+              <router-link class="mask-one-p" :to="{name:'noticeDetails',query:{id: item.id}}"><span style="font-size: 30px"><strong>{{item.title}}</strong></span></router-link>
             </div>
           </div>
         </div>
@@ -42,13 +42,11 @@
       methods:{
         loadNotice () {
           var _this = this
-          this.$axios.get('/portal/notice/findAllDesc/0/4').then(resp => {
-            console.log(resp)
+          this.$axios.get('/portal/notice/findAllDesc/0/4/'+this.$store.getters.company_id).then(resp => {
             _this.notice = resp.content;
             let i;
             for ( i=0;i<=3;i++){
               this.notice[i].img=this.BannerImg[i]
-              console.log(this.notice)
             }
 
           })

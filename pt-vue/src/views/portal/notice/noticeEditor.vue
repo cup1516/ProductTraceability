@@ -76,7 +76,8 @@
                     name: this.notice.name,
                     noticeContentMd: value,
                     noticeHtml: render,
-                    failTime: this.notice.failTime
+                    failTime: this.notice.failTime,
+                    companyId: this.$store.getters.company_id
                   }
                 ).then(resp => {
                 console.log(resp)

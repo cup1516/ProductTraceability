@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
     <div  v-for="item in notice" :key="item.id" class="articles-area">
       <el-card style="text-align: left">
         <div >
@@ -8,7 +7,7 @@
             <el-divider content-position="left">{{item.createTime}}</el-divider>
             <div style="font-size: 30px;font-family: '微软雅黑', Arial, Helvetica, sans-serif;color: crimson">
               {{item.name}}:
-              <router-link class="article-link" :to="{path:'/noticeDetails',query:{id: item.id}}"><span style="font-size: 30px"><strong>{{item.title}}</strong></span></router-link>
+              <router-link class="article-link" :to="{name:'noticeDetails',query:{id: item.id}}"><span style="font-size: 30px"><strong>{{item.title}}</strong></span></router-link>
 
             </div>
             <div style="color: #1F1F1F;font-family: '微软雅黑', Arial, Helvetica, sans-serif;font-size: 20px">
@@ -54,7 +53,7 @@
 
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/notice/findAllDesc/'+(currentPage-1)+'/6').then(resp => {
+        this.$axios.get('/portal/notice/findAllDesc/'+(currentPage-1)+'/6/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.notice = resp.content;
           _this.pageSize = resp.size;
@@ -63,7 +62,7 @@
       },
       loadNotice () {
         var _this = this
-        this.$axios.get('/portal/notice/findAllDesc/0/6').then(resp => {
+        this.$axios.get('/portal/notice/findAllDesc/0/6/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           this.notice.name = this.$store.getters.name
           _this.notice = resp.content;

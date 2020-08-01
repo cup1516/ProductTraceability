@@ -1,14 +1,13 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
     <div style="margin-top: 40px">
       <div class="articles-area">
         <el-card style="text-align: left">
           <div v-for="item in news" :key="item.id">
             <div style="float:left;width:85%;height: 150px;">
-              <router-link class="article-link" :to="{path:'/newsDetails',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.newTitle}}</strong></span></router-link>
+              <router-link class="article-link" :to="{name:'newsDetails',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.newTitle}}</strong></span></router-link>
               <el-divider content-position="left">{{item.createTime}}</el-divider>
-              <router-link class="article-link" :to="{path:'/newsDetails',query:{id: item.id}}"><p>{{item.newsAbstract}}</p></router-link>
+              <router-link class="article-link" :to="{name:'newsDetails',query:{id: item.id}}"><p>{{item.newsAbstract}}</p></router-link>
             </div>
             <el-image
               style="margin:18px 0 0 30px;width:100px;height: 100px"
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-  import {mapGetters} from "vuex"; 
+  import {mapGetters} from "vuex";
   import NavMenu from '../common/NavMenu'
   export default {
     name: 'newsShow',
@@ -56,7 +55,7 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/News/findAll/'+(currentPage-1)+'/4').then(resp => {
+        this.$axios.get('/portal/News/findAll/'+(currentPage-1)+'/4/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.news = resp.content;
           _this.pageSize = resp.size;
@@ -65,7 +64,7 @@
       },
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/News/findAll/0/4').then(resp => {
+        this.$axios.get('/portal/News/findAll/0/4/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.news = resp.content;
           _this.pageSize = resp.size;

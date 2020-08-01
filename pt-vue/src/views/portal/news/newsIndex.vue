@@ -4,13 +4,13 @@
         <div class="text">
           <div class="text-item">
             news
-            <router-link class="article-link" :to="{path:'/newsShow'}">
+            <router-link class="article-link" :to="{name:'newsShow'}">
               <i class="el-icon-circle-plus"> 查看更多</i>
             </router-link>
           </div>
           <div class="text-item">
             announcement
-            <router-link class="article-link" :to="{path:'/announcementShow'}">
+            <router-link class="article-link" :to="{name:'announcementShow'}">
               <i class="el-icon-circle-plus"> 查看更多</i>
             </router-link>
           </div>
@@ -22,40 +22,46 @@
               <img src="@/assets/image/news.jpg" class="image">
               <div style="padding: 5px;">
                 <div class="bottom clearfix">
-                  <router-link class="article-link" :to="{path:'/newsDetails',query:{id:1}}">
-                    <span style="font-size: 20px;"><strong>新闻<br></strong></span>
+                  <router-link class="article-link" :to="{name:'newsDetails',query:{id:1}}">
+                    <span style="font-size: 20px;text-align: center">
+                      <strong>新闻头条<br></strong>
+                    </span>
                   </router-link>
-                  <el-button type="text" class="button">查看详情</el-button>
                 </div>
               </div>
             </el-card>
             <el-card style="text-align: left;height: 400px; line-height: 50px" shadow="hover">
               <div v-for="item in news" :key="item.id">
-                <span style="color: crimson;font-size: 20px">{{item.createTime}} </span><el-divider direction="vertical"></el-divider>
-                <router-link class="article-link" :to="{path:'/newsDetails',query:{id: item.id}}"><span style="font-size: 20px;"><strong>{{item.newTitle}}<br></strong></span></router-link>
+                <span style="color: crimson;font-size: 20px">{{item.createTime}} </span>
+                <el-divider direction="vertical"></el-divider>
+                <router-link class="article-link" :to="{name:'newsDetails',query:{id: item.id}}">
+                  <span style="font-size: 20px;">
+                    <strong>{{item.newTitle}}<br></strong>
+                  </span>
+                </router-link>
               </div>
             </el-card>
           </div>
           <div class="content-item-2">
             <el-card style="text-align: left;height: 400px;line-height: 50px" shadow="hover">
               <div v-for="item in announcement" :key="item.id">
-                <span style="color: crimson;font-size: 20px">{{item.createTime}} </span><el-divider direction="vertical"></el-divider>
-                <router-link class="article-link" :to="{path:'/announcementDetail',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.announcementTitle}}</strong></span></router-link>
+                <span style="color: crimson;font-size: 20px">{{item.createTime}} </span>
+                <el-divider direction="vertical"></el-divider>
+                <router-link class="article-link" :to="{name:'announcementDetail',query:{id: item.id}}">
+                  <span style="font-size: 20px">
+                    <strong>{{item.announcementTitle}}</strong>
+                  </span>
+                </router-link>
               </div>
             </el-card>
           </div>
         </div>
-
       </div>
-      <div>
-        <noticeIndex></noticeIndex>
-      </div>
-
-
       <div  class="footer" style="border-top:1px #1F1F1F solid;text-align: center">
        <p class="alt" style="line-height:20px">&copy; 版权所有：1516实验室 &nbsp;
          <span>技术支持：1516实验室</span>
-         <a href="###" target="_blank" style="color:#999;">Evan & MMK</a>
+         <br>
+         <a href="###" target="_blank" style="color:#999;">中国石油大学</a>
        </p>
      </div>
     </div>
@@ -88,8 +94,7 @@
     methods: {
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/News/findAllDesc/0/5').then(resp => {
-          console.log(resp)
+        this.$axios.get('/portal/News/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
           _this.news = resp.content;
           _this.pageSize = resp.size;
           _this.total = resp.totalElements
@@ -97,8 +102,7 @@
       },
       loadAnnouncement () {
         var _this = this
-        this.$axios.get('/portal/Announcement/findAllDesc/0/5').then(resp => {
-          console.log(resp)
+        this.$axios.get('/portal/Announcement/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
           _this.announcement = resp.content;
           _this.pageSize = resp.size;
           _this.total = resp.totalElements
@@ -131,11 +135,6 @@
   .bottom {
     margin-top: 13px;
     line-height: 10px;
-  }
-
-  .button {
-    padding: 0;
-    float: right;
   }
 
   .image {
@@ -186,8 +185,6 @@
     height: 200px;
     margin-top:30px;
     padding-bottom: 60px;
-
-
   }
   .content-item
   {
@@ -202,23 +199,18 @@
     height: 400px;
     width: 50%;
     padding-left: 20px;
-
-
   }
   .content-item-2{
     height: 200px;
     width: 40%;
     padding-right: 20px;
-
   }
   .article-link {
     text-decoration: none;
-
   }
 
   .article-link:hover {
     color: #324eff;
     font-size: 30px;
-
   }
 </style>
