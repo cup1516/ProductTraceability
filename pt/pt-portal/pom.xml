@@ -59,23 +59,17 @@
             <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.producttraceability</groupId>
-            <artifactId>pt-common-security</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.22</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.producttraceability</groupId>
+            <artifactId>pt-common-security</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 

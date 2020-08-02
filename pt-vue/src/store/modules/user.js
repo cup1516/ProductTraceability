@@ -1,10 +1,11 @@
 import { login, logout, getInfo } from '@/api/login'
-import {getUser} from '@/api/system/user'
 import { treeselect } from '@/api/system/menu'
 import { filterMenu } from '@/utils/menu'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { encryption, deepClone } from '@/utils/util'
 import { getChatListInfo } from '../../api/chat/chatApi'
+import store from '../../store/modules/portal'
+
 const user = {
   state: {
     access_token: getToken(),
@@ -30,9 +31,6 @@ const user = {
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
-    SET_NICKNAME: (state, nickname) => {
-      state.nick_name = nickname
-    },
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
@@ -52,7 +50,7 @@ const user = {
         key: '-www.cup.edu.cn-',
         param: ['password']
       })
-      const url = "dealer"
+      const url = store.state.url
       const username = user.username.trim()+"_"+url
       // const username = user.username.trim()
       const password = user.password

@@ -19,6 +19,7 @@ public class FileController {
 
     @Autowired
     com.pt.ptportal.dao.newsDao newsDao;
+
     @GetMapping(value = "/file")
     public String file() {
         return "file";

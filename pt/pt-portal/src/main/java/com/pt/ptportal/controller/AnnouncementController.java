@@ -1,5 +1,4 @@
 package com.pt.ptportal.controller;
-import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptportal.dao.AnnouncementDao;
 import com.pt.ptportal.entity.Announcement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class AnnouncementController {
     @GetMapping("/findAllById/filter={id}/{company_id}")
     public List<Announcement> findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
         //使用工具类获取企业的id，待修改
-        SecurityUtils.getNickName();
+//        SecurityUtils.getNickName();
         if(announcementDao.findById(id).get().getStatus()==1){
             return  announcementDao.findAllByIdAndCompanyId(id,String.valueOf(company_id));
         }

@@ -9,6 +9,18 @@ spring:
       locator:
         enabled: true
       routes:
+        - id: pt-center
+          uri: lb://pt-center
+          predicates:
+            - Path=/center/**
+          filters:
+            - StripPrefix= 1
+        - id: pt-company-id
+          uri: lb://pt-company-id
+          predicates:
+            - Path=/company_id/**
+          filters:
+            - StripPrefix= 1
         - id: pt-portal
           uri: lb://pt-portal
           predicates:

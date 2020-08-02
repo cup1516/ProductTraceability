@@ -19,6 +19,7 @@
 package com.pt.ptcommonsecurity.annotation;
 
 import com.pt.ptcommonsecurity.security.*;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -36,6 +37,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({ResourceServerConfig.class})
+@ComponentScan("com.pt.ptcommonsecurity")
 public @interface EnableCustomResourceServer {
 
 }
