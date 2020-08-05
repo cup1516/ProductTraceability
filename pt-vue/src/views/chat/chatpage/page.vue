@@ -1,21 +1,5 @@
 <template>
   <div class="chat-box" >
-
-    <!--  message-type
-           1-文字
-           0-图片
-           2-文件
-           3-录音
-           4-电话
-           5-请求语音通话
-           6-拒绝语音通话
-           7-同意语音通话
-           8-结束语音通话
-           9-ice
-           10-offer
-           11-anwser
-     -->
-
     <!--  消息框  -->
     <div class="msg-box" ref="msg-box">
       <header>
@@ -66,7 +50,6 @@
 
                 <!--    文件消息      -->
                 <span v-if="i.messageType === 2">
-<!--                  <a :href="'http://localhost:9998/chat/api/fileDownload?fileName='+i.sendContent"><i class="icon iconfont icon-wenjian"/> {{i.sendContent.split('$')[1]}}</a>-->
                   <i class="icon iconfont icon-wenjian" @click="downLoad(i.sendContent)"> {{i.sendContent.split('$')[1]}}</i>
                 </span>
 
@@ -310,6 +293,7 @@
         timeout:5000,
         timeoutObj: null,
         serverTimeoutObj: null,
+        urlList:[],
 
         messageList: [], // 消息列表
         messageValue: "", // 消息内容
@@ -812,7 +796,7 @@
 
 
       join(data){
-        console.log("2")
+        console.log("pagejoin")
         this.$refs.text.focus();
         setTimeout(() => {
           this.scrollBottm();
@@ -822,7 +806,6 @@
         let _this = this;
         this.roomName = data.chatName;
         this.roomId = data.chatId;
-        console.log(data)
         _this.historyList = [];
         _this.messageList = [];
         _this.page = 1;
@@ -895,9 +878,11 @@
           let id = _this.userId;
           let sip = this.roomId;
           var url = "ws://localhost:9998/chat/websocket/chat/" + sip + "/" + id;
-          _this.createWebsocket(url);
+          if(_this.urlList.indexOf(url)===-1){
+            _this.urlList.push(url);
+            _this.createWebsocket(url);
+          }
         }
-
       },
       //创建websocket连接
       createWebsocket(url){
@@ -908,7 +893,6 @@
           _this.handleEvent(url);
         }catch (e) {
           console.log(e)
-          //_this.reConnect(url)
         }
       },
       handleEvent(url){
@@ -930,14 +914,11 @@
           _this.count = object.count;
           console.log("接收消息:");
           console.log(object);
-
           let user = _this.infoHandle(object.senderId)
           if(object.messageType==5||object.messageType==6||object.messageType==7||object.messageType==8||object.messageType==9||object.messageType==10||object.messageType==11){
             let message = JSON.parse(object.sendContent);
-            //console.log(message);
             if(message.to==_this.userId){//判断是不是给自己的
               if(object.messageType==5){
-                console.log(_this.userName+"收到请求通话de消息");
                 _this.choiceUser.push({
                   avatar:user.avatar,
                   userId:object.senderId,
@@ -950,20 +931,14 @@
                   _this.receiveVideo();
                 }
               }else if(object.messageType==6){
-                console.log(_this.userName+"收到拒绝/取消通话de消息");
                 if(_this.isAudioOnly){
                   _this.unAudioCall();
                 }else {
                   _this.unVideoCall();
                 }
               }else if(object.messageType==7){
-                console.log(_this.userName+"收到同意通话de消息");
-                // _this.ini();
-                // _this.createPeerConnection();
                 _this.startCall();
-                // setTimeout(()=>_this.addStreams(),300 );
               }else if(object.messageType==8){
-                console.log(_this.userName+"收到结束通话de消息");
                 if(_this.isAudioOnly){
                   _this.showAudioBox=false;
                 }else {
@@ -972,23 +947,16 @@
                 _this.clearCallTime();
                 _this.handleLeave();
               }else if(object.messageType==9){//如果是一个ICE的候选，则将其加入到PeerConnection中，否则设定对方的session描述为传递过来的描述
-                //handleICE(object.sendContent);
-                console.log(_this.userName+"收到ice");
                 _this.handleCandidate(message.candidate);
               }else if(object.messageType==10){
-                console.log(_this.userName+"收到offer");
                 _this.offer = message.offer;
-                //_this.handleOffer(message.offer);
               }else if(object.messageType==11){
-                console.log(_this.userName+"收到answer");
                 _this.handleAnswer(message.answer);
               }
             }
           }
-
           //显示消息
           if(object.messageType==7||object.messageType==9||object.messageType==10||object.messageType==11){
-
           }else {
             _this.messageList.push({
               senderId: object.senderId,
@@ -1006,26 +974,7 @@
             }
             _this.$emit('logInfo',params,_this.roomId)
           }
-
-
         }
-      },
-      resetHeartBeat(){
-        clearTimeout(this.timeoutObj);
-        clearTimeout(this.serverTimeoutObj);
-      },
-      startHeartBeat(){
-        this.timeoutObj = setTimeout(function() {
-          //这里发送一个心跳，后端收到后，返回一个心跳消息，
-          //onmessage拿到返回的心跳就说明连接正常
-          this.ws.send("HeartBeat" + new Date());
-          console.log("客户端发送心跳：" + new Date());
-          let self = this;
-          self.serverTimeoutObj=setTimeout(function() {
-            //如果超过一定时间还没重置，说明后端主动断开了
-            this.ws.close();
-          },self.timeout)
-        },this.timeout)
       },
 
       //数据处理
@@ -1074,8 +1023,7 @@
           let imgFile = self.$refs.new_image.value;
           const fr = new FileReader();
           fr.addEventListener('load',() => {
-            //this.image = fr.result;
-            //console.log(this.imageUrl);
+            this.image = fr.result
           });
           fr.readAsDataURL(self.$refs.new_image.files[0]);
           //单个文件进行上传
@@ -1083,7 +1031,6 @@
             this.imgUrl = response;
             this.msgtype = 0;
             this.messageValue ='图片消息';
-            console.log(this.imgUrl+this.messageValue)
           })
         }
         this.$refs.text.focus();
@@ -1091,9 +1038,7 @@
       //放大----------------------------------------------------------------------------------
       clickImg(e) {
         this.showImg = true;
-        // 获取当前图片地址
         this.imgSrc = e;
-        //console.log("放大");
       },
       viewImg() {
         this.showImg = false
@@ -1106,18 +1051,12 @@
           console.log("取消录音")
         }else {
           this.recordMsg = data;
-          console.log(this.recordMsg);
-          console.log("完成录音");
-
           //时长
           this.duration = recorder.duration;
-          console.log(this.duration);
           let recordFile = new File([data],"record.wav",{type: "audio/wav"});
-          //console.log(recordFile)
           let self = this;
           var fd = new FormData();
           fd.append('file', recordFile,this.duration+'.wav');//文件内容：blob
-          //fd.append('duration',this.duration);时长
           fileUpload(fd).then(response => {
             self.recordUrl = response;
             self.msgtype = 3;
@@ -1125,12 +1064,10 @@
           })
         }
       },
-
       submit(){//提交录音信息
         this.showRecord = false;
         this.msg = recorder.getWAVBlob();
         this.reset();
-        //console.log(this.msg);
         this.startRecord(this.msg);
       },
       cancel(){//取消录音
@@ -1187,7 +1124,6 @@
           this.seconds = 0;
           this.minutes = this.minutes + 1;
         }
-
         if (this.minutes >= 60) {
           this.minutes = 0;
           this.hour = this.hour + 1;
@@ -1200,18 +1136,15 @@
         let audio = new Audio(wav);
         if(this.play===false){
           //播放
-          //recorder.play();
           audio.play();
           console.log("正在播放");
           this.play = true;
         }else{
           //停止播放
-          //recorder.stopPlay();
           audio.pause();
           console.log("停止播放");
           this.play = false;
         }
-
       },
       //-------------------------------------------------------------------------------------
       //添加文件
@@ -1249,16 +1182,12 @@
         let params={
           fileName: words[words.length-1]
         }
-        // fileDownload(params).then(res => {
-        //   console.log("下载成功")
-        // })
         this.$axios({
           method: 'get',
           url: 'chat/api/fileDownload',
           params: params,
           responseType: 'arraybuffer'
         }).then(response => {
-         // console.log(response);
           let url = window.URL.createObjectURL(new Blob([response]))
           var btn = document.createElement("a");
           btn .setAttribute('download', data.split('$')[1]);// download属性
@@ -1290,14 +1219,7 @@
             console.log("GroupLog");
             let list = r.data;
             for(let i=0;i<list.length;i++){
-              // if(list[i].messageType==2){
-              //   let words = list[i].sendContent.split("/");
-              //   list[i].sendContent = words[words.length-1];
-              // }
               let user = _this.infoHandle(list[i].senderId)
-
-             // let user = _this.groupMemberMap.get(_this.roomId).find(user => user.userId == list[i].senderId);
-             // console.log(user)
               _this.historyList.push({
                 sendContent:list[i].sendContent,
                 messageType:list[i].messageType,
@@ -1416,15 +1338,12 @@
 
 <style lang="scss" scoped>
   .chat-box {
-    // margin-top: 50px;
     padding: 0;
-    //margin: 0 auto;
     background: #fafafa;
     position: absolute;
-
     height: 600px;
     width: 550px;
-    //max-width: 700px;
+
     .msg-box {
       header {
         height: 60px;
@@ -1448,7 +1367,6 @@
           }
         }
       }
-      //position: absolute;
       width: 100%;
       height: 450px;
       .message-wrapper{
@@ -1459,7 +1377,6 @@
         overflow-y: scroll;
         border-bottom: 1px solid #e7e7e7;
         .loading{
-          //display: inline-block;
           margin:0 0 0 242px;
         }
         .nomore{
@@ -1472,10 +1389,8 @@
           margin-left: 200px;
         }
         .msg {
-          //overflow-y: scroll;
           margin-bottom: 15px;
           .time{
-            //position: absolute;
             width: 100%;
             height: 20px;
             font-size: 12px;
@@ -1548,7 +1463,6 @@
               border-radius: 100px;
             }
             .user-msg{
-              //position: relative;
               right: -300px;
               display: inline-block;
               margin-left: 10px;

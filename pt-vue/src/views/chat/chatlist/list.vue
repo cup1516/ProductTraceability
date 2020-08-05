@@ -2,49 +2,9 @@
 <template>
   <div class="hello">
     <div class="usermsg" >
-      <div class="add" style="float: right">
-        <i class="icon iconfont icon-ios-add-circle" @click="setTable"></i>
-
-        <el-dialog  title="新建群组" :visible.sync="dialogTableVisible" :width="dialogWidth">
-          <el-form :model="{form}">
-            <el-form-item label="群组名称" label-width="120px">
-              <el-input v-model="form.name" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="群组头像" label-width="120px">
-              <el-avatar :src="groupAvatar"  autocomplete="off"></el-avatar>
-              <input type="file" id="saveImage" name="myphoto" accept="image/*" ref="new_image" @change="addImage"></input>
-            </el-form-item>
-            <el-form-item label="选择好友" label-width="120px">
-              <el-transfer
-                style="text-align: left;display: inline-block"
-                v-model="form.userIds"
-                :data="userList"
-                :props="{key: 'userId',label: 'nickname'}"
-                :titles="['全部好友','已选择好友']"
-                filterable
-                filter-placeholder="搜索"
-                :format="{
-                  noChecked: '${total}',
-                  hasChecked: '${checked}/${total}'
-                }"
-                @change="handleChange"
-              >
-                <div slot-scope="{ option }" style="margin-bottom:10px">
-                  <el-avatar :size="30" :src=option.avatar style="vertical-align:middle;"></el-avatar>
-                  <span> ({{ option.userName }}){{ option.nickName }}</span>
-                </div>
-              </el-transfer>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogTableVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitGroup">确 定</el-button>
-          </div>
-        </el-dialog>
-      </div>
       <div class="chatlist">
         <ul class="list-ul">
-          <li v-for="item in conversationsList" class="sessionlist" @click="joinRoom(item)" >
+          <li v-for="item in searchedConversationList" class="sessionlist" :class="{active: item.chatId===selectedRoom.chatId}" @click="joinRoom(item)" >
             <div class="list-left">
               <img class="chat-avatar"  width="42" height="42" :alt="item.chatName" :src="item.chatAvatar">
             </div>
@@ -82,40 +42,33 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import store from "@/store" ;
-  import {getChatListInfo, CreateGroup, fileUpload, ShowGroupMemberInfo } from '../../../api/chat/chatApi'
-  import {getUserList} from '../../../api/system/user'
+  import {getChatListInfo, ShowGroupMemberInfo } from '../../../api/chat/chatApi'
   export default {
     name: 'list',
     data () {
       return {
         timer: '',
         currChat: '',
-        dialogTableVisible: false,
-        dialogFormVisible: false,
+
         groupAvatar:'/images/group.jpg',
         userList:[],
         conversationsList: store.getters.conversationsList,
         groupMemberMap:store.getters.groupMemberMap,
-        dialogWidth: 0,
         username: store.getters.name,
         nickname: store.getters.nick_name,
         useravatar: store.getters.avatar,
         userId: store.getters.user_id,
         selectedRoom: store.getters.selectedRoom,
-        form: {
-          name: '',
-          avatar:'',
-          userIds:[],//this.username"111111"
-          delivery: false,
-        },
-        filterMethod(query,item){
-          //return item.username
-        }
+
+        searchedConversation: store.getters.searchedConversationList
       }
     },
     computed:{
-
+      ...mapGetters([
+        'searchedConversationList'
+      ])
     },
     methods:{
       changeName(params){
@@ -123,11 +76,11 @@
         let chatId = params.id;
         let chatName = params.name;
         this.conversationsList.find(group=>group.chatId==chatId).chatName=chatName;
-
       },
       joinRoom(room){
         this.$emit("join",room);
         //console.log(room)
+        this.selectedRoom = room;
         this.$store.dispatch("chat/selectedRoom",room)
       },
       updateLog(params,roomId){
@@ -163,82 +116,7 @@
           })
         }
         _this.$store.dispatch('chat/setGroupMemberMap',_this.groupMemberMap);
-        console.log(store.getters.groupMemberMap)
-      },
-      setTable(){
-        this.dialogTableVisible=true;
-        this.form.userIds[0]=this.userId;
-      },
-      submitGroup(){
-        this.dialogTableVisible = false;
-        this.form.avatar = this.groupAvatar;
-        console.log(this.form);
-        let params={
-          chatId: JSON.stringify(this.form.userIds),//,//+','+this.user.username,
-          chatAvatar: this.groupAvatar,
-          chatName: this.form.name,
-        };
-        console.log(params);
-        CreateGroup(params).then(r=>{
-          if(r.code==200){
-            this.form.delivery = true;
-            console.log(r.data);
-            r.data.groupLogList = [];
-            this.conversationsList.push(r.data);
-            this.$store.dispatch('chat/setConversationsList',this.conversationsList);
-            let userList=[];
-            for(let i=0;i<this.form.userIds.length;i++){
-              let user = this.userList.find(user=>user.userId==this.form.userIds[i]);
-              userList.push({
-                userId:user.userId,
-                nickName:user.nickName,
-                avatar:user.avatar
-              })
-            }
-            this.groupMemberMap.set(r.data.chatId,userList)
-            console.log(this.groupMemberMap)
-            this.$store.dispatch('chat/setGroupMemberMap',this.groupMemberMap);
-            this.form=[];
-            this.groupAvatar = "";
-          }
-        })
-      },
-
-      handleChange(value,direction,movedkeys){
-        if(direction === "right"){
-          console.log(this.form.userIds)
-        }
-        if(direction === "left"){
-          console.log(this.form.userIds)
-        }
-      },
-      //添加图片
-      addImage: function () {
-        let self = this;
-        if (self.$refs.new_image.files.length !== 0) {
-          let formData = new FormData();
-          formData.append('file', self.$refs.new_image.files[0]);
-          let imgFile = self.$refs.new_image.value;
-          const fr = new FileReader();
-          fr.addEventListener('load',() => {
-
-          });
-          fr.readAsDataURL(self.$refs.new_image.files[0]);
-          //单个文件进行上传
-          fileUpload(formData).then(response => {
-            this.groupAvatar = response;
-          })
-        }
-      },
-      getUser(){
-        getUserList().then(r=>{
-          if(r.code==0){
-            this.userList = r.data;
-            this.$store.dispatch('chat/setUserList',r.data)
-            this.getGroupMember()
-          }
-          console.log(r)
-        })
+        //console.log(store.getters.groupMemberMap)
       },
       getConversationList(){
         let params={
@@ -253,17 +131,6 @@
           console.log(r)
         })
       },
-      //设置弹出框宽度
-      setDialogWidth() {
-        //console.log(document.body.clientWidth);
-        var val = document.body.clientWidth;
-        const def = 800; // 默认宽度
-        if (val < def) {
-          this.dialogWidth = '100%'
-        } else {
-          this.dialogWidth = def + 'px'
-        }
-      },
       //按照时间顺序排列
       sort(){
         for(let i=0;i<this.conversationsList.length;i++){
@@ -272,17 +139,10 @@
       }
     },
     mounted() {
-      this.getUser();
-      window.onresize=()=>{
-        return (()=>{
-          this.setDialogWidth()
-        })()
-      };
       if(this.timer){
         clearInterval(this.timer)
       }else{
         this.timer = setInterval(()=>{
-          this.getUser();
           this.getConversationList()
         },30000)
       }
@@ -292,7 +152,6 @@
     },
     created() {
       this.getConversationList();
-      this.setDialogWidth();
       this.sort();
     },
     destroyed() {
@@ -364,7 +223,7 @@
     position: absolute;
     display: flex;
     width: 250px;
-    height: 600px;
+    height: 554px;
 
   }
   header{
@@ -379,7 +238,7 @@
     height: 100%;
   }
   .chatlist{
-    height: 580px;
+    height: 554px;
     overflow-y: auto;
   }
   .list-ul{
@@ -398,7 +257,7 @@
   .sessionlist:hover{
     background-color: rgb(220,220,220);
   }
-  .sessionlist:active{
+  .sessionlist.active{
     background-color: #c4c4c4;
   }
   .chat-avatar{

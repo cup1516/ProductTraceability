@@ -1,4 +1,6 @@
 const state = {
+  // 输入的搜索值
+  searchText: '',
   conversationsList: [], // 会话列表
   OnlineUser: {}, // 在线人数
   // 得知当前选择的是哪个对话
@@ -62,6 +64,10 @@ const state = {
   ],
 }
 const mutations ={
+  // 获取搜索值
+  search(state,value){
+    state.searchText = value;
+  },
   // 从localStorage 中获取数据
   initData (state) {
     let data = localStorage.getItem('vue-chat');
@@ -69,10 +75,7 @@ const mutations ={
       state.chatlist = JSON.parse(data);
     }
   },
-  //是否登录
-  setIslogin(state, data) {
-    state.isLogin = data;
-  },
+
   //聊天列表
   setConversationsList(state, data) { // 设置会话列表
     if (Array.isArray(data)) {
@@ -123,6 +126,11 @@ const mutations ={
   }
 }
 const actions ={
+  search: ({ commit }, value)=>{
+    setTimeout(()=>{
+      commit('search',value)
+    },100)
+  },
   initData: ({ commit }) => commit('initData'),
   deleteConversation: ({ commit }, value) => commit('deleteConversation', value),
   setUserList:({ commit }, value) => commit('setUserList',value),

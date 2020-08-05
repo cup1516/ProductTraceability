@@ -19,6 +19,9 @@ const user = {
   },
 
   mutations: {
+    SET_NICKNAME: (state, nickName) => {
+      state.nick_name = nickName
+    },
     SET_TOKEN: (state, token) => {
       state.access_token = token
     },

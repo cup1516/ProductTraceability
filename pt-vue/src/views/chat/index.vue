@@ -3,6 +3,7 @@
     <el-container>
       <el-aside width="250px">
         <div class="msglist">
+          <search></search>
           <list @join="joinRoom" ref="chatlist"></list>
         </div>
       </el-aside>
@@ -21,10 +22,11 @@
   import store from "@/store" ;
   import list from './chatlist/list'
   import page from './chatpage/page'
+  import search from './components/search'
   import { getChatListInfo } from '../../api/chat/chatApi'
   export default {
     name: 'index',
-    components: {page,list},
+    components: { search, page,list},
     methods:{
       joinRoom(room){
         console.log("1")
@@ -64,9 +66,9 @@
     padding: 10px 0 10px 0;
   }
   .msglist{
+    height: 600px;
     width: 250px;
     margin: 0;
-    background: rgb(230,230,230);
   }
   .chatbox{
     flex: 1;
