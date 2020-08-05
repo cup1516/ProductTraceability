@@ -84,14 +84,20 @@
           size="medium"
           type="primary"
           style="width:100%;"
-          @click.native.prevent="handleLogin"
+          @click.native.prevent="isShow1"
         >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div><el-button size="medium" type="primary" @click="dialogFormVisible = true" style="width:100%;" >注册</el-button></div>
+        <div><el-button v-if= "isNeedAudit" size="medium" type="primary" @click="dialogFormVisible = true" style="width:100%;" >注册</el-button></div>
       </el-form-item>
     </el-form>
+    <Vcode
+      :show="isShow"
+      @success="handleLogin"
+      @close="onClose"
+    />
+
     <!--  底部  -->
     <div class="el-login-footer">
       <span>Copyright © 2018-2019 ruoyi.vip All Rights Reserved.</span>
@@ -100,15 +106,20 @@
 </template>
 
 <script>
+  import Vcode from "vue-puzzle-vcode";
   import { getCodeImg } from "@/api/login";
   import Cookies from "js-cookie";
   import { encrypt, decrypt } from '@/utils/jsencrypt'
   import { listUser, getUser, delUser, addUser, updateUser, addCompanyUser, registerUser, addCompany} from "@/api/system/user";
-
+  import store from '../store/modules/portal'
   export default {
     name: "Login",
+    components: {
+      Vcode
+    },
     data() {
       return {
+        isNeedAudit: false,
         dialogFormVisible: false,
         codeUrl: "",
         cookiePassword: "",
@@ -116,13 +127,13 @@
         icon: "el-input__icon el-icon-view",
         formLabelWidth: '120px',
         options: [{
-          value: '0',
+          value: '1',
           label: '庄园'
         }, {
-          value: '1',
+          value: '2',
           label: '经销商'
         }, {
-          value: '2',
+          value: '3',
           label: '仓储'
         }],
         addForm: {
@@ -153,6 +164,7 @@
           // code: [{ required: true, trigger: "change", message: "验证码不能为空" }]
         },
         loading: false,
+        isShow:false,
         redirect: undefined
       };
     },
@@ -165,9 +177,23 @@
       }
     },
     created() {
-
+      this.queryParam()
     },
     methods: {
+      async queryParam(){//根据url来显示按钮
+        const url = store.state.url
+        if (url == 'center') {
+          this.isNeedAudit = true
+        } else {
+          this.isNeedAudit = false
+        }
+      },
+      isShow1() {
+        this.isShow = true;
+      },
+      onClose() {
+        this.isShow = false;
+      },
       showPass(){
         //点击图标是密码隐藏或显示
         if( this.passw=="text"){
@@ -241,6 +267,7 @@
         };
       },
       handleLogin() {
+        this.isShow = false;// 通过验证后，需要手动隐藏模态框
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;

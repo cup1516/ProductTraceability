@@ -12,7 +12,7 @@ import java.sql.DriverManager;
 
 public class InsertData  {
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
-    public static void CreateSql(String uid, String url) throws IOException {
+    public static void CreateSql(String uid, String url, char client_type) throws IOException {
 
         String sqlName = "output_test";
         String filename = sqlName + ".sql";
@@ -52,9 +52,8 @@ public class InsertData  {
         //-----------------------------------------------------------------------------------
         //system_role_menu表
         String role_menu_sql = "INSERT INTO SYSTEM_ROLE_MENU (role_id, company_id, menu_id)\n" +
-                "select '1' as 'role_id', '" + uid + "' as 'company_id', menu_id from system_menu where type = '0' and client_type != '8';\n";
-                //+ "VALUES('888', '"+ uid + "', '99');\n";
-
+                "select '1' as 'role_id', '" + uid + "' as 'company_id', menu_id from system_menu where type = '0' and client_type != '8' or client_type = '" + client_type+ "';\n";
+        //+ "VALUES('888', '"+ uid + "', '99');\n";
         //system_dept表
         String dept_sql = "INSERT INTO SYSTEM_DEPT (dept_id, company_id)\n" +
                 "VALUES('1', '"+ uid + "');\n";

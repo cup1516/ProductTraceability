@@ -20,15 +20,15 @@ import java.io.OutputStream;
 public class downloadProfile {
     @Autowired
     com.pt.ptportal.dao.fileDao fileDao;
-    @GetMapping("/download/findAllFile/{page}/{size}")
-    public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+    @GetMapping("/download/findAllFile/{page}/{size}/{company_id}")
+    public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id,){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 //1.1 获取比较的属性
                 Path<Object> companyId =root.get("companyId");
                 //1.2构造查询条件
-                Predicate predicate = criteriaBuilder.equal(companyId,1);
+                Predicate predicate = criteriaBuilder.equal(companyId,String.valueOf(company_id));
                 return predicate;
             }
         };
