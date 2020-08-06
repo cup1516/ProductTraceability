@@ -115,6 +115,13 @@ public class SecurityUtils {
     public String getCompanyId() {
         return getUser().getCompanyId();
     }
+
+    /**
+     * 获取用户
+     */
+    public String getCompanyName() {
+        return getUser().getCompanyName();
+    }
     /**
      * 获取部门
      */

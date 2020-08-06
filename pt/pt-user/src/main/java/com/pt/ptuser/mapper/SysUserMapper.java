@@ -2,6 +2,7 @@ package com.pt.ptuser.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pt.ptuser.dto.UserDto;
 import com.pt.ptuser.entity.SysUser;
 import com.pt.ptuser.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,7 +20,7 @@ public interface SysUserMapper  {
      * @param url 客户端
      * @return
      */
-    SysUser findUserByUsernameAndUrl(@Param("username") String username,@Param("url") String url);
+    UserDto findUserByUsernameAndUrl(@Param("username") String username, @Param("url") String url);
 
     /**
      * 根据username与url查找用户
@@ -27,7 +28,7 @@ public interface SysUserMapper  {
      * @param companyId 公司Id
      * @return
      */
-    SysUser findUserByUsernameAndCompanyId(@Param("username") String username,@Param("companyId") String companyId);
+    UserDto findUserByUsernameAndCompanyId(@Param("username") String username,@Param("companyId") String companyId);
     /**
      * 分页获取本部门全部用户
      * @param page 分页参数

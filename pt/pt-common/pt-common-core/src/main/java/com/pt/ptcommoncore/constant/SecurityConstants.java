@@ -104,6 +104,10 @@ public interface SecurityConstants {
      */
     String DETAILS_COMPANY_ID = "company_id";
     /**
+     * 公司名称字段
+     */
+    String DETAILS_COMPANY_NAME = "company_name";
+    /**
      * 用户部门字段
      */
     String DETAILS_DEPT_ID = "dept_id";

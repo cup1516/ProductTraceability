@@ -6,7 +6,7 @@ import com.pt.ptauth.util.RedisUtils;
 import com.pt.ptcommoncore.constant.CacheConstants;
 import com.pt.ptcommoncore.constant.SecurityConstants;
 import com.pt.ptcommoncore.security.CustomUser;
-import com.pt.ptcommoncore.security.SysUser;
+import com.pt.ptcommoncore.security.UserDto;
 import com.pt.ptcommoncore.security.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             url = "";
         }
         UserInfo info = remotePtUserClient.info(username,url);
-        if (info.getSysUser() == null) {
+        if (info.getUserDto() == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
         CustomUser user = getUserDetails(info);
@@ -57,7 +57,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
      * @return
      */
     private CustomUser getUserDetails(UserInfo userInfo) {
-        SysUser user = userInfo.getSysUser();
+        UserDto userDto = userInfo.getUserDto();
         //添加权限
         Collection<CustomAuthority> customAuthorityCollection = new ArrayList<>();
         if(ArrayUtil.isNotEmpty(userInfo.getRoles())){
@@ -66,6 +66,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             });
         }
         //构建user对象
-        return new CustomUser(user.getUserName(),user.getPassword(),user.getUserId(),user.getUserName(),user.getNickName(),user.getDeptId(),user.getCompanyId(), customAuthorityCollection);
+        return new CustomUser(userDto.getUserName(),userDto.getPassword(),userDto.getUserId(),userDto.getUserName(),userDto.getNickName(),userDto.getDeptId(),userDto.getCompanyId(),userDto.getCompanyName(), customAuthorityCollection);
    }
 }

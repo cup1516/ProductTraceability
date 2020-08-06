@@ -18,7 +18,6 @@
 
 package com.pt.ptuser.dto;
 
-import com.pt.ptuser.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,7 +34,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 用户基本信息
 	 */
-	private SysUser sysUser;
+	private UserDto userDto;
 	/**
 	 * 权限标识集合
 	 */
