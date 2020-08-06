@@ -21,11 +21,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -47,6 +45,11 @@ private static final long serialVersionUID = 1L;
 	@TableId(value = "process_id", type = IdType.INPUT)
     @ApiModelProperty(value="主键")
     private String processId;
+	/**
+	 * 公司id
+	 */
+	@ApiModelProperty(value="公司id")
+	private String companyId;
     /**
      * 加工流程编号
      */

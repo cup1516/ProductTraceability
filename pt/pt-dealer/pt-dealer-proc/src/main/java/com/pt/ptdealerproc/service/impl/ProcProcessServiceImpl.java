@@ -17,33 +17,21 @@
 package com.pt.ptdealerproc.service.impl;
 
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pt.ptcommoncore.constant.CommonConstants;
 import com.pt.ptcommoncore.util.IdUtils;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
-import com.pt.ptdealerproc.dto.NodeDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
-import com.pt.ptdealerproc.entity.ProcNodeWorker;
-import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.entity.ProcProcessNode;
 import com.pt.ptdealerproc.mapper.ProcProcessMapper;
 import com.pt.ptdealerproc.mapper.ProcProcessNodeMapper;
-import com.pt.ptdealerproc.service.ProcNodeWorkerService;
-import com.pt.ptdealerproc.service.ProcProcessNodeService;
 import com.pt.ptdealerproc.service.ProcProcessService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 加工流程表
@@ -56,7 +44,6 @@ import java.util.stream.Collectors;
 public class ProcProcessServiceImpl  implements ProcProcessService {
 
 	private final ProcProcessNodeMapper procProcessNodeMapper;
-	private final ProcNodeWorkerService procNodeWorkerService;
 	private final ProcProcessMapper procProcessMapper;
 	/**
 	 * 获取加工流程表
@@ -65,9 +52,9 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return
 	 */
 	@Override
-	public IPage getProcessPage(Page page, ProcessDto processDto) {
+	public IPage getProcessPage(Page page, ProcessDto processDto,String companyId) {
 		processDto.setCreateBy(SecurityUtils.getUserName());
-		return procProcessMapper.getProcessDtoPage(page,processDto);
+		return procProcessMapper.getProcessDtoPage(page,processDto,companyId);
 	}
 	/**
 	 * 获取加工流程表
@@ -76,8 +63,8 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return
 	 */
 	@Override
-	public IPage getProcessCheckPage(Page page, ProcessDto processDto) {
-		return procProcessMapper.getProcessDtoCheckPage(page,processDto);
+	public IPage getProcessCheckPage(Page page, ProcessDto processDto,String companyId) {
+		return procProcessMapper.getProcessDtoCheckPage(page,processDto,companyId);
 	}
 	/**
 	 * 查询流程信息集合
@@ -86,9 +73,9 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 流程信息集合
 	 */
 	@Override
-	public List<ProcProcess> selectProcessList(ProcProcess procProcess)
+	public List<ProcProcess> selectProcessList(ProcProcess procProcess,String companyId)
 	{
-		return procProcessMapper.selectProcessList(procProcess);
+		return procProcessMapper.selectProcessList(procProcess,companyId);
 	}
 
 
@@ -99,9 +86,9 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 流程列表
 	 */
 	@Override
-	public List<ProcProcess> selectProcessAll()
+	public List<ProcProcess> selectProcessAll(String companyId)
 	{
-		return procProcessMapper.selectProcessAll();
+		return procProcessMapper.selectProcessAll(companyId);
 	}
 
 	/**
@@ -111,9 +98,10 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 角色对象信息
 	 */
 	@Override
-	public ProcProcess selectProcessById(String processId)
+	public ProcessDto selectProcessById(String processId,String companyId)
 	{
-		return procProcessMapper.selectProcessById(processId);
+		ProcessDto processDto = procProcessMapper.selectProcessById(processId, companyId);
+		return procProcessMapper.selectProcessById(processId,companyId);
 	}
 
 
@@ -124,16 +112,16 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public Boolean checkProcessNameUnique(ProcProcess process)
+	public Boolean checkProcessNameUnique(ProcProcess process,String companyId)
 	{
 //		if(StrUtil.isEmpty(process.getProcessId())){
 //			return Boolean.TRUE;
 //		}
-		ProcProcess procProcess = procProcessMapper.checkProcessNameUnique(process.getProcessName());
+		ProcProcess procProcess = procProcessMapper.checkProcessNameUnique(process.getProcessName(),companyId);
 
 		if (procProcess != null && !procProcess.getProcessId().equals(process.getProcessId()))
 		{
-			return Boolean.FALSE;
+			throw new CustomException("修改流程'" + procProcess.getProcessName() + "'失败，流程名称已存在");
 		}
 		return Boolean.TRUE;
 
@@ -146,16 +134,16 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public Boolean checkProcessCodeUnique(ProcProcess process)
+	public Boolean checkProcessCodeUnique(ProcProcess process,String companyId)
 	{
 //		if(StrUtil.isEmpty(process.getProcessId())){
 //			return Boolean.TRUE;
 //		}
-		ProcProcess procProcess = procProcessMapper.checkProcessCodeUnique(process.getProcessName());
+		ProcProcess procProcess = procProcessMapper.checkProcessCodeUnique(process.getProcessCode(),companyId);
 
 		if (procProcess != null && !procProcess.getProcessId().equals(process.getProcessId()))
 		{
-			return Boolean.FALSE;
+			throw new CustomException("修改流程'" + procProcess.getProcessCode() + "'失败，流程编码已存在");
 		}
 		return Boolean.TRUE;
 	}
@@ -167,7 +155,7 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public int countProcProcessById(String processId)
+	public int countProcProcessById(String processId,String companyId)
 	{
 //		return sysUserProcessService.countProcProcessById(processId);
 		return 0;
@@ -180,9 +168,9 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public Boolean deleteProcessById(String processId)
+	public Boolean deleteProcessById(String processId,String companyId)
 	{
-		return procProcessMapper.deleteProcessById(processId);
+		return procProcessMapper.deleteProcessById(processId,companyId);
 	}
 
 	/**
@@ -193,18 +181,18 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @throws Exception 异常
 	 */
 	@Override
-	public Boolean deleteProcessByIds(String[] processIds)
+	public Boolean deleteProcessByIds(String[] processIds,String companyId)
 	{
 		for (String processId : processIds)
 		{
-			procProcessNodeMapper.deleteProcessNode(processId);
+			procProcessNodeMapper.deleteProcessNode(processId,companyId);
 //			if (countProcProcessById(processId) > 0)
 //			{
 //				return  Boolean.FALSE;
 //			}
 		}
 
-		procProcessMapper.deleteProcessByIds(processIds);
+		procProcessMapper.deleteProcessByIds(processIds,companyId);
 		return Boolean.TRUE;
 	}
 
@@ -215,13 +203,13 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public Boolean insertProcess(ProcessDto processDto)
+	public Boolean insertProcess(ProcessDto processDto,String companyId)
 	{
 		processDto.setProcessId(IdUtils.simpleUUID());
-		procProcessMapper.insertProcess(processDto);
+		procProcessMapper.insertProcess(processDto,companyId);
 		List<ProcProcessNode> processNodes = processDto.getProcessNodes();
 		processNodes.stream().forEach(procProcessNode -> procProcessNode.setProcessId(processDto.getProcessId()));
-		procProcessNodeMapper.batchProcessNode(processNodes);
+		procProcessNodeMapper.batchProcessNode(processNodes,companyId);
 		return Boolean.TRUE;
 	}
 
@@ -232,24 +220,24 @@ public class ProcProcessServiceImpl  implements ProcProcessService {
 	 * @return 结果
 	 */
 	@Override
-	public Boolean updateProcess(ProcessDto processDto)
+	public Boolean updateProcess(ProcessDto processDto,String companyId)
 	{
 		List<ProcProcessNode> processNodes = processDto.getProcessNodes();
 		processNodes.stream().forEach(procProcessNode -> procProcessNode.setProcessId(processDto.getProcessId()));
-		procProcessNodeMapper.deleteProcessNode(processDto.getProcessId());
+		procProcessNodeMapper.deleteProcessNode(processDto.getProcessId(),companyId);
 		if(processDto.getProcessNodes().size()>0){
-			procProcessNodeMapper.batchProcessNode(processNodes);
+			procProcessNodeMapper.batchProcessNode(processNodes,companyId);
 		}
-		return procProcessMapper.updateProcess(processDto);
+		return procProcessMapper.updateProcess(processDto,companyId);
 	}
 
 	@Override
-	public List<ProcProcess> getProcProcessList() {
-		return procProcessMapper.getProcProcessList();
+	public List<ProcProcess> getProcProcessList(String companyId) {
+		return procProcessMapper.getProcProcessList(companyId);
 	}
 
 	@Override
-	public Boolean changeCheckStatus(ProcessDto processDto) {
-		return procProcessMapper.changeCheckStatus(processDto);
+	public Boolean changeCheckStatus(ProcessDto processDto,String companyId) {
+		return procProcessMapper.changeCheckStatus(processDto,companyId);
 	}
 }

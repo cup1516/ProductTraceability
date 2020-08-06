@@ -10,13 +10,11 @@ import com.pt.ptdealerprod.entity.ProdPackage;
 import com.pt.ptdealerprod.entity.ProdPackageUnit;
 import com.pt.ptdealerprod.mapper.ProdPackageMapper;
 import com.pt.ptdealerprod.mapper.ProdPackageUnitMapper;
+import com.pt.ptdealerprod.service.ProdPackageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+
 import java.util.List;
-import com.pt.ptdealerprod.mapper.ProdPackageMapper;
-import com.pt.ptdealerprod.entity.ProdPackage;
-import com.pt.ptdealerprod.service.ProdPackageService;
 @Service
 @AllArgsConstructor
 public class ProdPackageServiceImpl implements ProdPackageService{
@@ -24,16 +22,11 @@ public class ProdPackageServiceImpl implements ProdPackageService{
     private ProdPackageMapper prodPackageMapper;
     private ProdPackageUnitMapper prodPackageUnitMapper;
 
-    @Override
-    public Boolean savePackage(ProdPackage prodPackage) {
-        prodPackage.setPackageId(IdUtils.simpleUUID());
-        prodPackageMapper.insertPackage(prodPackage);
-        return Boolean.TRUE;
-    }
+
 
     @Override
-    public IPage getProdPackagePage(Page page, ProdPackage prodPackage) {
-        return prodPackageMapper.getProdPackagePage(page,prodPackage);
+    public IPage getProdPackagePage(Page page, ProdPackage prodPackage,String companyId) {
+        return prodPackageMapper.getProdPackagePage(page,prodPackage,companyId);
     }
 
     /**
@@ -43,9 +36,9 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 节点信息集合
      */
     @Override
-    public List<ProdPackage> selectPackageList(ProdPackage prodPackage)
+    public List<ProdPackage> selectPackageList(ProdPackage prodPackage,String companyId)
     {
-        return prodPackageMapper.selectPackageList(prodPackage);
+        return prodPackageMapper.selectPackageList(prodPackage,companyId);
     }
 
 
@@ -56,9 +49,9 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 节点列表
      */
     @Override
-    public List<ProdPackage> selectPackageAll()
+    public List<ProdPackage> selectPackageAll(String companyId)
     {
-        return prodPackageMapper.selectPackageAll();
+        return prodPackageMapper.selectPackageAll(companyId);
     }
 
     /**
@@ -68,9 +61,9 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 角色对象信息
      */
     @Override
-    public ProdPackage selectPackageById(String prodPackageId)
+    public ProdPackage selectPackageById(String prodPackageId,String companyId)
     {
-        return prodPackageMapper.selectPackageById(prodPackageId);
+        return prodPackageMapper.selectPackageById(prodPackageId,companyId);
     }
 
 
@@ -81,14 +74,14 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public Boolean checkPackageNameUnique(ProdPackage prodPackage)
+    public Boolean checkPackageNameUnique(ProdPackage prodPackage,String companyId)
     {
         if(StrUtil.isEmpty(prodPackage.getPackageId())){
             return Boolean.TRUE;
         }
-        ProdPackage prodPackage_ = prodPackageMapper.checkPackageNameUnique(prodPackage.getPackageName());
+        ProdPackage prodPackage_ = prodPackageMapper.checkPackageNameUnique(prodPackage.getPackageName(),companyId);
 
-        if (prodPackage != null && !prodPackage.getPackageId().equals(prodPackage_.getPackageId()))
+        if (prodPackage_!= null && !prodPackage.getPackageId().equals(prodPackage_.getPackageId()))
         {
             throw new CustomException("新增包装'" + prodPackage.getPackageName() + "'失败，包装名称已存在");
         }
@@ -103,14 +96,14 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public Boolean checkPackageCodeUnique(ProdPackage prodPackage)
+    public Boolean checkPackageCodeUnique(ProdPackage prodPackage,String companyId)
     {
         if(StrUtil.isEmpty(prodPackage.getPackageId())){
             return Boolean.TRUE;
         }
-        ProdPackage prodPackage_ = prodPackageMapper.checkPackageCodeUnique(prodPackage.getPackageCode());
+        ProdPackage prodPackage_ = prodPackageMapper.checkPackageCodeUnique(prodPackage.getPackageCode(),companyId);
 
-        if (prodPackage != null && !prodPackage.getPackageId().equals(prodPackage_.getPackageId()))
+        if (prodPackage_ != null && !prodPackage.getPackageId().equals(prodPackage_.getPackageId()))
         {
             throw new CustomException("新增包装'" + prodPackage.getPackageName() + "'失败，包装编号已存在");
         }
@@ -124,7 +117,7 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public int countProdPackageById(String prodPackageId)
+    public int countProdPackageById(String prodPackageId,String companyId)
     {
 //		return sysUserPackageService.countProdPackageById(prodPackageId);
         return 0;
@@ -137,9 +130,9 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public Boolean deletePackageById(String prodPackageId)
+    public Boolean deletePackageById(String prodPackageId,String companyId)
     {
-        return prodPackageMapper.deletePackageById(prodPackageId);
+        return prodPackageMapper.deletePackageById(prodPackageId,companyId);
     }
 
     /**
@@ -150,17 +143,17 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @throws Exception 异常
      */
     @Override
-    public Boolean deletePackageByIds(String[] prodPackageIds)
+    public Boolean deletePackageByIds(String[] prodPackageIds,String companyId)
     {
         for (String prodPackageId : prodPackageIds)
         {
-            prodPackageUnitMapper.deletePackageUnit(prodPackageId);
+            prodPackageUnitMapper.deletePackageUnit(prodPackageId,companyId);
 //            if (countProdPackageById(prodPackageId) > 0)
 //            {
 //                return  Boolean.FALSE;
 //            }
         }
-        prodPackageMapper.deletePackageByIds(prodPackageIds);
+        prodPackageMapper.deletePackageByIds(prodPackageIds,companyId);
         return Boolean.TRUE;
     }
 
@@ -171,13 +164,13 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public Boolean insertPackage(PackageDto packageDto)
+    public Boolean insertPackage(PackageDto packageDto,String companyId)
     {
         packageDto.setPackageId(IdUtils.simpleUUID());
-        prodPackageMapper.insertPackage(packageDto);
+        prodPackageMapper.insertPackage(packageDto,companyId);
         List<ProdPackageUnit> processUnits = packageDto.getPackageUnits();
         processUnits.stream().forEach(procPackageUnit -> procPackageUnit.setPackageId(packageDto.getPackageId()));
-        prodPackageUnitMapper.batchPackageUnit(processUnits);
+        prodPackageUnitMapper.batchPackageUnit(processUnits,companyId);
         return Boolean.TRUE;
     }
 
@@ -188,20 +181,20 @@ public class ProdPackageServiceImpl implements ProdPackageService{
      * @return 结果
      */
     @Override
-    public Boolean updatePackage(PackageDto packageDto)
+    public Boolean updatePackage(PackageDto packageDto,String companyId)
     {
         List<ProdPackageUnit> processUnits = packageDto.getPackageUnits();
         processUnits.stream().forEach(procPackageUnit -> procPackageUnit.setPackageId(packageDto.getPackageId()));
-        prodPackageUnitMapper.deletePackageUnit(packageDto.getPackageId());
+        prodPackageUnitMapper.deletePackageUnit(packageDto.getPackageId(),companyId);
         if(packageDto.getPackageUnits().size()>0){
-            prodPackageUnitMapper.batchPackageUnit(processUnits);
+            prodPackageUnitMapper.batchPackageUnit(processUnits,companyId);
         }
-        return prodPackageMapper.updatePackage(packageDto);
+        return prodPackageMapper.updatePackage(packageDto,companyId);
     }
 
 
     @Override
-    public List<ProdPackage> getProdPackageList() {
-        return prodPackageMapper.getProdPackageList();
+    public List<ProdPackage> getProdPackageList(String companyId) {
+        return prodPackageMapper.getProdPackageList(companyId);
     }
 }

@@ -3,10 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.pt</groupId>
+        <groupId>com.producttraceability</groupId>
         <artifactId>pt-dealer</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.pt</groupId>
     <artifactId>pt-dealer-prod</artifactId>
@@ -56,16 +55,14 @@
             <version>${hutool.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.pt</groupId>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-security</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>

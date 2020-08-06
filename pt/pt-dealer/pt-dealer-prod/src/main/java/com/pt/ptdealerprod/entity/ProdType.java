@@ -2,9 +2,9 @@ package com.pt.ptdealerprod.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
     * 产品类型表
@@ -17,7 +17,11 @@ public class ProdType {
     */
     @ApiModelProperty(value="主键")
     private String typeId;
-
+    /**
+     * 公司id
+     */
+    @ApiModelProperty(value="公司id")
+    private String companyId;
     /**
     * 产品类型编号
     */

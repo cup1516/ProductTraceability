@@ -32,6 +32,9 @@ public class CustomUser extends User {
     @Getter
     @Setter
     private String companyId;
+    @Getter
+    @Setter
+    private String companyName;
 
     @Getter
     @Setter
@@ -76,12 +79,13 @@ public class CustomUser extends User {
      * @param companyId   公司id
      * @param authorities 权限
      */
-    public CustomUser(String username, String password, String id, String userName, String nickName, String deptId, String companyId,Collection<? extends GrantedAuthority> authorities) {
+    public CustomUser(String username, String password, String id, String userName, String nickName, String deptId, String companyId,String companyName,Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.id = id;
         this.userName = userName;
         this.nickName = nickName;
         this.companyId = companyId;
+        this.companyName = companyName;
         this.deptId = deptId;
     }
 }

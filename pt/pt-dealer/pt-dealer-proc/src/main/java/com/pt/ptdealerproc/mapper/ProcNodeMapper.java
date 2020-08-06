@@ -20,7 +20,6 @@ package com.pt.ptdealerproc.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pt.ptdealerproc.dto.ProcessDto;
 import com.pt.ptdealerproc.entity.ProcNode;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,7 +34,7 @@ import java.util.List;
  */
 @Mapper
 public interface ProcNodeMapper extends BaseMapper<ProcNode> {
-    IPage<List<ProcNode>> getProcNodePage(Page page, @Param("query") ProcNode procNode);
+    IPage<List<ProcNode>> getProcNodePage(Page page, @Param("query") ProcNode procNode,@Param("companyId") String companyId);
 
     /**
      * 查询节点数据集合
@@ -43,14 +42,14 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param node 节点信息
      * @return 节点数据集合
      */
-    List<ProcNode> selectNodeList(ProcNode node);
+    List<ProcNode> selectNodeList(@Param("node") ProcNode node,@Param("companyId") String companyId);
 
     /**
      * 查询所有节点
      *
      * @return 节点列表
      */
-    List<ProcNode> selectNodeAll();
+    List<ProcNode> selectNodeAll(@Param("companyId") String companyId);
 
     /**
      * 通过节点ID查询节点信息
@@ -58,7 +57,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param nodeId 节点ID
      * @return 角色对象信息
      */
-    ProcNode selectNodeById(String nodeId);
+    ProcNode selectNodeById(@Param("nodeId") String nodeId,@Param("companyId") String companyId);
 
     /**
      * 删除节点信息
@@ -66,7 +65,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param nodeId 节点ID
      * @return 结果
      */
-    Boolean deleteNodeById(String nodeId);
+    Boolean deleteNodeById(@Param("nodeId") String nodeId,@Param("companyId") String companyId);
 
     /**
      * 批量删除节点信息
@@ -74,7 +73,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param nodeIds 需要删除的节点ID
      * @return 结果
      */
-    Boolean deleteNodeByIds(String[] nodeIds);
+    Boolean deleteNodeByIds(@Param("nodeIds") String[] nodeIds,@Param("companyId") String companyId);
 
     /**
      * 修改节点信息
@@ -82,7 +81,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param node 节点信息
      * @return 结果
      */
-    Boolean updateNode(ProcNode node);
+    Boolean updateNode(@Param("node") ProcNode node,@Param("companyId") String companyId);
 
     /**
      * 新增节点信息
@@ -90,7 +89,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param node 节点信息
      * @return 结果
      */
-    Boolean insertNode(ProcNode node);
+    Boolean insertNode(@Param("node") ProcNode node,@Param("companyId") String companyId);
 
     /**
      * 校验节点名称
@@ -98,7 +97,7 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param nodeName 节点名称
      * @return 结果
      */
-    ProcNode checkNodeNameUnique(String nodeName);
+    ProcNode checkNodeNameUnique(@Param("nodeName") String nodeName,@Param("companyId") String companyId);
 
     /**
      * 校验节点编码
@@ -106,11 +105,11 @@ public interface ProcNodeMapper extends BaseMapper<ProcNode> {
      * @param nodeCode 节点编码
      * @return 结果
      */
-    ProcNode checkNodeCodeUnique(String nodeCode);
+    ProcNode checkNodeCodeUnique(@Param("nodeCode") String nodeCode,@Param("companyId") String companyId);
 
     /**
      * 获取节点列表
      * @return
      */
-    List<ProcNode> getProcNodeList();
+    List<ProcNode> getProcNodeList(@Param("companyId") String companyId);
 }

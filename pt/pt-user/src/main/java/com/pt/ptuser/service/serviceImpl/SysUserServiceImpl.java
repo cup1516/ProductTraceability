@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
+import com.pt.ptuser.dto.UserDto;
 import com.pt.ptuser.dto.UserInfo;
 import com.pt.ptuser.entity.*;
 import com.pt.ptuser.mapper.SysMenuMapper;
@@ -50,14 +51,14 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public UserInfo findUserByUsernameAndUrl(String username, String url) {
-        SysUser sysUser = sysUserMapper.findUserByUsernameAndUrl(username,url);
+        UserDto userDto = sysUserMapper.findUserByUsernameAndUrl(username, url);
         //重新拼接用户名
         UserInfo userInfo = new UserInfo();
-        if(sysUser!=null){
-            sysUser.setUserName(sysUser.getUserName()+'_'+url);
-            userInfo.setSysUser(sysUser);
+        if(userDto!=null){
+            userDto.setUserName(userDto.getUserName()+'_'+url);
+            userInfo.setUserDto(userDto);
             //设置角色列表  （ID）
-            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(), sysUser.getCompanyId());
+            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(userDto.getUserId(), userDto.getCompanyId());
             List<String> roles = dealerSysRoles.stream()
                     .map(SysRole::getRoleCode)
                     .collect(Collectors.toList());
@@ -65,7 +66,7 @@ public class SysUserServiceImpl implements SysUserService {
             //设置权限列表（menu.permission）
             Set<String> permissions = new HashSet<>();
             dealerSysRoles.forEach(dealerRole -> {
-                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),sysUser.getCompanyId());
+                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),userDto.getCompanyId());
                 permissions.addAll(permissionsByRoleId);
             });
             userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
@@ -80,12 +81,12 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public UserInfo findUserByUsernameAndCompanyId(String username, String companyId) {
-        SysUser sysUser = sysUserMapper.findUserByUsernameAndCompanyId(username,companyId);
+        UserDto userDto = sysUserMapper.findUserByUsernameAndCompanyId(username, companyId);
         UserInfo userInfo = new UserInfo();
-        if(sysUser!=null){
-            userInfo.setSysUser(sysUser);
+        if(userDto!=null){
+            userInfo.setUserDto(userDto);
             //设置角色列表  （ID）
-            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(sysUser.getUserId(),sysUser.getCompanyId());
+            List<SysRole> dealerSysRoles = sysRoleMapper.listRolesByUserIdAndCompanyId(userDto.getUserId(),userDto.getCompanyId());
             List<String> roles = dealerSysRoles.stream()
                     .map(SysRole::getRoleCode)
                     .collect(Collectors.toList());
@@ -93,7 +94,7 @@ public class SysUserServiceImpl implements SysUserService {
             //设置权限列表（menu.permission）
             Set<String> permissions = new HashSet<>();
             dealerSysRoles.forEach(dealerRole -> {
-                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),sysUser.getCompanyId());
+                List<String> permissionsByRoleId = sysMenuService.findPermissionsByRoleIdAndCompanyId(dealerRole.getRoleId(),userDto.getCompanyId());
                 permissions.addAll(permissionsByRoleId);
             });
             userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));

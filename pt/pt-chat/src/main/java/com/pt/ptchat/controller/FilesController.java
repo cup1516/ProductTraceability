@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 @RestController
 public class FilesController {
-    @GetMapping(value = "/files")
+    @GetMapping(value = "/file")
     public String file() {
         return "file";
     }

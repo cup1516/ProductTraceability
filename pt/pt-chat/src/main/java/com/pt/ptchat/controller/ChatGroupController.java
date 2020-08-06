@@ -198,6 +198,7 @@ public class ChatGroupController {
             ChatGroupUser chatGroupUser = new ChatGroupUser();
             chatGroupUser.setChatId(groupId);
             chatGroupUser.setUserId(userIdList[i]);
+            chatGroupUser.setCompanyId(SecurityUtils.getCompanyId());
             chatGroupUserService.save(chatGroupUser);
         }
 

@@ -17,14 +17,10 @@
 
 package com.pt.ptdealerproc.dto;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -43,7 +39,6 @@ private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value="加工流程ID")
 	private String processId;
-
 
     @ApiModelProperty(value="加工流程编号")
     private String processCode;

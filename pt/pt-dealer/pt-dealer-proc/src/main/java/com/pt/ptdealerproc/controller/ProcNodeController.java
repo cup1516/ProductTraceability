@@ -17,7 +17,6 @@
 
 package com.pt.ptdealerproc.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
@@ -55,7 +54,7 @@ public class ProcNodeController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProcNodePage(Page page, ProcNode procNode) {
-        return R.ok(procNodeService.getProcNodePage(page, procNode));
+        return R.ok(procNodeService.getProcNodePage(page, procNode,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -64,7 +63,7 @@ public class ProcNodeController {
      */
     @GetMapping("/list" )
     public R getProcNodeList() {
-        return R.ok(procNodeService.getProcNodeList());
+        return R.ok(procNodeService.getProcNodeList(SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -73,7 +72,7 @@ public class ProcNodeController {
     @GetMapping(value = "/{nodeId}")
     public R getInfo(@PathVariable String nodeId)
     {
-        return R.ok(procNodeService.selectNodeById(nodeId));
+        return R.ok(procNodeService.selectNodeById(nodeId,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -83,10 +82,10 @@ public class ProcNodeController {
     @PostMapping
     public R add( @RequestBody ProcNode node)
     {
-        procNodeService.checkNodeNameUnique(node);
-        procNodeService.checkNodeCodeUnique(node);
+        procNodeService.checkNodeNameUnique(node,SecurityUtils.getCompanyId());
+        procNodeService.checkNodeCodeUnique(node,SecurityUtils.getCompanyId());
         node.setCreateBy(SecurityUtils.getNickName());
-        return R.ok(procNodeService.insertNode(node));
+        return R.ok(procNodeService.insertNode(node,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -96,9 +95,9 @@ public class ProcNodeController {
     @PutMapping
     public R edit(@Validated @RequestBody ProcNode node)
     {
-        procNodeService.checkNodeNameUnique(node);
-        procNodeService.checkNodeCodeUnique(node);
-        return R.ok(procNodeService.updateNode(node));
+        procNodeService.checkNodeNameUnique(node,SecurityUtils.getCompanyId());
+        procNodeService.checkNodeCodeUnique(node,SecurityUtils.getCompanyId());
+        return R.ok(procNodeService.updateNode(node,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -108,7 +107,7 @@ public class ProcNodeController {
     @DeleteMapping("/{nodeIds}")
     public R remove(@PathVariable String[] nodeIds)
     {
-        return R.ok(procNodeService.deleteNodeByIds(nodeIds));
+        return R.ok(procNodeService.deleteNodeByIds(nodeIds,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -117,7 +116,7 @@ public class ProcNodeController {
     @GetMapping("/optionselect")
     public R optionselect()
     {
-        List<ProcNode> nodes = procNodeService.selectNodeAll();
+        List<ProcNode> nodes = procNodeService.selectNodeAll(SecurityUtils.getCompanyId());
         return R.ok(nodes);
     }
 }

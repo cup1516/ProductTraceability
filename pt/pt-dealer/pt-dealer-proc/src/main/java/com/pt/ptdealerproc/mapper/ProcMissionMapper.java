@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Mapper
 public interface ProcMissionMapper {
-    IPage<List<MissionDto>> getProcNodePage(Page page, @Param("query") MissionDto missionDto);
+    IPage<List<MissionDto>> getProcNodePage(Page page, @Param("query") MissionDto missionDto,@Param("companyId") String companyId);
 
-    Boolean updateMissionStatus(MissionDto missionDto);
+    Boolean updateMissionStatus(@Param("missionDto") MissionDto missionDto,@Param("companyId") String companyId);
 }

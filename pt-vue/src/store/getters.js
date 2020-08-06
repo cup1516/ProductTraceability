@@ -21,6 +21,6 @@ const getters = {
   conversationsList: state => state.chat.conversationsList,
   selectedRoom: state => state.chat.selectedRoom,
   groupMemberMap: state => state.chat.groupMemberMap,
-
+  searchedConversationList: state=>state.chat.conversationsList.filter(conversation =>conversation.chatName.includes(state.chat.searchText)),
 }
 export default getters

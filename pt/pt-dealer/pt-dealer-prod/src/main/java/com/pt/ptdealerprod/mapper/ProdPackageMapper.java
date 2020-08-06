@@ -3,13 +3,14 @@ package com.pt.ptdealerprod.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptdealerprod.entity.ProdPackage;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface ProdPackageMapper {
-    IPage<List<ProdPackage>> getProdPackagePage(Page page, @Param("query") ProdPackage prodPackage);
+    IPage<List<ProdPackage>> getProdPackagePage(Page page, @Param("query") ProdPackage prodPackage,@Param("companyId") String companyId);
 
     /**
      * 查询包装数据集合
@@ -17,14 +18,14 @@ public interface ProdPackageMapper {
      * @param prodPackage 包装信息
      * @return 包装数据集合
      */
-    List<ProdPackage> selectPackageList(ProdPackage prodPackage);
+    List<ProdPackage> selectPackageList(@Param("prodPackage") ProdPackage prodPackage,@Param("companyId") String companyId);
 
     /**
      * 查询所有包装
      *
      * @return 包装列表
      */
-    List<ProdPackage> selectPackageAll();
+    List<ProdPackage> selectPackageAll(@Param("companyId") String companyId);
 
     /**
      * 通过包装ID查询包装信息
@@ -32,7 +33,7 @@ public interface ProdPackageMapper {
      * @param prodPackageId 包装ID
      * @return 角色对象信息
      */
-    ProdPackage selectPackageById(String prodPackageId);
+    ProdPackage selectPackageById(@Param("prodPackageId") String prodPackageId,@Param("companyId") String companyId);
 
     /**
      * 删除包装信息
@@ -40,7 +41,7 @@ public interface ProdPackageMapper {
      * @param prodPackageId 包装ID
      * @return 结果
      */
-    Boolean deletePackageById(String prodPackageId);
+    Boolean deletePackageById(@Param("prodPackageId")String prodPackageId,@Param("companyId") String companyId);
 
     /**
      * 批量删除包装信息
@@ -48,7 +49,7 @@ public interface ProdPackageMapper {
      * @param prodPackageIds 需要删除的包装ID
      * @return 结果
      */
-    Boolean deletePackageByIds(String[] prodPackageIds);
+    Boolean deletePackageByIds(@Param("prodPackageIds") String[] prodPackageIds,@Param("companyId") String companyId);
 
     /**
      * 修改包装信息
@@ -56,7 +57,7 @@ public interface ProdPackageMapper {
      * @param prodPackage 包装信息
      * @return 结果
      */
-    Boolean updatePackage(ProdPackage prodPackage);
+    Boolean updatePackage(@Param("prodPackage") ProdPackage prodPackage,@Param("companyId") String companyId);
 
     /**
      * 新增包装信息
@@ -64,7 +65,7 @@ public interface ProdPackageMapper {
      * @param prodPackage 包装信息
      * @return 结果
      */
-    Boolean insertPackage(ProdPackage prodPackage);
+    Boolean insertPackage(@Param("prodPackage") ProdPackage prodPackage,@Param("companyId") String companyId);
 
     /**
      * 校验包装名称
@@ -72,7 +73,7 @@ public interface ProdPackageMapper {
      * @param prodPackageName 包装名称
      * @return 结果
      */
-    ProdPackage checkPackageNameUnique(String prodPackageName);
+    ProdPackage checkPackageNameUnique(@Param("prodPackageName") String prodPackageName,@Param("companyId") String companyId);
 
     /**
      * 校验包装编码
@@ -80,11 +81,11 @@ public interface ProdPackageMapper {
      * @param prodPackageCode 包装编码
      * @return 结果
      */
-    ProdPackage checkPackageCodeUnique(String prodPackageCode);
+    ProdPackage checkPackageCodeUnique(@Param("prodPackageCode") String prodPackageCode,@Param("companyId") String companyId);
 
     /**
      * 获取包装列表
      * @return
      */
-    List<ProdPackage> getProdPackageList();
+    List<ProdPackage> getProdPackageList(@Param("companyId") String companyId);
 }

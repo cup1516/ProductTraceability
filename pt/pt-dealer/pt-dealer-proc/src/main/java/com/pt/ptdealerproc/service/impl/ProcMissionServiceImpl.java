@@ -17,15 +17,15 @@ public class ProcMissionServiceImpl implements ProcMissionService {
     private final ProcMissionMapper procMissionMapper;
     private final ProcProcessNodeMapper procProcessNodeMapper;
     @Override
-    public IPage getMissionPage(Page page, MissionDto missionDto) {
+    public IPage getMissionPage(Page page, MissionDto missionDto,String companyId) {
         missionDto.setWorkerId(SecurityUtils.getId());
-        return procMissionMapper.getProcNodePage(page,missionDto);
+        return procMissionMapper.getProcNodePage(page,missionDto,companyId);
     }
 
     @Override
-    public Boolean updateMissionStatus(MissionDto missionDto) {
+    public Boolean updateMissionStatus(MissionDto missionDto,String companyId) {
         missionDto.setWorkerId(SecurityUtils.getId());
-        return procMissionMapper.updateMissionStatus(missionDto);
+        return procMissionMapper.updateMissionStatus(missionDto,companyId);
     }
 
 

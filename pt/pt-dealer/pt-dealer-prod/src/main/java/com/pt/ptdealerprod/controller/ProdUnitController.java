@@ -1,12 +1,9 @@
 package com.pt.ptdealerprod.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerprod.entity.ProdUnit;
-import com.pt.ptdealerprod.entity.ProdUnit;
-import com.pt.ptdealerprod.service.ProdUnitService;
 import com.pt.ptdealerprod.service.ProdUnitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +37,7 @@ public class ProdUnitController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProdUnitPage(Page page, ProdUnit prodUnit) {
-        return R.ok(prodUnitService.getProdUnitPage(page, prodUnit));
+        return R.ok(prodUnitService.getProdUnitPage(page, prodUnit,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -49,7 +46,7 @@ public class ProdUnitController {
      */
     @GetMapping("/list" )
     public R getProdUnitList() {
-        return R.ok(prodUnitService.getProdUnitList());
+        return R.ok(prodUnitService.getProdUnitList(SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -58,7 +55,7 @@ public class ProdUnitController {
     @GetMapping(value = "/{unitId}")
     public R getInfo(@PathVariable String unitId)
     {
-        return R.ok(prodUnitService.selectUnitById(unitId));
+        return R.ok(prodUnitService.selectUnitById(unitId,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -68,16 +65,10 @@ public class ProdUnitController {
     @PostMapping
     public R add( @RequestBody ProdUnit unit)
     {
-        if (!prodUnitService.checkUnitNameUnique(unit))
-        {
-            return R.failed("新增单位'" + unit.getUnitName() + "'失败，单位名称已存在");
-        }
-        else if (!prodUnitService.checkUnitCodeUnique(unit))
-        {
-            return R.failed("新增单位'" + unit.getUnitName() + "'失败，单位编码已存在");
-        }
+        prodUnitService.checkUnitNameUnique(unit,SecurityUtils.getCompanyId());
+        prodUnitService.checkUnitCodeUnique(unit,SecurityUtils.getCompanyId());
         unit.setCreateBy(SecurityUtils.getUserName());
-        return R.ok(prodUnitService.insertUnit(unit));
+        return R.ok(prodUnitService.insertUnit(unit,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -87,15 +78,9 @@ public class ProdUnitController {
     @PutMapping
     public R edit(@Validated @RequestBody ProdUnit unit)
     {
-        if (!prodUnitService.checkUnitNameUnique(unit))
-        {
-            return R.failed("修改单位'" + unit.getUnitName() + "'失败，单位名称已存在");
-        }
-        else if (!prodUnitService.checkUnitCodeUnique(unit))
-        {
-            return R.failed("修改单位'" + unit.getUnitName() + "'失败，单位编码已存在");
-        }
-        return R.ok(prodUnitService.updateUnit(unit));
+        prodUnitService.checkUnitNameUnique(unit,SecurityUtils.getCompanyId());
+        prodUnitService.checkUnitCodeUnique(unit,SecurityUtils.getCompanyId());
+        return R.ok(prodUnitService.updateUnit(unit,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -105,7 +90,7 @@ public class ProdUnitController {
     @DeleteMapping("/{unitIds}")
     public R remove(@PathVariable String[] unitIds)
     {
-        return R.ok(prodUnitService.deleteUnitByIds(unitIds));
+        return R.ok(prodUnitService.deleteUnitByIds(unitIds,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -114,7 +99,7 @@ public class ProdUnitController {
     @GetMapping("/optionselect")
     public R optionselect()
     {
-        List<ProdUnit> units = prodUnitService.selectUnitAll();
+        List<ProdUnit> units = prodUnitService.selectUnitAll(SecurityUtils.getCompanyId());
         return R.ok(units);
     }
 }

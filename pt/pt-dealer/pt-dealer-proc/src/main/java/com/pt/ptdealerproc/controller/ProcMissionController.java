@@ -21,16 +21,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerproc.dto.MissionDto;
-import com.pt.ptdealerproc.dto.ProcessDto;
-import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.service.ProcMissionService;
-import com.pt.ptdealerproc.service.ProcProcessService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 /**
@@ -55,7 +50,7 @@ public class ProcMissionController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProcProcessPage(Page page, MissionDto missionDto) {
-        return R.ok(procMissionService.getMissionPage(page,missionDto));
+        return R.ok(procMissionService.getMissionPage(page,missionDto,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -64,7 +59,7 @@ public class ProcMissionController {
     @PutMapping("/changeStatus")
     public R changeStatus(@RequestBody MissionDto missionDto)
     {
-        return R.ok(procMissionService.updateMissionStatus(missionDto));
+        return R.ok(procMissionService.updateMissionStatus(missionDto,SecurityUtils.getCompanyId()));
     }
 
 }

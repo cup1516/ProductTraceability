@@ -12,5 +12,5 @@ public interface ProcProcessNodeService{
      * @param processNodeList 流程节点列表
      * @return 结果
      */
-    Boolean batchProcessNode(List<ProcProcessNode> processNodeList);
+    Boolean batchProcessNode(List<ProcProcessNode> processNodeList,String companyId);
 }
