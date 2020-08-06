@@ -20,7 +20,6 @@ package com.pt.ptdealerproc.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pt.ptcommoncore.util.IdUtils;
 import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptdealerproc.entity.ProcNode;
@@ -39,17 +38,12 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> implements ProcNodeService {
-	@Override
-	public Boolean saveNode(ProcNode procNode) {
-		procNode.setNodeId(IdUtils.simpleUUID());
-		baseMapper.insert(procNode);
-		return Boolean.TRUE;
-	}
+public class ProcNodeServiceImpl  implements ProcNodeService {
 
+	private final ProcNodeMapper procNodeMapper;
 	@Override
-	public IPage getProcNodePage(Page page, ProcNode procNode) {
-		return baseMapper.getProcNodePage(page,procNode);
+	public IPage getProcNodePage(Page page, ProcNode procNode,String companyId) {
+		return procNodeMapper.getProcNodePage(page,procNode,companyId);
 	}
 
 	/**
@@ -59,9 +53,9 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 节点信息集合
 	 */
 	@Override
-	public List<ProcNode> selectNodeList(ProcNode procNode)
+	public List<ProcNode> selectNodeList(ProcNode procNode,String companyId)
 	{
-		return baseMapper.selectNodeList(procNode);
+		return procNodeMapper.selectNodeList(procNode,companyId);
 	}
 
 
@@ -72,9 +66,9 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 节点列表
 	 */
 	@Override
-	public List<ProcNode> selectNodeAll()
+	public List<ProcNode> selectNodeAll(String companyId)
 	{
-		return baseMapper.selectNodeAll();
+		return procNodeMapper.selectNodeAll(companyId);
 	}
 
 	/**
@@ -84,9 +78,9 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 角色对象信息
 	 */
 	@Override
-	public ProcNode selectNodeById(String nodeId)
+	public ProcNode selectNodeById(String nodeId,String companyId)
 	{
-		return baseMapper.selectNodeById(nodeId);
+		return procNodeMapper.selectNodeById(nodeId,companyId);
 	}
 	
 
@@ -97,12 +91,12 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public Boolean checkNodeNameUnique(ProcNode node)
+	public Boolean checkNodeNameUnique(ProcNode node,String companyId)
 	{
 		if(StrUtil.isEmpty(node.getNodeId())){
 			return Boolean.TRUE;
 		}
-		ProcNode procNode = baseMapper.checkNodeNameUnique(node.getNodeName());
+		ProcNode procNode = procNodeMapper.checkNodeNameUnique(node.getNodeName(),companyId);
 		if (procNode != null && !procNode.getNodeId().equals(node.getNodeId()))
 		{
 			throw new CustomException("修改节点'" + procNode.getNodeName() + "'失败，节点名称已存在");
@@ -118,12 +112,12 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public Boolean checkNodeCodeUnique(ProcNode node)
+	public Boolean checkNodeCodeUnique(ProcNode node,String companyId)
 	{
 		if(StrUtil.isEmpty(node.getNodeId())){
 			return Boolean.TRUE;
 		}
-		ProcNode procNode = baseMapper.checkNodeCodeUnique(node.getNodeCode());
+		ProcNode procNode = procNodeMapper.checkNodeCodeUnique(node.getNodeCode(),companyId);
 		if (procNode != null && !procNode.getNodeId().equals(node.getNodeId()))
 		{
 			throw new CustomException("修改节点'" + procNode.getNodeName() + "'失败，节点编码已存在");
@@ -138,7 +132,7 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public int countProcNodeById(String nodeId)
+	public int countProcNodeById(String nodeId,String companyId)
 	{
 //		return sysUserNodeService.countProcNodeById(nodeId);
 		return 0;
@@ -151,9 +145,9 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public Boolean deleteNodeById(String nodeId)
+	public Boolean deleteNodeById(String nodeId,String companyId)
 	{
-		return baseMapper.deleteNodeById(nodeId);
+		return procNodeMapper.deleteNodeById(nodeId,companyId);
 	}
 
 	/**
@@ -164,16 +158,16 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @throws Exception 异常
 	 */
 	@Override
-	public Boolean deleteNodeByIds(String[] nodeIds)
+	public Boolean deleteNodeByIds(String[] nodeIds,String companyId)
 	{
 		for (String nodeId : nodeIds)
 		{
-			if (countProcNodeById(nodeId) > 0)
+			if (countProcNodeById(nodeId,companyId) > 0)
 			{
 				return  Boolean.FALSE;
 			}
 		}
-		return baseMapper.deleteNodeByIds(nodeIds);
+		return procNodeMapper.deleteNodeByIds(nodeIds,companyId);
 	}
 
 	/**
@@ -183,10 +177,10 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public Boolean insertNode(ProcNode node)
+	public Boolean insertNode(ProcNode node,String companyId)
 	{
 		node.setNodeId(IdUtils.simpleUUID());
-		return baseMapper.insertNode(node);
+		return procNodeMapper.insertNode(node,companyId);
 	}
 
 	/**
@@ -196,13 +190,13 @@ public class ProcNodeServiceImpl extends ServiceImpl<ProcNodeMapper, ProcNode> i
 	 * @return 结果
 	 */
 	@Override
-	public Boolean updateNode(ProcNode node)
+	public Boolean updateNode(ProcNode node,String companyId)
 	{
-		return baseMapper.updateNode(node);
+		return procNodeMapper.updateNode(node,companyId);
 	}
 
 	@Override
-	public List<ProcNode> getProcNodeList() {
-		return baseMapper.getProcNodeList();
+	public List<ProcNode> getProcNodeList(String companyId) {
+		return procNodeMapper.getProcNodeList(companyId);
 	}
 }

@@ -19,10 +19,7 @@ package com.pt.ptdealerproc.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pt.ptdealerproc.dto.MissionDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
-import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.entity.ProcProcess;
 
 import java.util.List;
@@ -34,22 +31,22 @@ import java.util.List;
  * @date 2020-04-19 14:58:16
  */
 public interface ProcProcessService  {
-	IPage getProcessPage(Page page, ProcessDto processDto);
-	IPage getProcessCheckPage(Page page, ProcessDto processDto);
+	IPage getProcessPage(Page page, ProcessDto processDto,String companyId);
+	IPage getProcessCheckPage(Page page, ProcessDto processDto,String companyId);
 	/**
 	 * 查询流程信息集合
 	 *
 	 * @param procProcess 流程信息
 	 * @return 流程列表
 	 */
-	List<ProcProcess> selectProcessList(ProcProcess procProcess);
+	List<ProcProcess> selectProcessList(ProcProcess procProcess,String companyId);
 
 	/**
 	 * 查询所有流程
 	 *
 	 * @return 流程列表
 	 */
-	List<ProcProcess> selectProcessAll();
+	List<ProcProcess> selectProcessAll(String companyId);
 
 	/**
 	 * 通过流程ID查询流程信息
@@ -57,7 +54,7 @@ public interface ProcProcessService  {
 	 * @param processId 流程ID
 	 * @return 角色对象信息
 	 */
-	ProcProcess selectProcessById(String processId);
+	ProcessDto selectProcessById(String processId,String companyId);
 
 	/**
 	 * 校验流程名称
@@ -65,7 +62,7 @@ public interface ProcProcessService  {
 	 * @param procProcess 流程信息
 	 * @return 结果
 	 */
-	Boolean checkProcessNameUnique(ProcProcess procProcess);
+	Boolean checkProcessNameUnique(ProcProcess procProcess,String companyId);
 
 	/**
 	 * 校验流程编码
@@ -73,7 +70,7 @@ public interface ProcProcessService  {
 	 * @param procProcess 流程信息
 	 * @return 结果
 	 */
-	Boolean checkProcessCodeUnique(ProcProcess procProcess);
+	Boolean checkProcessCodeUnique(ProcProcess procProcess,String companyId);
 
 	/**
 	 * 通过流程ID查询流程使用数量
@@ -81,7 +78,7 @@ public interface ProcProcessService  {
 	 * @param processId 流程ID
 	 * @return 结果
 	 */
-	int countProcProcessById(String processId);
+	int countProcProcessById(String processId,String companyId);
 
 	/**
 	 * 删除流程信息
@@ -89,7 +86,7 @@ public interface ProcProcessService  {
 	 * @param processId 流程ID
 	 * @return 结果
 	 */
-	Boolean deleteProcessById(String processId);
+	Boolean deleteProcessById(String processId,String companyId);
 
 	/**
 	 * 批量删除流程信息
@@ -98,7 +95,7 @@ public interface ProcProcessService  {
 	 * @return 结果
 	 * @throws Exception 异常
 	 */
-	Boolean deleteProcessByIds(String[] processIds);
+	Boolean deleteProcessByIds(String[] processIds,String companyId);
 
 	/**
 	 * 新增保存流程信息
@@ -106,7 +103,7 @@ public interface ProcProcessService  {
 	 * @param processDto 流程信息
 	 * @return 结果
 	 */
-	Boolean insertProcess(ProcessDto processDto);
+	Boolean insertProcess(ProcessDto processDto,String companyId);
 
 	/**
 	 * 修改保存流程信息
@@ -114,14 +111,14 @@ public interface ProcProcessService  {
 	 * @param processDto 流程信息
 	 * @return 结果
 	 */
-	Boolean updateProcess(ProcessDto processDto);
+	Boolean updateProcess(ProcessDto processDto,String companyId);
 
 	/**
 	 * 获取流程列表
 	 * @return
 	 */
-	List<ProcProcess> getProcProcessList();
+	List<ProcProcess> getProcProcessList(String companyId);
 
-	Boolean changeCheckStatus(ProcessDto processDto);
+	Boolean changeCheckStatus(ProcessDto processDto,String companyId);
 
 }

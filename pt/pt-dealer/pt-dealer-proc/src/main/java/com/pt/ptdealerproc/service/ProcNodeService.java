@@ -19,8 +19,6 @@ package com.pt.ptdealerproc.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pt.ptdealerproc.dto.ProcessDto;
 import com.pt.ptdealerproc.entity.ProcNode;
 
 import java.util.List;
@@ -31,10 +29,10 @@ import java.util.List;
  * @author pig code generator
  * @date 2020-04-19 10:46:44
  */
-public interface ProcNodeService extends IService<ProcNode> {
-	Boolean saveNode(ProcNode procNode);
+public interface ProcNodeService  {
 
-	IPage getProcNodePage(Page page, ProcNode procNode);
+
+	IPage getProcNodePage(Page page, ProcNode procNode,String companyId);
 
 	/**
 	 * 查询节点信息集合
@@ -42,14 +40,14 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param procNode 节点信息
 	 * @return 节点列表
 	 */
-	List<ProcNode> selectNodeList(ProcNode procNode);
+	List<ProcNode> selectNodeList(ProcNode procNode,String companyId);
 
 	/**
 	 * 查询所有节点
 	 *
 	 * @return 节点列表
 	 */
-	List<ProcNode> selectNodeAll();
+	List<ProcNode> selectNodeAll(String companyId);
 
 	/**
 	 * 通过节点ID查询节点信息
@@ -57,7 +55,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param nodeId 节点ID
 	 * @return 角色对象信息
 	 */
-	ProcNode selectNodeById(String nodeId);
+	ProcNode selectNodeById(String nodeId,String companyId);
 	
 	/**
 	 * 校验节点名称
@@ -65,7 +63,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param procNode 节点信息
 	 * @return 结果
 	 */
-	Boolean checkNodeNameUnique(ProcNode procNode);
+	Boolean checkNodeNameUnique(ProcNode procNode,String companyId);
 
 	/**
 	 * 校验节点编码
@@ -73,7 +71,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param procNode 节点信息
 	 * @return 结果
 	 */
-	Boolean checkNodeCodeUnique(ProcNode procNode);
+	Boolean checkNodeCodeUnique(ProcNode procNode,String companyId);
 
 	/**
 	 * 通过节点ID查询节点使用数量
@@ -81,7 +79,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param nodeId 节点ID
 	 * @return 结果
 	 */
-	int countProcNodeById(String nodeId);
+	int countProcNodeById(String nodeId,String companyId);
 
 	/**
 	 * 删除节点信息
@@ -89,7 +87,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param nodeId 节点ID
 	 * @return 结果
 	 */
-	Boolean deleteNodeById(String nodeId);
+	Boolean deleteNodeById(String nodeId,String companyId);
 
 	/**
 	 * 批量删除节点信息
@@ -98,7 +96,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @return 结果
 	 * @throws Exception 异常
 	 */
-	Boolean deleteNodeByIds(String[] nodeIds);
+	Boolean deleteNodeByIds(String[] nodeIds,String companyId);
 
 	/**
 	 * 新增保存节点信息
@@ -106,7 +104,7 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param procNode 节点信息
 	 * @return 结果
 	 */
-	Boolean insertNode(ProcNode procNode);
+	Boolean insertNode(ProcNode procNode,String companyId);
 
 	/**
 	 * 修改保存节点信息
@@ -114,11 +112,11 @@ public interface ProcNodeService extends IService<ProcNode> {
 	 * @param procNode 节点信息
 	 * @return 结果
 	 */
-	Boolean updateNode(ProcNode procNode);
+	Boolean updateNode(ProcNode procNode,String companyId);
 
 	/**
 	 * 获取节点列表
 	 * @return
 	 */
-	List<ProcNode> getProcNodeList();
+	List<ProcNode> getProcNodeList(String companyId);
 }

@@ -2,7 +2,6 @@ package com.pt.ptdealerprod.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,7 +17,11 @@ public class ProdUnit {
      */
     @ApiModelProperty(value="主键")
     private String unitId;
-
+    /**
+     * 公司id
+     */
+    @ApiModelProperty(value="公司id")
+    private String companyId;
     /**
      * 产品单位编号
      */

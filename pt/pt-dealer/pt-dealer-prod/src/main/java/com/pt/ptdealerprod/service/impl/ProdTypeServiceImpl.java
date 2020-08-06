@@ -4,13 +4,14 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.IdUtils;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import java.util.List;
+import com.pt.ptcommonsecurity.exception.CustomException;
 import com.pt.ptdealerprod.entity.ProdType;
 import com.pt.ptdealerprod.mapper.ProdTypeMapper;
 import com.pt.ptdealerprod.service.ProdTypeService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 @Service
 @AllArgsConstructor
 public class ProdTypeServiceImpl implements ProdTypeService{
@@ -18,16 +19,10 @@ public class ProdTypeServiceImpl implements ProdTypeService{
 
     private ProdTypeMapper prodTypeMapper;
 
-    @Override
-    public Boolean saveType(ProdType prodType) {
-        prodType.setTypeId(IdUtils.simpleUUID());
-        prodTypeMapper.insertType(prodType);
-        return Boolean.TRUE;
-    }
 
     @Override
-    public IPage getProdTypePage(Page page, ProdType prodType) {
-        return prodTypeMapper.getProdTypePage(page,prodType);
+    public IPage getProdTypePage(Page page, ProdType prodType,String companyId) {
+        return prodTypeMapper.getProdTypePage(page,prodType,companyId);
     }
 
     /**
@@ -37,9 +32,9 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 节点信息集合
      */
     @Override
-    public List<ProdType> selectTypeList(ProdType prodType)
+    public List<ProdType> selectTypeList(ProdType prodType,String companyId)
     {
-        return prodTypeMapper.selectTypeList(prodType);
+        return prodTypeMapper.selectTypeList(prodType,companyId);
     }
 
 
@@ -50,9 +45,9 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 节点列表
      */
     @Override
-    public List<ProdType> selectTypeAll()
+    public List<ProdType> selectTypeAll(String companyId)
     {
-        return prodTypeMapper.selectTypeAll();
+        return prodTypeMapper.selectTypeAll(companyId);
     }
 
     /**
@@ -62,9 +57,9 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 角色对象信息
      */
     @Override
-    public ProdType selectTypeById(String typeId)
+    public ProdType selectTypeById(String typeId,String companyId)
     {
-        return prodTypeMapper.selectTypeById(typeId);
+        return prodTypeMapper.selectTypeById(typeId,companyId);
     }
 
 
@@ -75,16 +70,16 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public Boolean checkTypeNameUnique(ProdType type)
+    public Boolean checkTypeNameUnique(ProdType type,String companyId)
     {
         if(StrUtil.isEmpty(type.getTypeId())){
             return Boolean.TRUE;
         }
-        ProdType prodType = prodTypeMapper.checkTypeNameUnique(type.getTypeName());
+        ProdType prodType = prodTypeMapper.checkTypeNameUnique(type.getTypeName(),companyId);
 
-        if (prodType != null && !prodType.getTypeId().equals(prodType.getTypeId()))
+        if (prodType != null && !type.getTypeId().equals(prodType.getTypeId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("修改类型'" + type.getTypeName() + "'失败，类型名称已存在");
         }
         return Boolean.TRUE;
 
@@ -97,16 +92,16 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public Boolean checkTypeCodeUnique(ProdType type)
+    public Boolean checkTypeCodeUnique(ProdType type,String companyId)
     {
         if(StrUtil.isEmpty(type.getTypeId())){
             return Boolean.TRUE;
         }
-        ProdType prodType = prodTypeMapper.checkTypeCodeUnique(type.getTypeName());
+        ProdType prodType = prodTypeMapper.checkTypeCodeUnique(type.getTypeCode(),companyId);
 
-        if (prodType != null && !prodType.getTypeId().equals(prodType.getTypeId()))
+        if (prodType != null && !type.getTypeId().equals(prodType.getTypeId()))
         {
-            return Boolean.FALSE;
+            throw new CustomException("修改类型'" + type.getTypeCode() + "'失败，类型编码已存在");
         }
         return Boolean.TRUE;
     }
@@ -118,7 +113,7 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public int countProdTypeById(String typeId)
+    public int countProdTypeById(String typeId,String companyId)
     {
 //		return sysUserTypeService.countProdTypeById(typeId);
         return 0;
@@ -131,9 +126,9 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public Boolean deleteTypeById(String typeId)
+    public Boolean deleteTypeById(String typeId,String companyId)
     {
-        return prodTypeMapper.deleteTypeById(typeId);
+        return prodTypeMapper.deleteTypeById(typeId,companyId);
     }
 
     /**
@@ -144,16 +139,16 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @throws Exception 异常
      */
     @Override
-    public Boolean deleteTypeByIds(String[] typeIds)
+    public Boolean deleteTypeByIds(String[] typeIds,String companyId)
     {
         for (String typeId : typeIds)
         {
-            if (countProdTypeById(typeId) > 0)
+            if (countProdTypeById(typeId,companyId) > 0)
             {
                 return  Boolean.FALSE;
             }
         }
-        return prodTypeMapper.deleteTypeByIds(typeIds);
+        return prodTypeMapper.deleteTypeByIds(typeIds,companyId);
     }
 
     /**
@@ -163,10 +158,10 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public Boolean insertType(ProdType type)
+    public Boolean insertType(ProdType type,String companyId)
     {
         type.setTypeId(IdUtils.simpleUUID());
-        return prodTypeMapper.insertType(type);
+        return prodTypeMapper.insertType(type,companyId);
     }
 
     /**
@@ -176,14 +171,14 @@ public class ProdTypeServiceImpl implements ProdTypeService{
      * @return 结果
      */
     @Override
-    public Boolean updateType(ProdType type)
+    public Boolean updateType(ProdType type,String companyId)
     {
-        return prodTypeMapper.updateType(type);
+        return prodTypeMapper.updateType(type,companyId);
     }
 
     @Override
-    public List<ProdType> getProdTypeList() {
-        return prodTypeMapper.getProdTypeList();
+    public List<ProdType> getProdTypeList(String companyId) {
+        return prodTypeMapper.getProdTypeList(companyId);
     }
 
 }

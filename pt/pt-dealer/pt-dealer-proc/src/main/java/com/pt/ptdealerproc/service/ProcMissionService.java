@@ -9,14 +9,14 @@ import com.pt.ptdealerproc.dto.MissionDto;
  */
 public interface ProcMissionService {
 
-    IPage getMissionPage(Page page, MissionDto missionDto);
+    IPage getMissionPage(Page page, MissionDto missionDto,String companyId);
 
     /**
      * 修改任务状态
      *
      * @return 结果
      */
-    Boolean updateMissionStatus(MissionDto missionDto);
+    Boolean updateMissionStatus(MissionDto missionDto,String companyId);
 
 
 }

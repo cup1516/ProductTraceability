@@ -10,7 +10,6 @@ import com.pt.ptdealerprod.service.ProdPackageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +35,7 @@ public class ProdPackageController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProdPackagePage(Page page, ProdPackage prodPackage) {
-        return R.ok(prodPackageService.getProdPackagePage(page, prodPackage));
+        return R.ok(prodPackageService.getProdPackagePage(page, prodPackage,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -45,7 +44,7 @@ public class ProdPackageController {
      */
     @GetMapping("/list" )
     public R getProdPackageList() {
-        return R.ok(prodPackageService.getProdPackageList());
+        return R.ok(prodPackageService.getProdPackageList(SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -54,7 +53,7 @@ public class ProdPackageController {
     @GetMapping(value = "/{packageId}")
     public R getInfo(@PathVariable String packageId)
     {
-        return R.ok(prodPackageService.selectPackageById(packageId));
+        return R.ok(prodPackageService.selectPackageById(packageId,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -64,10 +63,10 @@ public class ProdPackageController {
     @PostMapping
     public R add( @RequestBody PackageDto packageDto)
     {
-        prodPackageService.checkPackageNameUnique(packageDto);
-        prodPackageService.checkPackageCodeUnique(packageDto);
+        prodPackageService.checkPackageNameUnique(packageDto,SecurityUtils.getCompanyId());
+        prodPackageService.checkPackageCodeUnique(packageDto,SecurityUtils.getCompanyId());
         packageDto.setCreateBy(SecurityUtils.getUserName());
-        return R.ok(prodPackageService.insertPackage(packageDto));
+        return R.ok(prodPackageService.insertPackage(packageDto,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -77,9 +76,9 @@ public class ProdPackageController {
     @PutMapping
     public R edit(@RequestBody PackageDto packageDto)
     {
-        prodPackageService.checkPackageNameUnique(packageDto);
-        prodPackageService.checkPackageCodeUnique(packageDto);
-        return R.ok(prodPackageService.updatePackage(packageDto));
+        prodPackageService.checkPackageNameUnique(packageDto,SecurityUtils.getCompanyId());
+        prodPackageService.checkPackageCodeUnique(packageDto,SecurityUtils.getCompanyId());
+        return R.ok(prodPackageService.updatePackage(packageDto,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -89,7 +88,7 @@ public class ProdPackageController {
     @DeleteMapping("/{packageIds}")
     public R remove(@PathVariable String[] packageIds)
     {
-        return R.ok(prodPackageService.deletePackageByIds(packageIds));
+        return R.ok(prodPackageService.deletePackageByIds(packageIds,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -98,7 +97,7 @@ public class ProdPackageController {
     @GetMapping("/optionselect")
     public R optionselect()
     {
-        List<ProdPackage> packages = prodPackageService.selectPackageAll();
+        List<ProdPackage> packages = prodPackageService.selectPackageAll(SecurityUtils.getCompanyId());
         return R.ok(packages);
     }
 

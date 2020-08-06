@@ -17,9 +17,7 @@
 
 package com.pt.ptdealerproc.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pt.ptdealerproc.entity.ProcNodeWorker;
-import com.pt.ptdealerproc.entity.ProcProcessNode;
 
 import java.util.List;
 
@@ -36,5 +34,5 @@ public interface ProcNodeWorkerService {
      * @param procNodeWorkerList 流程节点列表
      * @return 结果
      */
-    Boolean batchNodeWorker(List<ProcNodeWorker> procNodeWorkerList);
+    Boolean batchNodeWorker(List<ProcNodeWorker> procNodeWorkerList,String companyId);
 }

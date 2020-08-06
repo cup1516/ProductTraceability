@@ -17,7 +17,6 @@
 
 package com.pt.ptdealerprod.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
@@ -29,7 +28,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 
@@ -54,7 +52,7 @@ public class ProdTypeController {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public R getProdTypePage(Page page, ProdType prodType) {
-        return R.ok(prodTypeService.getProdTypePage(page, prodType));
+        return R.ok(prodTypeService.getProdTypePage(page, prodType,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -63,7 +61,7 @@ public class ProdTypeController {
      */
     @GetMapping("/list" )
     public R getProdTypeList() {
-        return R.ok(prodTypeService.getProdTypeList());
+        return R.ok(prodTypeService.getProdTypeList(SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -72,7 +70,7 @@ public class ProdTypeController {
     @GetMapping(value = "/{typeId}")
     public R getInfo(@PathVariable String typeId)
     {
-        return R.ok(prodTypeService.selectTypeById(typeId));
+        return R.ok(prodTypeService.selectTypeById(typeId,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -82,16 +80,10 @@ public class ProdTypeController {
     @PostMapping
     public R add( @RequestBody ProdType type)
     {
-        if (!prodTypeService.checkTypeNameUnique(type))
-        {
-            return R.failed("新增类型'" + type.getTypeName() + "'失败，类型名称已存在");
-        }
-        else if (!prodTypeService.checkTypeCodeUnique(type))
-        {
-            return R.failed("新增类型'" + type.getTypeName() + "'失败，类型编码已存在");
-        }
+        prodTypeService.checkTypeNameUnique(type,SecurityUtils.getCompanyId());
+        prodTypeService.checkTypeCodeUnique(type,SecurityUtils.getCompanyId());
         type.setCreateBy(SecurityUtils.getUserName());
-        return R.ok(prodTypeService.insertType(type));
+        return R.ok(prodTypeService.insertType(type,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -101,15 +93,9 @@ public class ProdTypeController {
     @PutMapping
     public R edit(@Validated @RequestBody ProdType type)
     {
-        if (!prodTypeService.checkTypeNameUnique(type))
-        {
-            return R.failed("修改类型'" + type.getTypeName() + "'失败，类型名称已存在");
-        }
-        else if (!prodTypeService.checkTypeCodeUnique(type))
-        {
-            return R.failed("修改类型'" + type.getTypeName() + "'失败，类型编码已存在");
-        }
-        return R.ok(prodTypeService.updateType(type));
+        prodTypeService.checkTypeNameUnique(type,SecurityUtils.getCompanyId());
+        prodTypeService.checkTypeCodeUnique(type,SecurityUtils.getCompanyId());
+        return R.ok(prodTypeService.updateType(type,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -119,7 +105,7 @@ public class ProdTypeController {
     @DeleteMapping("/{typeIds}")
     public R remove(@PathVariable String[] typeIds)
     {
-        return R.ok(prodTypeService.deleteTypeByIds(typeIds));
+        return R.ok(prodTypeService.deleteTypeByIds(typeIds,SecurityUtils.getCompanyId()));
     }
 
     /**
@@ -128,7 +114,7 @@ public class ProdTypeController {
     @GetMapping("/optionselect")
     public R optionselect()
     {
-        List<ProdType> types = prodTypeService.selectTypeAll();
+        List<ProdType> types = prodTypeService.selectTypeAll(SecurityUtils.getCompanyId());
         return R.ok(types);
     }
 

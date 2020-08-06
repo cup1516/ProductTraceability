@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper
 public interface ProcProcessNodeMapper {
 
-    Boolean batchProcessNode(List<ProcProcessNode> processNodeList);
+    Boolean batchProcessNode(@Param("processNodeList") List<ProcProcessNode> processNodeList,@Param("companyId") String companyId);
 
-    Boolean deleteProcessNode(@Param("processId") String processId);
+    Boolean deleteProcessNode(@Param("processId") String processId,@Param("companyId") String companyId);
 
-    List<ProcProcessNode> listProcessNode(@Param("processId") String processId);
+    List<ProcProcessNode> listProcessNode(@Param("processId") String processId,@Param("companyId") String companyId);
 }

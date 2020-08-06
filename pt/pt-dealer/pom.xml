@@ -6,9 +6,8 @@
         <groupId>com.producttraceability</groupId>
         <artifactId>pt</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.pt</groupId>
+    <groupId>com.producttraceability</groupId>
     <artifactId>pt-dealer</artifactId>
     <version>0.0.1</version>
     <name>pt-dealer</name>

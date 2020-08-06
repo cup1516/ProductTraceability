@@ -1,11 +1,11 @@
 package com.pt.ptdealerproc.service.impl;
 
 import com.pt.ptdealerproc.entity.ProcProcessNode;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.pt.ptdealerproc.mapper.ProcProcessNodeMapper;
 import com.pt.ptdealerproc.service.ProcProcessNodeService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
@@ -20,7 +20,7 @@ public class ProcProcessNodeServiceImpl implements ProcProcessNodeService{
      * @return 结果
      */
     @Override
-    public Boolean batchProcessNode(List<ProcProcessNode> processNodeList){
-        return procProcessNodeMapper.batchProcessNode(processNodeList);
+    public Boolean batchProcessNode(List<ProcProcessNode> processNodeList,String companyId){
+        return procProcessNodeMapper.batchProcessNode(processNodeList,companyId);
     };
 }

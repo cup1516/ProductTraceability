@@ -2,7 +2,6 @@ package com.pt.ptdealerprod.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @ApiModel(value="com-pt-ptdealerprod-entity-ProdPackageUnit")
@@ -10,7 +9,11 @@ import lombok.Data;
 public class ProdPackageUnit {
     @ApiModelProperty(value="")
     private String packageId;
-
+    /**
+     * 公司id
+     */
+    @ApiModelProperty(value="公司id")
+    private String companyId;
     @ApiModelProperty(value="")
     private String unitId;
 

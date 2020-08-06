@@ -1,9 +1,8 @@
 package com.pt.ptdealerproc.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -12,6 +11,7 @@ import java.util.Date;
  * @author wl
  */
 @Data
+@NoArgsConstructor
 public class ProcProcessNode {
     private String processId;
 
@@ -30,11 +30,5 @@ public class ProcProcessNode {
     private Date endTime;
 
     private String status;
-
-    public ProcProcessNode(String processId, String nodeId) {
-        this.processId = processId;
-        this.nodeId = nodeId;
-    }
-
 
 }

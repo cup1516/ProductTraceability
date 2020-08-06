@@ -3,19 +3,20 @@
 <mapper namespace="com.pt.ptdealerprod.mapper.ProdPackageUnitMapper">
   <resultMap id="BaseResultMap" type="com.pt.ptdealerprod.entity.ProdPackageUnit">
     <id property="packageId" column="package_id"/>
+    <result column="company_id" property="companyId" />
     <result property="unitId" column="unit_id"/>
     <result property="sort" column="sort"/>
     <result property="number" column="number"/>
   </resultMap>
   <sql id="selectPackageUnit">
-			select pu.package_id,pu.unit_id,pu.number,pu.sort
+			select pu.package_id,pu.company_id,pu.unit_id,pu.number,pu.sort
 			from dealer_package_unit pu
    </sql>
 
   <insert id="batchPackageUnit">
-    insert into dealer_package_unit(package_id, unit_id,sort,number) values
-    <foreach item="item" index="index" collection="list" separator=",">
-      (#{item.packageId},#{item.unitId},#{item.sort},#{item.number})
+    insert into dealer_package_unit(package_id, company_id,unit_id,sort,number) values
+    <foreach item="item" index="index" collection="packageUnitList" separator=",">
+      (#{item.packageId},#{companyId},#{item.unitId},#{item.sort},#{item.number})
     </foreach>
   </insert>
 
@@ -23,11 +24,11 @@
     <include refid="selectPackageUnit">
     </include>
     <where>
-      pu.package_id = #{packageId}
+      pu.package_id = #{packageId} and pu.company_id = #{companyId}
     </where>
     ORDER BY pu.sort ASC
   </select>
   <delete id="deletePackageUnit">
-    delete from dealer_package_unit pu where pu.package_id = #{packageId}
+    delete from dealer_package_unit pu where pu.package_id = #{packageId} and pu.company_id = #{companyId}
   </delete>
 </mapper>

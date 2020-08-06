@@ -20,9 +20,7 @@ package com.pt.ptdealerproc.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pt.ptdealerproc.dto.MissionDto;
 import com.pt.ptdealerproc.dto.ProcessDto;
-import com.pt.ptdealerproc.entity.ProcProcess;
 import com.pt.ptdealerproc.entity.ProcProcess;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -37,8 +35,8 @@ import java.util.List;
  */
 @Mapper
 public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
-	IPage<List<ProcessDto>> getProcessDtoPage(Page page, @Param("query") ProcessDto processDto);
-	IPage<List<ProcessDto>> getProcessDtoCheckPage(Page page, @Param("query") ProcessDto processDto);
+	IPage<List<ProcessDto>> getProcessDtoPage(Page page, @Param("query") ProcessDto processDto,@Param("companyId") String companyId);
+	IPage<List<ProcessDto>> getProcessDtoCheckPage(Page page, @Param("query") ProcessDto processDto,@Param("companyId") String companyId);
 
 	/**
 	 * 查询流程数据集合
@@ -46,14 +44,14 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param process 流程信息
 	 * @return 流程数据集合
 	 */
-	List<ProcProcess> selectProcessList(ProcProcess process);
+	List<ProcProcess> selectProcessList(@Param("process") ProcProcess process,@Param("companyId") String companyId);
 
 	/**
 	 * 查询所有流程
 	 *
 	 * @return 流程列表
 	 */
-	List<ProcProcess> selectProcessAll();
+	List<ProcProcess> selectProcessAll(@Param("companyId") String companyId);
 
 	/**
 	 * 通过流程ID查询流程信息
@@ -61,7 +59,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param processId 流程ID
 	 * @return 角色对象信息
 	 */
-	ProcProcess selectProcessById(String processId);
+	ProcessDto selectProcessById(@Param("processId") String processId,@Param("companyId") String companyId);
 
 	/**
 	 * 删除流程信息
@@ -69,7 +67,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param processId 流程ID
 	 * @return 结果
 	 */
-	Boolean deleteProcessById(String processId);
+	Boolean deleteProcessById(@Param("processId") String processId,@Param("companyId") String companyId);
 
 	/**
 	 * 批量删除流程信息
@@ -77,7 +75,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param processIds 需要删除的流程ID
 	 * @return 结果
 	 */
-	Boolean deleteProcessByIds(String[] processIds);
+	Boolean deleteProcessByIds(@Param("processIds") String[] processIds,@Param("companyId") String companyId);
 
 	/**
 	 * 修改流程信息
@@ -85,7 +83,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param process 流程信息
 	 * @return 结果
 	 */
-	Boolean updateProcess(ProcProcess process);
+	Boolean updateProcess(@Param("process") ProcProcess process,@Param("companyId") String companyId);
 
 	/**
 	 * 新增流程信息
@@ -93,7 +91,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param process 流程信息
 	 * @return 结果
 	 */
-	Boolean insertProcess(ProcProcess process);
+	Boolean insertProcess(@Param("process") ProcProcess process,@Param("companyId") String companyId);
 
 	/**
 	 * 校验流程名称
@@ -101,7 +99,7 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param processName 流程名称
 	 * @return 结果
 	 */
-	ProcProcess checkProcessNameUnique(String processName);
+	ProcProcess checkProcessNameUnique(@Param("processName") String processName,@Param("companyId") String companyId);
 
 	/**
 	 * 校验流程编码
@@ -109,13 +107,13 @@ public interface ProcProcessMapper extends BaseMapper<ProcProcess> {
 	 * @param processCode 流程编码
 	 * @return 结果
 	 */
-	ProcProcess checkProcessCodeUnique(String processCode);
+	ProcProcess checkProcessCodeUnique(@Param("processCode") String processCode,@Param("companyId") String companyId);
 
 	/**
 	 * 获取节点列表
 	 * @return
 	 */
-	List<ProcProcess> getProcProcessList();
+	List<ProcProcess> getProcProcessList(@Param("companyId") String companyId);
 
-	Boolean changeCheckStatus(ProcessDto processDto);
+	Boolean changeCheckStatus(@Param("processDto") ProcessDto processDto,@Param("companyId") String companyId);
 }
