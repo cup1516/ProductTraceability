@@ -1,8 +1,6 @@
 
 /* Layout */
 import Layout from '@/layout'
-import store from '../../store/modules/portal'
-
 /**
  * Note: 路由配置项
  *
@@ -22,32 +20,6 @@ import store from '../../store/modules/portal'
  */
 // 公共路由
 export default [
-  {
-    path: '/'+store.state.url,
-    component: Layout,
-    redirect : '/'+store.state.url+'/index',
-    children: [
-      {
-        path: 'index',
-        component: (resolve) => require(['@/views/index'], resolve),
-        name: '首页',
-        meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true }
-      }
-    ]
-  },
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect:'/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: (resolve) => require(['@/views/index'], resolve),
-  //       name: '首页',
-  //       meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true }
-  //     }
-  //   ]
-  // },
   {
     path: '/404',
     component: (resolve) => require(['@/views/error/404'], resolve),

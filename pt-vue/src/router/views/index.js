@@ -1,5 +1,5 @@
-import store from '../../store/modules/portal'
 import Layout from '@/layout'
+import store from '../../store/modules/portal'
 store.state.url= window.location.hash.split('/')[1]
 console.log(store.state.url)
 export default [
@@ -77,9 +77,9 @@ export default [
   },
 
   {
-    path: '/'+store.state.url,
+    path: '/'+store.state.url+'Management',
     component: Layout,
-    redirect : '/'+store.state.url+'/index',
+    redirect : '/'+store.state.url+'Management/index',
     children: [
       {
         path: 'index',
