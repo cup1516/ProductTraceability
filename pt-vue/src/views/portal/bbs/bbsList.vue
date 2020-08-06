@@ -1,7 +1,6 @@
 <!--评论模块-->
 <template>
   <div class="container">
-    <NavMenu></NavMenu>
     <div v-clickoutside="hideReplyBtn" @click="inputFocus" class="my-reply">
       <div class="reply-info" >
         <div
@@ -198,7 +197,7 @@
       //初始化帖子评论与回复
       loadBlogAndComment(){
 
-        this.$axios.get('/portal/blog/findAllDesc/0/5').then(resp => {
+        this.$axios.get('/portal/blog/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
             // this.$axios.get('/blog/get/available').then(resp => {
             this.blog = resp.content;
             this.pageSize = resp.size;
@@ -206,7 +205,7 @@
             this.blog.forEach(item=>{
             item.reply=[]
           })
-          this.$axios.get('/portal/Blogcomment/getAll').then(resp => {
+          this.$axios.get('/portal/Blogcomment/getAll/'+this.$store.getters.company_id).then(resp => {
             let data = resp;
             let k, i;
             var _this =this
@@ -224,7 +223,7 @@
       //切换页数码
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5').then(resp => {
+        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.blog = resp.content;
           _this.pageSize = resp.size;
@@ -232,7 +231,7 @@
           this.blog.forEach(item=>{
             item.reply=[]
           })
-          this.$axios.get('/portal/Blogcomment/getAll').then(resp => {
+          this.$axios.get('/portal/Blogcomment/getAll/'+this.$store.getters.company_id).then(resp => {
             let data = resp;
             let k, i;
             var _this =this
@@ -260,7 +259,8 @@
             userName : item.userName,
             content : item.content,
             likeNum : item.likeNum,
-            userId : item.userId
+            userId : item.userId,
+            companyId : this.$store.getters.company_id
           })
           item.likeNum++
         } else {
@@ -271,7 +271,9 @@
                 userName : item.userName,
                 content : item.content,
                 likeNum : item.likeNum,
-                userId : item.userId
+                userId : item.userId,
+                companyId : this.$store.getters.company_id
+
               })
             }
             else {
@@ -281,7 +283,9 @@
                 userName : item.userName,
                 content : item.content,
                 likeNum : item.likeNum,
-                userId : item.userId
+                userId : item.userId,
+                companyId : this.$store.getters.company_id
+
               })
             }
           item.isLike = !item.isLike;
@@ -301,7 +305,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('/portal/blog/delete/'+item.blogId).then(resp => {
+          this.$axios.delete('/portal/blog/delete/'+item.blogId+'/'+this.$store.getters.company_id).then(resp => {
               console.log(resp)
                 this.$message({
                   type: 'info',
@@ -338,6 +342,8 @@
             blogId:item.blogId,
             parentId:this.parentId,
             parentName:this.parentName,
+            companyId : this.$store.getters.company_id
+
           })
           this.inputComment=''
           this.loadBlogAndComment();
@@ -388,8 +394,10 @@
               userName : this.userName,
               content : this.replyComment,
               likeNum : "0",
-              userId : this.userId
-            }).then(resp => {
+              userId : this.userId,
+            companyId : this.$store.getters.company_id
+
+          }).then(resp => {
               this.$message({
                 type: 'info',
                 message: '已发布成功'

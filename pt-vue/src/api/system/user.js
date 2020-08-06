@@ -1,6 +1,14 @@
 import request from '@/utils/request'
 import { praseStrEmpty } from "@/utils/ruoyi";
 
+// 注册用户
+export function registerUser(data, clientId) {
+  return request({
+    url: '/user/register?clientId=' + clientId,
+    method: 'post',
+    data: data
+  })
+}
 // 分页查询用户列表
 export function listUser(query) {
   return request({

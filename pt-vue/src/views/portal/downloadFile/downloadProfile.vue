@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
     <div v-for="item in item"  style="margin-top: 30px;text-align:center">
       {{item.id+item.name}}
       {{item.model}}
@@ -36,7 +35,7 @@
       },
       created() {
         var _this = this
-        this.$axios.get('/portal/download/findAllFile/0/5').then(resp => {
+        this.$axios.get('/portal/download/findAllFile/0/5'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.item = resp.content;
           _this.pageSize = resp.size;
@@ -47,7 +46,7 @@
       methods:{
         page(currentPage) {
           const _this = this
-          this.$axios.get('/portal/download/findAllFile/'+(currentPage-1)+'/2').then(resp => {
+          this.$axios.get('/portal/download/findAllFile/'+(currentPage-1)+'/5'+this.$store.getters.company_id).then(resp => {
             console.log(resp)
             _this.item = resp.content;
             _this.pageSize = resp.size;

@@ -4,33 +4,30 @@ import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
+import store2 from './store/modules/portal'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register','/AppIndex', '/newsShow', '/announcementShow', '/commentShow', '/bbsList', '/noticeShow', '/download','/newsDetails','/announcementDetail','/noticeDetails']
+const whiteList = [ '/auth-redirect', '/bind', '/register',
+  '/'+store2.state.url+'/login',
+  '/'+store2.state.url+'/AppIndex',
+  '/'+store2.state.url+'/newsShow',
+  '/'+store2.state.url+'/announcementShow',
+  '/'+store2.state.url+'/commentShow',
+  '/'+store2.state.url+'/bbsList',
+  '/'+store2.state.url+'/noticeShow',
+  '/'+store2.state.url+'/download',
+  '/'+store2.state.url+'/newsDetails',
+  '/'+store2.state.url+'/announcementDetail',
+  '/'+store2.state.url+'/noticeDetails']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  // if(to.path === '/'){
-  //   next('/AppIndex')
-  // }
-  // //判断一级路由
-  // if(new RegExp('^\/[a-zA-Z]*$').test(to.fullPath)){
-  //     next({path:'/AppIndex',query: { id:to.path }})
-  //   }else{
-  //     next()
-  //   }  
-  // next()
-  // if(to.fullpath!=null){
-  //   next({path:'/AppIndex',query: { id:to.path }})
-  // }else{
-  //   next()
-  // }
-  
   if (store.getters.access_token) {
     /* has token*/
-    if (to.path === '/login') {
-      next({ path: '/' })
+    if (to.path === '/'+store2.state.url+'/login') {
+      // next({ path: '/' })
+      next()
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
@@ -45,13 +42,15 @@ router.beforeEach((to, from, next) => {
             // 根据roles权限生成可访问的路由表
             // console.log(accessRoutes)
             // router.addRoutes(accessRoutes) // 动态添加可访问路由表
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+            // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+            next({ path: '/'+store2.state.url+'/index' })
+
           })
         })
           .catch(err => {
             store.dispatch('FedLogOut').then(() => {
               Message.error(err)
-              next({ path: '/' })
+              next({ path: '/'+store2.state.url+'/index' })
             })
           })
       } else {
@@ -72,8 +71,8 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
-      next('/login')
-      // next('/AppIndex')
+      // next('/login')
+      next('/'+store2.state.url+'/AppIndex')
       NProgress.done()
     }
   }

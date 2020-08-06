@@ -1,12 +1,11 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
     <div style="margin-top: 40px">
       <div class="articles-area">
         <el-card style="text-align: left">
           <div v-for="item in announcement" :key="item.id">
             <div style="float:left;width:85%;height: 100px;">
-              <router-link class="article-link" :to="{path:'/announcementDetail',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.announcementTitle}}</strong></span></router-link>
+              <router-link class="article-link" :to="{name:'announcementDetail',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.announcementTitle}}</strong></span></router-link>
               <el-divider content-position="left">{{item.createTime}}</el-divider>
             </div>
           </div>
@@ -47,7 +46,7 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/4').then(resp => {
+        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/4/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.announcement = resp.content;
           _this.pageSize = resp.size;
@@ -56,7 +55,7 @@
       },
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/Announcement/findAll/0/5').then(resp => {
+        this.$axios.get('/portal/Announcement/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.announcement = resp.content;
           _this.pageSize = resp.size;

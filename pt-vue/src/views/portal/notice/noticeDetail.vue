@@ -27,7 +27,7 @@
     methods: {
       findById() {
         var _this = this
-        this.$axios.get('/portal/notice/findById/' + this.$route.query.id).then(resp => {
+        this.$axios.get('/portal/notice/findById/' + this.$route.query.id+'/'+this.$store.getters.company_id).then(resp => {
           _this.notice = resp;
           console.log(_this.news)
         })

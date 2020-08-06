@@ -103,7 +103,8 @@
                 newsHtml: render,
                 newsAbstract: this.news.newsAbstract,
                 profile: this.news.profile,
-                failTime: this.news.failTime
+                failTime: this.news.failTime,
+                companyId: this.$store.getters.company_id
                 }
               ).then(resp => {
               console.log(resp)

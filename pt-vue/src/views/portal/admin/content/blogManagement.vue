@@ -105,7 +105,7 @@
       showBlog(item){
         this.isShow2 = true
         this.blog1 = item
-        this.$axios.get('/portal/Blogcomment/get/by-blog/'+item.blogId).then(resp => {
+        this.$axios.get('/portal/Blogcomment/get/by-blog/'+item.blogId+'/'+this.$store.getters.company_id).then(resp => {
           this.comment=resp;
         })
 
@@ -117,15 +117,13 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/blog/delete/' + row.blogId).then(resp => {
+            this.$axios.delete('/portal/blog/delete/' + row.blogId+'/'+this.$store.getters.company_id).then(resp => {
               console.log(resp)
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
-                  callback: action => {
-                    window.location.reload();
-                  }
                 })
+              this.loadBlog()
             })
           }
         ).catch(() => {
@@ -137,7 +135,7 @@
       },
 
       findById(){
-        this.$axios.get('/portal/blog/get/by-BlogId/'+this.blogId).then(resp =>{
+        this.$axios.get('/portal/blog/get/by-BlogId/'+this.blogId+'/'+this.$store.getters.company_id).then(resp =>{
           console.log(resp)
           this.blog = resp;
           }
@@ -146,7 +144,7 @@
       loadBlog(){
 
         var _this = this
-        this.$axios.get('/portal/blog/findAllDesc/0/5').then(resp => {
+        this.$axios.get('/portal/blog/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.blog = resp.content;
           _this.pageSize = resp.size;
@@ -158,7 +156,7 @@
       },
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5').then(resp => {
+        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.blog = resp.content;
           _this.pageSize = resp.size;

@@ -7,6 +7,7 @@ import permission from './modules/permission'
 import settings from './modules/settings'
 import portal from './modules/portal'
 import getters from './getters'
+import chat from './modules/chat'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     tagsView,
     permission,
     settings,
-    portal
+    portal,
+    chat
   },
   getters
 })

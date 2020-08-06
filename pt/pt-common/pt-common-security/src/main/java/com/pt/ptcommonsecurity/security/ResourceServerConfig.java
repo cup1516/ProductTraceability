@@ -43,6 +43,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/download/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
                 .antMatchers("/notice/**").permitAll()
+                .antMatchers("/center/**").permitAll()
+                .antMatchers("/company_id/**").permitAll()
+                .antMatchers("/company/**").permitAll()
+                .antMatchers("/consumer/**").permitAll()
+                .antMatchers("/order/**").permitAll()
+                .antMatchers("/centerCode/**").permitAll()
+                .antMatchers("/companyAccount/**").permitAll()
+                .antMatchers("/websocket/**").permitAll()
                 .antMatchers(
                         "/webjars/**",
                         "/resources/**",

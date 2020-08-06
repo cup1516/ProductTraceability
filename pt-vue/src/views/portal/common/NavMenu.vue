@@ -12,7 +12,7 @@
       <el-menu-item v-for="(item,index) in navList" :key="index" :index="item.name" >
         {{ item.navItem }}
       </el-menu-item>
-      <router-link tag="a" target="_blank" to="/login" class='management'>企业内部管理</router-link>
+      <router-link tag="a" target="_blank" :to="{ name: 'login'}" class='management'>企业内部管理</router-link>
     </el-menu>
   </div>
 </template>
@@ -24,14 +24,14 @@
       return {
         // currentPath: this.$route.path,
         navList: [
-          {name: '/AppIndex', navItem: '首页'},
-          {name: '/newsShow',navItem:'新闻资讯'},
-          {name: '/announcementShow', navItem: '公告通知'},
-          {name:'/commentShow',navItem:'评论列表'},
-          {name:'/bbsList',navItem:'公共论坛'},
-          {name:'/noticeShow',navItem:'宣传栏'},
-          {name: '/download',navItem:'下载专区'},
-          // {name:'/login',navItem:'企业内部管理'},
+          {name: '/'+this.$store.getters.url+'/AppIndex', navItem: '首页'},
+          {name: '/'+this.$store.getters.url+'/newsShow',navItem:'新闻资讯'},
+          {name: '/'+this.$store.getters.url+'/announcementShow', navItem: '公告通知'},
+          {name: '/'+this.$store.getters.url+'/commentShow',navItem:'评论列表'},
+          {name: '/'+this.$store.getters.url+'/bbsList',navItem:'公共论坛'},
+          {name: '/'+this.$store.getters.url+'/noticeShow',navItem:'宣传栏'},
+          {name: '/'+this.$store.getters.url+'/download',navItem:'下载专区'},
+          // {name: '/'+this.$store.getters.url+'/login',navItem:'企业内部管理'},
         ],
         keywords: '',
         activeIndex2: '1',
@@ -50,8 +50,8 @@
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key)
-        console.log(keyPath)
+        // console.log(key)
+        // console.log(keyPath)
       },
 
     }

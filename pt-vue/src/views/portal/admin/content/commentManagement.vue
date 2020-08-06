@@ -74,15 +74,12 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/comment/delete/' + row.id).then(resp => {
+            this.$axios.delete('/portal/comment/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
               this.$message({
                   type: 'info',
                   message: '已删除成功',
-                  callback: action => {
-                    window.location.reload();
-                  }
                 })
-
+              this.loadComment()
             })
           }
         ).catch(() => {
@@ -94,7 +91,7 @@
       },
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/5').then(resp => {
+        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.tableData = resp.content;
           _this.pageSize = resp.size;
@@ -103,12 +100,22 @@
       },
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/comment/findAllById/'+qs.stringify(param)).then(resp =>{
+        this.$axios.get('/portal/comment/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
             console.log(resp)
             this.tableData = resp;
           }
         )
       },
+      loadComment()
+      {
+        var _this = this
+        this.$axios.get('/portal/comment/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
+          console.log(resp)
+          _this.tableData = resp.content;
+          _this.pageSize = resp.size;
+          _this.total = resp.totalElements
+        })
+      }
     },
     data(){
       return {
@@ -123,13 +130,8 @@
       }
     },
     created() {
-      var _this = this
-      this.$axios.get('/portal/comment/findAll/0/5').then(resp => {
-        console.log(resp)
-        _this.tableData = resp.content;
-        _this.pageSize = resp.size;
-        _this.total = resp.totalElements
-      })
+    this.loadComment()
+
     }
   }
 </script>

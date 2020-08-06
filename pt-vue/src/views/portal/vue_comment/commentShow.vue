@@ -1,6 +1,5 @@
 <template>
     <div>
-      <NavMenu></NavMenu>
       <div  v-for="item in comment" :key="item.id" class="articles-area">
         <el-card style="text-align: left">
           <div >
@@ -50,7 +49,7 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/6').then(resp => {
+        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/6/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.comment = resp.content;
           _this.pageSize = resp.size;
@@ -59,7 +58,7 @@
       },
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/comment/findAll/0/6').then(resp => {
+        this.$axios.get('/portal/comment/findAll/0/6/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.comment = resp.content;
           _this.pageSize = resp.size;

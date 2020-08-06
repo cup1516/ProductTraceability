@@ -1,6 +1,7 @@
 
 /* Layout */
 import Layout from '@/layout'
+import store from '../../store/modules/portal'
 
 /**
  * Note: 路由配置项
@@ -19,39 +20,12 @@ import Layout from '@/layout'
     breadcrumb: false            // 如果设置为false，则不会在breadcrumb面包屑中显示
   }
  */
-
 // 公共路由
 export default [
   {
-    path: '/redirect',
+    path: '/'+store.state.url,
     component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: (resolve) => require(['@/views/redirect'], resolve)
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: (resolve) => require(['@/views/login'], resolve),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: (resolve) => require(['@/views/error/404'], resolve),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: (resolve) => require(['@/views/error/401'], resolve),
-    hidden: true
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
+    redirect : '/'+store.state.url+'/index',
     children: [
       {
         path: 'index',
@@ -62,18 +36,30 @@ export default [
     ]
   },
   // {
-  //   path: '/:id',
-  //   redirect: '/:id/index',
-  //   component: (resolve) => require(['@/views/portal/AppIndex'], resolve),
+  //   path: '/',
+  //   component: Layout,
+  //   redirect:'/index',
   //   children: [
   //     {
-  //       path: '/:id/index',
-  //       // component: (resolve) => require(['@/views/portal/AppIndex'], resolve),
+  //       path: 'index',
+  //       component: (resolve) => require(['@/views/index'], resolve),
   //       name: '首页',
-  //       meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true },
+  //       meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true }
   //     }
   //   ]
   // },
+  {
+    path: '/404',
+    component: (resolve) => require(['@/views/error/404'], resolve),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: (resolve) => require(['@/views/error/401'], resolve),
+    hidden: true
+  },
+
+
   {
     path: '/user',
     component: Layout,
@@ -142,7 +128,7 @@ export default [
   //   ]
   // }
    //manor项目的一些路由配置,勿删
- 
+
    {
     path: '/detail',
     component: Layout,

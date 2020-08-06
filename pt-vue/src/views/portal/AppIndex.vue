@@ -1,8 +1,9 @@
 <template>
   <div>
-    <NavMenu></NavMenu>
+<!--    <NavMenu></NavMenu>-->
     <picture-banner></picture-banner>
     <news-index></news-index>
+    <notice-index></notice-index>
     <comment></comment>
     <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100">
       <div
@@ -26,14 +27,11 @@
   import pictureBanner from './common/pictureBanner'
   import NewsIndex from "./news/newsIndex";
   import Comment from "./vue_comment/comment";
-  import NavMenu from './common/NavMenu'
+  import NoticeIndex from './notice/noticeIndex'
 
   export default {
     name: 'AppIndex',
-    components: {NavMenu, Comment, NewsIndex, pictureBanner},
-    created() {
-      this.$store.commit("SET_URL",this.$route.params.id)
-    },
+    components: { NoticeIndex, Comment, NewsIndex, pictureBanner},
   }
 </script>
 

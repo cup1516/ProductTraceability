@@ -1,0 +1,261 @@
+{
+  "id": "1697313",
+  "name": "2",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1331131",
+      "name": "挂断电话",
+      "font_class": "guaduandianhua",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "3860843",
+      "name": "视频",
+      "font_class": "jichutubiao-",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "12513915",
+      "name": "电 话",
+      "font_class": "dianhua1",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "12656690",
+      "name": "电  话",
+      "font_class": "dianhua2",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "4961420",
+      "name": "接听",
+      "font_class": "jieting",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "13862057",
+      "name": "挂断",
+      "font_class": "guaduan",
+      "unicode": "e785",
+      "unicode_decimal": 59269
+    },
+    {
+      "icon_id": "5881168",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "553629",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "11020450",
+      "name": "视频通话",
+      "font_class": "shipintonghua",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "1191930",
+      "name": "录音暂停",
+      "font_class": "luyinzanting",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "696721",
+      "name": "客户管理_录音播放icon",
+      "font_class": "webkehuguanliluyinbofangicon01",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "696723",
+      "name": "客户管理_录音暂停icon",
+      "font_class": "webkehuguanliluyinzantingicon01",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "2877761",
+      "name": "播放录音",
+      "font_class": "bofangluyin",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "3080718",
+      "name": "播放录音",
+      "font_class": "bofangluyin1",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "6278061",
+      "name": "icon_录音波浪-1",
+      "font_class": "icon_luyinbolang-",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "9073542",
+      "name": "播放录音",
+      "font_class": "bofangluyin2",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "11633737",
+      "name": "聊天详情页（录音）",
+      "font_class": "liaotianxiangqingyeluyin",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "14178422",
+      "name": "停止录音",
+      "font_class": "tingzhiluyin",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "2979737",
+      "name": "语音",
+      "font_class": "yuyin",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "3220751",
+      "name": "语音",
+      "font_class": "yuyin1",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "9542036",
+      "name": "文件",
+      "font_class": "wenjian1",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "8770214",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "1728503",
+      "name": "加载更多",
+      "font_class": "jiazaigengduo-copy",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "8387965",
+      "name": "加载更多",
+      "font_class": "jiazaigengduo",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "12205834",
+      "name": "聊天记录",
+      "font_class": "chat_chatting_records",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "9889473",
+      "name": "图片",
+      "font_class": "picture",
+      "unicode": "e71b",
+      "unicode_decimal": 59163
+    },
+    {
+      "icon_id": "13766911",
+      "name": "图片",
+      "font_class": "picture1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "14221947",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    },
+    {
+      "icon_id": "5716972",
+      "name": "表情",
+      "font_class": "emoticon",
+      "unicode": "e857",
+      "unicode_decimal": 59479
+    },
+    {
+      "icon_id": "554035",
+      "name": "微信",
+      "font_class": "iconset0140",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "13428705",
+      "name": "ios-add-circle",
+      "font_class": "ios-add-circle",
+      "unicode": "e88d",
+      "unicode_decimal": 59533
+    },
+    {
+      "icon_id": "13428708",
+      "name": "ios-add-circle-outline",
+      "font_class": "ios-add-circle-outline",
+      "unicode": "e88e",
+      "unicode_decimal": 59534
+    },
+    {
+      "icon_id": "13428771",
+      "name": "ios-chatboxes",
+      "font_class": "ios-chatboxes",
+      "unicode": "e89e",
+      "unicode_decimal": 59550
+    },
+    {
+      "icon_id": "13428772",
+      "name": "ios-chatbubbles",
+      "font_class": "ios-chatbubbles",
+      "unicode": "e89f",
+      "unicode_decimal": 59551
+    },
+    {
+      "icon_id": "13428917",
+      "name": "ios-person",
+      "font_class": "ios-person",
+      "unicode": "e8cd",
+      "unicode_decimal": 59597
+    },
+    {
+      "icon_id": "13428964",
+      "name": "ios-search",
+      "font_class": "ios-search",
+      "unicode": "e8dc",
+      "unicode_decimal": 59612
+    }
+  ]
+}

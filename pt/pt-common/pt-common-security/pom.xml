@@ -50,7 +50,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>

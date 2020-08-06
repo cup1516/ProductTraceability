@@ -9,7 +9,7 @@
       <el-row style="text-align: left">
         <el-input
           v-model="announcement.announcementTitle"
-          style="margin: 10px 0px;font-size: 18px; width: 700px"
+          style="margin: 10px 0px;font-size: 18px; width: 600px"
           placeholder="请输入公告标题">
         </el-input>
       </el-row>
@@ -74,7 +74,8 @@
                                     announcementTitle: this.announcement.announcementTitle,
                                     announcementContentMd: value,
                                     announcementHtml: render,
-                                    failTime: this.announcement.failTime
+                                    failTime: this.announcement.failTime,
+                                    companyId:this.$store.getters.company_id
                                   }
                           ).then(resp => {
                     console.log(resp)

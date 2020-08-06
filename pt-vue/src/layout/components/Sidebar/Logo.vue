@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '农产品溯源管理系统',
       logo: logoImg
     }
   }

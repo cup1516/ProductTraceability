@@ -1,15 +1,21 @@
 <template>
   <div id="app">
-    <!-- <NavMenu></NavMenu> -->
     <router-view />
   </div>
 </template>
 
 <script>
-  // import NavMenu from "./views/portal/common/NavMenu";
+  import store from '@/store/modules/portal'
   export default  {
     name:  'App',
-    // components: {NavMenu}
+    created() {
+      //根据url从数据中心获取company_id
+      this.$axios.get('company_id/company_id/findCompanyIdByUrl/' +store.state.url ).then(resp => {
+        console.log(resp)
+        this.$store.commit("SET_COMPANY_ID",resp)
+      })
+
+
+    },
   }
 </script>
-         

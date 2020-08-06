@@ -3,18 +3,25 @@ import { treeselect } from '@/api/system/menu'
 import { filterMenu } from '@/utils/menu'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { encryption, deepClone } from '@/utils/util'
+import { getChatListInfo } from '../../api/chat/chatApi'
+import store from '../../store/modules/portal'
+
 const user = {
   state: {
     access_token: getToken(),
-    name: '',
+    name: '',//user_name
     user_id:'',
     avatar: '',
+    nick_name:'',
     roles: [],
     permissions: [],
     menu:[]
   },
 
   mutations: {
+    SET_NICKNAME: (state, nickName) => {
+      state.nick_name = nickName
+    },
     SET_TOKEN: (state, token) => {
       state.access_token = token
     },
@@ -46,7 +53,7 @@ const user = {
         key: '-www.cup.edu.cn-',
         param: ['password']
       })
-      const url = ""
+      const url = store.state.url
       const username = user.username.trim()+"_"+url
       // const username = user.username.trim()
       const password = user.password
@@ -57,6 +64,17 @@ const user = {
           commit('SET_TOKEN', res.access_token)
           commit('SET_NAME', res.user_name)
           commit('SET_ID',res.user_id)
+
+          let params={
+            userId:res.user_id
+          };
+          getChatListInfo(params).then(r=>{
+            if(r.code==200){
+              commit('chat/setConversationsList',r.data);
+              commit('chat/setSelectedRoom',r.data[0]);
+            }
+            console.log(r)
+          })
           resolve()
         }).catch(error => {
           reject(error)
@@ -76,7 +94,8 @@ const user = {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
           // commit('SET_NAME', user.userName)
-          // commit('SET_AVATAR', avatar)
+          commit('SET_AVATAR', data.sysUser.avatar)
+          commit('SET_NICKNAME', data.sysUser.nickName)
           resolve(res)
         }).catch(error => {
           reject(error)
