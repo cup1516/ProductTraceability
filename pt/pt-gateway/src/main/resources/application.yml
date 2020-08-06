@@ -67,6 +67,12 @@ spring:
             - Path=/manor/**
           filters:
             - StripPrefix= 1
+        - id: pt-chat
+          uri: lb://pt-chat
+          predicates:
+            - Path=/chat/**
+          filters:
+            - StripPrefix= 1
 eureka:
   client:
     service-url:
@@ -77,7 +83,7 @@ eureka:
 
 security:
   encode:
-    #16位
+    #16λ
     key: '-www.cup.edu.cn-'
 ribbon:
   eureka:
