@@ -21,7 +21,7 @@ public class downloadProfile {
     @Autowired
     com.pt.ptportal.dao.fileDao fileDao;
     @GetMapping("/download/findAllFile/{page}/{size}/{company_id}")
-    public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id,){
+    public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
