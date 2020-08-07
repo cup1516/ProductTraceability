@@ -55,6 +55,11 @@
         </dependency>
         <dependency>
             <groupId>com.producttraceability</groupId>
+            <artifactId>pt-common-mybatis</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-security</artifactId>
             <version>0.0.1</version>
         </dependency>

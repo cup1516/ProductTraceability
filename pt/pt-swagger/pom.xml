@@ -8,7 +8,7 @@
         <version>0.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.pt</groupId>
+    <groupId>com.producttraceability</groupId>
     <artifactId>pt-swagger</artifactId>
     <version>0.0.1</version>
     <name>pt-swagger</name>

@@ -8,7 +8,7 @@ module.exports = {
       '/': {
         target: 'http://localhost:9998',
         changeOrigin: true,
-        ws:true,
+        ws:false,
         pathRewrite: {
           '^/' : '/'
         }

@@ -55,6 +55,12 @@ spring:
             - Path=/prod/**
           filters:
             - StripPrefix= 1
+        - id: pt-dealer-order
+          uri: lb://pt-dealer-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix= 1
         - id: pt-upload
           uri: lb://pt-upload
           predicates:

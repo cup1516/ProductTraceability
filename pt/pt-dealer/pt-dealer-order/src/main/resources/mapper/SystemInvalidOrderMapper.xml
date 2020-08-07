@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pt.ptdealerorder.mapper.SystemInvalidOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pt.ptdealerorder.entity.SystemOrder">
+    <!--@mbg.generated-->
+    <!--@Table system_order-->
+    <id column="order_id" property="orderId" />
+    <result column="seller_id" property="sellerId" />
+    <result column="seller_name" property="sellerName" />
+    <result column="buyer_id" property="buyerId" />
+    <result column="buyer_name" property="buyerName" />
+    <result column="product_id" property="productId" />
+    <result column="product_name" property="productName" />
+    <result column="product_amount" property="productAmount" />
+    <result column="product_price" property="productPrice" />
+    <result column="product_total" property="productTotal" />
+    <result column="creator_id" property="creatorId" />
+    <result column="creator_name" property="creatorName" />
+    <result column="create_time" property="createTime" />
+    <result column="reviewer_id" property="reviewerId" />
+    <result column="reviewer_name" property="reviewerName" />
+    <result column="reviewer_suggestions" property="reviewerSuggestions" />
+    <result column="review_time" property="reviewTime" />
+    <result column="checker_id" property="checkerId" />
+    <result column="checker_name" property="checkerName" />
+    <result column="checker_suggestions" property="checkerSuggestions" />
+    <result column="check_time" property="checkTime" />
+    <result column="next_id" property="nextId" />
+    <result column="previous_id" property="previousId" />
+    <result column="check_flag" property="checkFlag" />
+    <result column="del_flag" property="delFlag" />
+    <result column="check_status" property="checkStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    order_id, seller_id, seller_name, buyer_id, buyer_name, product_id, product_name,
+    product_amount, product_price, product_total, creator_id, creator_name, create_time,
+    reviewer_id, reviewer_name, reviewer_suggestions, review_time, checker_id, checker_name,
+    checker_suggestions, check_time, next_id, previous_id, check_flag, del_flag, check_status
+  </sql>
+    <sql id="selectSystemOrder">
+			select
+			<include refid="Base_Column_List"/>
+			from system_order
+    </sql>
+    <select id="getInvalidOrderPage" resultMap="BaseResultMap">
+        <include refid="selectSystemOrder"/>
+        where seller_id =#{companyId}  and (del_flag = '1' or next_id is not null)
+      ORDER BY create_time DESC
+    </select>
+
+
+</mapper>

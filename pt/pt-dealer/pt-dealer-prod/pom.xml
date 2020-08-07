@@ -37,12 +37,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!--接口文档-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.fox.version}</version>
-        </dependency>
         <!--远程调用-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -57,6 +51,11 @@
         <dependency>
             <groupId>com.producttraceability</groupId>
             <artifactId>pt-common-core</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.producttraceability</groupId>
+            <artifactId>pt-swagger</artifactId>
             <version>0.0.1</version>
         </dependency>
         <dependency>
