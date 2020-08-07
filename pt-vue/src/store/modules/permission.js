@@ -44,7 +44,7 @@ function filterAsyncRouter(asyncRouterMap) {
     }
     //一级菜单的path补全
     // if(route.parentId === "-1"){
-      route.path = '/'+store.state.url +'/'+ route.path
+      route.path = '/'+store.state.url +'Management/'+ route.path
     // }
     if (route.children != null && route.children && route.children.length) {
       route.children = filterAsyncRouter(route.children)

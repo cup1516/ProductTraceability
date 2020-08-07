@@ -35,7 +35,7 @@
       },
       created() {
         var _this = this
-        this.$axios.get('/portal/download/findAllFile/0/5'+this.$store.getters.company_id).then(resp => {
+        this.$axios.get('/portal/download/findAllFile/0/5/'+this.$store.getters.company_id).then(resp => {
           console.log(resp)
           _this.item = resp.content;
           _this.pageSize = resp.size;

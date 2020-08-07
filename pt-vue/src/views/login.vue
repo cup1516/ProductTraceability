@@ -89,7 +89,9 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div><el-button v-if= "isNeedAudit" size="medium" type="primary" @click="dialogFormVisible = true" style="width:100%;" >注册</el-button></div>
+        <div style="margin-top: 10px">
+          <el-button v-if= "isNeedAudit" size="medium" type="primary" @click="dialogFormVisible = true" style="width:100%;" >注册</el-button>
+        </div>
       </el-form-item>
     </el-form>
     <Vcode

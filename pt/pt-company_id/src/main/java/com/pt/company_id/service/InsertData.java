@@ -68,7 +68,7 @@ public class InsertData  {
         //jdbc:mysql://localhost:3306/pt?
         String data_url="JDBC:mysql://localhost:3306/pt-v2?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
         String username="root";
-        String password="root";
+        String password="123456";
         try {
            /* Configuration configuration = new PropertiesConfiguration(ScriptRunnerExecSql.class.getClassLoader().getResource("")
                     + "META-INF/spring/db.properties");*/

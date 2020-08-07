@@ -7,6 +7,7 @@ import { getToken } from '@/utils/auth'
 import store2 from './store/modules/portal'
 
 NProgress.configure({ showSpinner: false })
+console.log(store2.state.url)
 
 const whiteList = [ '/auth-redirect', '/bind', '/register',
   '/'+store2.state.url+'/login',
@@ -22,6 +23,7 @@ const whiteList = [ '/auth-redirect', '/bind', '/register',
   '/'+store2.state.url+'/noticeDetails']
 
 router.beforeEach((to, from, next) => {
+   // store2.state.url = to.path.split('/')[1]
   NProgress.start()
   if (store.getters.access_token) {
     /* has token*/
@@ -43,14 +45,13 @@ router.beforeEach((to, from, next) => {
             // console.log(accessRoutes)
             // router.addRoutes(accessRoutes) // 动态添加可访问路由表
             // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
-            next({ path: '/'+store2.state.url+'/index' })
-
+            next({ path: '/'+store2.state.url+'Management/index' })
           })
         })
           .catch(err => {
             store.dispatch('FedLogOut').then(() => {
               Message.error(err)
-              next({ path: '/'+store2.state.url+'/index' })
+              next({ path: '/'+store2.state.url })
             })
           })
       } else {

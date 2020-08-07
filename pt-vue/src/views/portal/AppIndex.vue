@@ -1,6 +1,5 @@
 <template>
   <div>
-<!--    <NavMenu></NavMenu>-->
     <picture-banner></picture-banner>
     <news-index></news-index>
     <notice-index></notice-index>

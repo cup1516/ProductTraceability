@@ -20,6 +20,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 @RestController
 @RequestMapping("/company_id")
@@ -45,7 +46,10 @@ public class CompanyIdController {
         InsertData.ExecuteSql();
         return "success!";
     }
-
+    @GetMapping("/findCompanyIdByNameLike/{name}")
+    public List<CompanyId> findByCompanyNameLike(@PathVariable("name") String name) {
+        return companyIdRepository.findByCompanyNameLike("%"+name+"%");// 加"%"+参数名+"%"实现模糊查询
+    }
     @PostMapping("/save")
     public String save(@RequestBody CompanyId companyId) throws IOException, InterruptedException {
         if (companyIdRepository.findByUrl(companyId.getUrl()) !=null)
