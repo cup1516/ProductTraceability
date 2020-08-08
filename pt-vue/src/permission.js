@@ -23,12 +23,10 @@ const whiteList = [ '/auth-redirect', '/bind', '/register',
   '/'+store2.state.url+'/noticeDetails']
 
 router.beforeEach((to, from, next) => {
-   // store2.state.url = to.path.split('/')[1]
   NProgress.start()
   if (store.getters.access_token) {
     /* has token*/
     if (to.path === '/'+store2.state.url+'/login') {
-      // next({ path: '/' })
       next()
       NProgress.done()
     } else {
@@ -45,13 +43,13 @@ router.beforeEach((to, from, next) => {
             // console.log(accessRoutes)
             // router.addRoutes(accessRoutes) // 动态添加可访问路由表
             // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
-            next({ path: '/'+store2.state.url+'Management/index' })
+            next({ path: '/'+store2.state.url+'/Management/index' })
           })
         })
           .catch(err => {
             store.dispatch('FedLogOut').then(() => {
               Message.error(err)
-              next({ path: '/'+store2.state.url })
+              next({ path: '/'+store2.state.url+'/login' })
             })
           })
       } else {
