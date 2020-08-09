@@ -6,7 +6,7 @@
         <groupId>com.producttraceability</groupId>
         <artifactId>pt</artifactId>
         <version>0.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository 测试分支上传-->
     </parent>
     <groupId>com.pt</groupId>
     <artifactId>pt-center</artifactId>
