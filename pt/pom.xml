@@ -62,6 +62,7 @@
         <module>pt-auth</module>
         <module>pt-gateway</module>
         <module>pt-center</module>
+        <module>pt-company_id</module>
         <module>pt-dealer</module>
         <module>pt-warehouse</module>
         <module>pt-user</module>
@@ -70,6 +71,7 @@
         <module>pt-common/pt-common-security</module>
         <module>pt-common/pt-common-core</module>
         <module>pt-common/pt-common-mybatis</module>
+        <module>pt-swagger</module>
     </modules>
     <build>
         <plugins>
@@ -77,6 +79,15 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 
