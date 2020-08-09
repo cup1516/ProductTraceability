@@ -276,7 +276,9 @@
             this.$store
               .dispatch("Login", this.loginForm)
               .then(() => {
-                this.$router.push({ path: this.redirect || "/" });
+                // this.$router.push({ path: this.redirect || "/" });
+                this.$router.push({ path:  '/'+store.state.url+'/Management/index' });
+
               })
               .catch(res => {
                 this.loading = false;

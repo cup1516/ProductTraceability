@@ -13,8 +13,8 @@
       <div class="content">
         <div class="friendlist-area">
           <div class="search-input">
-            <!--      @keydown.enter.native="searchUser"      -->
-            <el-input clearable v-model="friendInput" prefix-icon="el-icon-search" placeholder="搜索" ></el-input>
+            <!--    @keydown.enter.native="searchUser"        -->
+            <el-input clearable v-model="friendInput" prefix-icon="el-icon-search" @clear="del" placeholder="搜索" ></el-input>
           </div>
           <div class="friendlist" :style="{height: 450 + 'px'}">
             <ul class="friendlistul">
@@ -24,7 +24,15 @@
                   <img class="avatar" :src="item.avatar" onerror="this.src='static/images/vue.jpg'">
                   <div class="nickname">{{item.nickName}}</div>
                   <div class="friend-check">
-                    <el-checkbox :true-label="item.userId+':1'" :false-label="item.userId+':0'" @change="friendChangeChange"  @click.stop.native="" v-model="item.check" :disabled="item.disabled"></el-checkbox>
+                    <el-checkbox
+                      :true-label="item.userId+':1'"
+                      :false-label="item.userId+':0'"
+                      @change="friendChangeChange"
+                      @click.stop.native=""
+                      v-model="item.check"
+                      :disabled="item.disabled"
+                     >
+                    </el-checkbox>
                   </div>
                 </div>
 
@@ -65,8 +73,6 @@
 </template>
 
 <script>
-  import {CreateGroup,getChatListInfo,fileUpload,getGroupInfo,ShowGroupMemberInfo,ModifyGroupName,AddGroupMember} from '../../../api/chat/chatApi'
-  import {getUserList,getUserProfile} from '../../../api/system/user'
   import store from "@/store" ;
 
   export default {
@@ -94,7 +100,9 @@
         AllUsers: [],
         fullscreenLoading: false,
         OtherUserList:[],
-        showmodal:false
+        OtherUserList2:[],
+        showmodal:false,
+
       }
     },
     computed: {
@@ -104,6 +112,13 @@
       this.LoadFriendList();
     },
     methods:{
+      del(){
+        this.OtherUserList=this.OtherUserList2;
+        //this.searchUser()
+      },
+      searchUser(){
+        this.OtherUserList=this.OtherUserList2.filter(user => user.nickName.includes(this.friendInput) )
+      },
       friendChangeChange(event){
         if(event && event != ""){
           var friendIdAndChecked = event.split(":");
@@ -207,7 +222,7 @@
               disabled: false
             })
           }
-
+          _this.OtherUserList2 = _this.OtherUserList
         }
 
 
@@ -243,6 +258,13 @@
       }
     },
     watch: {
+      friendInput(){
+        if(this.friendInput === ''){
+          this.OtherUserList=this.OtherUserList2;
+        }else {
+          this.searchUser()
+        }
+      },
       selectedFriends() {
         if(this.selectedFriends.length == 0){
           this.selectFriendId = 0;

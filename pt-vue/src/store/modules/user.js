@@ -93,9 +93,9 @@ const user = {
           } else {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
-          // commit('SET_NAME', user.userName)
-          commit('SET_AVATAR', data.sysUser.avatar)
-          commit('SET_NICKNAME', data.sysUser.nickName)
+          commit('SET_NAME', data.userName)
+          commit('SET_AVATAR', data.avatar)
+          commit('SET_NICKNAME', data.avatar)
           resolve(res)
         }).catch(error => {
           reject(error)

@@ -1,6 +1,5 @@
 <!--录音-->
 <template>
-<!--  @click="recordMsg"-->
   <div >
     <el-dialog
       v-dialogDrag
@@ -16,9 +15,7 @@
         <div class="timer">
           <div ref="startTimer"></div>
         </div>
-<!--        <div>-->
-<!--          {{dataArray}}-->
-<!--        </div>-->
+
         <!-- 开始录音 -->
         <div>
           <div class="start">
@@ -28,7 +25,7 @@
           </div>
           <!--        -->
           <i  class="icon iconfont icon-icon_luyinbolang-" :style="{'color':(isPause==true?'#1aad19':'#2F4F4F')}"></i>
-          <i  class="icon iconfont icon-tingzhiluyin"  @click="destroyed" ></i>
+          <i  class="icon iconfont icon-tingzhiluyin" ></i>
         </div>
 
       </span>
@@ -59,6 +56,7 @@
         hour: 0,
         minutes: 0,
         seconds: 0,
+        duration:0,
         dataArray:[],
         yse: false,
       }
@@ -67,9 +65,13 @@
       recordMsg(){//提交录音信息
         this.centerDialogVisible = false;
         this.msg = recorder.getWAVBlob();
+        this.duration = recorder.duration;
+        let params = {
+          record: this.msg,
+          time: this.duration
+        }
         this.reset();
-        //console.log(this.msg);
-        this.$emit('start',this.msg);
+        this.$emit('start',params);
       },
       cancel(){//取消录音
         this.centerDialogVisible = false;
@@ -105,11 +107,13 @@
       destroyed(){
         let that = this;
         if(that.yse === true){
-          // 销毁录音实例，置为null释放资源，fn为回调函数，
-          recorder.destroy().then(function() {
-            recorder = null;
-            that.reset();
-          });
+          recorder = null;
+          that.reset();
+          // // 销毁录音实例，置为null释放资源，fn为回调函数，
+          // recorder.destroy().then(function() {
+          //   recorder = null;
+          //   that.reset();
+          // });
         }
 
       },

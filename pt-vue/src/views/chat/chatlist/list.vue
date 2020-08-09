@@ -60,31 +60,28 @@
         nickname: store.getters.nick_name,
         useravatar: store.getters.avatar,
         userId: store.getters.user_id,
-        selectedRoom: store.getters.selectedRoom,
-
-        searchedConversation: store.getters.searchedConversationList
+        selectedRooms: store.getters.selectedRoom,
       }
     },
     computed:{
       ...mapGetters([
-        'searchedConversationList'
+        'searchedConversationList',
+        'selectedRoom'
       ])
     },
     methods:{
       changeName(params){
-        //console.log(params)
         let chatId = params.id;
         let chatName = params.name;
         this.conversationsList.find(group=>group.chatId==chatId).chatName=chatName;
       },
       joinRoom(room){
         this.$emit("join",room);
-        //console.log(room)
-        this.selectedRoom = room;
+        this.selectedRooms = room;
         this.$store.dispatch("chat/selectedRoom",room)
       },
       updateLog(params,roomId){
-        this.conversationsList.find(room=>room.chatId=roomId).groupLogList.push({
+        this.conversationsList.find(room=>room.chatId==roomId).groupLogList.push({
           messageType:params.messageType,
           sendContent:params.sendContent,
           sendTime:params.sendTime,
@@ -92,32 +89,6 @@
         });
       },
 
-      //小组成员
-      getGroupMember(){
-        let _this=this;
-        for(let i=0;i<_this.conversationsList.length;i++){
-          let params={
-            chatId: _this.conversationsList[i].chatId,
-          };
-          let groupMembers = [];
-          ShowGroupMemberInfo(params).then(r=>{
-            if(r.code==200){
-              r.data.forEach(v=>{
-                let user = _this.userList.find(user=>user.userId==v)
-                //console.log(_this.userList)
-                groupMembers.push({
-                  avatar:user.avatar,
-                  userId:v,
-                  nickName:user.nickName,
-                })
-              })
-              _this.groupMemberMap.set(_this.conversationsList[i].chatId,groupMembers);
-            }
-          })
-        }
-        _this.$store.dispatch('chat/setGroupMemberMap',_this.groupMemberMap);
-        //console.log(store.getters.groupMemberMap)
-      },
       getConversationList(){
         let params={
           userId:this.userId
@@ -139,16 +110,13 @@
       }
     },
     mounted() {
-      if(this.timer){
-        clearInterval(this.timer)
-      }else{
-        this.timer = setInterval(()=>{
-          this.getConversationList()
-        },30000)
-      }
-      // setTimeout(()=>{
-      //   this.getGroupMember();
-      // },200)
+      // if(this.timer){
+      //   clearInterval(this.timer)
+      // }else{
+      //   this.timer = setInterval(()=>{
+      //     this.getConversationList()
+      //   },30000)
+      // }
     },
     created() {
       this.getConversationList();

@@ -70,16 +70,9 @@ export default [
     ],
   },
   {
-    path: '/'+store.state.url+'/login',
-    name: 'login',
-    component: (resolve) => require(['@/views/login'], resolve),
-    hidden: true
-  },
-
-  {
-    path: '/'+store.state.url+'Management',
+    path: '/'+store.state.url+'/Management',
     component: Layout,
-    redirect : '/'+store.state.url+'Management/index',
+    redirect : '/'+store.state.url+'/Management/index',
     children: [
       {
         path: 'index',
@@ -88,6 +81,12 @@ export default [
         meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
+  },
+  {
+    path: '/'+store.state.url+'/login',
+    name: 'login',
+    component: (resolve) => require(['@/views/login'], resolve),
+    hidden: true
   },
 
 ]

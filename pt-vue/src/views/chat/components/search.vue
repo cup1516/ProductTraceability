@@ -68,7 +68,7 @@
         dialogTableVisible: false,
         dialogFormVisible: false,
         groupAvatar:'/images/group.jpg',
-        userList:[],
+        userList: store.getters.userList,//[]
         conversationsList: store.getters.conversationsList,
         groupMemberMap:store.getters.groupMemberMap,
         dialogWidth: 0,
@@ -86,8 +86,6 @@
         filterMethod(query,item){
           return item.nickName.indexOf(query)>-1
         },
-
-
 
         shiftKey: false,
         firstWHLeftLocation: -1, //数据左边起始值
@@ -109,6 +107,7 @@
       }
     },
     created() {
+      console.log(this.userId);
       this.setDialogWidth();
     },
     mounted(){
@@ -131,7 +130,7 @@
       }else{
         this.timer = setInterval(()=>{
           this.getUser();
-        },30000)
+        },300000)
       }
     },
     destroyed() {
@@ -186,7 +185,6 @@
             let arr = [];
             // 当前有选中数据 并且 按住shift
             if (_this.shiftKey) {
-              // if (isRight) {
               for (let i = 0; i < arrList.length; i++) {
                 let item = value ? arrList[i][value] : arrList[i];
                 if (item == key[key.length - 2]) {
