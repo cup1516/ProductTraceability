@@ -13,7 +13,7 @@
         <div class="friendlist-area">
           <div class="search-input">
 <!--      @keydown.enter.native="searchUser"      -->
-            <el-input clearable v-model="friendInput" prefix-icon="el-icon-search" placeholder="搜索" ></el-input>
+            <el-input clearable v-model="friendInput" prefix-icon="el-icon-search" @clear="del" placeholder="搜索" ></el-input>
           </div>
           <div class="friendlist" :style="{height: 450 + 'px'}">
             <ul class="friendlistul">
@@ -64,8 +64,6 @@
 </template>
 
 <script>
-  import {CreateGroup,getChatListInfo,fileUpload,getGroupInfo,ShowGroupMemberInfo,ModifyGroupName,AddGroupMember} from '../../../api/chat/chatApi'
-  import {getUserList,getUserProfile} from '../../../api/system/user'
   import store from "@/store" ;
   export default {
     name: "chooseUser",
@@ -85,6 +83,7 @@
         showChoose: this.isShow,
         friendInput: '',
         friendList: [],
+        friendList2:[],
         selectedFriends: [],
         checkFriendTips: '未选择成员',
         confirmEnable: true,
@@ -99,6 +98,13 @@
       this.LoadFriendList();
     },
     methods:{
+      del(){
+        this.friendList=this.friendList2;
+        //this.searchUser()
+      },
+      searchUser(){
+        this.friendList=this.friendList2.filter(user => user.nickName.includes(this.friendInput) )
+      },
       friendChangeChange(event){
         if(event && event != ""){
           var friendIdAndChecked = event.split(":");
@@ -161,6 +167,7 @@
             })
           }
         }
+        _this.friendList2=_this.friendList;
       },
       delfriend(id){
         var friend = this.friendList.find(friend => friend.userId == id);
@@ -191,6 +198,13 @@
       }
     },
     watch: {
+      friendInput(){
+        if(this.friendInput === ''){
+          this.friendList=this.friendList2;
+        }else {
+          this.searchUser()
+        }
+      },
       selectedFriends() {
         if(this.selectedFriends.length == 0){
           this.selectFriendId = 0;

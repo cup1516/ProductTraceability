@@ -114,38 +114,7 @@
         <!-- 语音 -->
         <div class="record">
           <i class="icon iconfont icon-yuyin1" @click="showRecord=true"> </i>
-          <!--          <record v-if="showRecord"  @start="startRecord" :isShow="showRecord"></record>-->
-          <el-dialog
-            v-dialogDrag
-            title="录制语音消息"
-            :visible.sync="showRecord"
-            width="270px"
-            center
-            :modal="false"
-            :close-on-click-modal='false'
-            :before-close="cancel">
-
-            <span>
-              <div class="timer">
-                <div ref="startTimer"></div>
-              </div>
-
-              <!-- 开始录音 -->
-              <div>
-
-                <div class="start">
-                  <i v-show="isStart" class="icon iconfont icon-yuyin" @click="recorder"> </i>
-                  <i v-show="isPause" class="icon iconfont icon-luyinzanting" @click="pause"></i>
-                </div>
-                <!--        -->
-                <i  class="icon iconfont icon-icon_luyinbolang-" :style="{'color':(isPause==true?'#1aad19':'#2F4F4F')}"></i>
-              </div>
-            </span>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="cancel">取 消</el-button>
-              <el-button :disabled="!yse" type="primary" @click="submit">确 定</el-button>
-            </span>
-          </el-dialog>
+          <record v-if="showRecord"  @start="startRecord" :isShow="showRecord"></record>
         </div>
         <!-- 语音电话 -->
         <div class="caller">
@@ -224,10 +193,7 @@
               <audio id="LocalAudio" autoplay="autoplay" muted="muted"></audio>
             </div>
           </div>
-
-
         </div>
-
       </div>
 
       <!-- 输入框 -->
@@ -251,14 +217,12 @@
 <script>
 
   import store from "@/store" ;
-  import { fileDownload, getGroupLog, fileUpload, getChatListInfo } from '../../../api/chat/chatApi'
-  import Recorder from 'js-audio-recorder'
-  let recorder = new Recorder();
-
+  import { getGroupLog, fileUpload, getChatListInfo } from '../../../api/chat/chatApi'
   import bigImg from '../components/bigImg'
   import record from '../components/record'
   import chooseUser from '../components/chooseUser';
   import groupInfo from '../components/groupInfo'
+  import { mapGetters } from 'vuex'
   export default {
     name: "page",
     components: {
@@ -269,7 +233,6 @@
     },
     data() {
       return {
-
         userName: store.getters.name,
         nickName: store.getters.nick_name,
         userAvatar: store.getters.avatar,
@@ -279,7 +242,6 @@
 
         roomId: "",
         roomName: "",
-        selectRoom: store.getters.selectedRoom,
 
         groupMemberMap:store.getters.groupMemberMap,
         groupMemberList:[],
@@ -288,11 +250,7 @@
 
         ws: null, // WebSocket对象
         socket: null,
-        aisle: "", // 对方频道号
         lockReconnect: false,
-        timeout:5000,
-        timeoutObj: null,
-        serverTimeoutObj: null,
         urlList:[],
 
         messageList: [], // 消息列表
@@ -319,22 +277,12 @@
         page:1,
         isTop: 0 ,
 
-        recordMsg:'',
         showRecord: false,
         recordUrl: '',
-
-        play: false,
-        msg: '',
-        isStart: true,
-        isPause: false,
-        timer: "",
-        content: "",
-        hour: 0,
-        minutes: 0,
-        seconds: 0,
-        dataArray:[],
-        yse: false,
+        recordPlay:'',
         duration: " ",
+
+        msg: '',
 
         showChoose:false,
         choiceUser:[],//选择的要进行视频/电话的用户
@@ -378,7 +326,7 @@
     },
     created() {
       //this.getConversationList();
-      console.log(this.selectRoom);
+      console.log(this.selectedRoom);
       setTimeout(()=>{
         this.getLog();
       },500);
@@ -387,8 +335,10 @@
     mounted() {
       console.log("mounted")
       this.$refs.text.focus();
-      this.roomId = this.selectRoom.chatId;
-      this.roomName = this.selectRoom.chatName;
+      this.roomId = this.selectedRoom.chatId;
+      this.roomName = this.selectedRoom.chatName;
+      this.messageValue = '';
+      this.msgtype = 1;
       this.initWebSocket();
       setTimeout(() => {
         this.scrollBottm();
@@ -1050,10 +1000,9 @@
         if(data===false){
           console.log("取消录音")
         }else {
-          this.recordMsg = data;
           //时长
-          this.duration = recorder.duration;
-          let recordFile = new File([data],"record.wav",{type: "audio/wav"});
+          this.duration = data.time;
+          let recordFile = new File([data.record],"record.wav",{type: "audio/wav"});
           let self = this;
           var fd = new FormData();
           fd.append('file', recordFile,this.duration+'.wav');//文件内容：blob
@@ -1064,87 +1013,15 @@
           })
         }
       },
-      submit(){//提交录音信息
-        this.showRecord = false;
-        this.msg = recorder.getWAVBlob();
-        this.reset();
-        this.startRecord(this.msg);
-      },
-      cancel(){//取消录音
-        this.showRecord = false;
-        let flag = false;
-        this.startRecord(flag);
-        this.reset();
-      },
-      recorder(){//开始录音
-        this.isStart = false;
-        this.isPause = true;
-        this.yse = true;
-        recorder.start();// 开始录音
-        console.log("开始录音");
-        this.start();
-        //录音波形显示
-        //this.dataArray = recorder.getRecordAnalyseData();
-        //console.log(this.dataArray)
-      },
-      start(){//开始计时
-        this.timer = setInterval(this.startTimer, 1000);
-      },
-      reset(){//重置
-        let that = this;
-        that.yse = false;
-        that.isStart = true;
-        that.isPause = false;
-        clearInterval(that.timer);
-        that.hour = 0;
-        that.minutes = 0;
-        that.seconds = 0;
-        that.$refs.startTimer.innerHTML = '00:00';
-      },
-      destroyed(){
-        let that = this;
-        if(that.yse === true){
-          // 销毁录音实例，置为null释放资源，fn为回调函数，
-          recorder.destroy().then(function() {
-            recorder.stop();
-            that.reset();
-          });
-        }
-
-      },
-      pause(){//暂停
-        this.isStart = true;
-        this.isPause = false;
-        recorder.pause();
-        clearInterval(this.timer);
-      },
-      startTimer () {
-        this.seconds += 1;
-        if (this.seconds >= 60) {
-          this.seconds = 0;
-          this.minutes = this.minutes + 1;
-        }
-        if (this.minutes >= 60) {
-          this.minutes = 0;
-          this.hour = this.hour + 1;
-        }
-        this.$refs.startTimer.innerHTML = (this.minutes < 10 ? '0' + this.minutes : this.minutes) + ':' + (this.seconds < 10 ? '0' + this.seconds : this.seconds);
-      },
       //播放录音
       player(url){
-        let wav = url;
-        let audio = new Audio(wav);
-        if(this.play===false){
-          //播放
-          audio.play();
-          console.log("正在播放");
-          this.play = true;
-        }else{
-          //停止播放
-          audio.pause();
-          console.log("停止播放");
-          this.play = false;
+        if(this.recordPlay.src!=null){
+          this.recordPlay.pause();
         }
+        let wav = url;
+        this.recordPlay = new Audio(wav);
+        //播放
+        this.recordPlay.play();
       },
       //-------------------------------------------------------------------------------------
       //添加文件
@@ -1177,7 +1054,6 @@
       },
       //下载文件
       downLoad(data){
-        console.log(data)
         let words = data.split("/");
         let params={
           fileName: words[words.length-1]
@@ -1215,8 +1091,6 @@
           let _this=this;
           if (r.code === 200) {
             _this.page = _this.page+1;
-
-            console.log("GroupLog");
             let list = r.data;
             for(let i=0;i<list.length;i++){
               let user = _this.infoHandle(list[i].senderId)
@@ -1241,7 +1115,9 @@
     },
 
     computed: {
-
+      ...mapGetters([
+        'selectedRoom'
+      ])
     },
     filters: {
       // 将日期过滤为 hour:minutes
