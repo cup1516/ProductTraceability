@@ -236,6 +236,7 @@
 
 <script>
 import { listOrder,changeCheckStatus} from "@/api/dealer/tocheck";
+import { changeCheckFlag} from "@/api/dealer/myorder";
 import { getOrder } from "@/api/dealer/myorder";
 import { getListByName as getTypeList} from "@/api/dealer/type";
 import { getUserListPerms } from "@/api/system/user";
