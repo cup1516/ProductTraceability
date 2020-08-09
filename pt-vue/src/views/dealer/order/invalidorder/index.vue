@@ -11,9 +11,9 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="卖方公司" prop="sellerId">
+      <el-form-item label="买方公司" prop="buyerId">
         <el-select
-          v-model="queryParams.sellerId"
+          v-model="queryParams.buyerId"
           size="mini"
           style="width:140px"
           filterable
@@ -61,6 +61,57 @@
               </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="创建人" prop="creatorId">
+        <el-select
+            v-model="queryParams.creatorId"
+            size="mini"
+            style="width:140px"
+            filterable
+            clearable 
+            reserve-keyword
+            placeholder=" "
+            :loading="loading">
+              <el-option
+                v-for="item in creatorOptions"
+                :key="item.userId"
+                :label="item.nickName"
+                :value="item.userId">
+              </el-option>
+          </el-select>
+      </el-form-item>
+      <el-form-item label="审批人" prop="reviewerId">
+        <el-select
+            v-model="queryParams.reviewerId"
+            size="mini"
+            style="width:140px"
+            filterable
+            clearable 
+            reserve-keyword
+            placeholder=" "
+            :loading="loading">
+              <el-option
+                v-for="item in reviewerOptions"
+                :key="item.userId"
+                :label="item.nickName"
+                :value="item.userId">
+              </el-option>
+          </el-select>
+      </el-form-item>
+      <el-form-item label="审批状态" prop="checkFlag">
+        <el-select 
+            v-model="queryParams.checkFlag" 
+            placeholder=" " 
+            clearable 
+            style="width:140px"
+            size="mini">
+          <el-option
+            v-for="dict in checkFlagOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -68,21 +119,28 @@
     </el-form>
 
 
-    <el-table v-loading="loading" :data="myorderList" @selection-change="handleSelectionChange">
+    <el-table 
+        v-loading="loading" 
+        :data="myorderList" 
+        ref="table"
+        highlight-current-row
+        @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="订单编号"  align="center" prop="orderId" />
-      <el-table-column label="卖公司名称"  align="center" prop="sellerName" />
+      <el-table-column label="买方公司名称"  align="center" prop="buyerName" />
       <el-table-column label="产品批次" align="center" prop="productId" />
       <el-table-column label="产品名称" align="center" prop="productName" />
       <el-table-column label="数量" align="center" prop="productAmount" />
       <el-table-column label="单价" align="center" prop="productPrice" />
       <el-table-column label="总价" align="center" prop="productTotal" />
+      <el-table-column label="审批人" align="center" prop="reviewerName" />
+      <el-table-column label="审批状态" align="center" prop="checkFlag" :formatter="checkFlagFormat" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="170px">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -90,20 +148,6 @@
             icon="el-icon-view"
             @click="handleView(scope.row)"
           >查看</el-button>
-          <el-button
-            v-if="scope.row.checkStatus == '1'"
-            size="mini"
-            type="text"
-            icon="el-icon-check"
-            @click="handlePass(scope.row)"
-          >通过</el-button>
-          <el-button
-            v-if="scope.row.checkStatus == '1'"
-            size="mini"
-            type="text"
-            icon="el-icon-close"
-            @click="handleRefuse(scope.row)"
-          >驳回</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -118,7 +162,7 @@
 
     <!-- 添加或修改节点对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="650px" @closed="handleClose" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" >
         <el-row>
           <el-col :span="12">
             <el-form-item label="卖方公司:" prop="sellerName">
@@ -156,32 +200,51 @@
             </el-form-item> 
           </el-col>
           <el-col :span="12">
-            <el-form-item label="确认人:" prop="checkerName">
-              <span>{{form.checkerName}}</span>
+            <el-form-item label="创建人:" prop="creatorName">
+              <span>{{form.creatorName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="确认时间:" prop="checkTime" >
-              <span>{{ parseTime(form.checkTime) }}</span>
+            <el-form-item label="创建时间:" prop="createTime" >
+              <span>{{ parseTime(form.createTime) }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="审批人:" prop="reviewerName">
+              <span>{{form.reviewerName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="审批时间:" prop="reviewTime" >
+              <span>{{ parseTime(form.reviewTime) }}</span>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" >确 定</el-button>
-        <el-button @click="cancel" v-show="!isView">取 消</el-button>
+        <el-button
+            type="primary"
+            v-if="form.previousId != null"
+            @click="handleFindOrder(form.previousId)"
+          >上一次修改</el-button>
+          <el-button
+            type="primary"
+            v-if="form.nextId != null"
+            @click="handleFindOrder(form.nextId)"
+          >下一次修改</el-button>
+          <el-button type="primary" @click="submitForm" >确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listOrder,changeCheckStatus} from "@/api/dealer/toconfirm";
-import { getOrder } from "@/api/dealer/myorder";
+import { listOrder} from "@/api/dealer/invalidorder";
+import { getOrder,ListCompany} from "@/api/dealer/myorder";
 import { getListByName as getTypeList} from "@/api/dealer/type";
 import { getUserListPerms } from "@/api/system/user";
 export default {
-  name: "toconfirm",
+  name: "invalidorder",
   data() {
     return {
       // 是否查看
@@ -208,8 +271,8 @@ export default {
       checkStatusOptions:[],
       companyOptions: [],
       typeOptions:[],
-      creatorOptions:[],
       reviewerOptions:[],
+      creatorOptions:[],
       // 查询参数
       queryParams: {
         current: 1,
@@ -234,8 +297,9 @@ export default {
       }
     };
   },
+  computed: {
 
-
+  },
   created() {
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
@@ -272,9 +336,7 @@ export default {
     checkFlagFormat(row, column) {
       return this.selectDictLabel(this.checkFlagOptions, row.checkFlag);
     },
-    checkStatusFormat(row, column) {
-      return this.selectDictLabel(this.checkStatusOptions, row.checkStatus);
-    },
+
     // 取消按钮
     cancel() {
       this.open = false;
@@ -331,50 +393,30 @@ export default {
         this.open = false;
         return
       }
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-            addOrder(this.form).then(response => {
-                this.msgSuccess(this.title + "成功");
-                this.open = false;
-                this.getList();
-            }).catch(response=>{
-              this.msgError(response);
-            });
-        }
-      });
     },
- 
-    /** 通过按钮操作 */
-    handlePass(row){
-        row.checkStatus = '2'
-        changeCheckStatus(row).then(()=>{
-          this.getList()
-          this.msgSuccess("已通过订单")
-        }).catch(res =>{
-          this.msgError(res)
-        })
-    },
-    /** 驳回按钮操作 */
-    handleRefuse(row){
-        row.checkStatus = '3'
-        changeCheckStatus(row).then(()=>{
-          this.getList()
-          this.msgSuccess("已驳回订单")
-        }).catch(res =>{
-          this.msgError(res)
-        })
-    },
+  
     listCompany(query){
       ListCompany(query).then(res=>{
         this.companyOptions = res
       })
     },
- 
     listProduct(query){
       getTypeList(query).then(res=>{
         this.typeOptions = res.data
       })
     },
+    handleFindOrder(id){
+      getOrder(id).then(response => {
+        this.form = response.data;
+      });
+      this.myorderList.forEach((order,index) => {
+        if(order.orderId == id){
+          this.$refs.table.setCurrentRow(order);
+          return
+        }
+      })
+      
+    }
   }
 };
 </script>

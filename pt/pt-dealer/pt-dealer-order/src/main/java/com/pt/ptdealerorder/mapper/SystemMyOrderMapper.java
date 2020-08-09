@@ -12,7 +12,7 @@ import java.util.List;
 public interface SystemMyOrderMapper {
     Boolean insertOrder(SystemOrder systemOrder);
 
-    IPage<List<SystemOrder>> getSystemOrderPage(Page page, @Param("userId") String userId, @Param("companyId") String companyId);
+    IPage<List<SystemOrder>> getSystemOrderPage(Page page,@Param("systemOrder") SystemOrder systemOrder,@Param("userId") String userId, @Param("companyId") String companyId);
 
     SystemOrder selectOrderById(@Param("orderId") String orderId);
 

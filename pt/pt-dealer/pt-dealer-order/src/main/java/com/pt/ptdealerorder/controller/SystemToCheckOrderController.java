@@ -21,13 +21,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerorder.entity.SystemOrder;
-import com.pt.ptdealerorder.service.SystemInvalidOrderService;
+import com.pt.ptdealerorder.service.SystemToCheckOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -37,11 +35,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/invalidorder" )
-@Api(value = "invalidorder")
-public class SystemInvalidOrderController {
+@RequestMapping("/tocheck" )
+@Api(value = "tocheck")
+public class SystemToCheckOrderController {
 
-    private final SystemInvalidOrderService systemInvalidOrderService;
+    private final SystemToCheckOrderService systemToCheckOrderService;
 
     /**
      * 分页查询
@@ -50,9 +48,14 @@ public class SystemInvalidOrderController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
-    public R getInvalidOrderPage(Page page, SystemOrder systemOrder) {
-        return R.ok(systemInvalidOrderService.getInvalidOrderPage(page, SecurityUtils.getId(),SecurityUtils.getCompanyId()));
+    public R getSystemOrderPage(Page page, SystemOrder systemOrder) {
+        return R.ok(systemToCheckOrderService.getSystemOrderPage(page, systemOrder,SecurityUtils.getId(),SecurityUtils.getCompanyId()));
     }
 
 
+
+	@PutMapping("/changeCheckStatus" )
+    public R changeCheckStatus(@RequestBody SystemOrder systemOrder){
+    	return R.ok(systemToCheckOrderService.changeCheckStatus(systemOrder));
+	}
 }

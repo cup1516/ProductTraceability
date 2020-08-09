@@ -38,8 +38,8 @@ public class SystemMyOrderServiceImpl implements SystemMyOrderService {
     }
 
     @Override
-    public IPage<List<SystemOrder>> getSystemOrderPage(Page page,String userId,String companyId) {
-        return systemMyOrderMapper.getSystemOrderPage(page,userId,companyId);
+    public IPage<List<SystemOrder>> getSystemOrderPage(Page page,SystemOrder systemOrder,String userId,String companyId) {
+        return systemMyOrderMapper.getSystemOrderPage(page,systemOrder,userId,companyId);
     }
 
     @Override

@@ -10,6 +10,7 @@
     <result column="buyer_id" property="buyerId" />
     <result column="buyer_name" property="buyerName" />
     <result column="product_id" property="productId" />
+    <result column="product_batch" property="productBatch" />
     <result column="product_name" property="productName" />
     <result column="product_amount" property="productAmount" />
     <result column="product_price" property="productPrice" />
@@ -33,7 +34,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    order_id, seller_id, seller_name, buyer_id, buyer_name, product_id, product_name,
+    order_id, seller_id, seller_name, buyer_id, buyer_name, product_id,product_batch,product_name,
     product_amount, product_price, product_total, creator_id, creator_name, create_time,
     reviewer_id, reviewer_name, reviewer_suggestions, review_time, checker_id, checker_name,
     checker_suggestions, check_time, next_id, previous_id, check_flag, del_flag, check_status
@@ -46,6 +47,24 @@
     <select id="getSystemOrderPage" resultMap="BaseResultMap">
         <include refid="selectSystemOrder"/>
         where seller_id =#{companyId} and creator_id = #{userId} and del_flag = '0' and isnull(next_id)
+        <if test="systemOrder.orderId != null and systemOrder.orderId != ''">
+            AND order_id like concat('%', #{systemOrder.orderId}, '%')
+        </if>
+        <if test="systemOrder.buyerId != null and systemOrder.buyerId != ''">
+            AND buyer_id  = #{systemOrder.buyerId}
+        </if>
+        <if test="systemOrder.productBatch != null and systemOrder.productBatch != ''">
+            AND product_batch like concat('%', #{systemOrder.productBatch}, '%')
+        </if>
+        <if test="systemOrder.productId != null and systemOrder.productId != ''">
+            AND product_id  = #{systemOrder.productId}
+        </if>
+        <if test="systemOrder.reviewerId != null and systemOrder.reviewerId != ''">
+            AND reviewer_id  = #{systemOrder.reviewerId}
+        </if>
+        <if test="systemOrder.checkFlag != null and systemOrder.checkFlag != ''">
+            AND check_flag  = #{systemOrder.checkFlag}
+        </if>
         ORDER BY create_time DESC
     </select>
 
@@ -57,6 +76,8 @@
       <if test="buyerId != null and buyerId != ''">buyer_id,</if>
       <if test="buyerName != null and buyerName != ''">buyer_name,</if>
       <if test="productId != null and productId != ''">product_id,</if>
+      <if test="productName != null and productName != ''">product_name,</if>
+      <if test="productBatch != null and productBatch != ''">product_batch,</if>
       <if test="productAmount != null">product_amount,</if>
       <if test="productPrice != null">product_price,</if>
       <if test="productTotal != null">product_total,</if>
@@ -74,6 +95,8 @@
     <if test="buyerId != null and buyerId != ''">#{buyerId},</if>
     <if test="buyerName != null and buyerName != ''">#{buyerName},</if>
     <if test="productId != null and productId != ''">#{productId},</if>
+    <if test="productName != null and productName != ''">#{productName},</if>
+    <if test="productBatch != null and productBatch != ''">#{productBatch},</if>
     <if test="productAmount != null">#{productAmount},</if>
     <if test="productPrice != null">#{productPrice},</if>
     <if test="productTotal != null">#{productTotal},</if>

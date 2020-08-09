@@ -21,7 +21,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pt.ptcommoncore.util.R;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptdealerorder.entity.SystemOrder;
-import com.pt.ptdealerorder.service.SystemInvalidOrderService;
+import com.pt.ptdealerorder.service.SystemConfirmedOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -37,11 +37,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/invalidorder" )
-@Api(value = "invalidorder")
-public class SystemInvalidOrderController {
+@RequestMapping("/confirmed" )
+@Api(value = "confirmed")
+public class SystemConfirmedOrderController {
 
-    private final SystemInvalidOrderService systemInvalidOrderService;
+    private final SystemConfirmedOrderService systemConfirmedOrderService;
 
     /**
      * 分页查询
@@ -50,9 +50,10 @@ public class SystemInvalidOrderController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
-    public R getInvalidOrderPage(Page page, SystemOrder systemOrder) {
-        return R.ok(systemInvalidOrderService.getInvalidOrderPage(page, SecurityUtils.getId(),SecurityUtils.getCompanyId()));
+    public R getSystemOrderPage(Page page, SystemOrder systemOrder) {
+        return R.ok(systemConfirmedOrderService.getSystemOrderPage(page, systemOrder,SecurityUtils.getId(),SecurityUtils.getCompanyId()));
     }
+
 
 
 }

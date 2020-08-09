@@ -91,4 +91,9 @@ public interface ProdTypeMapper {
      * @return
      */
     List<ProdType> getProdTypeList(@Param("companyId") String companyId);
+    /**
+     * 获取类型列表
+     * @return
+     */
+    List<ProdType> getProdTypeListByName(@Param("companyId") String companyId,@Param("typeName") String typeName);
 }

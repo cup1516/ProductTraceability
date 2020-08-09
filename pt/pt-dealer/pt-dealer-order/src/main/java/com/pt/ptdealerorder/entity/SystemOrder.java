@@ -30,7 +30,7 @@ public class SystemOrder {
     private String sellerName;
 
     /**
-    * 买方id
+    * productBatch
     */
     @ApiModelProperty(value="买方id")
     private String buyerId;
@@ -46,6 +46,12 @@ public class SystemOrder {
     */
     @ApiModelProperty(value="产品id")
     private String productId;
+
+    /**
+     * 产品批次
+     */
+    @ApiModelProperty(value="产品批次")
+    private String productBatch;
 
     /**
     * 产品名称

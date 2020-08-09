@@ -65,6 +65,14 @@ public class ProdTypeController {
     }
 
     /**
+     * 获取类型列表
+     * @return
+     */
+    @GetMapping("/list/{typeName}" )
+    public R getProdTypeListByName(@PathVariable String typeName) {
+        return R.ok(prodTypeService.getProdTypeListByName(SecurityUtils.getCompanyId(),typeName));
+    }
+    /**
      * 根据类型编号获取详细信息
      */
     @GetMapping(value = "/{typeId}")

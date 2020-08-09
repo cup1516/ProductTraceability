@@ -1,44 +1,44 @@
 import request from '@/utils/request'
 
 // 查询节点列表
-export function listType(query) {
+export function listOrder(query) {
     return request({
-      url: '/prod/type/page',
+      url: '/order/order/page',
       method: 'get',
       params: query
     })
   }
   
   // 查询节点详细
-  export function getType(typeId) {
+  export function getOrder(orderId) {
     return request({
-      url: '/prod/type/' + typeId,
+      url: '/order/order/' + orderId,
       method: 'get'
     })
   }
   
   // 新增节点
-  export function addType(data) {
+  export function addOrder(data) {
     return request({
-      url: '/prod/type',
+      url: '/order/order',
       method: 'post',
       data: data
     })
   }
   
   // 修改节点
-  export function updateType(data) {
+  export function updateOrder(data) {
     return request({
-      url: '/prod/type',
+      url: '/order/order',
       method: 'put',
       data: data
     })
   }
   
   // 删除节点
-  export function delType(postId) {
+  export function delOrder(postId) {
     return request({
-      url: '/prod/type/' + postId,
+      url: '/order/order/' + postId,
       method: 'delete'
     })
   }
@@ -46,15 +46,7 @@ export function listType(query) {
   // 查询节点列表
 export function getList() {
   return request({
-    url: '/prod/type/list',
+    url: '/order/order/list',
     method: 'get',
   })
 }
-
-  // 查询节点列表
-  export function getListByName(query) {
-    return request({
-      url: '/prod/type/list/'+query,
-      method: 'get',
-    })
-  }

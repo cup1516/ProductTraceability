@@ -48,8 +48,8 @@ public class SystemMyOrderController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
-    public R getSystemOrderPage(Page page) {
-        return R.ok(systemMyOrderService.getSystemOrderPage(page, SecurityUtils.getId(),SecurityUtils.getCompanyId()));
+    public R getSystemOrderPage(Page page, SystemOrder systemOrder) {
+        return R.ok(systemMyOrderService.getSystemOrderPage(page, systemOrder,SecurityUtils.getId(),SecurityUtils.getCompanyId()));
     }
 
 

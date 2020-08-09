@@ -180,5 +180,8 @@ public class ProdTypeServiceImpl implements ProdTypeService{
     public List<ProdType> getProdTypeList(String companyId) {
         return prodTypeMapper.getProdTypeList(companyId);
     }
-
+    @Override
+    public List<ProdType> getProdTypeListByName(String companyId,String typeName) {
+        return prodTypeMapper.getProdTypeListByName(companyId,typeName);
+    }
 }

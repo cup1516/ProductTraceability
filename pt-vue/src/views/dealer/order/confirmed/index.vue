@@ -1,33 +1,83 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="节点编码" prop="nodeCode">
+      <el-form-item label="订单编号" prop="orderId">
         <el-input
-          v-model="queryParams.nodeCode"
-          placeholder="请输入节点编码"
+          v-model="queryParams.orderId"
+          placeholder=" "
           clearable
-          size="small"
+          size="mini"
+          style="width:140px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="节点名称" prop="nodeName">
-        <el-input
-          v-model="queryParams.nodeName"
-          placeholder="请输入节点名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="节点状态" clearable size="small">
-          <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
+      <el-form-item label="卖方公司" prop="sellerId">
+        <el-select
+          v-model="queryParams.sellerId"
+          size="mini"
+          style="width:140px"
+          filterable
+          clearable 
+          remote
+          reserve-keyword
+          placeholder=" "
+          :remote-method="listCompany"
+          :loading="loading">
+            <el-option
+              v-for="item in companyOptions"
+              :key="item.companyId"
+              :label="item.companyName"
+              :value="item.companyId">
+            </el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="产品批次" prop="productBatch">
+        <el-input
+          v-model="queryParams.productBatch"
+          placeholder=" "
+          clearable
+          size="mini"
+          style="width:140px"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="产品名称" prop="productId">
+        <el-select
+          v-model="queryParams.productId"
+          size="mini"
+          style="width:140px"
+          filterable
+          remote
+          clearable 
+          reserve-keyword
+          placeholder=" "
+          :remote-method="listProduct"
+          :loading="loading">
+              <el-option
+                v-for="item in typeOptions"
+                :key="item.typeId"
+                :label="item.typeName"
+                :value="item.typeId">
+              </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="确认人" prop="checkerId">
+        <el-select
+            v-model="queryParams.reviewerId"
+            size="mini"
+            style="width:140px"
+            filterable
+            clearable 
+            reserve-keyword
+            placeholder=" "
+            :loading="loading">
+              <el-option
+                v-for="item in checkerOptions"
+                :key="item.userId"
+                :label="item.nickName"
+                :value="item.userId">
+              </el-option>
+          </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -35,50 +85,23 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['dealer:node:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['dealer:node:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['dealer:node:remove']"
-        >删除</el-button>
-      </el-col>
-    </el-row>
 
-    <el-table v-loading="loading" :data="nodeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="myorderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="节点编号" width="280" align="center" prop="nodeId" />
-      <el-table-column label="节点编码" align="center" prop="nodeCode" />
-      <el-table-column label="节点名称" align="center" prop="nodeName" />
-      <el-table-column label="状态" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="订单编号"  align="center" prop="orderId" />
+      <el-table-column label="卖公司名称"  align="center" prop="sellerName" />
+      <el-table-column label="产品批次" align="center" prop="productId" />
+      <el-table-column label="产品名称" align="center" prop="productName" />
+      <el-table-column label="数量" align="center" prop="productAmount" />
+      <el-table-column label="单价" align="center" prop="productPrice" />
+      <el-table-column label="总价" align="center" prop="productTotal" />
+      <el-table-column label="确认人" align="center" prop="checkerName" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="170px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -86,20 +109,6 @@
             icon="el-icon-view"
             @click="handleView(scope.row)"
           >查看</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['dealer:node:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['dealer:node:remove']"
-          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -113,41 +122,71 @@
     />
 
     <!-- 添加或修改节点对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" @closed="handleClose" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="650px" @closed="handleClose" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="节点名称" prop="nodeName">
-          <el-input :disabled="isView" v-model="form.nodeName" placeholder="请输入节点名称" />
-        </el-form-item>
-        <el-form-item label="节点编码" prop="nodeCode">
-          <el-input :disabled="isView" v-model="form.nodeCode" placeholder="请输入编码名称" />
-        </el-form-item>
-        <el-form-item label="节点状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-              :disabled="isView"
-            >{{dict.dictLabel}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input :disabled="isView" v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="卖方公司:" prop="sellerName">
+              <span>{{form.sellerName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="买方公司:" prop="buyerName">
+              <span>{{form.buyerName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="产品名称:" prop="productName">
+              <span>{{form.productName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="产品批次:" prop="productBatch">
+              <span>{{form.productBatch}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="产品数量:" prop="productAmount">
+              <span>{{form.productAmount}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="产品单价:" prop="productPrice">
+              <span>{{form.productPrice}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="产品总价:" prop="productTotal">
+              <span>{{form.productTotal}}</span>
+            </el-form-item> 
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="确认人:" prop="checkerName">
+              <span>{{form.checkerName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="确认时间:" prop="checkTime" >
+              <span>{{ parseTime(form.checkTime) }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm" >确 定</el-button>
+        <el-button @click="cancel" v-show="!isView">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listNode ,getNode ,addNode ,updateNode,delNode} from "@/api/dealer/node";
-
+import { listOrder} from "@/api/dealer/confirmed";
+import { getOrder } from "@/api/dealer/myorder";
+import { getListByName as getTypeList} from "@/api/dealer/type";
+import { getUserListPerms } from "@/api/system/user";
 export default {
-  name: "node",
+  name: "confirmed",
   data() {
     return {
       // 是否查看
@@ -163,49 +202,69 @@ export default {
       // 总条数
       total: 0,
       // 节点表格数据
-      nodeList: [],
+      myorderList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       // 状态数据字典
       statusOptions: [],
+      checkFlagOptions:[],
+      checkStatusOptions:[],
+      companyOptions: [],
+      typeOptions:[],
+      creatorOptions:[],
+      checkerOptions:[],
       // 查询参数
       queryParams: {
         current: 1,
         size: 10,
-        nodeCode: undefined,
-        nodeName: undefined,
+        myorderCode: undefined,
+        myorderName: undefined,
         status: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        nodeName: [
+        myorderName: [
           { required: true, message: "节点名称不能为空", trigger: "blur" }
         ],
-        nodeCode: [
+        myorderCode: [
           { required: true, message: "节点编码不能为空", trigger: "blur" }
         ],
-        nodeSort: [
+        myorderSort: [
           { required: true, message: "节点顺序不能为空", trigger: "blur" }
         ]
       }
     };
   },
+
+
   created() {
-    this.getList();
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
     });
+    this.getDicts("order_check_flag").then(response => {
+      this.checkFlagOptions = response.data;
+    });
+    this.getDicts("order_check_status").then(response => {
+      this.checkStatusOptions = response.data;
+    });
+    getUserListPerms("dealer:toconfirm:list").then(response => {
+      this.checkerOptions = response.data;
+    });
+    getUserListPerms("dealer:myorder:list").then(response => {
+      this.creatorOptions = response.data;
+    });
+    this.getList();
   },
   methods: {
     /** 查询节点列表 */
     getList() {
       this.loading = true;
-      listNode(this.queryParams).then(response => {
-        this.nodeList = response.data.records;
+      listOrder(this.queryParams).then(response => {
+        this.myorderList = response.data.records;
         this.total = response.data.total;
         this.loading = false;
       });
@@ -213,6 +272,13 @@ export default {
     // 节点状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
+    },
+
+    checkFlagFormat(row, column) {
+      return this.selectDictLabel(this.checkFlagOptions, row.checkFlag);
+    },
+    checkStatusFormat(row, column) {
+      return this.selectDictLabel(this.checkStatusOptions, row.checkStatus);
     },
     // 取消按钮
     cancel() {
@@ -222,14 +288,14 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        nodeId: undefined,
-        nodeCode: undefined,
-        nodeName: undefined,
-        nodeSort: 0,
-        status: "0",
-        remark: undefined
+        buyerId: '',
+        buyerName: '',
+        productId: '',
+        productName: '',
+        productAmount: 0,
+        productPrice: 0,
+        productTotal: 0,
       };
-      this.resetForm("form");
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -243,16 +309,11 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.nodeId)
+      this.ids = selection.map(item => item.orderId)
       this.single = selection.length!=1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "新增订单";
-    },
+
     /** 关闭对话框回调函数 */
     handleClose(){
       this.isView = false
@@ -261,62 +322,43 @@ export default {
     handleView(row) {
       this.reset();
       this.isView = true
-      const nodeId = row.nodeId || this.ids
-      getNode(nodeId).then(response => {
+      const orderId = row.orderId || this.ids
+      getOrder(orderId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改节点";
+        this.title = "查看订单";
       });
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const nodeId = row.nodeId || this.ids
-      getNode(nodeId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改节点";
-      });
-    },
+
     /** 提交按钮 */
     submitForm: function() {
+      if(this.isView){
+        this.open = false;
+        return
+      }
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.nodeId != undefined) {
-            updateNode(this.form).then(response => {
-                this.msgSuccess("修改成功");
+            addOrder(this.form).then(response => {
+                this.msgSuccess(this.title + "成功");
                 this.open = false;
                 this.getList();
             }).catch(response=>{
               this.msgError(response);
             });
-          } else {
-            addNode(this.form).then(response => {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-            }).catch(response=>{
-              this.msgError(response);
-            });
-          }
         }
       });
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const nodeIds = row.nodeId || this.ids;
-      this.$confirm('是否确认删除节点编号为"' + nodeIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          delNode(nodeIds).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(response=>{
-              this.msgError(response);
-            });
-        })
+ 
+    listCompany(query){
+      ListCompany(query).then(res=>{
+        this.companyOptions = res
+      })
+    },
+ 
+    listProduct(query){
+      getTypeList(query).then(res=>{
+        this.typeOptions = res.data
+      })
     },
   }
 };

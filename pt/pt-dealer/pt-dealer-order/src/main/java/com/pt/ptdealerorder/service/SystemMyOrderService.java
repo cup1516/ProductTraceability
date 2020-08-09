@@ -10,7 +10,7 @@ public interface SystemMyOrderService {
 
     Boolean insertOrder(SystemOrder systemOrder);
 
-    IPage<List<SystemOrder>> getSystemOrderPage(Page page,String userId,String companyId);
+    IPage<List<SystemOrder>> getSystemOrderPage(Page page,SystemOrder systemOrder,String userId,String companyId);
 
     SystemOrder selectOrderById(String orderId);
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pt.ptdealerorder.mapper.SystemInvalidOrderMapper">
+<mapper namespace="com.pt.ptdealerorder.mapper.SystemCheckedOrderMapper">
   <resultMap id="BaseResultMap" type="com.pt.ptdealerorder.entity.SystemOrder">
     <!--@mbg.generated-->
     <!--@Table system_order-->
@@ -44,10 +44,31 @@
 			<include refid="Base_Column_List"/>
 			from system_order
     </sql>
-    <select id="getInvalidOrderPage" resultMap="BaseResultMap">
+    <select id="getSystemOrderPage" resultMap="BaseResultMap">
         <include refid="selectSystemOrder"/>
-        where seller_id =#{companyId}  and (del_flag = '1' or next_id is not null)
-      ORDER BY create_time DESC
+        where seller_id =#{companyId} and creator_id = #{userId} and del_flag = '0' and isnull(next_id) and check_flag = '2'
+        <if test="systemOrder.orderId != null and systemOrder.orderId != ''">
+            AND order_id like concat('%', #{systemOrder.orderId}, '%')
+        </if>
+        <if test="systemOrder.buyerId != null and systemOrder.buyerId != ''">
+            AND buyer_id  = #{systemOrder.buyerId}
+        </if>
+        <if test="systemOrder.productBatch != null and systemOrder.productBatch != ''">
+            AND product_batch like concat('%', #{systemOrder.productBatch}, '%')
+        </if>
+        <if test="systemOrder.productId != null and systemOrder.productId != ''">
+            AND product_id  = #{systemOrder.productId}
+        </if>
+        <if test="systemOrder.creatorId != null and systemOrder.creatorId != ''">
+            AND creator_id  = #{systemOrder.creatorId}
+        </if>
+        <if test="systemOrder.reviewerId != null and systemOrder.reviewerId != ''">
+            AND reviewer_id  = #{systemOrder.reviewerId}
+        </if>
+        <if test="systemOrder.checkStatus != null and systemOrder.checkStatus != ''">
+            AND check_status  = #{systemOrder.checkStatus}
+        </if>
+        ORDER BY create_time DESC
     </select>
 
 

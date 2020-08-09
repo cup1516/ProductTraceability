@@ -100,4 +100,5 @@ public interface ProdTypeService{
      */
     List<ProdType> getProdTypeList(String companyId);
 
+    List<ProdType> getProdTypeListByName(String companyId,String typeName);
 }
