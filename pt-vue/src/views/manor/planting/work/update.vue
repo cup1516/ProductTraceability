@@ -100,6 +100,8 @@ import { getParams } from "@/api/manor/planting/work/detail";
 import { update } from "@/api/manor/planting/work/update";
 import {getCheckUser,getUserName,getMaterial,getBatch,getCrops,getWorkTypes,getFarmlandRegionId,getUserRealName} from "@/api/manor/planting/work/add";
 
+import store from '../../../../store/modules/portal';
+var url = store.state.url;
 
 
 export default {
@@ -180,7 +182,7 @@ export default {
     },
  
       back() {
-        this.$router.push({path:'/planting/planting/myWork'});
+        this.$router.push({path:'/'+url+'/planting/myWork'});
       },
 
       
@@ -254,7 +256,8 @@ export default {
         this.tempWork
       ).then(response=>{
         alert("修改成功");
-           this.getParams();
+        
+        this.getParams();
       })
     },
   }

@@ -154,7 +154,6 @@
       </el-row>
 
       </el-form>
-        <el-button @click="back" type="primary"   size="mini" >返 回</el-button>
         <el-button @click="getPrevious" type="info" v-if= "(!tempInvoice.previousId =='')" size="mini" >查看修改前发票</el-button>
       </div>
     </el-card>

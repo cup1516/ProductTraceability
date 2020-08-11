@@ -23,7 +23,7 @@
         <el-form :inline="true" :model="tempSaleAmonut" size="small" label-width="140px">
 
           <el-form-item label="作物种类:">
-          <el-select  v-model="tempSaleAmonut.crops" placeholder="请选择农作物种类"  style="width:170px">
+          <el-select  v-model="tempSaleAmonut.productName" placeholder="请选择农作物种类"  style="width:170px">
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
           </el-select>
           </el-form-item>
@@ -70,11 +70,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="id" label="编号" width="270"></el-table-column>
-      <el-table-column align="center" prop="crops" label="农作物种类"  width="170" ></el-table-column>
-      <el-table-column align="center" prop="amount" label="数量(kg)" width="170"></el-table-column>
-      <el-table-column align="center" prop="date" label="创建时间" width="170"></el-table-column>
-      <el-table-column align="center" prop="date" label="修改时间" width="170"></el-table-column>
+      <el-table-column align="center" prop="orderId" label="编号" width="270"></el-table-column>
+      <el-table-column align="center" prop="buyerName" label="买方公司" width="200"></el-table-column>
+      <el-table-column align="center" prop="productName" label="农作物种类"  width="170" ></el-table-column>
+      <el-table-column align="center" prop="productAmount" label="数量(kg)" width="170"></el-table-column>
+      <el-table-column align="center" prop="checkTime" label="创建时间" width="170"></el-table-column>
       <el-table-column align="center" label="操作" width="200" >
         <template slot-scope="scope">
           <el-button
@@ -113,23 +113,14 @@ export default {
         pageRow: 10, //每页条数
         name: ""
       },
-      // dialogStatus: "create",
-      dialogFormVisible: false,
-      textMap: {
-        update: "编辑",
-        create: "添加",
-        find:"查找"
-      },
-
       tempSaleAmonut:{
-        id:"",
-        crops:"",
-        date:"",
-        amount:"",
-        type:"",
+        orderId:"",
+        productName:"",
+        checkName:"",
+        productAmount:"",
         stime:"",
         etime:"",
-        invoiceId:""
+        buyerName:""
       },
       crops:[]
     };
@@ -142,7 +133,6 @@ export default {
 
     getList() {
       this.listLoading = true;
-
       list(this.listQuery).then(response => {
         const data = response.data
         this.listLoading = false;
@@ -163,8 +153,8 @@ export default {
     },
 
      getInvoice($index){
-      this.$router.push({path:'/detail/production/invoiceDetail',
-       query:{id:this.list[$index].id}
+      this.$router.push({path:'/detail/orderDetail',
+       query:{id:this.list[$index].orderId}
      });
    },
 
@@ -227,16 +217,14 @@ export default {
       return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1;
     },
  
-
-
     handleSearchList(){
       this.listLoading = true;
       find({
           "pageNum":this.listQuery.pageNum,
           "pageRow":this.listQuery.pageRow,
-          "crops":this.tempProduction.crops,
-          "etime":this.tempProduction.etime,
-          "stime":this.tempProduction.stime,
+          "productName":this.tempSaleAmonut.productName,
+          "etime":this.tempSaleAmonut.etime,
+          "stime":this.tempSaleAmonut.stime,
       }).then(response =>{
         const data = response.data
          this.listLoading = false;

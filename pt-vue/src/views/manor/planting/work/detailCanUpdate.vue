@@ -131,10 +131,7 @@
  
 
       </el-form>
-        <el-button 
-        size="mini" 
-        icon="el-icon-back" 
-        @click="back">返 回</el-button>
+
 
         <el-button
           type="primary"
@@ -151,6 +148,8 @@
 
 import ImgUpload from "../imgUpload";
 import { getParams } from "@/api/manor/planting/work/detail";
+import store from '../../../../store/modules/portal';
+var url = store.state.url;
 
 
 export default {
@@ -223,7 +222,7 @@ export default {
 
  
       back() {
-        this.$router.push({path:'/planting/planting/myWork'});
+        this.$router.push({path:'/'+url+'/planting/myWork'});
       },
 
 
@@ -278,17 +277,6 @@ export default {
       },
     
 
-    // update() {
-    //   //保存
-    //       this.api({
-    //     url: "/painting/work/update",
-    //     method: "post",
-    //     data: this.tempWork
-    //   }).then(() => {
-    //     alert("修改成功");
-    //    this.$router.push({path:'/painting/work'});
-    //   });
-    // },
 
   
   }

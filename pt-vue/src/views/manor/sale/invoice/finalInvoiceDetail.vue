@@ -161,6 +161,10 @@
   </div>
 </template>
 <script>
+
+import { getParams, getPrevious} from "@/api/manor/sale/invoice/checkInvoiceDetail";
+
+
 export default {
   data() {
     return {
@@ -199,7 +203,10 @@ export default {
     },
       enterpriseNames:[],
       crops:[],
-      batch:[]
+      batch:[],
+      id:{
+        id:""
+      }
     };
   },
   created() {
@@ -243,25 +250,19 @@ export default {
     },
 
 
-   
-
     back(){
-     this.$router.push({path:'/fruitEnterprises/finalInvoice'});
+     this.$router.push({path:'/finalInvoice'});
     },
 
-   
-
-
-    getParams(){
-       this.api({
-          url:"invoice/get",
-          method:"get",
-          params:{
-           id:this.$route.query.id
-           }
-        }).then(data => {
-          this.tempInvoice.orderId = data.orderId;
-           this.tempInvoice.orderCreator = data.orderCreator;
+  
+ getParams() {
+    this.id.id=this.$route.query.id
+      getParams(
+         this.id
+      ).then(response => {
+        const data = response.data
+        this.tempInvoice.orderId = data.orderId;
+          this.tempInvoice.orderCreator = data.orderCreator;
           this.tempInvoice.sellerNumber =data.sellerNumber;
           this.tempInvoice.sellerName = data.sellerName;
           this.tempInvoice.buyerId = data.buyerId;
@@ -278,16 +279,16 @@ export default {
           var arr = data.productId.split("-");
           this.tempInvoice.findFarmlandRegionId = arr[0];
           this.tempInvoice.productBatch = arr[1];
-          this.tempInvoice.previousId = data.previousId;
+          this.tempInvoice.beforeInvoiceId = data.beforeInvoiceId;
           this.tempInvoice.creatorName = data.creatorName;
           this.tempInvoice.reviewerName = data.reviewerName;
           this.tempInvoice.reviewerId = data.reviewerId;
           this.tempInvoice.checkFlag = data.checkFlag;
-          this.tempInvoice.checkTime = data.checkTime;
-          
-        })
+          this.tempInvoice.previousId = data.previousId;
+        }
+      );
     },
-
+  
 
   }
 };

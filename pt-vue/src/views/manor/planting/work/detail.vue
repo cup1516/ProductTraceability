@@ -49,12 +49,10 @@
             <el-popover placement="right" title="" trigger="hover">
             <img :src="tempWork.picture" style="width: 350px; height: 250px" >
             <img id="img" 
-            :headers="myHeaders"
             :src="tempWork.picture"
             slot="reference"  :alt="tempWork.picture" style="max-height: 100px;max-width: 200px">
             </el-popover>
           </template>
-
 
         </el-form-item>
           </div></el-col>
@@ -136,10 +134,7 @@
  
 
       </el-form>
-        <el-button 
-        size="mini" 
-        type="primary"  
-        @click="back">返回</el-button>
+
 
       </div>
     </el-card>
@@ -148,12 +143,11 @@
 </template>
 <script>
 
+import store from '../../../../store/modules/portal';
+
 import ImgUpload from "../imgUpload";
 import { getParams } from "@/api/manor/planting/work/detail";
-
-var Token = "Bearer"+store.getters.access_token
-import store from "@/store" ;
-
+var url = store.state.url;
 
 export default {
     components: {ImgUpload},
@@ -184,13 +178,10 @@ export default {
         checkNumber:"",
         checkUser:""
       },
-      myHeaders:{
-      Authorization:Token
-          },
       crops:[],
       id:{
         id:""
-      }
+      },
     };
   },
   created() {
@@ -230,7 +221,7 @@ export default {
 
  
       back() {
-        this.$router.push({path:'/planting/planting/myWork'});
+        this.$router.push({path:'/'+url+'/planting/myWork'});
       },
 
 
@@ -286,17 +277,7 @@ export default {
       },
     
 
-    // update() {
-    //   //保存
-    //       this.api({
-    //     url: "/painting/work/update",
-    //     method: "post",
-    //     data: this.tempWork
-    //   }).then(() => {
-    //     alert("修改成功");
-    //    this.$router.push({path:'/painting/work'});
-    //   });
-    // },
+ 
 
   
   }

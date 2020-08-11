@@ -200,10 +200,7 @@ export default {
     };
   },
   created() {
-    // this.getFarmlandRegionId();
-    // this.getEnterprise();
-    // this.getBatch();
-    // this.getCrops();
+
     this.getParams();
   },
   methods: {
@@ -289,7 +286,7 @@ export default {
           }).then(data =>{
             this.batch = data;
           })
-        },
+  },
 
     update() {
       //修改经销商信息

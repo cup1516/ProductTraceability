@@ -20,14 +20,29 @@
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="tempFinancialForm" size="small" label-width="140px">
-          <el-form-item label="输入搜索：">
-            <el-input v-model="tempFinancialForm.invoiceId" class="input-width" placeholder="票据编号"></el-input>
+        <el-form :inline="true" :model="tempFinancialForm" size="small" label-width="170px">
+          <el-form-item label="输入搜索:">
+            <el-input v-model="tempFinancialForm.orderId" class="input-width" placeholder="票据编号"></el-input>
           </el-form-item>
-          <el-form-item label="企业名:" width="180">
-          <el-select  v-model="tempFinancialForm.buyerName" placeholder="请选择企业"  style="width:170px" >
-            <el-option  v-for="item in enterpriseNames" :key="item.enterpriseName" :label="item.enterpriseName" :value="item.enterpriseName"></el-option>
-          </el-select>
+          <el-form-item label="企业名:">
+           <el-select
+                  v-model="tempFinancialForm.buyerName"
+                  style="width:170px"
+                  filterable
+                  remote
+                  clearable 
+                  reserve-keyword
+                  placeholder=" "
+                  @change="setBuyerName"
+                  :remote-method="listCompany"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in companyOptions"
+                    :key="item.companyId"
+                    :label="item.companyName"
+                    :value="item.companyName">
+                  </el-option>
+                </el-select>
           </el-form-item>
           
            <el-form-item label="商品名:">
@@ -36,7 +51,7 @@
           </el-select>
           </el-form-item>
 
-          <el-form-item label="开始时间：">
+          <el-form-item label="开始时间:">
               <el-date-picker
                 v-model="tempFinancialForm.stime"
                 type="date"
@@ -44,7 +59,7 @@
                 placeholder="选择日期">
               </el-date-picker>
           </el-form-item>
-                   <el-form-item label="截止时间：" label-width="140px">
+                   <el-form-item label="截止时间:" >
               <el-date-picker
                 v-model="tempFinancialForm.etime"
                 type="date"
@@ -79,17 +94,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="id" label="票据编号" width="300"></el-table-column>
-      <el-table-column align="center" prop="money" label="金额" width="170" ></el-table-column>
+      <el-table-column align="center" prop="orderId" label="票据编号" width="300"></el-table-column>
+      <el-table-column align="center" prop="productTotal" label="金额" width="170" ></el-table-column>
       <el-table-column align="center" prop="buyerName" label="收购方" width="170"></el-table-column>
-      <el-table-column align="center" prop="date" label="创建时间" width="170"></el-table-column>
-      <el-table-column align="center" prop="updateDate" label="修改时间" width="170"></el-table-column>
+      <el-table-column align="center" prop="productName" label="产品名称" width="170"></el-table-column>
+      <el-table-column align="center" prop="checkTime" label="生效时间" width="170"></el-table-column>
       <el-table-column align="center" label="操作" width="200" >
         <template slot-scope="scope">
           <el-button
             type="info"
            icon="el-icon-tickets"
-            @click="getInvoice(scope.$index)"
+            @click="getOrder(scope.$index)"
            size="mini" 
           >查看票据</el-button>
         </template>
@@ -108,7 +123,8 @@
 </template>
 <script>
 import { list ,find} from "@/api/manor/financial/financialForm";
-import { getCrops,getEnterprise,getFarmlandRegionId} from "@/api/manor/sale/invoice/add";
+import { getCrops} from "@/api/manor/order/add";
+import{ListCompany}from "@/api/manor/order/add"
 
 export default {
   data() {
@@ -121,36 +137,40 @@ export default {
         pageRow: 10, //每页条数
         name: ""
       },
-      // dialogStatus: "create",
-      dialogFormVisible: false,
-      textMap: {
-        update: "编辑",
-        create: "添加",
-        find:"查找"
-      },
       tempFinancialForm:{
-        id:"",
-        date:"",
-        money:"",
-        invoiceId:"",
-        isDeleted:"",
+        orderId:"",
+        checkTime:"",
+        productTotal:"",
         buyerName:"",
         etime:"",
         stime:"",
-        updateDate:'',
         productName:""
       },
-      enterpriseNames:[],
-      crops:[]
+      crops:[],
+      companyOptions: [],
     };
   },
 
   created() {
     this.getList();
-    this.getEnterprise();
     this.getCrops();
   },
   methods: {
+
+  listCompany(query){
+      ListCompany(query).then(res=>{
+        this.companyOptions = res
+      })
+    },
+
+    setBuyerName(val){
+      this.companyOptions.forEach(company => {
+        if(company.companyId == val){
+          this.form.buyerName = company.companyName
+          return
+        }
+      })
+    },
 
       getList() {
       this.listLoading = true;
@@ -161,14 +181,6 @@ export default {
         this.total = data.totalElements;
         this.pageNum = data.current;
         this.pageRow = data.size; 
-        }
-      );
-    },
-
-   getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-           this.enterpriseNames = data; 
         }
       );
     },
@@ -185,9 +197,9 @@ export default {
     
 
 
-  getInvoice($index){
-      this.$router.push({path:'/detail/financial',
-       query:{id:this.list[$index].id}
+  getOrder($index){
+      this.$router.push({path:'/detail/orderDetail',
+       query:{id:this.list[$index].orderId}
      });
    },
 
@@ -196,7 +208,7 @@ export default {
       find({
           "pageNum":this.listQuery.pageNum,
           "pageRow":this.listQuery.pageRow,
-          "invoiceId":this.tempFinancialForm.invoiceId,
+          "orderId":this.tempFinancialForm.orderId,
           "etime":this.tempFinancialForm.etime,
           "stime":this.tempFinancialForm.stime,
           "buyerName":this.tempFinancialForm.buyerName,
@@ -212,10 +224,11 @@ export default {
     },
 
     handleResetSearch(){
-      this.tempFinancialForm.invoiceId ="",
+      this.tempFinancialForm.orderId ="",
       this.tempFinancialForm.buyerName = "",
       this.tempFinancialForm.etime = "",
       this.tempFinancialForm.stime = ""
+      this.tempFinancialForm.productName = ""
     },
 
     findList(){

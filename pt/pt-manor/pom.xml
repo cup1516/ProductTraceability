@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-<!--222-->
+
 	<groupId>com.producttraceability</groupId>
 	<artifactId>pt-manor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

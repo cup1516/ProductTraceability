@@ -150,7 +150,7 @@
       </el-form>
         <el-button @click="back"  size="mini" >返 回</el-button>
         <el-button @click="update()" type="primary"  v-if="tempInvoice.checkFlag == 0" size="mini" >编 辑</el-button>
-        <el-button @click="updateNew()" type="primary"  v-if="(tempInvoice.checkFlag == 2)" size="mini" >在此基础上新建</el-button>
+        <el-button @click="update()" type="primary"  v-if="(tempInvoice.checkFlag == 2)" size="mini" >在此基础上新建</el-button>
         <el-button @click="getPrevious()" type="info" v-if= "(!tempInvoice.previousId =='')" size="mini" >查看修改前发票</el-button>
       </div>
     </el-card>
@@ -206,6 +206,7 @@ export default {
     this.getParams();
   },
   methods: {
+
 
 
      update(){

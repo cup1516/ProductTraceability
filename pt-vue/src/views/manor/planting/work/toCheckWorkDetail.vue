@@ -130,10 +130,7 @@
         </el-row>
 
       </el-form>
-        <el-button 
-        type="primary" 
-          size="mini"
-        @click="back">返 回</el-button>
+
 
       </div>
     </el-card>
@@ -144,7 +141,8 @@
 
 import ImgUpload from "../imgUpload";
 import { getParams } from "@/api/manor/planting/work/detail";
-
+import store from '../../../../store/modules/portal';
+var url = store.state.url;
 
 export default {
     components: {ImgUpload},
@@ -215,22 +213,10 @@ export default {
     },
 
 
-       back() {
-        this.$router.push({path:'/planting/planting/toCheckWork'});
+      back() {
+        this.$router.push({path:'/'+url+'/planting/toCheckWork'});
       },
 
-  //  get($index){
-  //     this.$router.push({path:'/painting/workDetail',
-  //      query:{id:this.list[$index].id}
-  //    });
-  //  },
-
-      update(){
-        var a = this.tempWork.id;
-          this.$router.push({path:'/painting/updateWork',
-          query:{id:a}
-        });
-      },
 
       getRealName(){
         this.api({

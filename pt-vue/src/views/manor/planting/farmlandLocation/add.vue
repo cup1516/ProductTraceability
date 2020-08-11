@@ -52,6 +52,7 @@
 <script>
 
 import { create } from "@/api/manor/planting/farmlandLocation";
+import store from '../../../../store/modules/portal'
 
 export default {
 
@@ -95,16 +96,20 @@ export default {
   methods: {
 
  
+      
+
       back() {
-        this.$router.push({path:'/planting/planting/farmlandLocation'});
+        var url = store.state.url;
+        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
       },
 
       create() {
+          var url = store.state.url;
         create(
           this.tempFarmlandLocation
         ).then(response =>{
         alert("保存成功！"),
-        this.$router.push({path:'/planting/planting/farmlandLocation'});
+        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
         })
     },
   }

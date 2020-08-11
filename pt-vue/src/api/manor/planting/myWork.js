@@ -15,3 +15,28 @@ export function find(data) {
     data: data
   })
 }
+
+
+export function toCheck(data) {
+  return request({
+    url: '/manor/planting/myWork/toCheck',
+    method: 'post',
+    data: data
+  })
+}
+
+export function backFromCheck(data) {
+  return request({
+    url: '/manor/planting/myWork/backFromCheck',
+    method: 'post',
+    data: data
+  })
+}
+
+export function isDelete(data) {
+  return request({
+    url: '/manor/planting/myWork/delete',
+    method: 'post',
+    data: data
+  })
+}

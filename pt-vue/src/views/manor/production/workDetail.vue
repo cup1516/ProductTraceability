@@ -113,10 +113,7 @@
  
 
       </el-form>
-        <el-button 
-        size="mini" 
-        type="primary"  
-        @click="back">返回</el-button>
+
 
       </div>
     </el-card>

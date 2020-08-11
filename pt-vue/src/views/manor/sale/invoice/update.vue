@@ -84,9 +84,10 @@
   </div>
 </template>
 <script>
-import { getParams,update } from "@/api/manor/sale/invoice/update";
+import { getParams,update,updateNew } from "@/api/manor/sale/invoice/update";
 import { createInvoice,findBuyer,getBatch,getCrops,getFarmlandRegionId,getEnterprise,getRealName,getCheckUser } from "@/api/manor/sale/invoice/add";
-
+import store from '../../../../store/modules/portal'
+var url = store.state.url;
 
 export default {
   data() {
@@ -138,6 +139,7 @@ export default {
     this.getCrops();
     this.getParams();
     this.getCheckUser();
+    this.getRealName();
   },
   methods: {
 
@@ -177,7 +179,8 @@ export default {
  
   
     back(){
-     this.$router.push({path:'/myInvoice'});
+     this.$router.push({path:'/'+url+'/sale/myInvoice'});
+
     },
 
     
@@ -185,23 +188,30 @@ export default {
       //修改经销商信息
       this.tempInvoice.productTotal=this.tempInvoice.productAmount * this.tempInvoice.productPrice;
       this.tempInvoice.productId = this.tempInvoice.findFarmlandRegionId + '-' +this.tempInvoice.productBatch
-     
-    //  this.api({
-    //     url: "myInvoice/update",
-    //     method: "post",
-    //     data: this.tempInvoice
-    //   }).then(() => {
-    //     alert("修改成功！")
-    //  this.$router.push({path:'/fruitEnterprises/myInvoice'});
-    //   });
-
       update(
         this.tempInvoice
       ).then(response =>{
         alert("修改成功！")
-     this.$router.push({path:'/myInvoice'});
+     this.$router.push({path:'/'+url+'/sale/myInvoice'});
+
+
       })
     },
+
+     updateNew() {
+      //修改经销商信息
+      this.tempInvoice.productTotal=this.tempInvoice.productAmount * this.tempInvoice.productPrice;
+      this.tempInvoice.productId = this.tempInvoice.findFarmlandRegionId + '-' +this.tempInvoice.productBatch
+      updateNew(
+        this.tempInvoice
+      ).then(response =>{
+        alert("修改成功！")
+     this.$router.push({path:'/'+url+'/sale/myInvoice'});
+
+      })
+    },
+
+
 
 
 
@@ -221,9 +231,6 @@ export default {
         }
       );
     },
-
-    
-
 
     
    getParams() {
@@ -256,38 +263,6 @@ export default {
         }
       );
     },
-  
-
-    // getParams(){
-    //    this.api({
-    //       url:"invoice/get",
-    //       method:"get",
-    //       params:{
-    //        id:this.$route.query.id
-    //        }
-    //     }).then(data => {
-    //       this.tempInvoice.orderId = data.orderId;
-    //       this.tempInvoice.sellerNumber =data.sellerNumber;
-    //       this.tempInvoice.sellerName = data.sellerName;
-    //       this.tempInvoice.orderCreator = data.orderCreator;
-    //       this.tempInvoice.buyerId = data.buyerId;
-    //       this.tempInvoice.buyerName = data.buyerName;
-    //       this.tempInvoice.buyerNumber = data.buyerNumber;
-    //       this.tempInvoice.productId = data.productId;
-    //       this.tempInvoice.productName = data.productName;
-    //       this.tempInvoice.productAmount = data.productAmount;
-    //       this.tempInvoice.productPrice = data.productPrice;
-    //       this.tempInvoice.productTotal = data.productTotal;
-    //       this.tempInvoice.reviewerId = data.reviewerId;
-         
-    //       this.tempInvoice.orderType = data.orderType;
-    //       var arr = data.productId.split("-");
-    //       this.tempInvoice.findFarmlandRegionId = arr[0];
-    //       this.tempInvoice.productBatch = arr[1];
-    
-    //       this.tempInvoice.checkFlag = data.checkFlag;  
-    //     })
-    // },
   }
 
 };

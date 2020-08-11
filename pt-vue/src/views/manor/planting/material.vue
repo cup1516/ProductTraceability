@@ -123,7 +123,7 @@
   </div>
 </template>
 <script>
-import { list } from "@/api/manor/planting/material";
+import { list ,create,isDelete,update} from "@/api/manor/planting/material";
 
 export default {
   data() {
@@ -281,46 +281,46 @@ export default {
       this.dialogFormVisible = true;
     },
 
+
+ 
+
+
     create() {
-      
       //保存
-      this.api({
-        url: "/painting/material/add",
-        method: "post",
-        data: this.tempMaterial
-      }).then(() => {
-        this.getList();
-        this.dialogFormVisible = false;
-      });
+      create(
+      this.tempMaterial
+        ).then(response =>{
+          this.getList();
+          this.dialogFormVisible = false;
+        })
     },
 
     update() {
-      this.api({
-        url: "/painting/material/update",
-        method: "post",
-        data: this.tempMaterial
-      }).then(() => {
+      update(
+        this.tempMaterial
+      ).then(response =>{
         this.getList();
         this.dialogFormVisible = false;
-      });
+      })
+      
+    },
+
+ 
+    
+    isDelete($index) {
+      this.tempMaterial.id = this.list[$index].id;
+      isDelete(
+        this.tempMaterial
+      ).then(response =>{
+        this.getList();
+        this.dialogFormVisible = false;
+      })
     },
 
 
   
 
 
-    isDelete($index) {
-      this.tempMaterial.id = this.list[$index].id;
-      //修改商品信息
-      this.api({
-        url: "/painting/material/delete",
-        method: "post",
-        data: this.tempMaterial
-      }).then(() => {
-        this.getList();
-        this.dialogFormVisible = false;
-      });
-    }
   }
 };
 </script>
