@@ -17,7 +17,7 @@ public class notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    //名称
+    //发布人
     private String name;
     //状态位
     private Integer status=1;

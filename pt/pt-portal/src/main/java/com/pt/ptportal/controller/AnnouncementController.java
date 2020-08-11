@@ -1,4 +1,5 @@
 package com.pt.ptportal.controller;
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptportal.dao.AnnouncementDao;
 import com.pt.ptportal.entity.Announcement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class AnnouncementController {
     @Autowired
     AnnouncementDao announcementDao;
     @GetMapping("/findAll/{page}/{size}/{company_id}")
-    public Page findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -32,10 +33,10 @@ public class AnnouncementController {
             }
         };
         PageRequest request = PageRequest.of(page,size);
-        return announcementDao.findAll(spec,request);
+        return R.ok(announcementDao.findAll(spec,request)) ;
     }
     @GetMapping("/findAllDesc/{page}/{size}/{company_id}")
-    public Page findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -48,17 +49,16 @@ public class AnnouncementController {
             }
         };
         Pageable pageable = PageRequest.of(page,size, Sort.Direction.DESC,"id");
-        return announcementDao.findAll(spec,pageable);
+        return R.ok(announcementDao.findAll(spec,pageable));
 
     }
 
     //查询，返回的数组类型
     @GetMapping("/findAllById/filter={id}/{company_id}")
-    public List<Announcement> findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
-        //使用工具类获取企业的id，待修改
-//        SecurityUtils.getNickName();
+    public R findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+
         if(announcementDao.findById(id).get().getStatus()==1){
-            return  announcementDao.findAllByIdAndCompanyId(id,String.valueOf(company_id));
+            return  R.ok(announcementDao.findAllByIdAndCompanyId(id,String.valueOf(company_id)));
         }
         else {
             return null;
@@ -66,28 +66,24 @@ public class AnnouncementController {
     }
 
     @GetMapping("/findById/{id}/{company_id}")
-    public Announcement findById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
-            return announcementDao.findByIdAndCompanyId(id,String.valueOf(company_id)).get();
-    }
-
-    @PostMapping("/addOrUpdate")
-    public String addOrUpdate(@RequestBody Announcement announcement){
-
-        Announcement result = announcementDao.save(announcement);
-        if(result !=null){
-            return "success";
+    public R findById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        if(announcementDao.findById(id).get().getStatus()==1){
+            return  R.ok(announcementDao.findAllByIdAndCompanyId(id,String.valueOf(company_id)));
         }
         else {
-            return "error";
-        }
+            return null;
+        }    }
+
+    @PostMapping("/addOrUpdate")
+    public R addOrUpdate(@RequestBody Announcement announcement){
+       return R.ok(announcementDao.save(announcement));
     }
     //逻辑删除，将1变为0
     @DeleteMapping("/delete/{id}/{company_id}")
-    public void delete(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+    public R delete(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
         Announcement announcement = announcementDao.findByIdAndCompanyId(id,String.valueOf(company_id)).get();
         announcement.setStatus(0);
-        announcementDao.save(announcement);
-        //newsDao.deleteById(id);
+        return R.ok(announcementDao.save(announcement));
     }
 
 }

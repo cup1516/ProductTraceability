@@ -35,7 +35,6 @@
       >
         <template slot-scope="scope">
           <el-row>
-<!--            <el-button @click="edit(scope.row)" type="primary" icon="el-icon-edit" size="small">编辑</el-button>-->
             <el-button @click="deleteComment(scope.row)" type="primary" icon="el-icon-delete" size="small">删除</el-button>
           </el-row>
         </template>
@@ -57,24 +56,17 @@
 
 <script>
   import qs from 'qs'
+  import { deleteComment, findComment, loadComment } from '../../../../api/portal/comment'
 
   export default {
     methods: {
-      edit(row){
-        this.$router.push({
-          path:'/updateNews',
-          query:{
-            id:row.id
-          }
-        })
-      },
       deleteComment(row) {
         this.$confirm('是否删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/comment/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
+          deleteComment(row.id,this.$store.getters.company_id).then(() => {
               this.$message({
                   type: 'info',
                   message: '已删除成功',
@@ -90,32 +82,28 @@
         })
       },
       page(currentPage) {
-        const _this = this
-        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        loadComment(currentPage,this.$store.getters.company_id).then(resp => {
+          this.tableData = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
+        })
+      },
+      loadComment()
+      {
+        loadComment(1,this.$store.getters.company_id).then(resp => {
+          this.tableData = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/comment/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
-            console.log(resp)
-            this.tableData = resp;
+        findComment(qs.stringify(param),this.$store.getters.company_id).then(resp =>{
+          this.tableData = resp.data;
           }
         )
       },
-      loadComment()
-      {
-        var _this = this
-        this.$axios.get('/portal/comment/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
-        })
-      }
+
     },
     data(){
       return {

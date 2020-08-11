@@ -22,6 +22,7 @@
 </template>
 
 <script>
+    import { listNotice } from '../../../api/portal/notice'
     export default {
         name: 'noticeIndex',
       data(){
@@ -41,14 +42,12 @@
       },
       methods:{
         loadNotice () {
-          var _this = this
-          this.$axios.get('/portal/notice/findAllDesc/0/4/'+this.$store.getters.company_id).then(resp => {
-            _this.notice = resp.content;
+          listNotice(1,this.$store.getters.company_id).then(resp => {
+            this.notice = resp.data.content;
             let i;
             for ( i=0;i<=3;i++){
               this.notice[i].img=this.BannerImg[i]
             }
-
           })
         },
       }

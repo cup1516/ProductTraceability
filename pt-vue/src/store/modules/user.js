@@ -9,7 +9,7 @@ import store from '../../store/modules/portal'
 const user = {
   state: {
     access_token: getToken(),
-    name: '',//user_name
+    user_name: '',
     user_id:'',
     avatar: '',
     nick_name:'',
@@ -25,8 +25,8 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.access_token = token
     },
-    SET_NAME: (state, name) => {
-      state.name = name
+    SET_USERNAME: (state, name) => {
+      state.user_name = name
     },
     SET_ID: (state, id) => {
       state.user_id = id
@@ -61,10 +61,10 @@ const user = {
       const uuid = user.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
+          console.log(res)
           commit('SET_TOKEN', res.access_token)
-          commit('SET_NAME', res.user_name)
           commit('SET_ID',res.user_id)
-
+          commit('SET_USERNAME', res.user_name)
           let params={
             userId:res.user_id
           };
@@ -87,15 +87,15 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(res => {
           const data = res.data
+          console.log(data)
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
             commit('SET_PERMISSIONS', data.permissions)
           } else {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
-          commit('SET_NAME', data.userName)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_NICKNAME', data.avatar)
+          commit('SET_AVATAR', data.userDto.avatar)
+          commit('SET_NICKNAME', data.userDto.nickName)
           resolve(res)
         }).catch(error => {
           reject(error)

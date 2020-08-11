@@ -12,6 +12,4 @@ public interface noticeDao extends JpaRepository<notice, Integer>, JpaSpecificat
      List<notice> findAllByNameAndStatusAndCompanyId(String name, Integer status,String companyId);
      List<notice> findAllByStatusAndIsCheckAndCompanyId(Integer status, int isCheck,String companyId);
      Optional<notice> findByIdAndCompanyIdAndStatus(Integer id, String companyId,Integer status);
-     notice findByName(String name);
-
 }

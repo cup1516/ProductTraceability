@@ -1,6 +1,29 @@
 <template>
   <div>
     <notice-editor @onSubmit="loadNotice()" ref="edit" style="text-align: left;margin-bottom: 20px;margin-top: 20px"></notice-editor>
+    <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-form :inline="true" :model="filters">
+        <el-form-item>
+          <el-input v-model="filters.id" placeholder="编号"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" v-on:click="findById()">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <el-dialog :visible.sync="isShow2">
+      <el-card style="margin: 35px auto 0 auto">
+        <div>
+          <span style="font-size: 20px;text-align: center"><strong>{{notice.title}}</strong></span>
+          <br>
+          <el-divider content-position="left" style="text-align: center;color: #475669"><span style="text-align: center">发布时间:{{notice.createTime}}</span></el-divider>
+          <div class="markdown-body">
+
+            <div style="text-align: left" v-html="notice.noticeHtml"></div>
+          </div>
+        </div>
+      </el-card>
+    </el-dialog>
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="tableData"
@@ -23,10 +46,10 @@
           prop="title"
           label="通告标题">
         </el-table-column>
-
-        <el-table-column
-          prop="noticeContentMd"
-          label="通告内容">
+        <el-table-column label="通告内容">
+          <template slot-scope="scope">
+            <p :href="scope.row.title" title="点击查看内容详情"  class="article-link" @click="showNotice(scope.row)">{{scope.row.title}}</p>
+          </template>
         </el-table-column>
         <el-table-column align="center"  label="状态" width="100">
           <template slot-scope="scope">
@@ -83,7 +106,14 @@
         </el-table-column>
       </el-table>
     </el-card>
-
+    <el-pagination
+      background
+      style="text-align: center"
+      layout="prev, pager, next"
+      :total="total"
+      :page-size="pageSize"
+      @current-change="page">
+    </el-pagination>
   </div>
 
 </template>
@@ -91,13 +121,18 @@
 <script>
   import qs from 'qs'
   import NoticeEditor from '../../notice/noticeEditor'
-  import store from "@/store" ;
+  import { backCheck, deleteNotice, findNotice, loadNotice, tocheck } from '../../../../api/portal/notice'
   export default {
     components: {NoticeEditor},
     methods: {
-
+      showNotice(item){
+        this.isShow2 = true
+        this.notice.title = item.title
+        this.notice.noticeHtml = item.noticeHtml
+        this.notice.createTime = item.createTime
+      },
       backCheck(item){
-        this.$axios.post('/portal/notice/backCheck',item).then(resp => {
+        backCheck(item).then(resp => {
           console.log(resp)
             this.$message({
               type: 'info',
@@ -108,22 +143,26 @@
       },
 
       toCheck(item){
-        this.$axios.post('/portal/notice/tocheck',item).then(resp => {
-            console.log(resp)
-
+        tocheck(item).then(resp => {
               this.$message({
                 type: 'info',
                 message: '送审成功',
               })
               this.loadNotice()
         })
-
+      },
+      page(currentPage) {
+        loadNotice(currentPage,this.$store.state.user.user_name,this.$store.getters.company_id).then(resp => {
+          this.tableData = resp.data.content;
+          this.pageSize = resp.size;
+          this.total = resp.totalElements
+        })
       },
       loadNotice(){
-          this.userName= store.getters.name
-          this.$axios.get('/portal/notice/findAll/' + this.userName+'/'+this.$store.getters.company_id).then(resp => {
-            console.log(resp)
-            this.tableData = resp;
+        loadNotice(1,this.$store.state.user.user_name,this.$store.getters.company_id).then(resp => {
+            this.tableData = resp.data.content;
+            this.pageSize = resp.size;
+            this.total = resp.totalElements
           })
       },
 
@@ -143,7 +182,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/notice/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
+          deleteNotice(row.id,this.$store.getters.company_id).then(resp => {
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
@@ -161,8 +200,8 @@
 
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/notice/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
-            this.tableData = resp;
+        findNotice(qs.stringify(param),this.$store.getters.company_id).then(resp =>{
+          this.tableData = [resp.data];
           }
         )
       },
@@ -179,6 +218,8 @@
         currentPage:'',
         tableData: [],
         userName:'',
+        isShow2:false,
+        notice:{}
       }
     },
     created() {

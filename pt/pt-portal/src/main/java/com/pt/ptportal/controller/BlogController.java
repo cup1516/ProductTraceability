@@ -1,4 +1,5 @@
 package com.pt.ptportal.controller;
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptportal.dao.BlogDao;
 import com.pt.ptportal.entity.Blog;
 import lombok.extern.slf4j.Slf4j;
@@ -23,26 +24,21 @@ public class BlogController {
     }
 
     @PostMapping("/addOrUpdate")
-    public String addOrUpdate(@RequestBody Blog blog){
+    public R addOrUpdate(@RequestBody Blog blog){
 
-        Blog result = blogDao.save(blog);
-        if(result !=null){
-            return "success";
-        }
-        else {
-            return "error";
-        }
+        return R.ok(blogDao.save(blog));
+
     }
     @DeleteMapping("/delete/{id}/{company_id}")
-    public void delete(@PathVariable("id") int id,@PathVariable("company_id") String company_id){
+    public R delete(@PathVariable("id") int id,@PathVariable("company_id") String company_id){
         Blog blog = blogDao.findByBlogIdAndCompanyId(id,String.valueOf(company_id));
         blog.setState(false);
-        blogDao.save(blog);
+        return R.ok(blogDao.save(blog));
     }
 
     //降序
     @GetMapping("/findAllDesc/{page}/{size}/{company_id}")
-    public Page<Blog> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -56,21 +52,21 @@ public class BlogController {
             }
         };
         PageRequest request = PageRequest.of(page,size, Sort.Direction.DESC,"BlogId");
-        return blogDao.findAll(spec,request);
+        return R.ok(blogDao.findAll(spec,request));
     }
 
     @GetMapping("/get/available/{company_id}")
-    public List<Blog> getAvailable(@PathVariable( "company_id") String company_id){
-        return blogDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id));
+    public R getAvailable(@PathVariable( "company_id") String company_id){
+        return R.ok(blogDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id)));
     }
 
     @GetMapping("/get/by-user/{id}/{company_id}")
-    public Iterable<Blog> getBlogByUser(@PathVariable("id") String id,@PathVariable( "company_id") String company_id){
-        return blogDao.findAllByUserIdAndCompanyId(id,String.valueOf(company_id));
+    public R getBlogByUser(@PathVariable("id") String id,@PathVariable( "company_id") String company_id){
+        return R.ok(blogDao.findAllByUserIdAndCompanyId(id,String.valueOf(company_id)));
     }
     @GetMapping("/get/by-BlogId/{id}/{company_id}")
-    public List<Blog> getBlogByBlogId(@PathVariable("id") int id,@PathVariable( "company_id") String company_id){
-        return blogDao.findAllByBlogIdAndCompanyId(id,String.valueOf(company_id));
+    public R getBlogByBlogId(@PathVariable("id") int id,@PathVariable( "company_id") String company_id){
+        return R.ok(blogDao.findAllByBlogIdAndCompanyId(id,String.valueOf(company_id)));
     }
 
 

@@ -28,6 +28,7 @@
 <script>
 
   import NavMenu from '../common/NavMenu'
+  import { listAnnouncement } from '../../../api/portal/announcement'
   export default {
     name: 'announcementShow',
     components: { NavMenu },
@@ -46,20 +47,18 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/4/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.announcement = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listAnnouncement(currentPage,this.$store.getters.company_id).then(resp => {
+          _this.announcement = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
         })
       },
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/Announcement/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.announcement = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listAnnouncement(1,this.$store.getters.company_id).then(resp => {
+          _this.announcement = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
         })
       },
     }

@@ -17,6 +17,8 @@
 </template>
 
 <script>
+    import { findById } from '../../../api/portal/announcement'
+
     export default {
       name: "announcementDetail",
       data () {
@@ -29,10 +31,8 @@
       },
       methods: {
         findById() {
-          var _this = this
-          this.$axios.get('/portal/Announcement/findById/' + this.$route.query.id+'/'+this.$store.getters.company_id).then(resp => {
-            _this.announcement = resp;
-            console.log(_this.announcement)
+          findById(this.$route.query.id,this.$store.getters.company_id).then(resp => {
+            this.announcement = resp.data[0];
           })
         },
       }

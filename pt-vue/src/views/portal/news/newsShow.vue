@@ -12,7 +12,8 @@
             <el-image
               style="margin:18px 0 0 30px;width:100px;height: 100px"
               :src="item.profile"
-              fit="cover"></el-image>
+              fit="cover">
+            </el-image>
             <el-divider></el-divider>
           </div>
         </el-card>
@@ -34,6 +35,7 @@
 <script>
   import {mapGetters} from "vuex";
   import NavMenu from '../common/NavMenu'
+  import { loadNews } from '../../../api/portal/new'
   export default {
     name: 'newsShow',
     components: { NavMenu },
@@ -50,25 +52,21 @@
       ...mapGetters(['url'])
     },
     mounted () {
-      this.loadArticles()
+      this.loadNews()
     },
     methods: {
       page(currentPage) {
-        const _this = this
-        this.$axios.get('/portal/News/findAll/'+(currentPage-1)+'/4/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.news = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        loadNews(currentPage,this.$store.getters.company_id).then(resp => {
+          this.news = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
-      loadArticles () {
-        var _this = this
-        this.$axios.get('/portal/News/findAll/0/4/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.news = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+      loadNews () {
+        loadNews(1,this.$store.getters.company_id).then(resp => {
+          this.news = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
     }

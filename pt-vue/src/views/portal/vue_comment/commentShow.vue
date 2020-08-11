@@ -31,6 +31,7 @@
 <script>
 
   import NavMenu from '../common/NavMenu'
+  import { listComment } from '../../../api/portal/comment'
   export default {
     name: 'commentShow',
     components: { NavMenu },
@@ -49,20 +50,19 @@
     methods: {
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/comment/findAll/'+(currentPage-1)+'/6/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.comment = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listComment(currentPage,this.$store.getters.company_id).then(resp => {
+          _this.comment = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements;
         })
       },
       loadArticles () {
         var _this = this
-        this.$axios.get('/portal/comment/findAll/0/6/'+this.$store.getters.company_id).then(resp => {
+        listComment(1,this.$store.getters.company_id).then(resp => {
           console.log(resp)
-          _this.comment = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+          _this.comment = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements;
         })
       },
     }
@@ -72,19 +72,9 @@
 <style scoped>
   .articles-area {
     width: 90%;
-
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 20px;
     padding-top: 10px;
-  }
-
-  .article-link {
-    text-decoration: none;
-    color: #606266;
-  }
-
-  .article-link:hover {
-    color: #409EFF;
   }
 </style>

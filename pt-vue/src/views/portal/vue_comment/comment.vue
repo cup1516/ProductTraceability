@@ -11,6 +11,7 @@
 
 <script>
 import b_comment from './b_comment.vue'
+import { saveComment } from '../../../api/portal/comment'
 export default {
   name:'comment',
 	components: {
@@ -45,13 +46,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-          this.$axios
-            .post('/portal/comment/addOrUpdate',{
-                commentName: this.comment_name,
-                commentText: this.comment_text,
-                companyId :  this.$store.getters.company_id
-              }
-            ).then(resp => {
+        saveComment({
+          commentName: this.comment_name,
+          commentText: this.comment_text,
+          companyId :  this.$store.getters.company_id
+        }).then(resp => {
             console.log(resp);
               this.$message({
                 type: 'info',

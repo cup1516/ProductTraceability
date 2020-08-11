@@ -10,7 +10,7 @@
   import NavMenu from './common/NavMenu'
   export default {
     name: 'portalIndex',
-    components: { NavMenu }
+    components: { NavMenu },
   }
 </script>
 

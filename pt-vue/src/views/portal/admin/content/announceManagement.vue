@@ -81,6 +81,7 @@
 <script>
   import qs from 'qs'
   import AnnouncementEditor from '../../announcement/announcementEditor'
+  import { deleteAnnouncement, findAnnouncement, listAnnouncement } from '../../../../api/portal/announcement'
 
   export default {
     components: {AnnouncementEditor},
@@ -108,12 +109,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('/portal/Announcement/delete/' + row.id+'/'+this.$store.getters.company_id).then(resp => {
-                console.log(resp)
-                this.$message({
-                  type: 'info',
-                  message: '已删除成功',
-                })
+          deleteAnnouncement(row.id,this.$store.getters.company_id).then(() => {
+            this.msgSuccess("删除成功");
             this.loadAnnouncement()
             })
           }
@@ -124,35 +121,29 @@
           })
         })
       },
+
       page(currentPage) {
-        const _this = this
-        this.$axios.get('/portal/Announcement/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listAnnouncement(currentPage,this.$store.getters.company_id).then(resp => {
+          this.announcement = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
+        })
+      },
+      loadAnnouncement () {
+        listAnnouncement(1,this.$store.getters.company_id).then(resp => {
+          this.tableData = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
       findById(){
         let param = {filter:this.filters.id};
-        this.$axios.get('/portal/Announcement/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
-            console.log(resp)
-            this.tableData = resp;
+        findAnnouncement( qs.stringify(param),this.$store.getters.company_id).then(resp =>{
+            this.tableData = resp.data;
           }
         )
       },
-      addAnnouncement(){
-        this.$router.push('/announcementEditor')
-      },
-      loadAnnouncement(){
-        var _this = this
-        this.$axios.get('/portal/Announcement/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
-        })
-      }
+
     },
     data(){
       return {

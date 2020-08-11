@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <el-row :span="24" class="toolbar" style="padding-bottom: 10px;padding-top: 10px;text-align: center">
       <el-form :inline="true" :model="filters">
         <el-form-item>
@@ -97,7 +95,7 @@
 </template>
 
 <script>
-  import qs from 'qs'
+  import { deleteBlog, getBlog, listBlog, showBlog } from '../../../../api/portal/blog'
 
   export default {
     methods: {
@@ -105,10 +103,9 @@
       showBlog(item){
         this.isShow2 = true
         this.blog1 = item
-        this.$axios.get('/portal/Blogcomment/get/by-blog/'+item.blogId+'/'+this.$store.getters.company_id).then(resp => {
-          this.comment=resp;
+        showBlog(item.blogId,this.$store.getters.company_id).then(resp => {
+          this.comment=resp.data;
         })
-
       },
 
       deleteBlog(row) {
@@ -117,8 +114,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios.delete('/portal/blog/delete/' + row.blogId+'/'+this.$store.getters.company_id).then(resp => {
-              console.log(resp)
+          deleteBlog(row.blogId,this.$store.getters.company_id).then(resp => {
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
@@ -135,32 +131,27 @@
       },
 
       findById(){
-        this.$axios.get('/portal/blog/get/by-BlogId/'+this.blogId+'/'+this.$store.getters.company_id).then(resp =>{
+        getBlog(this.blogId,this.$store.getters.company_id).then(resp =>{
           console.log(resp)
-          this.blog = resp;
+          this.blog = resp.data;
           }
         )
       },
       loadBlog(){
-
         var _this = this
-        this.$axios.get('/portal/blog/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
+        listBlog(1,this.$store.getters.company_id).then(resp => {
           console.log(resp)
-          _this.blog = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+          _this.blog = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
         })
-        // this.$axios.get('/blog/get/all').then(resp => {
-        //   this.blog=resp.data;
-        // })
       },
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.blog = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listBlog(currentPage,this.$store.getters.company_id).then(resp => {
+          _this.blog = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
         })
       },
     },

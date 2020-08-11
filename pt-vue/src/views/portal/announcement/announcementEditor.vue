@@ -27,7 +27,7 @@
           v-model="announcement.announcementContentMd"
           style="height: 100%;"
           ref=md
-          @save="saveArticles"
+          @save="save"
           fontSize="16px">
         </mavon-editor>
       </el-row>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+
+  import { saveAnnouncement } from '../../../api/portal/announcement'
 
   export default {
     name: 'announcementEditor',
@@ -61,38 +63,31 @@
           failTime: '',
         }
       },
-      saveArticles (value, render) {
+      save (value, render) {
         // value 是 md，render 是 html
         this.$confirm('是否保存并发布公告?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-                  this.$axios
-                          .post('/portal/Announcement/addOrUpdate',{
-                                    id: this.announcement.id,
-                                    announcementTitle: this.announcement.announcementTitle,
-                                    announcementContentMd: value,
-                                    announcementHtml: render,
-                                    failTime: this.announcement.failTime,
-                                    companyId:this.$store.getters.company_id
-                                  }
-                          ).then(resp => {
-                    console.log(resp)
-                    if (resp && resp === 'success') {
-                      this.$message({
-                        type: 'info',
-                        message: '已保存成功'
-                      })
-                    }
-                  })
-                }
-        ).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消发布'
+          saveAnnouncement(
+            this.announcement = {
+              id: this.announcement.id,
+              announcementTitle: this.announcement.announcementTitle,
+              announcementContentMd: value,
+              announcementHtml: render,
+              failTime: this.announcement.failTime,
+              companyId:this.$store.getters.company_id
           })
-        })
+          .then(() => {
+            this.msgSuccess("新增成功");
+            this.dialogFormVisible = false
+            this.$emit('onSubmit')
+          })
+        }
+        ).catch(resp=>{
+          this.msgError(resp);
+        });
       },
     }
   }

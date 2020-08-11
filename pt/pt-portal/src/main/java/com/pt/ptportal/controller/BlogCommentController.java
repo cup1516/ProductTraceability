@@ -1,5 +1,6 @@
 package com.pt.ptportal.controller;
 
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptportal.dao.BlogCommentDao;
 import com.pt.ptportal.entity.BlogComments;
 import lombok.extern.slf4j.Slf4j;
@@ -25,23 +26,17 @@ public class BlogCommentController {
     }
 
     @GetMapping("/getAll/{company_id}")
-    public List<BlogComments> getAll(@PathVariable("company_id") String company_id){
-      return blogCommentDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id));
+    public R getAll(@PathVariable("company_id") String company_id){
+      return R.ok(blogCommentDao.findAllByStateIsTrueAndCompanyId(String.valueOf(company_id)));
     }
 
     @PostMapping("/addOrUpdate")
-    public String addOrUpdate(@RequestBody BlogComments blogComments){
-        BlogComments result = blogCommentDao.save(blogComments);
-        if(result !=null){
-            return "success";
-        }
-        else {
-            return "error";
-        }
+    public R addOrUpdate(@RequestBody BlogComments blogComments){
+       return R.ok(blogCommentDao.save(blogComments));
     }
 
     @GetMapping("/get/by-blog/{id}/{company_id}")
-    public Iterable<BlogComments> getCommentByBlog(@PathVariable("id")  int id,@PathVariable("company_id") String company_id){
-        return blogCommentDao.findAllByBlogIdAndCompanyIdAndState(id,String.valueOf(company_id),true);
+    public R getCommentByBlog(@PathVariable("id")  int id,@PathVariable("company_id") String company_id){
+        return R.ok(blogCommentDao.findAllByBlogIdAndCompanyIdAndState(id,String.valueOf(company_id),true));
     }
 }

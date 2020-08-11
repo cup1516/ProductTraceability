@@ -20,7 +20,7 @@
           v-model="news.newsContentMd"
           style="height: 100%;"
           ref=md
-          @save="saveArticles"
+          @save="save"
           fontSize="16px">
           <button type="button" class="op-icon el-icon-document" :title="'摘要/封面'" slot="left-toolbar-after"
                   @click="dialogVisible = true"></button>
@@ -65,6 +65,8 @@
 
 <script>
   import ImgUpload from "./imgUpload";
+  import { saveAnnouncement } from '../../../api/portal/announcement'
+  import { saveNews } from '../../../api/portal/new'
 
   export default {
     name: 'newsEditor',
@@ -88,34 +90,28 @@
           failTime: '',
         }
       },
-      saveArticles (value, render) {
+    save (value, render) {
         // value 是 md，render 是 html
         this.$confirm('是否保存并发布文章?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$axios
-              .post('/portal/News/addOrUpdate',{
-                id: this.news.id,
-                newTitle: this.news.newTitle,
-                newsContentMd: value,
-                newsHtml: render,
-                newsAbstract: this.news.newsAbstract,
-                profile: this.news.profile,
-                failTime: this.news.failTime,
-                companyId: this.$store.getters.company_id
-                }
-              ).then(resp => {
-              console.log(resp)
-              if (resp && resp === 'success') {
-                this.$message({
-                  type: 'info',
-                  message: '已保存成功'
-                })
-                this.dialogFormVisible = false
-                this.$emit('onSubmit')
-              }
+          saveNews(
+            this.news = {
+              id: this.news.id,
+              newTitle: this.news.newTitle,
+              newsContentMd: value,
+              newsHtml: render,
+              newsAbstract: this.news.newsAbstract,
+              profile: this.news.profile,
+              failTime: this.news.failTime,
+              companyId: this.$store.getters.company_id
+            }
+          ).then(resp => {
+            this.msgSuccess("新增成功");
+            this.dialogFormVisible = false
+            this.$emit('onSubmit')
             })
           }
         ).catch(() => {

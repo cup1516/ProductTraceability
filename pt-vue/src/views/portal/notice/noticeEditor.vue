@@ -33,7 +33,7 @@
           </mavon-editor>
         </el-row>
       </el-dialog>
-      <el-button @click="isShow = true" type="primary"style="left: 20px">
+      <el-button @click="isShow = true" type="primary" style="left: 20px">
         新增通告
       </el-button>
 
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+    import { saveNotice } from '../../../api/portal/notice'
+
     export default {
         name: 'noticeEditor',
       data(){
@@ -50,18 +52,17 @@
           }
       },
       mounted () {
-        this.notice.name = this.$store.getters.name
+        this.notice.name = this.$store.state.user.user_name
       },
       methods:{
         clear () {
           this.notice = {
-            name:this.$store.getters.name,
+            name:this.$store.state.user.user_name,
             title: '',
             failTime: '',
             noticeContentMd: '',
           }
         },
-
         saveNotice (value, render) {
           // value 是 md，render 是 html
           this.$confirm('是否保存?', '提示', {
@@ -69,27 +70,23 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-              this.$axios
-                .post('/portal/notice/addOrUpdate', {
-                    id: this.notice.id,
-                    title:this.notice.title,
-                    name: this.notice.name,
-                    noticeContentMd: value,
-                    noticeHtml: render,
-                    failTime: this.notice.failTime,
-                    companyId: this.$store.getters.company_id
-                  }
-                ).then(resp => {
-                console.log(resp)
-
+            saveNotice(
+              this.notice = {
+                id: this.notice.id,
+                title:this.notice.title,
+                name: this.notice.name,
+                noticeContentMd: value,
+                noticeHtml: render,
+                failTime: this.notice.failTime,
+                companyId: this.$store.getters.company_id
+              }).then(resp => {
                   this.$message({
                     type: 'info',
                     message: '已保存成功',
                   })
                   this.isShow = false;
                   this.$emit('onSubmit')
-              })
-            }
+              })}
           ).catch(() => {
             this.$message({
               type: 'info',

@@ -101,6 +101,7 @@
     //设置头部，token
     var Token = "Bearer"+store.getters.access_token
     import store from "@/store" ;
+    import { deleteNews, findNew, loadNews } from '../../../../api/portal/new'
     export default {
       components: {NewsEditor},
       methods: {
@@ -130,51 +131,39 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-              this.$axios.delete('/portal/News/delete/' + row.id +'/'+this.$store.getters.company_id).then(resp => {
-                console.log(resp)
-                  this.$message({
-                    type: 'info',
-                    message: '已删除成功',
-                    callback: action => {
-                    }
-                  })
-                this.loadNews()
-              })
-            }
-          ).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
+          deleteNews(row.id,this.$store.getters.company_id).then(() => {
+            this.msgSuccess("删除成功");
+            this.loadNews()
             })
+          }
+        ).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      },
+        page(currentPage) {
+          loadNews(currentPage,this.$store.getters.company_id).then(resp => {
+            this.tableData = resp.data.content;
+            this.pageSize = resp.data.size;
+            this.total = resp.data.totalElements
           })
         },
-        page(currentPage) {
-          const _this = this
-          this.$axios.get('/portal/News/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
-            console.log(resp)
-            _this.tableData = resp.content;
-            _this.pageSize = resp.size;
-            _this.total = resp.totalElements
+        loadNews () {
+          loadNews(1,this.$store.getters.company_id).then(resp => {
+            this.tableData = resp.data.content;
+            this.pageSize = resp.data.size;
+            this.total = resp.data.totalElements
           })
         },
         findById(){
           let param = {filter:this.filters.id};
-          this.$axios.get('/portal/News/findAllById/'+qs.stringify(param)+'/'+this.$store.getters.company_id).then(resp =>{
-              console.log(resp)
-              this.tableData = resp;
-          }
+          findNew( qs.stringify(param),this.$store.getters.company_id).then(resp =>{
+              this.tableData = resp.data;
+            }
           )
         },
-        loadNews(){
-        var _this = this
-        this.$axios.get('/portal/News/findAll/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
-        })
-
-      }
     },
       data(){
         return {

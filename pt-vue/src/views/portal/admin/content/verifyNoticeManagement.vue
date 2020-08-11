@@ -65,37 +65,32 @@
 <script>
   import qs from 'qs'
   import NoticeEditor from '../../notice/noticeEditor'
+  import { backCheck3, listNotice, listNoticeAll } from '../../../../api/portal/notice'
 
   export default {
     components: {NoticeEditor},
     methods: {
       page(currentPage) {
-        const _this = this
-        this.$axios.get('/portal/notice/findAll/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.data.content;
-          _this.pageSize = resp.data.size;
-          _this.total = resp.data.totalElements
+        listNotice(currentPage,this.$store.getters.company_id).then(resp => {
+          this.notice = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
       backCheck(item){
-        this.$axios.post('/portal/notice/backCheck3',item).then(resp => {
-          console.log(resp)
-            this.$message({
-              type: 'info',
-              message: '成功撤回',
-            })
-            this.loadNotice()
+        backCheck3(item).then(() => {
+          this.$message({
+            type: 'info',
+            message: '成功打回',
+          })
+          this.loadNotice()
         })
       },
-
       loadNotice(){
-        var _this = this
-        this.$axios.get('/portal/notice/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.tableData = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listNotice(1,this.$store.getters.company_id).then(resp => {
+          this.tableData = resp.data.content;
+          this.pageSize = resp.size;
+          this.total = resp.totalElements
         })
       },
     },

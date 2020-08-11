@@ -73,6 +73,8 @@
 <script>
 
   import noticeIndex from '../notice/noticeIndex'
+  import { listAnnouncement } from '../../../api/portal/announcement'
+  import { listNews } from '../../../api/portal/new'
   export default {
     name: 'newsIndex',
     components: {noticeIndex},
@@ -88,26 +90,26 @@
       }
     },
     mounted () {
-      this.loadArticles();
+
+      this.loadNews();
       this.loadAnnouncement();
     },
     methods: {
-      loadArticles () {
-        var _this = this
-        this.$axios.get('/portal/News/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
-          _this.news = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+      loadNews () {
+        listNews(1,this.$store.getters.company_id).then(resp =>{
+          this.news = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
       loadAnnouncement () {
-        var _this = this
-        this.$axios.get('/portal/Announcement/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
-          _this.announcement = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listAnnouncement(1,this.$store.getters.company_id).then(resp => {
+          this.announcement = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
+
     }
   }
 </script>

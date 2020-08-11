@@ -1,8 +1,6 @@
 package com.pt.ptportal.controller;
 
-
-
-
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptportal.entity.News;
 import com.pt.ptportal.entity.comment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ public class commentController {
     com.pt.ptportal.dao.commentDao commentDao;
 
     @GetMapping("/findAll/{page}/{size}/{company_id}")
-    public Page<News> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -36,11 +34,11 @@ public class commentController {
             }
         };
         PageRequest request = PageRequest.of(page,size);
-        return commentDao.findAll(spec,request);
+        return R.ok(commentDao.findAll(spec,request));
     }
     //降序
     @GetMapping("/findAllDesc/{page}/{size}/{company_id}")
-    public Page<News> findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAllDesc(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -54,37 +52,32 @@ public class commentController {
             }
         };
         PageRequest request = PageRequest.of(page,size, Sort.Direction.DESC,"id");
-        return commentDao.findAll(spec,request);
+        return R.ok(commentDao.findAll(spec,request));
     }
     //查询，返回的数组类型
     @GetMapping("/findAllById/filter={id}/{company_id}")
-    public List<comment> findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
-        return commentDao.findAllByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
+    public R findAllById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        return R.ok(commentDao.findAllByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1));
     }
 
     //返回对象类型
     @GetMapping("/findById/{id}/{company_id}")
-    public comment findById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
-        return commentDao.findByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
+    public R findById(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+        return R.ok(commentDao.findByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1));
     }
 
 
 
     @PostMapping("/addOrUpdate")
-    public String addOrUpdate(@RequestBody comment comment ){
-        com.pt.ptportal.entity.comment result = commentDao.save(comment);
-        if(result !=null){
-            return "success";
-        }
-        else {
-            return "error";
-        }
+    public R addOrUpdate(@RequestBody comment comment ){
+        return R.ok(commentDao.save(comment)) ;
+
     }
     @DeleteMapping("/delete/{id}/{company_id}")
-    public void delete(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
+    public R delete(@PathVariable("id") Integer id,@PathVariable("company_id") String company_id){
         comment comment = commentDao.findByIdAndCompanyIdAndStatus(id,String.valueOf(company_id),1);
         comment.setStatus(0);
-        commentDao.save(comment);
+       return R.ok(commentDao.save(comment));
 
     }
 

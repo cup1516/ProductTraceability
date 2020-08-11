@@ -34,6 +34,7 @@
 <script>
 
   import NavMenu from '../common/NavMenu'
+  import { listNotice } from '../../../api/portal/notice'
   export default {
     name: 'notice',
     components: { NavMenu },
@@ -50,28 +51,22 @@
       this.loadNotice()
     },
     methods: {
-
       page(currentPage) {
-        const _this = this
-        this.$axios.get('/portal/notice/findAllDesc/'+(currentPage-1)+'/6/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.notice = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listNotice(currentPage,this.$store.getters.company_id).then(resp => {
+          this.notice = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
       loadNotice () {
-        var _this = this
-        this.$axios.get('/portal/notice/findAllDesc/0/6/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          this.notice.name = this.$store.getters.name
-          _this.notice = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listNotice(1,this.$store.getters.company_id).then(resp => {
+          this.notice = resp.data.content;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.totalElements
         })
       },
-
     }
+
   }
 </script>
 

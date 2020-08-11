@@ -147,7 +147,7 @@
       },
         methods: {
             loadName(){
-              this.insert_comment.comment_name = this.$store.getters.name
+              this.insert_comment.comment_name = this.$store.getters.user_name
              },
             comment_focus() {
                 document.getElementById('comment_text').setAttribute('style', 'background-color:white;border-color:#00a1d6');

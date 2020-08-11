@@ -1,5 +1,6 @@
 package com.pt.ptportal.controller;
 
+import com.pt.ptcommoncore.util.R;
 import com.pt.ptportal.entity.file;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class downloadProfile {
     @Autowired
     com.pt.ptportal.dao.fileDao fileDao;
     @GetMapping("/download/findAllFile/{page}/{size}/{company_id}")
-    public Page<file> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
+    public R findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size,@PathVariable("company_id") String company_id){
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -33,7 +34,7 @@ public class downloadProfile {
             }
         };
         PageRequest request = PageRequest.of(page,size);
-        return fileDao.findAll(request);
+        return R.ok(fileDao.findAll(request));
     }
     @GetMapping("/download/{id}")
     public void downFile(@PathVariable(name = "id") Integer id, HttpServletResponse res) {

@@ -23,6 +23,7 @@
 
 <script>
     import NavMenu from '../common/NavMenu'
+    import { listFile } from '../../../api/portal/downloadFile'
     export default {
         name: "downloadProfile",
       components: { NavMenu },
@@ -35,22 +36,20 @@
       },
       created() {
         var _this = this
-        this.$axios.get('/portal/download/findAllFile/0/5/'+this.$store.getters.company_id).then(resp => {
-          console.log(resp)
-          _this.item = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+        listFile(1,this.$store.getters.company_id).then(resp => {
+          _this.item = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
         })
 
       },
       methods:{
         page(currentPage) {
           const _this = this
-          this.$axios.get('/portal/download/findAllFile/'+(currentPage-1)+'/5'+this.$store.getters.company_id).then(resp => {
-            console.log(resp)
-            _this.item = resp.content;
-            _this.pageSize = resp.size;
-            _this.total = resp.totalElements
+          listFile(currentPage,this.$store.getters.company_id).then(resp => {
+            _this.item = resp.data.content;
+            _this.pageSize = resp.data.size;
+            _this.total = resp.data.totalElements
           })
         },
       }

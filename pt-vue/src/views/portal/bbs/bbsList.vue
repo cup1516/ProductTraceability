@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="reply-btn-box" v-show="btnShow">
-        <el-button class="reply-btn" size="medium" @click="sendComment" type="primary">发表帖子</el-button>
+        <el-button class="reply-btn" size="medium" @click="sendBlog" type="primary">发表帖子</el-button>
       </div>
     </div>
 
@@ -100,7 +100,7 @@
 <script>
 
   import Vue from 'vue'
-  import NavMenu from '../common/NavMenu'
+  import { deleteBlog, listBlog, loadBlogcomment, saveBlog, saveBlogcomment } from '../../../api/portal/blog'
   const clickoutside = {
     // 初始化指令
     bind(el, binding, vnode) {
@@ -127,13 +127,7 @@
     },
   };
   export default {
-    // props: {
-    //   comments: {
-    //     type: Array,
-    //     required: true
-    //   }
-    // },
-    components: { NavMenu },
+
     data() {
       return {
         pageSize:'2',
@@ -191,48 +185,49 @@
       //获取用户的名称与Id
       findUsernameAndUserId()
       {
-        this.userName=this.$store.getters.name
-        this.userId = this.$store.getters.user_id
+        this.userName=this.$store.state.user.user_name
+        this.userId = this.$store.state.user.user_id
       },
       //初始化帖子评论与回复
       loadBlogAndComment(){
-
-        this.$axios.get('/portal/blog/findAllDesc/0/5/'+this.$store.getters.company_id).then(resp => {
-            // this.$axios.get('/blog/get/available').then(resp => {
-            this.blog = resp.content;
-            this.pageSize = resp.size;
-            this.total = resp.totalElements
-            this.blog.forEach(item=>{
-            item.reply=[]
-          })
-          this.$axios.get('/portal/Blogcomment/getAll/'+this.$store.getters.company_id).then(resp => {
-            let data = resp;
-            let k, i;
-            var _this =this
-            for (k = 0; k < data.length; k++) {
-              for (i = 0; i < this.blog.length; i++) {
-                //如果帖子的主键与评论的父评论相同就添加,意思就是这个评论是本个帖子下面的评论
-                if (data[k].blogId === this.blog[i].blogId) {
-                  _this.blog[i].reply.push(data[k])
+          var _this = this
+          listBlog(1,this.$store.getters.company_id).then(resp => {
+            console.log(resp)
+            _this.blog = resp.data.content;
+            _this.pageSize = resp.data.size;
+            _this.total = resp.data.totalElements,
+            _this.blog.forEach(item=>{
+              item.reply=[]
+              })
+            loadBlogcomment(this.$store.getters.company_id).then(resp => {
+              let data = resp.data;
+              let k, i;
+              var _this =this
+              for (k = 0; k < data.length; k++) {
+                for (i = 0; i < this.blog.length; i++) {
+                  //如果帖子的主键与评论的父评论相同就添加,意思就是这个评论是本个帖子下面的评论
+                  if (data[k].blogId === this.blog[i].blogId) {
+                    _this.blog[i].reply.push(data[k])
+                  }
                 }
               }
-            }
+            })
           })
-        })
+
       },
       //切换页数码
       page(currentPage) {
         const _this = this
-        this.$axios.get('/portal/blog/findAllDesc/'+(currentPage-1)+'/5/'+this.$store.getters.company_id).then(resp => {
+        listBlog(currentPage,this.$store.getters.company_id).then(resp => {
           console.log(resp)
-          _this.blog = resp.content;
-          _this.pageSize = resp.size;
-          _this.total = resp.totalElements
+          _this.blog = resp.data.content;
+          _this.pageSize = resp.data.size;
+          _this.total = resp.data.totalElements
           this.blog.forEach(item=>{
             item.reply=[]
           })
-          this.$axios.get('/portal/Blogcomment/getAll/'+this.$store.getters.company_id).then(resp => {
-            let data = resp;
+          loadBlogcomment(this.$store.getters.company_id).then(resp => {
+            let data = resp.data;
             let k, i;
             var _this =this
             for (k = 0; k < data.length; k++) {
@@ -254,7 +249,7 @@
         if (item.isLike === null) {
           Vue.$set(item, "isLike", true);
           item.likeNum++
-          this.$axios.post('/portal/blog/addOrUpdate',{
+          saveBlog({
             blogId: item.blogId,
             userName : item.userName,
             content : item.content,
@@ -266,26 +261,24 @@
         } else {
             if (item.isLike) {
               item.likeNum--
-              this.$axios.post('/portal/blog/addOrUpdate',{
+              saveBlog({
                 blogId: item.blogId,
                 userName : item.userName,
                 content : item.content,
                 likeNum : item.likeNum,
                 userId : item.userId,
                 companyId : this.$store.getters.company_id
-
               })
             }
             else {
               item.likeNum++
-              this.$axios.post('/portal/blog/addOrUpdate',{
+              saveBlog({
                 blogId: item.blogId,
                 userName : item.userName,
                 content : item.content,
                 likeNum : item.likeNum,
                 userId : item.userId,
                 companyId : this.$store.getters.company_id
-
               })
             }
           item.isLike = !item.isLike;
@@ -305,8 +298,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('/portal/blog/delete/'+item.blogId+'/'+this.$store.getters.company_id).then(resp => {
-              console.log(resp)
+          deleteBlog(item.blogId,this.$store.getters.company_id).then(resp => {
                 this.$message({
                   type: 'info',
                   message: '已删除成功',
@@ -335,7 +327,7 @@
             message:'评论不能为空'
           })
         }else{
-          this.$axios.post('/portal/Blogcomment/addOrUpdate',{
+          saveBlogcomment({
             userId:this.userId,
             userName:this.userName,
             content:this.inputComment,
@@ -343,7 +335,6 @@
             parentId:this.parentId,
             parentName:this.parentName,
             companyId : this.$store.getters.company_id
-
           })
           this.inputComment=''
           this.loadBlogAndComment();
@@ -380,7 +371,7 @@
         replyInput.style.border ="none"
       },
 
-      sendComment(){
+      sendBlog(){
         if(!this.replyComment){
           this.$message({
             showClose: true,
@@ -388,15 +379,13 @@
             message:'评论不能为空'
           })
         }else{
-
           let input =  document.getElementById('replyInput')
-          this.$axios.post('/portal/blog/addOrUpdate',{
-              userName : this.userName,
-              content : this.replyComment,
-              likeNum : "0",
-              userId : this.userId,
+          saveBlog({
+            userName : this.userName,
+            content : this.replyComment,
+            likeNum : "0",
+            userId : this.userId,
             companyId : this.$store.getters.company_id
-
           }).then(resp => {
               this.$message({
                 type: 'info',
