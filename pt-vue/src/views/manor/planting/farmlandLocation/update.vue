@@ -52,6 +52,8 @@
 <script>
 
 import { update ,getParams} from "@/api/manor/planting/farmlandLocation";
+import store from '../../../../store/modules/portal'
+
 
 export default {
 
@@ -114,15 +116,18 @@ export default {
 
  
       back() {
-        this.$router.push({path:'/planting/planting/farmlandLocation'});
+        var url = store.state.url;
+
+        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
       },
 
       update() {
+        var url = store.state.url;
         update(
           this.tempFarmlandLocation
         ).then(response =>{
         alert("修改成功！")
-        this.$router.push({path:'/planting/planting/farmlandLocation'});
+        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
         })
     },
 

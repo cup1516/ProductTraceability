@@ -183,8 +183,13 @@
 </template>
 <script>
   import ImgUpload from "./imgUpload";
-  import { list,find } from "@/api/manor/planting/myWork";
+  import { list,find ,toCheck,backFromCheck,isDelete} from "@/api/manor/planting/myWork";
 import {getWorkTypes,getFarmlandRegionId} from "@/api/manor/planting/work/add";
+
+import store from '../../../store/modules/portal'
+        var url = store.state.url;
+
+
 
 
 export default {
@@ -293,6 +298,34 @@ export default {
       });
    },
 
+   toCheck($index){
+      this.tempWork.id = this.list[$index].id;
+      toCheck(
+        this.tempWork
+      ).then(response =>{
+        this.getList();
+      })
+    },
+
+     isDelete($index) {
+      this.tempWork.id = this.list[$index].id;
+
+       isDelete(
+         this.tempWork
+       ).then(response=>{
+        this.getList();
+       })
+    },
+
+    backFromCheck($index){
+      this.tempWork.id = this.list[$index].id;
+      backFromCheck(
+        this.tempWork
+      ).then(response =>{
+        this.getList();
+      })
+    },
+
     getWorkTypes() {
       getWorkTypes().then(response => {
         const data = response.data
@@ -310,14 +343,7 @@ export default {
     },
 
 
-    getUserName(){
-        this.api({
-          url:"yun/login/getInfo",
-          method:"get",
-        }).then(data => {
-          this.tempWork.staff= data.userName
-        })
-      },
+  
 
 
         get($index){
@@ -334,7 +360,7 @@ export default {
 
      
     addWork() {
-        this.$router.push({path:'/painting/addWork'});
+        this.$router.push({path:'/'+url+'/planting/work/addWork'});
       },
 
    
@@ -444,29 +470,9 @@ export default {
 
     
 
-    isDelete($index) {
-      this.tempWork.id = this.list[$index].id; 
-      //修改商品信息
-      this.api({
-        url: "painting/work/delete",
-        method: "post",
-        data: this.tempWork
-      }).then(() => {
-        this.getList();
-        this.dialogFormVisible = false;
-      });
-    },
+   
 
-    toCheck($index){
-      this.tempWork.id = this.list[$index].id;
-      this.api({
-        url: "painting/myWork/toCheck",
-        method: "post",
-        data: this.tempWork
-      }).then(() => {
-        this.getList();
-      });
-    }
+    
 
 
   }

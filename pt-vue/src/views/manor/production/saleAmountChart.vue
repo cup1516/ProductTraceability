@@ -35,15 +35,30 @@
           </el-form-item>
 
            <el-form-item label="农作物:">
-          <el-select  v-model="tempFind.crops" placeholder="请选择农作物种类"  style="width:170px">
+          <el-select  v-model="tempFind.productName" placeholder="请选择农作物种类"  style="width:170px">
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
           </el-select>
           </el-form-item>
 
              <el-form-item label="企业名:" width="180">
-          <el-select  v-model="tempFind.buyerName" placeholder="请选择企业"  style="width:170px" >
-            <el-option  v-for="item in enterpriseNames" :key="item.enterpriseName" :label="item.enterpriseName" :value="item.enterpriseName"></el-option>
-          </el-select>
+        <el-select
+                  v-model="tempFind.buyerName"
+                  style="width:170px"
+                  filterable
+                  remote
+                  clearable 
+                  reserve-keyword
+                  placeholder=" "
+                  @change="setBuyerName"
+                  :remote-method="listCompany"
+                 >
+                  <el-option
+                    v-for="item in companyOptions"
+                    :key="item.companyId"
+                    :label="item.companyName"
+                    :value="item.companyName">
+                  </el-option>
+                </el-select>
           </el-form-item>
          
         </el-form>
@@ -72,7 +87,8 @@
 <script>
 import echarts from "echarts";
 import resize from "@/components/Charts/mixins/resize";
-import { list,getCrops,getEnterprise,getFindList } from "@/api/manor/production/saleAmountChart";
+import { list,getCrops,getFindList } from "@/api/manor/production/saleAmountChart";
+import{ListCompany}from "@/api/manor/order/add"
 
 
 export default {
@@ -103,19 +119,19 @@ export default {
     return {
       chart: null,
       tempFind:{
-        crops:"",
+        productName:"",
         year:"",
         buyerName:""
       },
-      enterpriseNames:[],
-      crops:[]
+      crops:[],
+      companyOptions: [],
     };
   },
   mounted() {
     this.initChart();
     this.getList();
     this.getCrops();
-    this.getEnterprise();
+
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -128,19 +144,26 @@ export default {
  
   methods: {
 
-   
-
-     getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-        this.enterpriseNames = data;
-        }
-      );
+  
+  listCompany(query){
+      ListCompany(query).then(res=>{
+        this.companyOptions = res
+      })
     },
+
+    setBuyerName(val){
+      this.companyOptions.forEach(company => {
+        if(company.companyId == val){
+          this.form.buyerName = company.companyName
+          return
+        }
+      })
+    },
+
 
     handleResetSearch(){
       this.tempFind.year="",
-      this.tempFind.crops="",
+      this.tempFind.productName="",
       this.tempFind.buyerName=""
     },
 
@@ -188,7 +211,7 @@ export default {
       getFindList(
         {
           "year":this.tempFind.year,
-          "crops":this.tempFind.crops,
+          "productName":this.tempFind.productName,
           "buyerName":this.tempFind.buyerName
         }
       ).then(response => {

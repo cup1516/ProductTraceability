@@ -214,8 +214,6 @@ export default {
   created() {
     this.getList();
     this.getFarmlandRegionId();
-    // this.getBatch();
-    // this.getCrops();
     this.getWorkTypes();
   },
 

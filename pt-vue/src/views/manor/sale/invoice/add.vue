@@ -91,6 +91,10 @@
 </template>
 <script>
 import { createInvoice,findBuyer,getBatch,getCrops,getFarmlandRegionId,getEnterprise,getRealName,getCheckUser } from "@/api/manor/sale/invoice/add";
+import store from '../../../../store/modules/portal'
+        var url = store.state.url;
+
+
 
 export default {
   data() {
@@ -256,7 +260,7 @@ export default {
 
 
     back(){
-     this.$router.push({path:'/myInvoice'});
+     this.$router.push({path:'/'+url+'/sale/myInvoice'});
     },
 
 
@@ -308,7 +312,8 @@ export default {
                   }
                 );
               
-          this.$router.push({path:'/myInvoice'});
+      this.$router.push({path:'/'+url+'/sale/myInvoice'});
+
           } else {
             console.log('error submit!!');
             return false;

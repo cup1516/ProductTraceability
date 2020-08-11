@@ -2,7 +2,7 @@
   <el-upload
     class="img-upload"
     ref="upload"
-    action="http://localhost:8080/upload/fileUpload"
+    action="http://localhost:8080/manor/fileUpload"
     :headers="myHeaders"
     :on-preview="handlePreview"
     :on-remove="handleRemove"

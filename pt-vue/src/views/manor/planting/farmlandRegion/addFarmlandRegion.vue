@@ -91,6 +91,7 @@
 <script>
 
 import { create,getAllFarmlandLocation,getFarmlandRegionType } from "@/api/manor/planting/farmlandRegion";
+import store from '../../../../store/modules/portal'
 
 export default {
 
@@ -141,16 +142,21 @@ export default {
 
 
       back() {
-        this.$router.push({path:'/planting/planting/farmlandRegion'});
+        var url = store.state.url;
+
+        this.$router.push({path:'/'+url+'/planting/farmlandRegion'});
       },
 
 
     create() {
+        var url = store.state.url;
+
       create(
         this.tempFarmlandRegion
       ).then(response =>{
         alert("保存成功！");
-        this.$router.push({path:'/planting/planting/farmlandRegion'});
+        this.$router.push({path:'/'+url+'/planting/farmlandRegion'});
+
       })
     },
 

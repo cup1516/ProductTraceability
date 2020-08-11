@@ -92,6 +92,7 @@
 <script>
 
 import ImgUpload from "../imgUpload";
+import store from '../../../../store/modules/portal'
 import { getAllFarmlandLocation,getFarmlandRegionType ,getParams,update} from "@/api/manor/planting/farmlandRegion";
 
 export default {
@@ -170,7 +171,9 @@ export default {
     },
 
       back() {
-        this.$router.push({path:'/planting/planting/farmlandRegion'});
+        var url = store.state.url;
+
+        this.$router.push({path:'/'+url+'/planting/farmlandRegion'});
       },
 
 

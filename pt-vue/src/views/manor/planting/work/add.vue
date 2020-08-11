@@ -79,8 +79,11 @@
 <script>
 
 import ImgUpload from "../imgUpload";
+import store from '../../../../store/modules/portal';
+
 import {create,getCheckUser,getUserName,getMaterial,getBatch,getCrops,getWorkTypes,getFarmlandRegionId,getUserRealName} from "@/api/manor/planting/work/add";
 
+ var url = store.state.url;
 
 export default {
   components: {ImgUpload},
@@ -204,7 +207,8 @@ export default {
 
 
     back() {
-        this.$router.push({path:'/planting/planting/myWork'});
+  
+        this.$router.push({path:'/'+url+'/planting/myWork'});
       },
 
     getUserName() {
@@ -273,7 +277,7 @@ export default {
                 ).then(response => {
                   const data = response.data
                     alert("保存成功！");
-                    this.$router.push({path:'/planting/planting/myWork'});
+                this.$router.push({path:'/'+url+'/planting/myWork'});
                   }
                 );
             

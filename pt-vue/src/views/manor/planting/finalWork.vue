@@ -138,6 +138,9 @@
   import ImgUpload from "./imgUpload";
   import { list ,find} from "@/api/manor/planting/finalWork";
 import {getFarmlandRegionId} from "@/api/manor/planting/work/add";
+import store from '../../../store/modules/portal';
+
+var url = store.state.url;
 
 
 
@@ -248,6 +251,7 @@ export default {
     },
   
     addWork() {
+
         this.$router.push({path:'/painting/addWork'});
       },
 

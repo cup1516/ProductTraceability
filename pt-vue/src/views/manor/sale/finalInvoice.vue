@@ -221,14 +221,13 @@ export default {
 
 
   detail($index){
-      this.$router.push({path:'/fruitEnterprises/finalInvoiceDetail',
+      this.$router.push({path:'/detail/finalInvoiceDetail',
        query:{id:this.list[$index].orderId}
      });
    },
     
 
           
-  
     handleResetSearch(){
       this.tempFind.orderId="",
       this.tempFind.buyerName="",

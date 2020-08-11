@@ -68,6 +68,8 @@
         <module>pt-user</module>
         <module>pt-chat</module>
         <module>pt-upload</module>
+        <module>pt-manor</module>
+        <module>pt-company_id</module>
         <module>pt-common/pt-common-security</module>
         <module>pt-common/pt-common-core</module>
         <module>pt-common/pt-common-mybatis</module>

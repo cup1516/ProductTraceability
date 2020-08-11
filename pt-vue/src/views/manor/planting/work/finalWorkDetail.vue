@@ -130,10 +130,7 @@
         </el-row>
  
       </el-form>
-        <el-button 
-        type="primary" 
-          size="mini"
-        @click="back">返 回</el-button>
+
 
       </div>
     </el-card>
@@ -144,6 +141,9 @@
 
 import ImgUpload from "../imgUpload";
 import { getParams } from "@/api/manor/planting/finalWork";
+import store from '../../../../store/modules/portal';
+var url = store.state.url;
+
 
 
 export default {
@@ -215,7 +215,7 @@ export default {
 
  
       back() {
-        this.$router.push({path:'/planting/planting/finalWork'});
+        this.$router.push({path:'/'+url+'/planting/finalWork'});
       },
 
 

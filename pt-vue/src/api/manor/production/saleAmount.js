@@ -11,7 +11,7 @@ export function list(query) {
 
 export function find(data) {
   return request({
-    url: '/manor/production/find',
+    url: '/manor/saleAmount/find',
     method: 'post',
     data: data
   })

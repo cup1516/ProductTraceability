@@ -17,3 +17,12 @@ export function update(data) {
     data:data
   })
 }
+
+
+export function updateNew(data) {
+  return request({
+    url: '/manor/myInvoice/updateNew',
+    method: 'post',
+    data:data
+  })
+}

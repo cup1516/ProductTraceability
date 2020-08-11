@@ -107,17 +107,17 @@ export default [
     hidden: true,
     redirect: 'noredirect',
     children: [
-      {
-        path: 'myInvoiceDetail',
-        component: (resolve) => require(['@/views/manor/sale/invoice/detail'], resolve),
-        name: 'myInvoiceDetail',
+		{
+        path: 'orderDetail',
+        component: (resolve) => require(['@/views/manor/order/detail/detail'], resolve),
+        name: 'orderDetail',
         meta: { title: '订单详情', icon: 'user' }
       },
       {
-        path: 'checkInvoiceDetail',
-        component: (resolve) => require(['@/views/manor/sale/invoice/checkInvoiceDetail'], resolve),
-        name: 'checkInvoiceDetail',
-        meta: { title: '订单详情', icon: 'user' }
+        path: 'updateOrder',
+        component: (resolve) => require(['@/views/manor/order/update'], resolve),
+        name: 'updateOrder',
+        meta: { title: '修改订单', icon: 'user' }
       },
       {
         path: 'myWorkDeatil',
@@ -125,12 +125,7 @@ export default [
         name: 'myWorkDeatil',
         meta: { title: '工作详情', icon: 'user' }
       },
-      {
-        path: 'invoiceUpdate',
-        component: (resolve) => require(['@/views/manor/sale/invoice/update'], resolve),
-        name: 'invoiceUpdate',
-        meta: { title: '修改票据', icon: 'user' }
-      },
+
       {
         path: 'addFarmlandLocation',
         component: (resolve) => require(['@/views/manor/planting/farmlandLocation/add'], resolve),
@@ -179,24 +174,14 @@ export default [
         name: 'finalWorkDetail',
         meta: { title: '作业单详情', icon: 'user' }
       },
-      {
-        path: 'financial',
-        component: (resolve) => require(['@/views/manor/financial/invoiceDetail'], resolve),
-        name: 'finalWorkDetail',
-        meta: { title: '票据详情', icon: 'user' }
-      },
+
       {
         path: 'production/workDetail',
         component: (resolve) => require(['@/views/manor/production/workDetail'], resolve),
         name: 'workDetail',
         meta: { title: '工作单详情', icon: 'user' }
       },
-      {
-        path: 'production/invoiceDetail',
-        component: (resolve) => require(['@/views/manor/production/invoiceDetail'], resolve),
-        name: 'workDetail',
-        meta: { title: '票据详情', icon: 'user' }
-      },
+
     ]
   },
 ]
