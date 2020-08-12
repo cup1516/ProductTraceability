@@ -262,7 +262,6 @@ export default {
     this.getList();
     this.getFarmlandRegionId();
     this.getCrops();
-    this.getEnterprise();
   },
   methods: {
 
@@ -346,13 +345,6 @@ export default {
     },
 
 
-    getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-           this.enterpriseNames = data; 
-        }
-      );
-    },
 
       getFarmlandRegionId() {
       getFarmlandRegionId().then(response => {
@@ -403,16 +395,8 @@ export default {
           );
     },
 
-   getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-           this.enterpriseNames = data; 
-        }
-      );
-    },
 
 
- 
     handleResetSearch(){
       this.tempFind.orderId="",
       this.tempFind.buyerName="",

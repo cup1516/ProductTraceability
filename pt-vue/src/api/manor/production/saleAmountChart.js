@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-
 export function list(query) {
   return request({
     url: '/manor/saleAmount/chart',
@@ -11,21 +10,10 @@ export function list(query) {
 
 export function getFindList(data) {
   return request({
-    url: '/manor/saleAmount/findList',
+    url: '/manor/saleAmount/chartFindList',
     method: 'post',
     data: data
   })
 }
 
-export function getCrops() {
-  return request({
-    url: '/manor/invoice/getCrops',
-    method: 'get',
-  })
-}
-export function getEnterprise() {
-  return request({
-    url: '/manor/invoice/getEnterprise',
-    method: 'get',
-  })
-}
+

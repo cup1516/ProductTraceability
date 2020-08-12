@@ -6,6 +6,8 @@ import com.pt.ptmanor.mapper.painting.WorkTypeRepository;
 import com.pt.ptmanor.pojo.painting.WorkType;
 import com.pt.ptmanor.service.painting.WorkTypeService;
 import com.pt.ptmanor.util.YunResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 @RequestMapping("/planting/workType")
 @RestController
+@Api(value = "/planting/workType", tags = "工作类型")
 public class WorkTypeController {
 
     @Autowired
@@ -27,8 +30,7 @@ public class WorkTypeController {
     @Autowired
     WorkTypeRepository workTypeRepository;
 
-
-
+    @ApiOperation(value = "分页查询")
     @RequestMapping("/list")
     public YunResult getList(int pageNum , int pageRow){
         String companyId = SecurityUtils.getCompanyId();
@@ -36,6 +38,7 @@ public class WorkTypeController {
         return YunResult.createBySuccess("查询成功！",page);
     }
 
+    @ApiOperation(value = "添加工作类型")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public YunResult add(@RequestBody JSONObject jsonObject){
         String companyId = SecurityUtils.getCompanyId();
@@ -60,19 +63,15 @@ public class WorkTypeController {
         return YunResult.createBySuccess("保存成功！");
     }
 
-
+    @ApiOperation(value = "删除工作类型")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody WorkType workType){
-
         System.out.println(workType.getId());
-
         Optional<WorkType> byId = workTypeRepository.findById(workType.getId());
         WorkType workType1 = byId.get();
         workType1.setIsDeleted(1);
         workTypeRepository.save(workType1);
         return YunResult.createBySuccess("删除成功！");
     }
-
-
 
 }

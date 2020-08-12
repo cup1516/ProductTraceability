@@ -6,6 +6,8 @@ import com.pt.ptmanor.mapper.painting.MaterialRepository;
 import com.pt.ptmanor.pojo.painting.Material;
 import com.pt.ptmanor.service.painting.MaterialService;
 import com.pt.ptmanor.util.YunResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 @RequestMapping("/planting/material")
 @RestController
+@Api(value = "/planting/material", tags = "物料信息")
 public class MaterialController {
 
     @Autowired
@@ -26,27 +29,23 @@ public class MaterialController {
     @Autowired
     MaterialService materialService;
 
-
-
+    @ApiOperation(value = "分页查询")
     @RequestMapping("/list")
     public YunResult getList(int pageNum , int pageRow){
-
         String companyId = SecurityUtils.getCompanyId();
         Page page = materialService.list(pageNum, pageRow,companyId);
         return YunResult.createBySuccess("查询成功！",page);
     }
 
+    @ApiOperation(value = "添加物料")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public YunResult add(@RequestBody JSONObject jsonObject){
-
         UUID u = UUID.randomUUID();
         String str = u.toString();
         str = str.replace("-","");
         String materialName = jsonObject.getString("materialName");
         String materialInformation = jsonObject.getString("materialInformation");
         String materialCompany = jsonObject.getString("materialCompany");
-
-
         String companyId = SecurityUtils.getCompanyId();
         Material material = new Material();
         material.setCompanyId(companyId);
@@ -55,14 +54,13 @@ public class MaterialController {
         material.setMaterialCompany(materialCompany);
         material.setMaterialName(materialName);
         material.setMaterialInformation(materialInformation);
-
         materialRepository.save(material);
         return YunResult.createBySuccess("保存成功！");
     }
 
+    @ApiOperation(value = "删除物料")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody Material material){
-
         Optional<Material> byId = materialRepository.findById(material.getId());
         Material material1 = byId.get();
         material1.setIsDeleted(1);
@@ -70,6 +68,7 @@ public class MaterialController {
         return YunResult.createBySuccess("删除成功！");
     }
 
+    @ApiOperation(value = "更新物料")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public YunResult update(@RequestBody Material material){
         String companyId = SecurityUtils.getCompanyId();
@@ -79,9 +78,9 @@ public class MaterialController {
         return YunResult.createBySuccess("修改成功！");
     }
 
+    @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/find",method = RequestMethod.POST)
     public YunResult find(@RequestBody JSONObject jsonObject){
-
         String companyId = SecurityUtils.getCompanyId();
         String materialName = jsonObject.getString("materialName");
         Integer pageNum = jsonObject.getInteger("pageNum");

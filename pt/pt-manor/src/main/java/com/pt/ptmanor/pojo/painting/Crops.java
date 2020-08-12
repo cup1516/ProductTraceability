@@ -9,34 +9,10 @@ import javax.persistence.Table;
 @Table(name = "crops")
 public class Crops {
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
 
     @Id
     @Column(name = "id")
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String id;
 
     @Column
@@ -66,4 +42,29 @@ public class Crops {
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+
 }

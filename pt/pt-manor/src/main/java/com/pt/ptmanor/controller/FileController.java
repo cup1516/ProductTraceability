@@ -21,7 +21,6 @@ import java.util.Random;
 @RestController
 public class FileController {
 
-
     @GetMapping(value = "/file")
     public String file() {
         return "file";

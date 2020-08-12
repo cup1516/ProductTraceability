@@ -262,14 +262,6 @@ export default {
      this.$router.push({path:'/fruitEnterprises/addInvoice'});
     },
 
-   getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-           this.enterpriseNames = data; 
-        }
-      );
-    },
-
     getCrops() {
       getCrops().then(response => {
         const data = response.data

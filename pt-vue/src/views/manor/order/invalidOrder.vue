@@ -150,7 +150,6 @@ import{ListCompany}from "@/api/manor/order/add"
 import {getStaff} from "@/api/manor/order/reviewOrder";
 
 
-
 export default {
   data() {
     return {
@@ -209,7 +208,6 @@ export default {
   created() {
     this.getList();
     this.getCrops();
-    this.getEnterprise();
   },
   methods: {
 

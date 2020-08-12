@@ -87,8 +87,9 @@
 <script>
 import echarts from "echarts";
 import resize from "@/components/Charts/mixins/resize";
-import { list,getCrops,getFindList } from "@/api/manor/production/saleAmountChart";
+import { list,getFindList } from "@/api/manor/production/saleAmountChart";
 import{ListCompany}from "@/api/manor/order/add"
+import { getCrops } from "@/api/manor/order/add";
 
 
 export default {

@@ -353,14 +353,6 @@ export default {
     },
 
 
- getEnterprise() {
-      getEnterprise().then(response => {
-        const data = response.data
-           this.enterpriseNames = data; 
-        }
-      );
-    },
-
       getFarmlandRegionId() {
       getFarmlandRegionId().then(response => {
         const data = response.data

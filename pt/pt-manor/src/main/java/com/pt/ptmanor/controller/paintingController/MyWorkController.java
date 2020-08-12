@@ -9,6 +9,8 @@ import com.pt.ptmanor.pojo.painting.Work;
 
 import com.pt.ptmanor.service.painting.WorkService;
 import com.pt.ptmanor.util.YunResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
-//import org.apache.shiro.SecurityUtils;
-//import org.apache.shiro.subject.Subject;
-
 @RequestMapping("/planting/myWork")
 @RestController
+@Api(value = "/planting/myWork", tags = "我的作业单")
 public class MyWorkController {
 
     @Autowired
@@ -33,6 +33,10 @@ public class MyWorkController {
     @Autowired
     WorkRepository workRepository;
 
+    @Autowired
+    ProductionRepository productionRepository;
+
+    @ApiOperation(value = "分页查询")
     @RequestMapping("/list")
     public YunResult getList(int pageNum , int pageRow ){
 
@@ -42,9 +46,9 @@ public class MyWorkController {
         return YunResult.createBySuccess(page);
     }
 
+    @ApiOperation(value = "送审作业单")
     @RequestMapping("/toCheck")
     public  YunResult toCheck(@RequestBody Work work){
-
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
         Work work1 = byId.get();
@@ -53,23 +57,17 @@ public class MyWorkController {
         return  YunResult.createBySuccess("送审成功！",null);
     }
 
-
-    @Autowired
-    ProductionRepository productionRepository;
-
+    @ApiOperation(value = "通过审核")
     @RequestMapping("/pass")
     public  YunResult pass(@RequestBody Work work){
-
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
         Work work1 = byId.get();
         work1.setCheckNumber(2);
         if (work1.getWork().equals("采摘")){
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
             Date date = new Date();
             String s1 = sdf.format(date);
-
             String companyId = SecurityUtils.getCompanyId();
                 Production production = new Production();
                 production.setId(id);
@@ -87,12 +85,7 @@ public class MyWorkController {
         return  YunResult.createBySuccess("审核成功！",null);
     }
 
-
-
-
-
-
-
+    @ApiOperation(value = "打回作业单")
     @RequestMapping("/checkBack")
     public YunResult checkBack(@RequestBody Work work){
         String id = work.getId();
@@ -103,8 +96,7 @@ public class MyWorkController {
         return YunResult.createBySuccess("打回成功！");
     }
 
-
-    //撤回
+    @ApiOperation(value = "撤回送审")
     @RequestMapping("/backFromCheck")
     public YunResult backFromCheck(@RequestBody Work work){
         String id = work.getId();
@@ -115,10 +107,9 @@ public class MyWorkController {
         return YunResult.createBySuccess("撤回成功！");
     }
 
-
+    @ApiOperation(value = "我的作业单条件查询")
     @RequestMapping(value = "/myWorkFindByMany",method = RequestMethod.POST)
     public YunResult myWorkFindByMany(@RequestBody JSONObject jsonObject){
-
         String id = jsonObject.getString("id");
         Integer pageNum = jsonObject.getInteger("pageNum");
         Integer pageRow = jsonObject.getInteger("pageRow");
@@ -128,17 +119,15 @@ public class MyWorkController {
         String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
         Date etime = jsonObject.getDate("etime");
         Date stime  = jsonObject.getDate("stime");
-
         String userName = SecurityUtils.getUserName();
         String companyId = SecurityUtils.getCompanyId();
-
         Page page = workService.myWorkFindByMany(companyId,userName,stime, etime, work, crops, checkNumber, id, findFarmlandRegionId, pageNum, pageRow);
         return  YunResult.createBySuccess(page);
     }
 
+    @ApiOperation(value = "待审核作业单条件查询")
     @RequestMapping(value = "/toCheckWorkFindByMany",method = RequestMethod.POST)
     public YunResult toCheckWorkFindByMany(@RequestBody JSONObject jsonObject){
-
         String id = jsonObject.getString("id");
         Integer pageNum = jsonObject.getInteger("pageNum");
         Integer pageRow = jsonObject.getInteger("pageRow");
@@ -148,20 +137,15 @@ public class MyWorkController {
         String findFarmlandRegionId = jsonObject.getString("findFarmlandRegionId");
         Date etime = jsonObject.getDate("etime");
         Date stime  = jsonObject.getDate("stime");
-
         String userName = SecurityUtils.getUserName();
         String companyId = SecurityUtils.getCompanyId();
-
         Page page = workService.toCheckWorkFindByMany(companyId,userName,stime, etime, work, crops, staff, id, findFarmlandRegionId, pageNum, pageRow);
         return  YunResult.createBySuccess(page);
     }
 
-
-
-    //已审核表单，查找
+    @ApiOperation(value = "已审核作业单条件查询")
     @RequestMapping(value = "/finalWorkFindByMany",method = RequestMethod.POST)
     public YunResult finalWorkFindByMany(@RequestBody JSONObject jsonObject){
-
         String id = jsonObject.getString("id");
         Integer pageNum = jsonObject.getInteger("pageNum");
         Integer pageRow = jsonObject.getInteger("pageRow");
@@ -171,37 +155,19 @@ public class MyWorkController {
         Date etime = jsonObject.getDate("etime");
         Date stime  = jsonObject.getDate("stime");
         String companyId = SecurityUtils.getCompanyId();
-
-        System.out.println(checkNumber+"checkNUmber");
-        System.out.println(staff+"staff");
-        System.out.println(findFarmlandRegionId+"findFarmlandRegionId");
-        System.out.println(etime+"etime");
-        System.out.println(id+"id");
-        System.out.println(checkNumber+"checkNUmber");
         Page page = workService.finalWorkFindByMany(companyId,stime, etime, staff, id, findFarmlandRegionId, checkNumber,pageNum, pageRow);
         return  YunResult.createBySuccess(page);
     }
 
-
+    @ApiOperation(value = "删除作业单")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody Work work){
-
         String id = work.getId();
-        System.out.println("1111111111"+id);
         Optional<Work> byId = workRepository.findById(id);
         Work work1 = byId.get();
         work1.setIsDeleted(1);
         workRepository.save(work1);
         return YunResult.createBySuccess("删除成功！");
     }
-
-
-
-
-
-
-
-
-
 
 }

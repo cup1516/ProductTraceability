@@ -73,15 +73,8 @@ public class SysLogAspect {
 
     protected void handleLog(final JoinPoint joinPoint,final Exception e,Object jsonResult)
     {
-        System.out.println("切面1。。。。。");
 
         try{
-
-            System.out.println("切面333。。。。。");
-
-
-
-
             // *========数据库日志=========*//
             SysLog sysLog = new SysLog();
 
@@ -208,7 +201,6 @@ public class SysLogAspect {
         }
     }
 
-
     /**
      * 是否存在注解，如果存在就获取
      */
@@ -224,7 +216,6 @@ public class SysLogAspect {
         }
         return null;
     }
-
 
     /**
      * 参数拼装
@@ -245,7 +236,6 @@ public class SysLogAspect {
         }
         return params.trim();
     }
-
 
     /**
      * 判断是否需要过滤的对象。

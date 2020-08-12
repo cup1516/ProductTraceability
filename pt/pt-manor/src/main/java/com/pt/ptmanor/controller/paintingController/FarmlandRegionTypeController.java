@@ -7,6 +7,8 @@ import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.pojo.painting.FarmlandRegionType;
 import com.pt.ptmanor.service.painting.FarmlandRegionTypeService;
 import com.pt.ptmanor.util.YunResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,9 @@ import java.util.UUID;
 
 @RequestMapping("/planting/farmlandRegionType")
 @RestController
+@Api(value = "/planting/farmlandRegionType", tags = "田地类型")
 public class FarmlandRegionTypeController {
+
     @Autowired
     FarmlandRegionTypeRepository farmlandRegionTypeRepository;
 
@@ -27,19 +31,17 @@ public class FarmlandRegionTypeController {
     FarmlandRegionTypeService farmlandRegionTypeService;
 
 
-
+    @ApiOperation(value = "分页查询")
     @RequestMapping("/list")
     public YunResult getList(int pageNum , int pageRow){
-
         String companyId = SecurityUtils.getCompanyId();
         Page page = farmlandRegionTypeService.list(pageNum, pageRow,companyId);
         return YunResult.createBySuccess("查询成功！",page);
     }
 
+    @ApiOperation(value = "添加田地类型")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public YunResult add(@RequestBody JSONObject jsonObject){
-
-
         UUID u = UUID.randomUUID();
         String str = u.toString();
         str = str.replace("-","");
@@ -55,9 +57,9 @@ public class FarmlandRegionTypeController {
         return YunResult.createBySuccess("保存成功！");
     }
 
+    @ApiOperation(value = "删除田地类型")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public YunResult delete(@RequestBody FarmlandRegionType farmlandRegionType){
-
         String companyId = SecurityUtils.getCompanyId();
         FarmlandRegionType farmlandRegionType1 = farmlandRegionTypeRepository.findByIdAndCompanyId(farmlandRegionType.getId(),companyId);
         farmlandRegionType1.setIsDeleted(1);
@@ -65,15 +67,14 @@ public class FarmlandRegionTypeController {
         return YunResult.createBySuccess("删除成功！");
     }
 
-
+    @ApiOperation(value = "修改田地类型")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public YunResult update(@RequestBody FarmlandRegionType farmlandRegionType){
-
         String companyId = SecurityUtils.getCompanyId();
         FarmlandRegionType farmlandRegionType1 = farmlandRegionTypeRepository.findByIdAndCompanyId(farmlandRegionType.getId(),companyId);
-
         farmlandRegionType1.setName(farmlandRegionType.getName());
         farmlandRegionTypeRepository.save(farmlandRegionType1);
         return YunResult.createBySuccess("修改成功！");
     }
+
 }

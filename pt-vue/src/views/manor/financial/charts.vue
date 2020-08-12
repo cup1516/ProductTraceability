@@ -73,7 +73,8 @@
 <script>
 import echarts from "echarts";
 import resize from "@/components/Charts/mixins/resize";
-import { list,getEnterprise,getCrops,getFindList } from "@/api/manor/financial/charts";
+import { list,getFindList } from "@/api/manor/financial/charts";
+import{getCrops} from "@/api/manor/order/add";
 
 export default {
  data() {
@@ -129,7 +130,6 @@ export default {
   mounted() {
     this.initChart();
     this.getList();
-    this.getEnterprise();
     this.getCrops();
   },
   beforeDestroy() {
@@ -187,15 +187,6 @@ export default {
     },
 
  
-   getEnterprise() {
-   
-      this.listLoading = true;
-      getEnterprise().then(response => {
-        const data = response.data
-        this.enterpriseNames = data;
-        }
-      );
-    },
 
     
 
