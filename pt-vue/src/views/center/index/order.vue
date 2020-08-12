@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="success" @click="addOrder">添加订单</el-button>
+    <el-button type="success" @click="addOrder" style="margin: 18px 2%">添加订单</el-button>
 
     <el-dialog title="添加订单" :visible.sync="addFormVisible" :close-on-click-modal="true">
       <el-form :model="addForm">

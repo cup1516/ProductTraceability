@@ -1,6 +1,6 @@
 <template>
   <div>
-  <el-button type="success" @click="dialogFormVisible = true">添加企业</el-button>
+  <el-button type="success" @click="dialogFormVisible = true" style="margin: 18px 2%">添加企业</el-button>
 
   <el-dialog title="添加企业" :visible.sync="dialogFormVisible">
     <el-form :model="addForm">

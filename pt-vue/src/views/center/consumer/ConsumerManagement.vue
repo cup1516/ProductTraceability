@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="添加订单" :visible.sync="addFormVisible" :close-on-click-modal="true">
+    <el-dialog title="编辑消费者信息" :visible.sync="addFormVisible" :close-on-click-modal="true">
       <el-form :model="addForm">
         <el-form-item label="姓名" :label-width="formLabelWidth">
           <el-input v-model="addForm.name" autocomplete="off"></el-input>

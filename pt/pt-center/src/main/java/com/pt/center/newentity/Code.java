@@ -15,4 +15,5 @@ public class Code {
     private String times;
     private String product;
     private String company;
+    private String image;
 }

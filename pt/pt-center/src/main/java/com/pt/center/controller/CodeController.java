@@ -1,15 +1,19 @@
 package com.pt.center.controller;
 
+import com.pt.center.newentity.Company;
 import com.pt.center.repository.ConsumerRepository;
 import com.pt.center.repository.CodeRepository;
 import com.pt.center.newentity.Code;
 import com.pt.center.newentity.Consumer;
+import com.pt.center.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -77,5 +81,40 @@ public class CodeController {
                 return resu;
             }
         }
+    }
+
+    @PostMapping("/image")
+    public String coversUpload(MultipartFile file) throws Exception {
+        String folder = "D:/workspace/img";
+        File imageFolder = new File(folder);
+        File f = new File(imageFolder, StringUtils.getRandomString(6) + file.getOriginalFilename()
+                .substring(file.getOriginalFilename().length() - 4));
+        if (!f.getParentFile().exists())
+            f.getParentFile().mkdirs();
+        try {
+            file.transferTo(f);
+            String imgURL = "http://localhost:9017/centerCode/image/" + f.getName();
+            return imgURL;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    @PostMapping("/save")
+    public String save(@RequestBody Code code){
+        Code result = codeRepository.save(code);
+        //Company result = companyRepository.save(company);
+        if(result != null){
+            return "success";
+        }else{
+            return "error!";
+        }
+    }
+
+    @GetMapping("/findAll/{page}/{size}")
+    public Page<Code> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        PageRequest request = PageRequest.of(page,size);
+        return codeRepository.findAll(request);
     }
 }
