@@ -12,8 +12,6 @@ public interface ProductionService extends IService<Production> {
     Page list(int pageNum, int pageRow, String companyId);
 
 
-//    Map getList();
-
     Page productList(int pageNum, int pageRow);
 
 

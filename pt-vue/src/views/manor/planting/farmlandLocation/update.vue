@@ -42,7 +42,7 @@
         </el-form-item>
 
       </el-form>
-        <el-button size="mini" @click="back">取 消</el-button>
+
         <el-button  size="mini" @click="update" type="primary" >提 交</el-button>
       </div>
     </el-card>
@@ -115,11 +115,7 @@ export default {
     },
 
  
-      back() {
-        var url = store.state.url;
 
-        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
-      },
 
       update() {
         var url = store.state.url;
@@ -127,7 +123,7 @@ export default {
           this.tempFarmlandLocation
         ).then(response =>{
         alert("修改成功！")
-        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
+        this.$router.push({path:'/'+url+'/Management/planting/farmlandLocation'});
         })
     },
 

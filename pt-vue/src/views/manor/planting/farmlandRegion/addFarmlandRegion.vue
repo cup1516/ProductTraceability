@@ -81,7 +81,7 @@
         </el-form-item>
 
       </el-form>
-        <el-button  size="mini" @click="back">取 消</el-button>
+
         <el-button size="mini"  @click="create" type="primary" >创 建</el-button>
       </div>
     </el-card>
@@ -155,7 +155,7 @@ export default {
         this.tempFarmlandRegion
       ).then(response =>{
         alert("保存成功！");
-        this.$router.push({path:'/'+url+'/planting/farmlandRegion'});
+        this.$router.push({path:'/'+url+'/Management/planting/farmlandRegion'});
 
       })
     },

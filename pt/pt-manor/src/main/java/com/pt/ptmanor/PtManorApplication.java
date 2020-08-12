@@ -8,7 +8,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableCustomResourceServer
-//@ComponentScan("com.linghit.ocs.zhanxing.service.handler.LogAspect")
 public class PtManorApplication {
 
 	public static void main(String[] args) {

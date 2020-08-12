@@ -1,7 +1,6 @@
 package com.pt.ptmanor.pojo.painting;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pt.ptmanor.pojo.Trace;
 
 import javax.persistence.*;
 import java.util.List;
@@ -155,23 +154,6 @@ public class FarmlandRegion {
         this.farmlandLocationName = farmlandLocationName;
     }
 
-//    public List<Work> getWorkList() {
-//        return workList;
-//    }
-//
-//    public void setWorkList(List<Work> workList) {
-//        this.workList = workList;
-//    }
-
-    public List<Trace> getTraceList() {
-        return traceList;
-    }
-
-    public void setTraceList(List<Trace> traceList) {
-        this.traceList = traceList;
-    }
-
-
 
     //田地区块编号，也是主键
     @Id
@@ -248,24 +230,6 @@ public class FarmlandRegion {
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
-    //    //配置与工作流程的一对多
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "farmlandRegion",cascade = CascadeType.ALL)
-//    private List<Work> workList;
-
-
-    //溯源管理
-    @JsonIgnore
-    @OneToMany(mappedBy = "farmlandRegion",cascade = CascadeType.ALL)
-    private List<Trace> traceList;
-
-//
-//    //发票溯源
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "farmlandRegion",cascade = CascadeType.ALL)
-//    private List<Invoice> invoiceList;
-
-
 
 
 }

@@ -8,7 +8,7 @@
         :model="tempOrder"
         label-position="left"
         label-width="120px"
-        style="width: 500px;height:850px; margin-left:50px;"
+        style="width: 500px;height:650px; margin-left:50px;"
          :rules="rules"
           ref="tempOrder"
       >    
@@ -74,9 +74,6 @@
         <div  v-text="tempOrder.sellerId"></div>
       </el-form-item>
       
-      <el-form-item label="订单创建者：">
-        <div  v-text="tempOrder.orderCreator"></div>
-      </el-form-item>
 
         <el-form-item label="审批人:"  prop="reviewerId">
           <el-select  v-model="tempOrder.reviewerId" placeholder="请选择审批人"  style="width:300px">
@@ -371,7 +368,7 @@ export default {
                     alert(data)
                   }
                 );  
-      this.$router.push({path:'/'+url+'/order/myOrder'});
+      this.$router.push({path:'/'+url+'/Management/order/myOrder'});
           } else {
             console.log('error submit!!');
             return false;

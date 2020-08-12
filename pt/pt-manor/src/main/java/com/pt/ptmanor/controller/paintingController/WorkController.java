@@ -84,18 +84,7 @@ public class WorkController {
             str = str.replace("-","");
             work.setId(str);
 
-//            if (work.getWork().equals("采摘")){
-//                Production production = new Production();
-//                production.setId(str);
-//                production.setCrops(work.getCrops());
-//                production.setAmount(work.getAmount());
-//                production.setType("采摘");
-//                production.setDate(new Date());
-//                production.setIsDeleted(0);
-//                production.setUpdateDate(new Date());
-//                productionRepository.save(production);
-//            }
-
+            work.setStaff(SecurityUtils.getUserName());
             if(work.getMaterialName()!= ""){
                 String companyId = SecurityUtils.getCompanyId();
                 Material byMaterialName = materialRepository.findByMaterialNameAndCompanyId(work.getMaterialName(),companyId);

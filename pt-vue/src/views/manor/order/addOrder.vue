@@ -8,7 +8,7 @@
         :model="tempOrder"
         label-position="left"
         label-width="120px"
-        style="width: 500px;height:850px; margin-left:50px;"
+        style="width: 500px;height:650px; margin-left:50px;"
          :rules="rules"
           ref="tempOrder"
       >    
@@ -38,7 +38,6 @@
         <el-select  v-model="tempOrder.productId" placeholder="请选择农作物种类"  style="width:300px">
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.id"></el-option>
           </el-select>
-        <!-- <el-input  class="input-width"  style="width:300px" v-model="tempInvoice.productName" placeholder="请选择商品名"></el-input> -->
       </el-form-item>
 
       <el-form-item label="产品地块编号：" prop="findFarmlandRegionId">
@@ -71,12 +70,6 @@
         <div  v-text="tempOrder.sellerName"></div>
       </el-form-item>
 
-
-      
-      <el-form-item label="订单创建者：">
-        <div  v-text="tempOrder.orderCreator"></div>
-      </el-form-item>
-
         <el-form-item label="审批人:"  prop="reviewerId">
           <el-select  v-model="tempOrder.reviewerId" placeholder="请选择审批人"  style="width:300px">
             <el-option  v-for="item in checkUsers" :key="item.userName" :label="item.userName" :value="item.userId"></el-option>
@@ -84,7 +77,6 @@
         </el-form-item>
   
       </el-form>
-        <el-button @click="back" size="mini">返 回</el-button>
         <el-button  type="primary" size="mini" @click="create('tempOrder')">创 建</el-button>
       </div>
     </el-card>
@@ -299,10 +291,7 @@ export default {
       );
     },
 
-    back(){
-     this.$router.push({path:'/'+url+'/sale/myInvoice'});
-    },
-
+ 
 
   getCompanyList() {
       getCompanyList().then(response => {
@@ -351,7 +340,7 @@ export default {
                   }
                 );
               
-      this.$router.push({path:'/'+url+'/order/myOrder'});
+           this.$router.push({path:'/'+url+'/Management/order/myOrder'});
 
           } else {
             console.log('error submit!!');

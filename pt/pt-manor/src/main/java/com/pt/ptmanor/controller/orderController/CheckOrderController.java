@@ -40,7 +40,7 @@ public class CheckOrderController {
 
 
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
-        byOrderId.setCheckStatus("3");
+        byOrderId.setCheckStatus("2");
         byOrderId.setCheckTime(new Date());
         byOrderId.setCheckerId(SecurityUtils.getId());
         byOrderId.setCheckerName(SecurityUtils.getNickName());
@@ -54,7 +54,7 @@ public class CheckOrderController {
     public YunResult checkBack(@RequestBody SystemOrder systemOrder){
 
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
-        byOrderId.setCheckStatus("2");
+        byOrderId.setCheckStatus("3");
         byOrderId.setCheckTime(new Date());
         byOrderId.setCheckerId(SecurityUtils.getId());
         byOrderId.setCheckerName(SecurityUtils.getNickName());

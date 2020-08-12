@@ -127,7 +127,7 @@
         <template slot-scope="scope">
           <div v-if="scope.row.checkStatus == 0" style="color:#800000" > 未送确认</div>
           <div v-if="scope.row.checkStatus == 1" style="color:#0000FF"> 待确认</div>
-          <div v-if="scope.row.checkStatus == 2" style="color:#FF0000"> 确认未通过</div>
+          <div v-if="scope.row.checkStatus == 3" style="color:#FF0000"> 确认未通过</div>
         </template>
       </el-table-column>
 
@@ -149,7 +149,15 @@
           >通过</el-button>
           
           <el-button
-           v-if="(scope.row.checkFlag == 1)||(scope.row.checkStatus == 2)"
+           v-if="(scope.row.checkFlag == 1)"
+            type="danger"
+            style="font-size: 9px;"
+            size="mini"
+          @click="reviewBack(scope.$index)"
+          >打回</el-button>
+
+          <el-button
+           v-if="(scope.row.checkStatus == 3)"
             type="danger"
             style="font-size: 9px;"
             size="mini"

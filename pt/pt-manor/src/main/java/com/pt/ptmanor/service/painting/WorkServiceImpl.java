@@ -2,8 +2,7 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.WorkRepository;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,7 +48,7 @@ public class WorkServiceImpl  implements WorkService {
         //2. 查询符合条件的数据并返回前端
         //2.1 设置根据修改时间倒叙排序
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page ;
 
@@ -82,7 +81,7 @@ public class WorkServiceImpl  implements WorkService {
         //2. 查询符合条件的数据并返回前端
         //2.1 设置根据修改时间倒叙排序
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -136,7 +135,7 @@ public class WorkServiceImpl  implements WorkService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -194,7 +193,7 @@ public class WorkServiceImpl  implements WorkService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -230,7 +229,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Product> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -269,7 +268,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Product> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
         return Page ;
     }
 
@@ -307,7 +306,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Product> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
         return Page ;
     }
 
@@ -365,7 +364,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Invoice> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -429,7 +428,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Invoice> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -488,7 +487,7 @@ public class WorkServiceImpl  implements WorkService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"updateDate"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Invoice> Page = workRepository.findAll(spec,pageable);
+        Page Page = workRepository.findAll(spec,pageable);
 
         return Page;
     }

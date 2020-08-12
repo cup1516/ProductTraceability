@@ -74,11 +74,7 @@
         </el-form-item>      
 
       </el-form>
-        <el-button
-         @click="back"
-          size="mini" 
-        icon="el-icon-back" 
-        >返回</el-button>
+     
 
         <el-button 
          @click="update" 

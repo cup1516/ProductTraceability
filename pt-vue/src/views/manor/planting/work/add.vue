@@ -52,9 +52,9 @@
           <img-upload @onUpload="uploadImg" ref="imgUpload"></img-upload>
         </el-form-item>
         
-        <el-form-item label="责任人:">
+        <!-- <el-form-item label="责任人:">
           <el-input type="text" v-model="tempWork.staff" :disabled="true"  style="width:300px"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         
         <el-form-item label="备注信息:"  prop="remark" >
           <el-input type="textarea" v-model="tempWork.remark"  style="width:300px"></el-input>
@@ -69,7 +69,6 @@
 
 
       </el-form>
-        <el-button @click="back" size="mini" >取 消</el-button>
         <el-button  @click="create('tempWork')" type="primary" size="mini" >创 建</el-button>
       </div>
     </el-card>
@@ -196,7 +195,6 @@ export default {
   },
   methods: {
 
-    
     getCheckUser() {
       getCheckUser().then(response => {
         const data = response.data
@@ -205,16 +203,10 @@ export default {
       );
     },
 
-
-    back() {
-  
-        this.$router.push({path:'/'+url+'/planting/myWork'});
-      },
-
     getUserName() {
       getUserName().then(response => {
         const data = response.data
-         this.tempWork.staff= data.sysUser.userName
+         this.tempWork.staff= data.userDto.userName
         }
       );
     },
@@ -234,8 +226,6 @@ export default {
         }
       );
     },
-
-   
 
     getCrops() {
       getCrops().then(response => {
@@ -277,7 +267,7 @@ export default {
                 ).then(response => {
                   const data = response.data
                     alert("保存成功！");
-                this.$router.push({path:'/'+url+'/planting/myWork'});
+                this.$router.push({path:'/'+url+'/Management/planting/myWork'});
                   }
                 );
             

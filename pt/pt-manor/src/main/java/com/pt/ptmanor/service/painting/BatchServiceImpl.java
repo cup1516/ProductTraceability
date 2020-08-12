@@ -2,8 +2,6 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.BatchRepository;
-import com.pt.ptmanor.pojo.painting.Batch;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

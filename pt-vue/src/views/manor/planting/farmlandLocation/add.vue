@@ -42,7 +42,7 @@
         </el-form-item>
 
       </el-form>
-        <el-button size="mini" @click="back">取 消</el-button>
+
         <el-button   size="mini" @click="create" type="primary" >创 建</el-button>
       </div>
     </el-card>
@@ -98,10 +98,7 @@ export default {
  
       
 
-      back() {
-        var url = store.state.url;
-        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
-      },
+ 
 
       create() {
           var url = store.state.url;
@@ -109,7 +106,7 @@ export default {
           this.tempFarmlandLocation
         ).then(response =>{
         alert("保存成功！"),
-        this.$router.push({path:'/'+url+'/planting/farmlandLocation'});
+        this.$router.push({path:'/'+url+'/Management/planting/farmlandLocation'});
         })
     },
   }

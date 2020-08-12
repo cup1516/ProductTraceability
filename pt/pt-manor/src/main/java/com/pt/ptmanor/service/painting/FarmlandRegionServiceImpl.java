@@ -3,8 +3,6 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.FarmlandRegionRepository;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +45,7 @@ public class FarmlandRegionServiceImpl implements FarmlandRegionService {
         };
         //2. 查询符合条件的数据并返回前端
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = farmlandRegionRepository.findAll(spec,pageable);
+        Page Page = farmlandRegionRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -91,7 +89,7 @@ public class FarmlandRegionServiceImpl implements FarmlandRegionService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = farmlandRegionRepository.findAll(spec,pageable);
+        Page Page = farmlandRegionRepository.findAll(spec,pageable);
 
 
         return Page;

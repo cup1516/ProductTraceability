@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptmanor.mapper.painting.ProductionRepository;
 import com.pt.ptmanor.pojo.painting.Production;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,16 +20,8 @@ import java.util.function.Function;
 @Service
 public class ProductionServiceImpl  implements ProductionService {
 
-//    extends ServiceImpl<ChartsMapper, Charts> implements  ChartsService
-
     @Autowired
     ProductionRepository productionRepository;
-
-
-//    @Autowired
-//    private ProductionMapper productionMapper;
-
-
 
     @Override
     public Page list(int pageNum, int pageRow,String companyId) {
@@ -58,40 +48,10 @@ public class ProductionServiceImpl  implements ProductionService {
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
 
-        Page<Product> Page = productionRepository.findAll(spec,pageable);
+        Page Page = productionRepository.findAll(spec,pageable);
 
         return Page ;
     }
-
-//    @Override
-//    public Map getList() {
-//
-//        List<Production> aList = productionMapper.getListBycrops("苹果");
-//
-//        List<Production> tList = productionMapper .getListBycrops("桃子");
-//
-//        List<Integer> aListForCount = new ArrayList<>();
-//
-//        List<Integer> tListForCount = new ArrayList<>();
-//
-//        List<Integer> sumListForCount = new ArrayList<>();
-//
-//        for (Production achart:aList){
-//            for (Production tchart:tList){
-//                if (achart.getDate().equals(tchart.getDate())){
-//                    aListForCount.add(achart.getAmount());
-//                    tListForCount.add(tchart.getAmount());
-//                    sumListForCount.add(achart.getAmount()+tchart.getAmount());
-//                }
-//            }
-//        }
-//        Map map = new HashMap();
-//        map.put("aListForCount",aListForCount);
-//        map.put("tListForCount",tListForCount);
-//        map.put("sumListForCount",sumListForCount);
-//
-//        return map;
-//    }
 
     @Override
     public Page productList(int pageNum, int pageRow) {
@@ -115,7 +75,7 @@ public class ProductionServiceImpl  implements ProductionService {
         //2. 查询符合条件的数据并返回前端
         //2.1 设置根据修改时间倒叙排序
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = productionRepository.findAll(spec,pageable);
+        Page Page = productionRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -142,7 +102,7 @@ public class ProductionServiceImpl  implements ProductionService {
         //2. 查询符合条件的数据并返回前端
         //2.1 设置根据修改时间倒叙排序
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = productionRepository.findAll(spec,pageable);
+        Page Page = productionRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -229,7 +189,7 @@ public class ProductionServiceImpl  implements ProductionService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = productionRepository.findAll(spec,pageable);
+        Page Page = productionRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -273,46 +233,6 @@ public class ProductionServiceImpl  implements ProductionService {
     public BaseMapper<Production> getBaseMapper() {
         return null;
     }
-
-
-//    @Over
-//
-//        for (Charts wchart:wList) {
-//            for (Charts mchart:mList) {
-//                if(wchart.getTime().equals(mchart.getTime())){
-//                    wListForCount.add(wchart.getCount());
-//                    mListForCount.add(mchart.getCount());
-//                    sumListForCount.add(wchart.getCount()+mchart.getCount());
-//                }
-//            }
-//
-//        }
-//        Map map = new HashMap();
-//        map.put("wListForCount",wListForCount);
-//        map.put("mListForCount",mListForCount);
-//        map.put("sumListForCount",sumListForCount);
-//
-//        return map;
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

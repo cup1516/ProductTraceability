@@ -2,10 +2,7 @@ package com.pt.ptmanor.service;
 
 import com.pt.ptmanor.mapper.SaleAmountRepository;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
-import com.pt.ptmanor.pojo.Product;
-import com.pt.ptmanor.pojo.SaleAmount;
 import com.pt.ptmanor.pojo.SystemOrder;
-import com.pt.ptmanor.pojo.product.Invoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +41,7 @@ public class SaleAmountServiceImpl implements SaleAmountService {
                 Predicate predicate1 = criteriaBuilder.equal(sellerId, companyId);
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "2");
 
                 predicates.add(predicate);
                 predicates.add(predicate1);
@@ -56,7 +53,7 @@ public class SaleAmountServiceImpl implements SaleAmountService {
         orders.add(new Sort.Order(Sort.Direction.DESC,"checkTime"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-        Page<Product> Page = systemOrderRepository.findAll(spec,pageable);
+        Page Page = systemOrderRepository.findAll(spec,pageable);
         return Page ;
     }
 
@@ -89,14 +86,14 @@ public class SaleAmountServiceImpl implements SaleAmountService {
                 }
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "2");
                 predicates.add(predicate2);
 
                 return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = systemOrderRepository.findAll(spec,pageable);
+        Page Page = systemOrderRepository.findAll(spec,pageable);
 
         return Page;
     }
@@ -110,7 +107,7 @@ public class SaleAmountServiceImpl implements SaleAmountService {
                 List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "3");
+                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "2");
 
                 Path<Object> delFlag =root.get("delFlag");
                 javax.persistence.criteria.Predicate predicate3= criteriaBuilder.equal(delFlag, "0");
@@ -187,7 +184,7 @@ public class SaleAmountServiceImpl implements SaleAmountService {
                 List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "3");
+                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "2");
 
                 Path<Object> delFlag =root.get("delFlag");
                 javax.persistence.criteria.Predicate predicate3= criteriaBuilder.equal(delFlag, "0");

@@ -2,7 +2,6 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
-import com.pt.ptmanor.mapper.product.ProductRepository;
 import com.pt.ptmanor.service.painting.ProductionService;
 import com.pt.ptmanor.util.YunResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,7 @@ import java.util.Map;
 @RestController
 public class ProductionController {
 
-    @Autowired
-    ProductRepository productRepository;
+
 
     @Autowired
     ProductionService productionService;

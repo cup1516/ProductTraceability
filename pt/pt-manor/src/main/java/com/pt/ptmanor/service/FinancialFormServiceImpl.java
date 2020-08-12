@@ -1,11 +1,6 @@
 package com.pt.ptmanor.service;
-
-
-
 import com.pt.ptmanor.mapper.FinancialFormRepository;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,43 +23,6 @@ public class FinancialFormServiceImpl implements FinancialFormService {
     @Autowired
     FinancialFormRepository financialFormRepository;
 
-//    @Override
-//    public Page list(int pageNum, int pageRow,String companyId) {
-//
-//        //1.自定义查询条件 （idDelete == 0）
-//        Specification spec = new Specification() {
-//            @Override
-//            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-//                List<Predicate> predicates = new ArrayList<>();
-//
-//                //1.1 获取比较的属性
-//                Path<Object> isDeleted =root.get("isDeleted");
-//                //1.2构造查询条件
-//                Predicate predicate = criteriaBuilder.equal(isDeleted, 0);
-//
-//                Path<Object> companyId1 =root.get("companyId");
-//                Predicate predicate1 = criteriaBuilder.equal(companyId1, companyId);
-//
-//                predicates.add(predicate);
-//                predicates.add(predicate1);
-//                return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-//            }
-//        };
-//        //2. 查询符合条件的数据并返回前端
-//        //2.1 设置根据修改时间倒叙排序
-////        Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-////        Page<FinancialForm> Page = financialFormRepository.findAll(spec,pageable);
-//
-//        List<Sort.Order> orders = new ArrayList<>();
-//        orders.add(new Sort.Order(Sort.Direction.DESC,"date"));
-//        Sort sort = Sort.by(orders);
-//        Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
-//
-//        Page<Product> Page = financialFormRepository.findAll(spec,pageable);
-//
-//        return Page ;
-//
-//    }
 
     @Autowired
     SystemOrderRepository systemOrderRepository;
@@ -72,7 +30,6 @@ public class FinancialFormServiceImpl implements FinancialFormService {
     @Override
     public Page list(int pageNum, int pageRow, String companyId) {
 
-        //1.自定义查询条件 （idDelete == 0）
         Specification spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -88,7 +45,7 @@ public class FinancialFormServiceImpl implements FinancialFormService {
 
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "2");
                 predicates.add(predicate);
                 predicates.add(predicate1);
                 predicates.add(predicate2);
@@ -105,7 +62,7 @@ public class FinancialFormServiceImpl implements FinancialFormService {
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
 
-        Page<Product> Page = systemOrderRepository.findAll(spec,pageable);
+        Page Page = systemOrderRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -151,7 +108,7 @@ public class FinancialFormServiceImpl implements FinancialFormService {
                     predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate2 = criteriaBuilder.equal(checkStatus, "2");
                 predicates.add(predicate2);
 
                 return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -163,52 +120,6 @@ public class FinancialFormServiceImpl implements FinancialFormService {
         return Page;
     }
 
-//    @Override
-//    public Page findByMany(String companyId,String productName,String invoiceId, String buyerName, Date etime, Date stime ,Integer pageNum,Integer pageRow) {
-//
-//
-//        Specification spec = new Specification() {
-//            @Override
-//            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-//                List<Predicate> predicates = new ArrayList<>();
-//
-//
-//                if (stime != null){
-//                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.<Date>get("date"),stime));
-//                }
-//                if (etime != null){
-//                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.<Date>get("date"),etime));
-//                }
-//                if (!StringUtils.isEmpty(invoiceId)){
-//                    Path invoiceId1 = root.get("invoiceId");
-//                    predicates.add(criteriaBuilder.like(invoiceId1.as(String.class),"%"+invoiceId+"%"));
-//                }
-//                if (!StringUtils.isEmpty(buyerName)){
-//                    Path buyerName1 = root.get("buyerName");
-//                    predicates.add(criteriaBuilder.like(buyerName1.as(String.class),"%"+buyerName+"%"));
-//                }
-//                if (!StringUtils.isEmpty(productName)){
-//                    Path productName1 = root.get("productName");
-//                    predicates.add(criteriaBuilder.like(productName1.as(String.class),"%"+productName+"%"));
-//                }
-//
-//                if (!StringUtils.isEmpty(root.get("companyId"))){
-//                    Path companyId1 = root.get("companyId");
-//                    predicates.add(criteriaBuilder.equal(companyId1.as(String.class),companyId));
-//                }
-//                if (!StringUtils.isEmpty(root.get("isDeleted"))){
-//                    Path isDeleted1 = root.get("isDeleted");
-//                    predicates.add(criteriaBuilder.equal(isDeleted1.as(Integer.class),0));
-//                }
-//
-//                return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-//            }
-//        };
-//        Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-//        Page<Invoice> Page = financialFormRepository.findAll(spec,pageable);
-//
-//        return Page;
-//    }
 
 
 }

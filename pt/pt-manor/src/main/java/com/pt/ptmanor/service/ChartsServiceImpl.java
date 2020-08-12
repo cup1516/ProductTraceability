@@ -1,11 +1,8 @@
 package com.pt.ptmanor.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pt.ptmanor.mapper.FinancialFormRepository;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
-import com.pt.ptmanor.pojo.Charts;
 import com.pt.ptmanor.pojo.FinancialForm;
 import com.pt.ptmanor.pojo.SystemOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,7 @@ public  class ChartsServiceImpl implements ChartsService {
                 List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "3");
+                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "2");
 
                 Path<Object> delFlag =root.get("delFlag");
                 javax.persistence.criteria.Predicate predicate3= criteriaBuilder.equal(delFlag, "0");
@@ -150,7 +147,7 @@ public  class ChartsServiceImpl implements ChartsService {
                 List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "3");
+                javax.persistence.criteria.Predicate predicate4= criteriaBuilder.equal(checkStatus, "2");
 
                 Path<Object> delFlag =root.get("delFlag");
                 javax.persistence.criteria.Predicate predicate3= criteriaBuilder.equal(delFlag, "0");
@@ -205,43 +202,4 @@ public  class ChartsServiceImpl implements ChartsService {
     }
 
 
-    @Override
-    public boolean saveBatch(Collection<Charts> entityList, int batchSize) {
-        return false;
-    }
-
-    @Override
-    public boolean saveOrUpdateBatch(Collection<Charts> entityList, int batchSize) {
-        return false;
-    }
-
-    @Override
-    public boolean updateBatchById(Collection<Charts> entityList, int batchSize) {
-        return false;
-    }
-
-    @Override
-    public boolean saveOrUpdate(Charts entity) {
-        return false;
-    }
-
-    @Override
-    public Charts getOne(Wrapper<Charts> queryWrapper, boolean throwEx) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> getMap(Wrapper<Charts> queryWrapper) {
-        return null;
-    }
-
-    @Override
-    public <V> V getObj(Wrapper<Charts> queryWrapper, Function<? super Object, V> mapper) {
-        return null;
-    }
-
-    @Override
-    public BaseMapper<Charts> getBaseMapper() {
-        return null;
-    }
 }

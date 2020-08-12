@@ -2,7 +2,6 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.WorkTypeRepository;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +42,7 @@ public class WorkTypeServiceImpl implements WorkTypeService {
         };
         //2. 查询符合条件的数据并返回前端
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = workTypeRepository.findAll(spec,pageable);
+        Page Page = workTypeRepository.findAll(spec,pageable);
 
         return Page ;
     }

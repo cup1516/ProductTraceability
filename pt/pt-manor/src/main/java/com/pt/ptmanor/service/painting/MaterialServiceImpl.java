@@ -2,8 +2,7 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.MaterialRepository;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +42,7 @@ public class MaterialServiceImpl implements MaterialService {
         };
         //2. 查询符合条件的数据并返回前端
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Product> Page = materialRepository.findAll(spec,pageable);
+        Page Page = materialRepository.findAll(spec,pageable);
 
         return Page ;
     }
@@ -73,7 +72,7 @@ public class MaterialServiceImpl implements MaterialService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = materialRepository.findAll(spec,pageable);
+        Page Page = materialRepository.findAll(spec,pageable);
         return Page;
     }
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 
 public interface FinancialFormService {
 
-//    Page list(int pageNum, int pageRow, String companyId);
 
     Page list(int pageNum ,int pageRow,String companyId);
 
@@ -15,5 +14,4 @@ public interface FinancialFormService {
 
     Page findByMany(String companyId, String productName, String orderId, String buyerName, Date etime, Date stime, Integer pageNum, Integer pageRow);
 
-//    Page findByMany(String companyId, String productName, String invoiceId, String buyerName, Date etime, Date stime, Integer pageNum, Integer pageRow);
 }

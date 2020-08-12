@@ -2,9 +2,6 @@ package com.pt.ptmanor.service.painting;
 
 
 import com.pt.ptmanor.mapper.painting.CropsRepository;
-import com.pt.ptmanor.pojo.painting.Crops;
-import com.pt.ptmanor.pojo.product.Invoice;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,7 +74,7 @@ public class CropsServiceImpl implements CropsService {
             }
         };
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow);
-        Page<Invoice> Page = cropsRepository.findAll(spec,pageable);
+        Page Page = cropsRepository.findAll(spec,pageable);
         return Page;
     }
 }

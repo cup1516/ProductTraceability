@@ -13,7 +13,6 @@ import com.pt.ptmanor.pojo.SystemOrder;
 import com.pt.ptmanor.pojo.painting.Batch;
 import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.pojo.painting.FarmlandRegion;
-import com.pt.ptmanor.pojo.product.Invoice;
 import com.pt.ptmanor.pojo.user.SysUser;
 import com.pt.ptmanor.service.SystemOrderService;
 import com.pt.ptmanor.service.user.UserService;
@@ -68,8 +67,8 @@ public class MyOrderController {
         systemOrder.setCreatorName(SecurityUtils.getNickName());
         systemOrder.setBuyerName(systemCompanyInfoRepository.findByCompanyId(systemOrder.getBuyerId()).getCompanyName());
 
-        Optional<SysUser> byId1 = userRepository.findById(systemOrder.getReviewerId());
-        SysUser sysUser = byId1.get();
+
+        SysUser sysUser = userRepository.findByCompanyIdAndUserId(SecurityUtils.getCompanyId(), systemOrder.getReviewerId());
 
         systemOrder.setReviewerName(sysUser.getNickName());
 
@@ -206,8 +205,7 @@ public class MyOrderController {
     @RequestMapping(value = "/getCrops",method = RequestMethod.GET)
     public YunResult getCrops(){
 
-        SysUser byUserName = userRepository.findByUserName(SecurityUtils.getUserName());
-        String companyId = byUserName.getCompanyId();
+        String companyId = SecurityUtils.getCompanyId();
         List<Crops> all = cropsRepository.findByIsDeletedAndCompanyId(0,companyId);
         return YunResult.createBySuccess(all);
     }

@@ -2,7 +2,6 @@ package com.pt.ptmanor.service;
 
 import com.pt.ptcommonsecurity.util.SecurityUtils;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
-import com.pt.ptmanor.pojo.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -91,7 +90,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 Path<Object> checkStatus =root.get("checkStatus");
                 Predicate predicate6= criteriaBuilder.equal(checkStatus, "0");
                 Predicate predicate7= criteriaBuilder.equal(checkStatus, "1");
-                Predicate predicate8= criteriaBuilder.equal(checkStatus, "2");
+                Predicate predicate8= criteriaBuilder.equal(checkStatus, "3");
                 Predicate predicate9= criteriaBuilder.or(predicate6, predicate7);
                 Predicate predicate10= criteriaBuilder.or(predicate9, predicate8);
 
@@ -210,7 +209,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 Predicate predicate1= criteriaBuilder.equal(buyerId, companyId);
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate3= criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate3= criteriaBuilder.equal(checkStatus, "2");
 
                 predicates.add(predicate);
                 predicates.add(predicate1);
@@ -222,7 +221,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
         //2. 查询符合条件的数据并返回前端
         //2.1 设置根据创建时间倒叙排序
         List<Sort.Order> orders = new ArrayList<>();
-        orders.add(new Sort.Order(Sort.Direction.DESC,"createTime"));
+        orders.add(new Sort.Order(Sort.Direction.DESC,"checkTime"));
         Sort sort = Sort.by(orders);
         Pageable pageable  = PageRequest.of(pageNum-1,pageRow,sort);
         Page Page = systemOrderRepository.findAll(spec,pageable);
@@ -301,7 +300,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 }
                 if (!StringUtils.isEmpty(root.get("delFlag"))){
                     Path delFlag1 = root.get("delFlag");
-                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),0));
+                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
                 if (!StringUtils.isEmpty(root.get("creatorId"))){
                     Path creatorId1 = root.get("creatorId");
@@ -357,7 +356,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 }
                 if (!StringUtils.isEmpty(root.get("delFlag"))){
                     Path delFlag1 = root.get("delFlag");
-                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),0));
+                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
                 if (!StringUtils.isEmpty(root.get("reviewerId"))){
                     Path reviewerId1 = root.get("reviewerId");
@@ -374,7 +373,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 Path<Object> checkStatus =root.get("checkStatus");
                 Predicate predicate6= criteriaBuilder.equal(checkStatus, "0");
                 Predicate predicate7= criteriaBuilder.equal(checkStatus, "1");
-                Predicate predicate8= criteriaBuilder.equal(checkStatus, "2");
+                Predicate predicate8= criteriaBuilder.equal(checkStatus, "3");
                 Predicate predicate9= criteriaBuilder.or(predicate6, predicate7);
                 Predicate predicate10= criteriaBuilder.or(predicate9, predicate8);
                 predicates.add(predicate10);
@@ -431,7 +430,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 }
                 if (!StringUtils.isEmpty(root.get("delFlag"))){
                     Path delFlag1 = root.get("delFlag");
-                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),0));
+                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
                 if (!StringUtils.isEmpty(root.get("reviewerId"))){
                     Path reviewerId1 = root.get("reviewerId");
@@ -546,11 +545,11 @@ public class SystemOrderServiceImpl implements SystemOrderService {
 
                 if (!StringUtils.isEmpty(root.get("delFlag"))){
                     Path delFlag1 = root.get("delFlag");
-                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),0));
+                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
 
                 Path<Object> checkStatus =root.get("checkStatus");
-                Predicate predicate4= criteriaBuilder.equal(checkStatus, "3");
+                Predicate predicate4= criteriaBuilder.equal(checkStatus, "2");
                 predicates.add(predicate4);
 
                 return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -602,7 +601,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 }
                 if (!StringUtils.isEmpty(root.get("delFlag"))){
                     Path delFlag1 = root.get("delFlag");
-                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),0));
+                    predicates.add(criteriaBuilder.equal(delFlag1.as(String.class),"0"));
                 }
                 if (!StringUtils.isEmpty(root.get("reviewerId"))){
                     Path reviewerId1 = root.get("reviewerId");
@@ -610,7 +609,7 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 }
 
 
-                Path<Object> checkFlag =root.get("checkFlag");
+                Path<Object> checkFlag =root.get("checkStatus");
                 Predicate predicate4= criteriaBuilder.equal(checkFlag, "3");
                 predicates.add(predicate4);
 

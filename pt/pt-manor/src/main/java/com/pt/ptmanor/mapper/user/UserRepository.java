@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<SysUser,String>, JpaSpecif
 
 
     SysUser findByUserName(String userName);
+
+    SysUser findByCompanyIdAndUserId(String companyId,String userId);
 }

@@ -150,8 +150,8 @@
             <el-form-item label="确认状态:">
               <div v-if="tempOrder.checkStatus == 0" style="color:#800000" align="left" > 未送确认</div>
               <div v-if="tempOrder.checkStatus == 1" style="color:#0000FF" align="left"> 待确认</div>
-              <div v-if="tempOrder.checkStatus == 2" style="color:#FF0000" align="left"> 确认未通过</div>
-              <div v-if="tempOrder.checkStatus == 3" style="color:#008800" align="left"> 确认通过</div>
+              <div v-if="tempOrder.checkStatus == 2" style="color:#008800" align="left"> 确认通过</div>
+              <div v-if="tempOrder.checkStatus == 3" style="color:#FF0000" align="left"> 确认未通过</div>
           </el-form-item>
           </div></el-col>
       </el-row>

@@ -107,7 +107,7 @@
       <el-table-column align="center" prop="checkTime" label="确认时间" width="150"></el-table-column>
       <el-table-column align="center" prop="status" label="确认状态" width="100">
         <template slot-scope="scope">
-          <div v-if="scope.row.checkStatus == 3" style="color:#008800"> 确认通过</div>
+          <div v-if="scope.row.checkStatus == 2" style="color:#008800"> 确认通过</div>
         </template>
       </el-table-column>
 

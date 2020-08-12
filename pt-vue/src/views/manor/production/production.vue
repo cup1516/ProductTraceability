@@ -103,7 +103,9 @@
 <script>
 
 import { list ,find} from "@/api/manor/production/production";
-import { getCrops} from "@/api/manor/sale/invoice/add";
+import { getCrops } from "@/api/manor/order/add";
+
+
 
 export default {
   data() {
