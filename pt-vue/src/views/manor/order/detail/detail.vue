@@ -157,7 +157,6 @@
       </el-row>
 
       </el-form>
-
         <el-button @click="update()" type="primary"  v-if="tempOrder.checkFlag == 0" size="mini" >编 辑</el-button>
         <el-button @click="update()" type="primary"  v-if="(tempOrder.checkFlag == 3)" size="mini" >在此基础上新建</el-button>
         <el-button @click="getPrevious()" v-if= "(!tempOrder.previousId =='')" type="info"size="mini" >查看修改前发票</el-button>
@@ -172,7 +171,6 @@ import { getParams } from "@/api/manor/order/detail/detail";
 export default {
   data() {
     return {
-    
     tempOrder:{
         productBatch:"",
         orderId:"",
@@ -202,12 +200,6 @@ export default {
         delFlag:"",
         checkStatus:"",
         },
-      farmlandRegion:[],
-    rules:{
-    },
-      enterpriseNames:[],
-      crops:[],
-      batch:[],
       id:{
         id:""
       }
