@@ -187,6 +187,8 @@
 import { getCrops} from "@/api/manor/order/add";
 import {list,isDelete,toReview,backToReview,find} from "@/api/manor/order/myOrder";
 import{ListCompany}from "@/api/manor/order/add"
+import store from '../../../store/modules/portal'
+var url = store.state.url;
 
 export default {
   data() {
@@ -380,8 +382,6 @@ export default {
       );
     },
 
-
-
   detail($index){
       this.$router.push({path:'/detail/orderDetail',
        query:{id:this.list[$index].orderId}
@@ -389,15 +389,10 @@ export default {
    },
     
 
-  update($index){
-      this.$router.push({path:'/fruitEnterprises/updateInvoice',
-       query:{id:this.list[$index].orderId}
-     });
-   },
 
-          
+
     add(){
-     this.$router.push({path:'/addInvoice'});
+     this.$router.push({path:'/'+url+'/Management/order/add'});
     },
 
     getCrops() {
@@ -406,7 +401,7 @@ export default {
             this.crops = data;
             }
           );
-        },
+    },
 
    getEnterprise() {
       getEnterprise().then(response => {
