@@ -91,7 +91,7 @@
       @current-change="page">
     </el-pagination>
   </el-card>
-  <el-input v-model="inputCode" placeholder="请输入企业名或统一社会信用码" style="width: 300px"></el-input>
+  <el-input v-model="inputCode" placeholder="请输入企业名或统一社会信用码" style="width: 300px; margin: 18px 2%" ></el-input>
   <el-button type="primary" icon="el-icon-search" size="medium" @click="submitCode" >查询企业</el-button>
 </div>
 </template>

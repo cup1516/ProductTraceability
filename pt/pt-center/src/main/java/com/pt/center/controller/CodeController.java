@@ -1,6 +1,7 @@
 package com.pt.center.controller;
 
 import com.pt.center.newentity.Company;
+import com.pt.center.newentity.Order;
 import com.pt.center.repository.ConsumerRepository;
 import com.pt.center.repository.CodeRepository;
 import com.pt.center.newentity.Code;
@@ -112,9 +113,33 @@ public class CodeController {
         }
     }
 
+    @DeleteMapping("/deleteById/{id}")
+    void deleta(@PathVariable("id") Integer id){
+        codeRepository.deleteById(id);
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestBody Code code){
+
+        List<Code> res = codeRepository.findByCode(code.getCode());
+        //res.get(0).setCode(code.getCode());
+        res.get(0).setCompany(code.getCompany());
+        res.get(0).setImage(code.getImage());
+        res.get(0).setProduct(code.getProduct());
+        res.get(0).setTimes(code.getTimes());
+        Code result = codeRepository.save(res.get(0));
+        if(result != null){
+            return "success";
+        }else{
+            return "error!";
+        }
+    }
+
     @GetMapping("/findAll/{page}/{size}")
     public Page<Code> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
         PageRequest request = PageRequest.of(page,size);
         return codeRepository.findAll(request);
     }
+
+
 }

@@ -39,6 +39,44 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="编辑防伪码" :visible.sync="editFormVisible" :close-on-click-modal="true">
+      <el-form :model="editForm">
+        <el-form-item label="产品名" :label-width="formLabelWidth">
+          <el-input v-model="editForm.product" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业名" :label-width="formLabelWidth">
+          <el-input v-model="editForm.company" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="查询次数" :label-width="formLabelWidth">
+          <el-input v-model="editForm.times" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="防伪码" :label-width="formLabelWidth">
+          <el-input v-model="editForm.code" autocomplete="off" disabled='disabled'></el-input>
+        </el-form-item>
+        <el-form-item label="防伪码图片" :label-width="formLabelWidth">
+          <el-input v-model="editForm.image" autocomplete="off"></el-input>
+          <el-upload
+            class="upload-demo"
+            action="/center/centerCode/image"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :on-success="handleSuccess"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible=false">取 消</el-button>
+        <el-button type="primary" @click="editSubmit" >提 交</el-button>
+      </div>
+    </el-dialog>
+
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table :data="tableData"
                 stripe
@@ -78,7 +116,7 @@
           width="120">
           <template slot-scope="scope">
             <el-button
-              @click.native.prevent="editConsumer(scope.row)"
+              @click.native.prevent="editCode(scope.row)"
               type="text"
               size="small">
               编辑
@@ -111,13 +149,21 @@
           fileList: [{name: '', url: ''}],
           inputcode: '',
           pageSize: '',
-          total: '5',
+          total: '3',
           addFormVisible: false,
+          editFormVisible: false,
           formLabelWidth: '120px',
           addForm: {
             product: '',
             company: '',
             times: '0',
+            code: '',
+            image: ''
+          },
+          editForm: {
+            product: '',
+            company: '',
+            times: '',
             code: '',
             image: ''
           },
@@ -144,7 +190,7 @@
       },
       created () {
         const _this = this
-        this.$axios.get('/center/centerCode/findAll/0/5').then(function (resp) {
+        this.$axios.get('/center/centerCode/findAll/0/3').then(function (resp) {
           //console.log(resp)
           _this.tableData = resp.content
           _this.pageSize = resp.size
@@ -154,6 +200,10 @@
       methods: {
         addCode () {
           this.addFormVisible = true
+        },
+        editCode (row) {
+          this.editFormVisible = true
+          this.editForm = Object.assign({}, row)
         },
         submitCode () {
           this.$axios.get('http://localhost:8443/code/findCode/' + this.inputcode).then(function (resp) {
@@ -180,18 +230,49 @@
             }
           })
         },
-        handleCurrentChange (page) {
+        deleteCode (row) {
+          this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+              const _this = this
+              this.$axios.delete('/center/centerCode/deleteById/' + row.id).then(function (resp) {
+                _this.$alert('删除成功', '消息', {
+                  confirmButtonText: '确定',
+                  /*callback: action => {
+                    window.location.reload()
+                  }*/
+                })
+              })
+            }
+          ).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
+        },
+        editSubmit () {
           var _this = this
-          this.$axios.get('/article/' + this.pageSize + '/' + page).then(resp => {
-            if (resp && resp.data.code === 200) {
-              _this.articles = resp.data.result.content
-              _this.total = resp.data.result.totalElements
+          this.$axios.post('/center/centerCode/update', this.editForm).then(function (resp) {
+            // console.log(resp.data)
+            if (resp == "success") {//eslint-disable-line
+              // console.log(resp.data)
+              _this.$alert('修改成功', '提示', {
+                confirmButtonText: '确定'
+              })
+              //_this.$router.replace('/admin/content/index')
+            } else {
+              this.$alert(resp.message, '提示', {
+                confirmButtonText: '确定'
+              })
             }
           })
         },
         page (currentPage) {
           const _this = this
-          this.$axios.get('/center/centerCode/findAll/' + (currentPage - 1) + '/5').then(function (resp) {
+          this.$axios.get('/center/centerCode/findAll/' + (currentPage - 1) + '/3').then(function (resp) {
             // console.log(resp)
             _this.tableData = resp.content
             _this.pageSize = resp.size
