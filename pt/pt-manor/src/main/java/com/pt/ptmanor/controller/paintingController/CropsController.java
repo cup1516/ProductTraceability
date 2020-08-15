@@ -3,6 +3,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.CropsRepository;
 import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.service.painting.CropsService;
@@ -51,6 +53,7 @@ public class CropsController {
 
     @ApiOperation(value = "增加农作物")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "增加农作物")
     public YunResult add(@RequestBody JSONObject jsonObject){
         String companyId = SecurityUtils.getCompanyId();
         UUID u = UUID.randomUUID();
@@ -70,6 +73,7 @@ public class CropsController {
 
     @ApiOperation(value = "删除农作物")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除农作物")
     public YunResult delete(@RequestBody Crops crops){
         String companyId = SecurityUtils.getCompanyId();
         Crops crops1 = cropsRepository.findByIdAndCompanyId(crops.getId(), companyId);
@@ -80,6 +84,7 @@ public class CropsController {
 
     @ApiOperation(value = "修改农作物")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改农作物")
     public YunResult update(@RequestBody Crops crops){
         String companyId = SecurityUtils.getCompanyId();
         Crops crops1 = cropsRepository.findByIdAndCompanyId(crops.getId(), companyId);

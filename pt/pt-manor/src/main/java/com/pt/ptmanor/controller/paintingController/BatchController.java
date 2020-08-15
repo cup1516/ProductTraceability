@@ -3,6 +3,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.BatchRepository;
 import com.pt.ptmanor.mapper.user.UserRepository;
 import com.pt.ptmanor.pojo.painting.Batch;
@@ -41,6 +43,7 @@ public class BatchController {
 
     @ApiOperation(value = "添加种植批次")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加种植批次")
     public YunResult add(@RequestBody Batch batch){
         batch.setIsDeleted(0);
         String companyId = SecurityUtils.getCompanyId();
@@ -51,6 +54,7 @@ public class BatchController {
 
     @ApiOperation(value = "删除种植批次")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除种植批次")
     public YunResult delete(@RequestBody Batch batch){
         String companyId = SecurityUtils.getCompanyId();
         Batch batch1 = batchRepository.findByIdAndAndCompanyId(batch.getId(), companyId);
@@ -61,6 +65,7 @@ public class BatchController {
 
     @ApiOperation(value = "更新批次")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "更新批次")
     public YunResult update(@RequestBody Batch batch){
         String companyId = SecurityUtils.getCompanyId();
         batch.setCompanyId(companyId);

@@ -42,9 +42,14 @@ public class SystemOrderServiceImpl implements SystemOrderService {
                 Path<Object> creatorId =root.get("creatorId");
                 Predicate predicate2= criteriaBuilder.equal(creatorId, id);
 
+                Path<Object> companyId =root.get("companyId");
+                String companyId1 = SecurityUtils.getCompanyId();
+                Predicate predicate3= criteriaBuilder.equal(companyId, companyId1);
+
                 predicates.add(predicate);
                 predicates.add(predicate1);
                 predicates.add(predicate2);
+                predicates.add(predicate3);
 
                 return  criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }

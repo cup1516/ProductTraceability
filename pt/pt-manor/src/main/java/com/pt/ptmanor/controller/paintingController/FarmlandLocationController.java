@@ -3,6 +3,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.FarmlandLocationRepository;
 import com.pt.ptmanor.pojo.painting.FarmlandLocation;
 import com.pt.ptmanor.service.painting.FarmlandLocationService;
@@ -38,6 +40,7 @@ public class FarmlandLocationController {
 
     @ApiOperation(value = "增加田地区域")
     @RequestMapping("/add")
+    @MyLog(businessType= BusinessType.INSERT,value = "增加田地区域")
     public YunResult add (@RequestBody FarmlandLocation farmlandLocation){
         String companyId = SecurityUtils.getCompanyId();
         UUID u = UUID.randomUUID();
@@ -67,6 +70,7 @@ public class FarmlandLocationController {
 
     @ApiOperation(value = "修改田地区域")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改田地区域")
     public YunResult update(@RequestBody FarmlandLocation farmlandLocation){
         String companyId = SecurityUtils.getCompanyId();
         farmlandLocation.setCompanyId(companyId);
@@ -76,6 +80,7 @@ public class FarmlandLocationController {
 
     @ApiOperation(value = "删除田地区域")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除田地区域")
     public YunResult delete(@RequestBody FarmlandLocation farmlandLocation){
         String companyId = SecurityUtils.getCompanyId();
         String farmlandLocationId = farmlandLocation.getFarmlandLocationId();
@@ -87,6 +92,7 @@ public class FarmlandLocationController {
 
     @ApiOperation(value = "区域详情")
     @RequestMapping(value = "get",method = RequestMethod.GET)
+    @MyLog(businessType= BusinessType.OTHER,value = "区域详情")
     public YunResult getById(@RequestParam("id") String id){
         String companyId = SecurityUtils.getCompanyId();
         FarmlandLocation farmlandLocation = farmlandLocationRepository.findByFarmlandLocationIdAndCompanyId(id, companyId);

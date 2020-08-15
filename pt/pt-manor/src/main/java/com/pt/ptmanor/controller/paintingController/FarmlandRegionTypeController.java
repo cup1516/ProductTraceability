@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionTypeRepository;
 import com.pt.ptmanor.pojo.painting.Crops;
 import com.pt.ptmanor.pojo.painting.FarmlandRegionType;
@@ -41,6 +43,7 @@ public class FarmlandRegionTypeController {
 
     @ApiOperation(value = "添加田地类型")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加田地类型")
     public YunResult add(@RequestBody JSONObject jsonObject){
         UUID u = UUID.randomUUID();
         String str = u.toString();
@@ -59,6 +62,7 @@ public class FarmlandRegionTypeController {
 
     @ApiOperation(value = "删除田地类型")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除田地类型")
     public YunResult delete(@RequestBody FarmlandRegionType farmlandRegionType){
         String companyId = SecurityUtils.getCompanyId();
         FarmlandRegionType farmlandRegionType1 = farmlandRegionTypeRepository.findByIdAndCompanyId(farmlandRegionType.getId(),companyId);
@@ -69,6 +73,7 @@ public class FarmlandRegionTypeController {
 
     @ApiOperation(value = "修改田地类型")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改田地类型")
     public YunResult update(@RequestBody FarmlandRegionType farmlandRegionType){
         String companyId = SecurityUtils.getCompanyId();
         FarmlandRegionType farmlandRegionType1 = farmlandRegionTypeRepository.findByIdAndCompanyId(farmlandRegionType.getId(),companyId);

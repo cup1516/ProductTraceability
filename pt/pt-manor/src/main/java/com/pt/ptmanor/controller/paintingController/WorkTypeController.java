@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.WorkTypeRepository;
 import com.pt.ptmanor.pojo.painting.WorkType;
 import com.pt.ptmanor.service.painting.WorkTypeService;
@@ -40,6 +42,7 @@ public class WorkTypeController {
 
     @ApiOperation(value = "添加工作类型")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加工作类型")
     public YunResult add(@RequestBody JSONObject jsonObject){
         String companyId = SecurityUtils.getCompanyId();
         UUID u = UUID.randomUUID();
@@ -65,6 +68,7 @@ public class WorkTypeController {
 
     @ApiOperation(value = "删除工作类型")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除工作类型")
     public YunResult delete(@RequestBody WorkType workType){
         System.out.println(workType.getId());
         Optional<WorkType> byId = workTypeRepository.findById(workType.getId());

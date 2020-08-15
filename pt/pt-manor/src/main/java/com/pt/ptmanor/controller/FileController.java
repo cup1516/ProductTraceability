@@ -1,5 +1,7 @@
 package com.pt.ptmanor.controller;
 
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ public class FileController {
     }
 
     @PostMapping(value = "/fileUpload")
+    @MyLog(businessType= BusinessType.UPLOAD,value = "上传图片")
     public String fileUpload( @RequestParam(value = "file") MultipartFile file) {
 
         //生成文件名

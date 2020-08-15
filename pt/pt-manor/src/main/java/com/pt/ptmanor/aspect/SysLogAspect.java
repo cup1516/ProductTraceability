@@ -34,7 +34,6 @@ public class SysLogAspect {
     @Autowired
     SysLogRepository sysLogRepository;
 
-
     private static  final org.slf4j.Logger log =  LoggerFactory.getLogger(SysLogAspect.class );
 
     //定义切点 @Pointcut
@@ -42,7 +41,6 @@ public class SysLogAspect {
     @Pointcut("@annotation( com.pt.ptmanor.aspect.MyLog)")
     public void logPointCut() {
     }
-
 
     /**
      * 拦截异常操作
@@ -53,8 +51,6 @@ public class SysLogAspect {
     @AfterThrowing(value = "logPointCut()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Exception e)
     {
-        System.out.println("切面2。。。。。");
-
         handleLog(joinPoint, e, null);
     }
 
@@ -141,6 +137,8 @@ public class SysLogAspect {
             str = str.replace("-","");
             sysLog.setId(str);
             sysLog.setCreateDate(new Date());
+
+            sysLog.setCompanyId(  SecurityUtils.getCompanyId());
             sysLogRepository.save(sysLog);
         }
         catch (Exception exp)
@@ -149,7 +147,6 @@ public class SysLogAspect {
             log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
             exp.printStackTrace();
-            System.out.println("22222");
         }
     }
 

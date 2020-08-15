@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.MaterialRepository;
 import com.pt.ptmanor.pojo.painting.Material;
 import com.pt.ptmanor.service.painting.MaterialService;
@@ -39,6 +41,7 @@ public class MaterialController {
 
     @ApiOperation(value = "添加物料")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加物料")
     public YunResult add(@RequestBody JSONObject jsonObject){
         UUID u = UUID.randomUUID();
         String str = u.toString();
@@ -60,6 +63,7 @@ public class MaterialController {
 
     @ApiOperation(value = "删除物料")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除物料")
     public YunResult delete(@RequestBody Material material){
         Optional<Material> byId = materialRepository.findById(material.getId());
         Material material1 = byId.get();
@@ -70,6 +74,7 @@ public class MaterialController {
 
     @ApiOperation(value = "更新物料")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "更新物料")
     public YunResult update(@RequestBody Material material){
         String companyId = SecurityUtils.getCompanyId();
         material.setCompanyId(companyId);

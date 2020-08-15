@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.ProductionRepository;
 import com.pt.ptmanor.mapper.painting.WorkRepository;
 import com.pt.ptmanor.pojo.painting.Production;
@@ -48,6 +50,7 @@ public class MyWorkController {
 
     @ApiOperation(value = "送审作业单")
     @RequestMapping("/toCheck")
+    @MyLog(businessType= BusinessType.UPDATE,value = "送审作业单")
     public  YunResult toCheck(@RequestBody Work work){
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
@@ -59,6 +62,7 @@ public class MyWorkController {
 
     @ApiOperation(value = "通过审核")
     @RequestMapping("/pass")
+    @MyLog(businessType= BusinessType.UPDATE,value = "通过审核")
     public  YunResult pass(@RequestBody Work work){
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
@@ -87,6 +91,7 @@ public class MyWorkController {
 
     @ApiOperation(value = "打回作业单")
     @RequestMapping("/checkBack")
+    @MyLog(businessType= BusinessType.UPDATE,value = "打回作业单")
     public YunResult checkBack(@RequestBody Work work){
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
@@ -98,6 +103,7 @@ public class MyWorkController {
 
     @ApiOperation(value = "撤回送审")
     @RequestMapping("/backFromCheck")
+    @MyLog(businessType= BusinessType.UPDATE,value = "撤回送审")
     public YunResult backFromCheck(@RequestBody Work work){
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);
@@ -161,6 +167,7 @@ public class MyWorkController {
 
     @ApiOperation(value = "删除作业单")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除作业单")
     public YunResult delete(@RequestBody Work work){
         String id = work.getId();
         Optional<Work> byId = workRepository.findById(id);

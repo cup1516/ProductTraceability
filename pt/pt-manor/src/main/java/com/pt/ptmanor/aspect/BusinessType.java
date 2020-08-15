@@ -32,28 +32,21 @@ public enum BusinessType
      */
     GRANT,
 
-    /**
-     * 导出
-     */
-    EXPORT,
 
-    /**
-     * 导入
-     */
-    IMPORT,
-
-    /**
-     * 强退
-     */
-    FORCE,
-
-    /**
-     * 生成代码
-     */
-    GENCODE,
     
     /**
      * 清空数据
      */
     CLEAN,
+
+
+    /*
+    *查看
+    */
+    DETAIL,
+
+    /*
+    * 上传
+    * */
+	UPLOAD,
 }

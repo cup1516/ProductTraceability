@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.orderController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.SystemCompanyInfoRepository;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
 import com.pt.ptmanor.mapper.painting.BatchRepository;
@@ -65,6 +67,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "添加票据")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.OTHER,value = "查看我的票据")
     public YunResult add (@RequestBody SystemOrder systemOrder)
     {
         UUID u = UUID.randomUUID();
@@ -104,6 +107,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "删除订单")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除订单")
     public YunResult delete(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
@@ -114,6 +118,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "送审订单")
     @RequestMapping(value = "/toReview",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "送审订单")
     public YunResult toCheck(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
@@ -124,6 +129,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "撤回送审")
     @RequestMapping(value = "/backToReview",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "撤回送审")
     public YunResult backToCheck(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
@@ -134,6 +140,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "订单详情")
     @RequestMapping(value = "get",method = RequestMethod.GET)
+    @MyLog(businessType= BusinessType.OTHER,value = "订单详情")
     public YunResult getById(@RequestParam("id") String id)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(id);
@@ -142,6 +149,7 @@ public class MyOrderController {
 
     @ApiOperation(value = "修改订单")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改订单")
     public YunResult update(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());

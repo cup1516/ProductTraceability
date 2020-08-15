@@ -3,6 +3,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.FarmlandLocationRepository;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionRepository;
 import com.pt.ptmanor.mapper.painting.FarmlandRegionTypeRepository;
@@ -43,13 +45,13 @@ public class FarmlandRegionController {
     @RequestMapping("/list")
     public YunResult getList(int pageNum , int pageRow){
         String companyId = SecurityUtils.getCompanyId();
-
         Page page = farmlandRegionService.list(pageNum, pageRow,companyId);
         return YunResult.createBySuccess("查询成功！",page);
     }
 
     @ApiOperation(value = "添加田地区块")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加田地区块")
     public YunResult add (@RequestBody FarmlandRegion farmlandRegion){
         String companyId = SecurityUtils.getCompanyId();
         String farmlandLocationName = farmlandRegion.getFarmlandLocationName();
@@ -89,6 +91,7 @@ public class FarmlandRegionController {
 
     @ApiOperation(value = "修改区块")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改区块")
     public YunResult update(@RequestBody FarmlandRegion farmlandRegion){
         farmlandRegionRepository.save(farmlandRegion);
         return YunResult.createBySuccess("修改成功！");
@@ -96,6 +99,7 @@ public class FarmlandRegionController {
 
     @ApiOperation(value = "删除区块")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.DELETE,value = "删除区块")
     public YunResult delete(@RequestBody FarmlandRegion farmlandRegion){
         String companyId = SecurityUtils.getCompanyId();
         String farmlandRegionId = farmlandRegion.getFarmlandRegionId();

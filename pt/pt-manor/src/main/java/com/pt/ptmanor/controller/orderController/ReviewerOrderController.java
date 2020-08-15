@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.orderController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
 import com.pt.ptmanor.pojo.SystemOrder;
 import com.pt.ptmanor.pojo.user.SysUser;
@@ -44,6 +46,7 @@ public class ReviewerOrderController {
 
     @ApiOperation(value = "打回订单")
     @RequestMapping(value = "/reviewBack",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "打回订单")
     public YunResult checkBack(@RequestBody SystemOrder systemOrder){
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
         byOrderId.setCheckFlag("3");
@@ -54,6 +57,7 @@ public class ReviewerOrderController {
 
     @ApiOperation(value = "通过审核")
     @RequestMapping(value = "/pass",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "通过审核")
     public YunResult pass(@RequestBody SystemOrder systemOrder){
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
         byOrderId.setCheckFlag("2");
@@ -64,6 +68,7 @@ public class ReviewerOrderController {
 
     @ApiOperation(value = "发送确认")
     @RequestMapping(value = "/toCheck",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "发送确认")
     public YunResult toCheck(@RequestBody SystemOrder systemOrder){
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
         byOrderId.setCheckStatus("1");
@@ -73,6 +78,7 @@ public class ReviewerOrderController {
 
     @ApiOperation(value = "撤回确认")
     @RequestMapping(value = "/backToCheck",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "撤回确认")
     public YunResult backToCheck(@RequestBody SystemOrder systemOrder){
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
         byOrderId.setCheckStatus("0");
@@ -80,7 +86,7 @@ public class ReviewerOrderController {
         return  YunResult.createBySuccess("撤回成功!");
     }
 
-    @ApiOperation(value = "撤回确认")
+    @ApiOperation(value = "条件查找")
     @RequestMapping(value = "/findByMany",method = RequestMethod.POST)
     public YunResult find(@RequestBody JSONObject jsonObject){
         String orderId = jsonObject.getString("orderId");

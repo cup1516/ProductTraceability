@@ -78,8 +78,16 @@ public class SysLog implements Serializable{
     @Column
     private Integer status;
 
+    @Column
+    private String companyId;
 
+    public String getCompanyId() {
+        return companyId;
+    }
 
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
 
     public String getErrorMsg() {
         return errorMsg;

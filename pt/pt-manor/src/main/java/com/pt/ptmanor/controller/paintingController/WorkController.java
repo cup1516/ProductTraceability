@@ -3,6 +3,8 @@ package com.pt.ptmanor.controller.paintingController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.painting.*;
 import com.pt.ptmanor.pojo.painting.*;
 import com.pt.ptmanor.pojo.user.SysUser;
@@ -80,6 +82,7 @@ public class WorkController {
 
     @ApiOperation(value = "添加作业单")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.INSERT,value = "添加作业单")
     public YunResult save(@RequestBody Work work){
         if (work!= null && !work.equals("")){
             UUID u = UUID.randomUUID();
@@ -107,6 +110,7 @@ public class WorkController {
 
     @ApiOperation(value = "作业单详情")
     @RequestMapping(value = "get",method = RequestMethod.GET)
+    @MyLog(businessType= BusinessType.DETAIL,value = "作业单详情")
     public YunResult getById(@RequestParam("id") String id){
         Optional<Work> byId = workRepository.findById(id);
         Work work = byId.get();
@@ -123,6 +127,7 @@ public class WorkController {
 
     @ApiOperation(value = "修改作业单")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @MyLog(businessType= BusinessType.UPDATE,value = "修改作业单")
     public YunResult update(@RequestBody Work work){
         work.setCheckNumber(0);
         String companyId = SecurityUtils.getCompanyId();

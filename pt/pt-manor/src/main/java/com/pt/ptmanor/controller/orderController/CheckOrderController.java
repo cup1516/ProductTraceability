@@ -2,6 +2,8 @@ package com.pt.ptmanor.controller.orderController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.aspect.BusinessType;
+import com.pt.ptmanor.aspect.MyLog;
 import com.pt.ptmanor.mapper.SystemOrderRepository;
 import com.pt.ptmanor.pojo.SystemOrder;
 import com.pt.ptmanor.service.SystemOrderService;
@@ -39,6 +41,7 @@ public class CheckOrderController {
 
     @ApiOperation(value = "确认通过", notes = "确认通过")
     @RequestMapping("/pass")
+    @MyLog(businessType= BusinessType.UPDATE,value = "确认通过")
     public YunResult pass(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
@@ -52,6 +55,7 @@ public class CheckOrderController {
 
     @ApiOperation(value = "驳回确认", notes = "驳回确认")
     @RequestMapping("/checkBack")
+    @MyLog(businessType= BusinessType.UPDATE,value = "驳回确认")
     public YunResult checkBack(@RequestBody SystemOrder systemOrder)
     {
         SystemOrder byOrderId = systemOrderRepository.findByOrderId(systemOrder.getOrderId());
