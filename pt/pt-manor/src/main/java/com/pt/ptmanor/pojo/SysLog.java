@@ -1,4 +1,4 @@
-package com.pt.ptmanor.aspect;
+package com.pt.ptmanor.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;

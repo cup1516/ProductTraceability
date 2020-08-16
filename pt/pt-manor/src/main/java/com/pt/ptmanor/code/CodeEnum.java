@@ -26,7 +26,5 @@ public enum CodeEnum {
 	public String getErrorMsg() {
 		return errorMsg;
 	}
-	
-	//22222222222222222
 
 }

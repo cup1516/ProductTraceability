@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 
 
 import com.pt.ptcommonsecurity.util.SecurityUtils;
+import com.pt.ptmanor.mapper.SysLogRepository;
+import com.pt.ptmanor.pojo.SysLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;

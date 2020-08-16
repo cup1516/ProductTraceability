@@ -13,5 +13,4 @@ public interface SystemOrderRepository extends JpaRepository<SystemOrder,String>
 
     SystemOrder findByOrderId(String orderId);
 
-//    List<SystemOrder> findByCheckStatusAnddAndDelFlagAndSellerIdAndCheckTime();
 }

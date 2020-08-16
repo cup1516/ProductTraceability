@@ -2,8 +2,8 @@ package com.pt.ptmanor.service;
 
 
 import com.pt.ptcommonsecurity.util.SecurityUtils;
-import com.pt.ptmanor.aspect.SysLog;
-import com.pt.ptmanor.aspect.SysLogRepository;
+import com.pt.ptmanor.pojo.SysLog;
+import com.pt.ptmanor.mapper.SysLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
