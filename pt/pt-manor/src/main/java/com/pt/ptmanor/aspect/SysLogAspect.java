@@ -137,7 +137,7 @@ public class SysLogAspect {
             str = str.replace("-","");
             sysLog.setId(str);
             sysLog.setCreateDate(new Date());
-
+            sysLog.setIsDeleted(0);
             sysLog.setCompanyId(  SecurityUtils.getCompanyId());
             sysLogRepository.save(sysLog);
         }

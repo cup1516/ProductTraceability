@@ -181,7 +181,7 @@
 </template>
 
 <script>
-import { test,list, delOperlog, cleanOperlog, exportOperlog } from "@/api/manor/operlog";
+import { list, delOperlog, cleanOperlog, exportOperlog } from "@/api/manor/operlog";
 
 export default {
   name: "Operlog",
@@ -221,6 +221,15 @@ export default {
         pageRow: 10, //每页条数
         name: ""
       },
+      tempFind:{
+        stime:"",
+        etime:"",
+        id:"",
+        crops:"",
+        work:"",
+        staff:"",
+        field:""
+      },
       sysLog:{
         id:"",
         userName:"",
@@ -235,7 +244,7 @@ export default {
         url:"",
         requestMethod:"",
         jsonResult:"",
-      }
+      },
 
     };
   },
@@ -247,28 +256,10 @@ export default {
     this.getDicts("sys_common_status").then(response => {
       this.statusOptions = response.data;
     });
-    this.test();
   },
   methods: {
 
-    test(){
-      this.loading = false;
-      
-    },
-
-    /** 查询登录日志 */
-    // getList() {
-    //   this.loading = true;
-    //   list(this.addDateRange(this.queryParams, this.dateRange)).then( response => {
-    //       this.list = response.rows;
-    //       this.total = response.total;
-    //       this.loading = false;
-    //     }
-    //   );
-    // },
-
     getList() {
-      this.listLoading = true;
       list(this.queryParams).then(response => {
         const data = response.data
         this.listLoading = false;
@@ -276,10 +267,10 @@ export default {
         this.total = data.totalElements;
         this.pageNum = data.number+1;
         this.pageRow = data.size;
+        this.loading = false;
         }
       );
     },
-
 
     // 操作日志状态字典翻译
     statusFormat(row, column) {
@@ -312,7 +303,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const operIds = row.operId || this.ids;
+      const operIds = row.id || this.ids;
       this.$confirm('是否确认删除日志编号为"' + operIds + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",

@@ -184,13 +184,9 @@
 <script>
   import ImgUpload from "./imgUpload";
   import { list,find ,toCheck,backFromCheck,isDelete} from "@/api/manor/planting/myWork";
-import {getWorkTypes,getFarmlandRegionId} from "@/api/manor/planting/work/add";
-
-import store from '../../../store/modules/portal'
-        var url = store.state.url;
-
-
-
+  import {getWorkTypes,getFarmlandRegionId} from "@/api/manor/planting/work/add";
+  import store from '../../../store/modules/portal'
+  var url = store.state.url;
 
 export default {
   components: {ImgUpload},
@@ -228,8 +224,7 @@ export default {
         }, {
           value: 3,
           label: '审核未通过'
-        }, ],
-         
+        }, ], 
       tempFind:{
         stime:"",
         etime:"",

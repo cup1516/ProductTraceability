@@ -81,6 +81,17 @@ public class SysLog implements Serializable{
     @Column
     private String companyId;
 
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    @Column
+    private Integer isDeleted;
+
     public String getCompanyId() {
         return companyId;
     }

@@ -9,18 +9,14 @@ export function list(query) {
   })
 }
 
-export function test() {
-  return request({
-    url: '/log/monitor/syslog/test',
-    method: 'get',
-  })
-}
+
 
 // 删除操作日志
-export function delOperlog(operId) {
+export function delOperlog(data) {
   return request({
-    url: '/log/monitor/operlog/' + operId,
-    method: 'delete'
+    url: '/manor/monitor/syslog/delete',
+    method: 'post',
+    data:data
   })
 }
 
