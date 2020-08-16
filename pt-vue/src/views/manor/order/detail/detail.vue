@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-   
     <el-card class="box-card">
       <div align="center">
       <el-form
@@ -11,7 +10,6 @@
         style="width: 1000px;height:600px; margin-left:200px;"
          :rules="rules"
       >    
-
         <el-row>
           <el-col :span="12"><div class="grid-content bg-purple">
               <el-form-item label="订单编号:" align="left">
@@ -26,7 +24,6 @@
               </el-form-item>
             </div></el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12"><div class="grid-content bg-purple">
             <el-form-item label="公司编号:" >
@@ -39,58 +36,50 @@
             </el-form-item>
             </div></el-col>
         </el-row>
-
-
         <el-row>
           <el-col :span="12"><div class="grid-content bg-purple">
-                  <el-form-item label="商品名:">
-          <div v-text="tempOrder.productName" align="left"></div>
-      </el-form-item>
+              <el-form-item label="商品名:">
+                <div v-text="tempOrder.productName" align="left"></div>
+              </el-form-item>
             </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light">
-       <el-form-item label="产品批次:">
-          <div v-text="tempOrder.productBatch" align="left"></div>
-      </el-form-item>
+            <el-form-item label="产品批次:">
+                <div v-text="tempOrder.productBatch" align="left"></div>
+            </el-form-item>
             </div></el-col>
         </el-row>
-
-
-
-            <el-row>
+        <el-row>
         <el-col :span="12"><div >
-                <el-form-item label="产品数量(kg):">
-          <div v-text="tempOrder.productAmount" align="left"></div>
-      </el-form-item>
+          <el-form-item label="产品数量(kg):">
+            <div v-text="tempOrder.productAmount" align="left"></div>
+          </el-form-item>
           </div></el-col>
         <el-col :span="12"><div >
-                <el-form-item label="产品单价(元):">
-          <div v-text="tempOrder.productPrice" align="left"></div>
-      </el-form-item>
+          <el-form-item label="产品单价(元):">
+            <div v-text="tempOrder.productPrice" align="left"></div>
+          </el-form-item>
           </div></el-col>
       </el-row>
-
-
       <el-row>
         <el-col :span="12"><div >
-               <el-form-item label="产品总价(元):">
-          <div v-text="tempOrder.productAmount*tempOrder.productPrice" align="left"></div>
-      </el-form-item>
+          <el-form-item label="产品总价(元):">
+            <div v-text="tempOrder.productAmount*tempOrder.productPrice" align="left"></div>
+          </el-form-item>
           </div></el-col>
         <el-col :span="12"><div >
-                <el-form-item label="庄园名:">
-          <div v-text="tempOrder.sellerName" align="left"></div>
-      </el-form-item>
+          <el-form-item label="庄园名:">
+            <div v-text="tempOrder.sellerName" align="left"></div>
+          </el-form-item>
           </div></el-col>
       </el-row>
-
       <el-row>
         <el-col :span="12"><div >
-                <el-form-item label="庄园编号:">
-          <div v-text="tempOrder.sellerId" align="left"></div>
-      </el-form-item>
+          <el-form-item label="庄园编号:">
+            <div v-text="tempOrder.sellerId" align="left"></div>
+          </el-form-item>
           </div></el-col>
         <el-col :span="12"><div >
-                <el-form-item label="审核状态:">
+        <el-form-item label="审核状态:">
           <div v-if="tempOrder.checkFlag == 0" style="color:#800000" align="left" > 待送审</div>
           <div v-if="tempOrder.checkFlag == 1" style="color:#0000FF" align="left"> 待审核</div>
           <div v-if="tempOrder.checkFlag == 2" style="color:#008800" align="left"> 审核通过</div>
@@ -98,49 +87,43 @@
       </el-form-item>
           </div></el-col>
       </el-row>
-
-            <el-row>
+      <el-row>
         <el-col :span="12"><div >
-               <el-form-item label="创建者ID:">
-          <div v-text="tempOrder.creatorId" align="left"></div>
-      </el-form-item>
+          <el-form-item label="创建者ID:">
+            <div v-text="tempOrder.creatorId" align="left"></div>
+          </el-form-item>
           </div></el-col>
         <el-col :span="12"><div >
-                <el-form-item label="创建者姓名:">
-          <div v-text="tempOrder.creatorName" align="left"></div>
-      </el-form-item>
-          </div></el-col>
-      </el-row>
-
-                  <el-row>
-        <el-col :span="12"><div >
-               <el-form-item label="审核者ID:">
-          <div v-text="tempOrder.reviewerId" align="left"></div>
-      </el-form-item>
-          </div></el-col>
-        <el-col :span="12"><div >
-                <el-form-item label="审核者姓名:">
-          <div v-text="tempOrder.reviewerName" align="left"></div>
-      </el-form-item>
+          <el-form-item label="创建者姓名:">
+            <div v-text="tempOrder.creatorName" align="left"></div>
+          </el-form-item>
           </div></el-col>
       </el-row>
-
-
-            <el-row>
+      <el-row>
         <el-col :span="12"><div >
-                <el-form-item label="创建日期:">
-          <div v-text="tempOrder.createTime" align="left"></div>
-      </el-form-item>
+          <el-form-item label="审核者ID:">
+            <div v-text="tempOrder.reviewerId" align="left"></div>
+          </el-form-item>
+          </div></el-col>
+        <el-col :span="12"><div >
+          <el-form-item label="审核者姓名:">
+            <div v-text="tempOrder.reviewerName" align="left"></div>
+          </el-form-item>
+          </div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12"><div >
+          <el-form-item label="创建日期:">
+            <div v-text="tempOrder.createTime" align="left"></div>
+          </el-form-item>
           </div></el-col>
         <el-col :span="12"><div v-if= "(!tempOrder.previousId =='')" >
-                <el-form-item label="修改前发票编号:">
-          <div v-text="tempOrder.previousId" align="left"></div>
-      </el-form-item>
+          <el-form-item label="修改前发票编号:">
+            <div v-text="tempOrder.previousId" align="left"></div>
+          </el-form-item>
           </div></el-col>
       </el-row>
-
-      
-            <el-row>
+      <el-row>
         <el-col :span="12"><div v-if= "(!tempOrder.nextId =='')" >
             <el-form-item label="修改前发票编号:">
               <div v-text="tempOrder.nextId" align="left"></div>
@@ -155,7 +138,6 @@
           </el-form-item>
           </div></el-col>
       </el-row>
-
       </el-form>
         <el-button @click="update()" type="primary"  v-if="tempOrder.checkFlag == 0" size="mini" >编 辑</el-button>
         <el-button @click="update()" type="primary"  v-if="(tempOrder.checkFlag == 3)" size="mini" >在此基础上新建</el-button>
@@ -167,7 +149,6 @@
 </template>
 <script>
 import { getParams } from "@/api/manor/order/detail/detail";
-
 export default {
   data() {
     return {
@@ -209,22 +190,21 @@ export default {
     this.getParams();
   },
   methods: {
-
+      // 修改前订单
       getPrevious(){
         this.$router.push({path:'/detail/orderDetail',
            query:{id:this.tempOrder.previousId}
          });
          this.getParams();
       },
-
+      // 修改后订单
       getNext(){
         this.$router.push({path:'/detail/orderDetail',
            query:{id:this.tempOrder.nextId}
          });
          this.getParams();
       },
-
-
+      // 修改
      update(){
         var a = this.tempOrder.orderId;
           this.$router.push({path:'/detail/updateOrder',
@@ -266,8 +246,6 @@ export default {
       );
     },
   },
-
 };
- 
 </script>
 

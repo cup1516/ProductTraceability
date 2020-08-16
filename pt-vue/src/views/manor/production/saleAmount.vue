@@ -153,7 +153,7 @@ export default {
       );
     },
 
-     getInvoice($index){
+  getInvoice($index){
       this.$router.push({path:'/detail/orderDetail',
        query:{id:this.list[$index].orderId}
      });

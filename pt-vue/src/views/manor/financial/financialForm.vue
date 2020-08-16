@@ -44,22 +44,20 @@
                   </el-option>
                 </el-select>
           </el-form-item>
-          
            <el-form-item label="商品名:">
-          <el-select  v-model="tempFinancialForm.productName" placeholder="请选择农作物种类"  style="width:170px">
-            <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
-          </el-select>
+            <el-select  v-model="tempFinancialForm.productName" placeholder="请选择农作物种类"  style="width:170px">
+              <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
+            </el-select>
           </el-form-item>
-
           <el-form-item label="开始时间:">
               <el-date-picker
                 v-model="tempFinancialForm.stime"
                 type="date"
-                    style="width:170px"
+                style="width:170px"
                 placeholder="选择日期">
               </el-date-picker>
           </el-form-item>
-                   <el-form-item label="截止时间:" >
+          <el-form-item label="截止时间:" >
               <el-date-picker
                 v-model="tempFinancialForm.etime"
                 type="date"
@@ -70,15 +68,15 @@
         </el-form>
       </div>
     </el-card>
-        <el-card class="operate-container" shadow="never">
+    <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-            <el-button
-            @click="getList"
-            style="float:right"
-              size="mini" 
-           icon="el-icon-refresh"
-          >刷新</el-button>
+        <el-button
+          @click="getList"
+          style="float:right"
+          size="mini" 
+          icon="el-icon-refresh"
+        >刷新</el-button>
     </el-card>
     </div>
     <el-table
@@ -86,14 +84,12 @@
       v-loading.body="listLoading"
       element-loading-text="拼命加载中"
       fit
-      highlight-current-row
-    >
+      highlight-current-row>
       <el-table-column align="center" label="序号" width="80">
         <template slot-scope="scope">
           <span>{{scope.$index+1 }}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" prop="orderId" label="票据编号" width="300"></el-table-column>
       <el-table-column align="center" prop="productTotal" label="金额" width="170" ></el-table-column>
       <el-table-column align="center" prop="buyerName" label="收购方" width="170"></el-table-column>
@@ -103,9 +99,9 @@
         <template slot-scope="scope">
           <el-button
             type="info"
-           icon="el-icon-tickets"
+            icon="el-icon-tickets"
             @click="getOrder(scope.$index)"
-           size="mini" 
+            size="mini" 
           >查看票据</el-button>
         </template>
       </el-table-column>
@@ -125,7 +121,6 @@
 import { list ,find} from "@/api/manor/financial/financialForm";
 import { getCrops} from "@/api/manor/order/add";
 import{ListCompany}from "@/api/manor/order/add"
-
 export default {
   data() {
     return {
@@ -150,19 +145,16 @@ export default {
       companyOptions: [],
     };
   },
-
   created() {
     this.getList();
     this.getCrops();
   },
   methods: {
-
   listCompany(query){
       ListCompany(query).then(res=>{
         this.companyOptions = res
       })
     },
-
     setBuyerName(val){
       this.companyOptions.forEach(company => {
         if(company.companyId == val){
@@ -171,8 +163,8 @@ export default {
         }
       })
     },
-
-      getList() {
+    //初始数据
+    getList() {
       this.listLoading = true;
       list(this.listQuery).then(response => {
         const data = response.data
@@ -184,9 +176,6 @@ export default {
         }
       );
     },
-
-
-
     getCrops() {
       getCrops().then(response => {
         const data = response.data
@@ -194,15 +183,12 @@ export default {
         }
       );
     },
-    
-
-
-  getOrder($index){
+    //订单详情
+    getOrder($index){
       this.$router.push({path:'/detail/orderDetail',
        query:{id:this.list[$index].orderId}
      });
-   },
-
+     },
     handleSearchList(){
       this.listLoading = true;
       find({
@@ -222,7 +208,6 @@ export default {
         this.pageRow = data.size;
       })
     },
-
     handleResetSearch(){
       this.tempFinancialForm.orderId ="",
       this.tempFinancialForm.buyerName = "",
@@ -230,7 +215,6 @@ export default {
       this.tempFinancialForm.stime = ""
       this.tempFinancialForm.productName = ""
     },
-
     findList(){
       this.listLoading = true;
       this.api({
@@ -250,7 +234,6 @@ export default {
         this.dialogFormVisible = false;
       });
     },
-
     msgList(params) {
       return new Promise((resolve, reject) => {
         axios
@@ -303,10 +286,6 @@ export default {
       //表格序号
       return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1;
     },
-    
- 
-
-   
   }
 };
 </script>

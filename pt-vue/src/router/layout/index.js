@@ -174,14 +174,6 @@ export default [
         name: 'finalWorkDetail',
         meta: { title: '作业单详情', icon: 'user' }
       },
-
-      {
-        path: 'production/workDetail',
-        component: (resolve) => require(['@/views/manor/production/workDetail'], resolve),
-        name: 'workDetail',
-        meta: { title: '工作单详情', icon: 'user' }
-      },
-
     ]
   },
 ]

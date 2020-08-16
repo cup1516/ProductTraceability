@@ -118,7 +118,6 @@ export default {
         pageRow: 10, //每页条数
         name: ""
       },
-      // dialogStatus: "create",
       dialogFormVisible: false,
       textMap: {
         update: "编辑",
@@ -175,8 +174,8 @@ export default {
       this.tempProduction.stime= ""
     },
   
-      getWork($index){
-      this.$router.push({path:'/detail/production/workDetail',
+  getWork($index){
+      this.$router.push({path:'/detail/finalWorkDetail',
        query:{id:this.list[$index].id}
      });
    },

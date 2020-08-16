@@ -1,8 +1,6 @@
 <template>
 <div>
-
   <div >
-
     <el-card class="filter-container" shadow="never">
       <div>
         <i class="el-icon-search"></i>
@@ -11,20 +9,18 @@
           style="float:right"
           type="primary"
           icon="el-icon-search"
-      @click="getFindList()"
+          @click="getFindList()"
           size="mini">搜索
         </el-button>
         <el-button
           style="float:right;margin-right: 15px"
-        @click="handleResetSearch()"
-           icon="el-icon-refresh"
+          @click="handleResetSearch()"
+          icon="el-icon-refresh"
           size="mini">重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" size="small" label-width="140px" >
-      
-            
+        <el-form :inline="true" size="small" label-width="140px" > 
           <el-form-item label="年份:" width="180">
            <el-date-picker
               style="width:170px"
@@ -34,48 +30,40 @@
               placeholder="选择年份">
             </el-date-picker>
           </el-form-item>
-
           <el-form-item label="企业名:" width="180">
           <el-select  v-model="tempFinancialForm.buyerName" placeholder="请选择企业"  style="width:170px" >
             <el-option  v-for="item in enterpriseNames" :key="item.enterpriseName" :label="item.enterpriseName" :value="item.enterpriseName"></el-option>
           </el-select>
           </el-form-item>
-
            <el-form-item label="商品名:">
           <el-select  v-model="tempFinancialForm.productName" placeholder="请选择农作物种类"  style="width:170px">
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
           </el-select>
           </el-form-item>
-         
         </el-form>
       </div>
     </el-card>
-
     <el-card class="operate-container" shadow="never"  >
       <i class="el-icon-tickets"></i>
       <span>数据图表</span>
-            <el-button
-            @click="getList"
-            style="float:right"
-              size="mini" 
-           icon="el-icon-refresh"
-          >刷新</el-button>
+        <el-button
+          @click="getList"
+          style="float:right"
+          size="mini" 
+          icon="el-icon-refresh"
+        >刷新</el-button>
     </el-card>
     <chart height="100%" width="100%" />
   </div>
   <div :id="id"   :class="className"  :style="{height:height,width:width}" >
-
   </div>
 </div>
-
 </template>
-
 <script>
 import echarts from "echarts";
 import resize from "@/components/Charts/mixins/resize";
 import { list,getFindList } from "@/api/manor/financial/charts";
 import{getCrops} from "@/api/manor/order/add";
-
 export default {
  data() {
     return {
@@ -108,7 +96,6 @@ export default {
       type: String,
       default: "800px"
     },
-
   },
   data() {
     return {
@@ -118,7 +105,6 @@ export default {
         productName:"",
         year:""
       },
-      enterpriseNames:[],
       crops:[],
       data:{
           buyerName:"",
@@ -139,17 +125,14 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
- 
   methods: {
-
-
+    //重置搜索框
     handleResetSearch(){
       this.tempFinancialForm.productName="",
       this.tempFinancialForm.buyerName="",
       this.tempFinancialForm.year=""
     },
-
- 
+    //农产品列表
     getCrops() {
       this.listLoading = true;
       getCrops().then(response => {
@@ -158,9 +141,7 @@ export default {
         }
       );
     },
-
-
-
+    //获取初始数据
     getList() {
       this.listLoading = true;
       list(this.listQuery).then(response => {
@@ -174,7 +155,6 @@ export default {
               data: data.moneyList,
               color: ["#FF3333"]
             },
-
             {
               name: "折线图",
               data: data.moneyList,
@@ -185,12 +165,7 @@ export default {
         }
       );
     },
-
- 
-
-    
-
-
+    //条件查找
     getFindList() {
       this.listLoading = true;
       getFindList(
@@ -216,13 +191,9 @@ export default {
             }
           ]
         });
- 
         }
       );
     },
-
-
-    
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id));
       const xData = (function() {
