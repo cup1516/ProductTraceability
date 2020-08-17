@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-   
     <el-card class="box-card">
       <div align="center">
       <el-form
@@ -12,7 +11,6 @@
          :rules="rules"
           ref="tempOrder"
       >    
-
         <el-form-item label="公司名：" prop="buyerId">
            <el-select
                   v-model="tempOrder.buyerId"
@@ -33,19 +31,16 @@
                   </el-option>
                 </el-select>
         </el-form-item>
-
       <el-form-item label="商品名：" prop="productName">
         <el-select  v-model="tempOrder.productId" placeholder="请选择农作物种类"  style="width:300px">
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.id"></el-option>
           </el-select>
       </el-form-item>
-
       <el-form-item label="产品地块编号：" prop="findFarmlandRegionId">
         <el-select  v-model="tempOrder.findFarmlandRegionId" placeholder="请选择地块"  style="width:300px">
             <el-option  v-for="item in farmlandRegion" :key="item.farmlandRegionId" :label="item.farmlandRegionId" :value="item.farmlandRegionId"></el-option>
           </el-select>
       </el-form-item>
-
       <el-form-item label="种植批次：" prop="plantingBatch">
           <el-select  v-model="tempOrder.plantingBatch" placeholder="请选择种植批次"  style="width:300px">
             <el-option  v-for="item in batch" :key="item.id" :label="item.id" :value="item.id"></el-option>
@@ -54,119 +49,96 @@
       <el-form-item label="产品批次" prop="productBatch">
         <el-input  class="input-width"  :disabled="true" style="width:300px" v-model="tempOrder.findFarmlandRegionId+'-'+tempOrder.plantingBatch" ></el-input>
       </el-form-item>
-
       <el-form-item label="产品数量(kg)：" prop="productAmount">
           <el-input-number v-model="tempOrder.productAmount"  style="width:300px" :min="0" :max="1000000" ></el-input-number>
       </el-form-item>
       <el-form-item label="产品单价(元)：" prop="productPrice">
-        
           <el-input-number v-model="tempOrder.productPrice" :step="0.1"  style="width:300px" :min="0" :max="1000000" ></el-input-number>
       </el-form-item>
       <el-form-item label="产品总价(元)：" prop="totalPrice">
           <el-input-number :disabled="true" v-model="tempOrder.productAmount*tempOrder.productPrice"  style="width:300px" :min="0" :step="0.1"  :max="1000000" ></el-input-number>
       </el-form-item>
- 
      <el-form-item label="庄园名：">
         <div  v-text="tempOrder.sellerName"></div>
       </el-form-item>
-
         <el-form-item label="审批人:"  prop="reviewerId">
           <el-select  v-model="tempOrder.reviewerId" placeholder="请选择审批人"  style="width:300px">
             <el-option  v-for="item in checkUsers" :key="item.userName" :label="item.userName" :value="item.userId"></el-option>
           </el-select>
         </el-form-item>
-  
       </el-form>
         <el-button  type="primary" size="mini" @click="create('tempOrder')">创 建</el-button>
       </div>
     </el-card>
   </div>
 </template>
-
 <script>
-
 import {getCheckUser,getRealName,getCompanyInfo,getCompanyList,getCompanyName,add,ListCompany,getBatch,getCrops,getFarmlandRegionId} from "@/api/manor/order/add";
 import store from '../../../store/modules/portal'
 var url = store.state.url;
-
-
-
 export default {
   data() {
-
       var checkOrderType = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("交易类型不能为空"))
         }
         callback();
       }
-      
       var checkProductAmount = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("产品数量不能为空"))
         }
         callback();
       }
-
        var checkBuyerId = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("公司名不能为空"))
         }
         callback();
       }
-
-         var checkProductName = (rule,value,callback)=>{
+      var checkProductName = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("商品不能为空"))
         }
         callback();
       }
-
       var checkFindFarmlandRegionId = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("地块不能为空"))
         }
         callback();
       }
-
-
-
        var checkProductBatch = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("批次号不能为空"))
         }
         callback();
       }
-
       var checkProductId = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("商品编号不能为空"))
         }
         callback();
       }
-
-       var checkTotalPrice = (rule,value,callback)=>{
+      var checkTotalPrice = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("总价不能为空"))
         }
         callback();
       }
-
       var checkProductPrice = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("单价不能为空"))
         }
         callback();
       }
-
-         var checkReviewerId = (rule,value,callback)=>{
+      var checkReviewerId = (rule,value,callback)=>{
         if(!value){
           return callback(new Error("审批人不能为空"))
         }
         callback();
       }
-
-    return {
+  return {
       tempOrder:{
         productBatch:"",
         orderId:"",
@@ -223,7 +195,6 @@ export default {
             reviewerId: [
             { validator: checkReviewerId, trigger: 'blur' }
           ],
-         
            },
       companyList:[],
       crops:[],
@@ -242,13 +213,11 @@ export default {
     this.getCompanyName();
   },
   methods: {
-
     listCompany(query){
       ListCompany(query).then(res=>{
         this.companyOptions = res
       })
     },
-
     setBuyerName(val){
       this.companyOptions.forEach(company => {
         if(company.companyId == val){
@@ -257,7 +226,6 @@ export default {
         }
       })
     },
-
     getCheckUser() {
       getCheckUser().then(response => {
         const data = response.data
@@ -265,21 +233,18 @@ export default {
         }
       );
     },
-
     getCompanyInfo(){
       getCompanyInfo().then(response =>{
         const data = response.data
         this.tempOrder.sellerId = data;
       })
     },
-
     getCompanyName(){
       getCompanyName().then(response =>{
         const data = response.data
         this.tempOrder.sellerName = data;
       })
     },
-
     getRealName() {
       getRealName().then(response => {
         const data = response.data
@@ -287,9 +252,6 @@ export default {
         }
       );
     },
-
- 
-
   getCompanyList() {
       getCompanyList().then(response => {
         const data = response.data
@@ -297,7 +259,6 @@ export default {
         }
       );
     },
-
       getFarmlandRegionId() {
       getFarmlandRegionId().then(response => {
         const data = response.data
@@ -305,7 +266,6 @@ export default {
         }
       );
     },
-
     getCrops() {
       getCrops().then(response => {
         const data = response.data
@@ -313,7 +273,6 @@ export default {
         }
       );
     },
-
     getBatch() {
       getBatch().then(response => {
         const data = response.data
@@ -321,14 +280,11 @@ export default {
         }
       );
     },
-
-
     create(formName) {
       this.tempOrder.productBatch = this.tempOrder.findFarmlandRegionId +"-"+ this.tempOrder.plantingBatch;
       this.tempOrder.productTotal=this.tempOrder.productAmount * this.tempOrder.productPrice;
         this.$refs[formName].validate((valid) => {
             if (valid) {
-              
                 add(
                   this.tempOrder
                 ).then(response => {
@@ -336,17 +292,13 @@ export default {
                     alert(data)
                   }
                 );
-              
            this.$router.push({path:'/'+url+'/Management/order/myOrder'});
-
           } else {
             console.log('error submit!!');
             return false;
           }
         });
     },
-
-
   }
 };
 </script>

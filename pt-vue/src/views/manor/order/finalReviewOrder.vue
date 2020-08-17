@@ -9,8 +9,7 @@
           style="float:right"
           type="primary"
           @click="find()"
-  
-         size="mini"
+          size="mini"
           icon="el-icon-search"
           >搜索
         </el-button>

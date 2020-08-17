@@ -9,8 +9,7 @@
           style="float:right"
           type="primary"
           @click="find()"
-  
-         size="mini"
+          size="mini"
           icon="el-icon-search"
           >搜索
         </el-button>
@@ -47,7 +46,6 @@
                   </el-option>
                 </el-select>
           </el-form-item>
-
           <el-form-item label="商品名:">
             <el-input v-model="tempFind.productName" placeholder="请输入商品名"></el-input>
           </el-form-item>
@@ -64,7 +62,7 @@
                 placeholder="选择日期">
               </el-date-picker>
           </el-form-item>
-                   <el-form-item label="确认截止时间:" label-width="140px">
+          <el-form-item label="确认截止时间:" label-width="140px">
               <el-date-picker
                v-model="tempFind.etime"
                 type="date"
@@ -86,7 +84,6 @@
           >刷新</el-button>
     </el-card>
     </div>
-
     <el-table
       :data="list"
       v-loading.body="listLoading"
@@ -99,8 +96,6 @@
           <span>{{scope.$index+1 }}</span>
         </template>
       </el-table-column>
-
-  
       <el-table-column align="center" prop="orderId" label="票据编号" width="270"></el-table-column>
       <el-table-column align="center" prop="sellerName" label="公司名" width="200"></el-table-column>
       <el-table-column align="center" prop="checkerName" label="确认人" width="100"></el-table-column>
@@ -110,7 +105,6 @@
           <div v-if="scope.row.checkStatus == 2" style="color:#008800"> 确认通过</div>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="操作" width="300" >
         <template slot-scope="scope">
           <el-button
@@ -120,11 +114,9 @@
             style="font-size: 9px;"
             size="mini"
           >查看</el-button>
-
         </template>
       </el-table-column>
     </el-table>
-
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -134,15 +126,12 @@
       :page-sizes="[10, 20, 50, 100]"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
-
   </div>
 </template>
 <script>
-
 import { list,find } from "@/api/manor/order/finalCheckOrder";
 import{ListCompany}from "@/api/manor/order/add"
 import {getStaff} from "@/api/manor/order/reviewOrder";
-
 export default {
   data() {
     return {
@@ -199,10 +188,8 @@ export default {
   created() {
     this.getList();
     this.getStaff();
-
   },
   methods: {
-
     getStaff(){
       getStaff().then(response => {
         const data = response.data
@@ -210,13 +197,11 @@ export default {
         }
       );      
     },
-
     listCompany(query){
       ListCompany(query).then(res=>{
         this.companyOptions = res
       })
     },
-
     setBuyerName(val){
       this.companyOptions.forEach(company => {
         if(company.companyId == val){
@@ -225,14 +210,11 @@ export default {
         }
       })
     },
-
-
   detail($index){
       this.$router.push({path:'/detail/orderDetail',
        query:{id:this.list[$index].orderId}
      });
    },
-    
     handleResetSearch(){
       this.tempFind.orderId="",
       this.tempFind.buyerName="",
@@ -242,8 +224,6 @@ export default {
       this.tempFind.checkerName=""
 
     },
-
-  
     msgList(params) {
       return new Promise((resolve, reject) => {
         axios
@@ -291,13 +271,10 @@ export default {
       this.listQuery.pageNum = val;
       this.getList();
     },
-    
     getIndex($index) {
       //表格序号
       return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1;
     },
-
-    
     find() {
       this.listLoading = true;
       find(
@@ -321,7 +298,6 @@ export default {
         }
       );
     },
-
     getList() {
       this.listLoading = true;
       list(this.listQuery).then(response => {
@@ -335,7 +311,6 @@ export default {
       );
       this.listLoading = false;
     }
-
   }
 };
 </script>

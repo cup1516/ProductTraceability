@@ -51,13 +51,11 @@
             <el-option  v-for="item in crops" :key="item.name" :label="item.name" :value="item.name"></el-option>
           </el-select>
           </el-form-item>
-
           <el-form-item label="审核人:">
             <el-select  v-model="tempFind.reviewerName" placeholder="请选择审核人"  style="width:170px" >
               <el-option  v-for="item in staffs" :key="item.userName" :label="item.userName" :value="item.userName"></el-option>
             </el-select>
           </el-form-item>
-
           <el-form-item label="开始时间:" >
               <el-date-picker
               style="width:170px"
@@ -66,7 +64,7 @@
                 placeholder="选择日期">
               </el-date-picker>
           </el-form-item>
-                   <el-form-item label="截止时间:" label-width="140px">
+          <el-form-item label="截止时间:" label-width="140px">
               <el-date-picker
                v-model="tempFind.etime"
                 type="date"
@@ -80,7 +78,6 @@
         <el-card class="operate-container" shadow="never" style="height:90px">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-        
           <el-button
             icon="el-icon-refresh"  
             @click="getList"
@@ -89,7 +86,6 @@
           >刷新</el-button>
     </el-card>
     </div>
-
     <el-table
       :data="list"
       v-loading.body="listLoading"
@@ -102,8 +98,6 @@
           <span>{{scope.$index+1 }}</span>
         </template>
       </el-table-column>
-
-  
       <el-table-column align="center" prop="orderId" label="票据编号" width="270"></el-table-column>
       <el-table-column align="center" prop="creatorName" label="创建人" width="200"></el-table-column>
       <el-table-column align="center" prop="reviewerName" label="审核人" width="100"></el-table-column>
@@ -114,7 +108,6 @@
           <div v-if="scope.row.checkFlag == 3" style="color:#FF0000"> 审核未通过</div>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="操作" width="300" >
         <template slot-scope="scope">
           <el-button
@@ -124,11 +117,9 @@
             style="font-size: 9px;"
             size="mini"
           >查看</el-button>
-
         </template>
       </el-table-column>
     </el-table>
-
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -138,18 +129,13 @@
       :page-sizes="[10, 20, 50, 100]"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
-
   </div>
 </template>
 <script>
-
-
 import { getCrops } from "@/api/manor/order/add";
 import { list ,find} from "@/api/manor/order/invalidOrder";
 import{ListCompany}from "@/api/manor/order/add"
 import {getStaff} from "@/api/manor/order/reviewOrder";
-
-
 export default {
   data() {
     return {
@@ -200,7 +186,6 @@ export default {
         delFlag:"",
         checkStatus:"",
         },
-   
       companyOptions:[],
       crops:[]
     };
@@ -210,13 +195,11 @@ export default {
     this.getCrops();
   },
   methods: {
-
-     listCompany(query){
+    listCompany(query){
       ListCompany(query).then(res=>{
         this.companyOptions = res
       })
     },
-
     setBuyerName(val){
       this.companyOptions.forEach(company => {
         if(company.companyId == val){
@@ -225,22 +208,18 @@ export default {
         }
       })
     },
-
-        getStaff(){
+    getStaff(){
       getStaff().then(response => {
         const data = response.data
         this.staffs = data;
         }
       );      
     },
-
-
-  detail($index){
+    detail($index){
       this.$router.push({path:'/detail/orderDetail',
        query:{id:this.list[$index].orderId}
      });
-   },
-    
+    },
     handleResetSearch(){
       this.tempFind.orderId="",
       this.tempFind.buyerName="",
@@ -249,10 +228,6 @@ export default {
       this.tempFind.etime="",
       this.tempFind.reviewerName = ""
     },
-
-   
-  
-
     msgList(params) {
       return new Promise((resolve, reject) => {
         axios
@@ -300,13 +275,10 @@ export default {
       this.listQuery.pageNum = val;
       this.getList();
     },
-    
     getIndex($index) {
       //表格序号
       return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1;
     },
-
-    
     find() {
       this.listLoading = true;
       find(
@@ -330,8 +302,6 @@ export default {
         }
       );
     },
-
-
     getList() {
       this.listLoading = true;
       list(this.listQuery).then(response => { 
@@ -344,9 +314,6 @@ export default {
         }
       );
     },
-
-
-
     getCrops() {
       getCrops().then(response => {
         const data = response.data
@@ -354,7 +321,6 @@ export default {
         }
       );
     },
-
   }
 };
 </script>
