@@ -193,4 +193,10 @@ public class UserController {
     public R listUserByPerms(@PathVariable String[] perms){
         return R.ok(sysUserService.listUserByPerms(perms,SecurityUtils.getCompanyId()));
     }
+
+    //仓储
+    @GetMapping("/list1/perms/{perms}")
+    public R listUserByPerms1(@PathVariable String[] perms){
+        return R.ok(sysUserService.listUserByPerms1(perms,SecurityUtils.getCompanyId()));
+    }
 }

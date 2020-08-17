@@ -135,4 +135,7 @@ public interface SysUserMapper  {
      * @return
      */
     List<SysUser> listUserByPerms( @Param("perms")String[] perms,@Param("companyId")String companyId);
+
+    //仓储
+    List<SysUser> listUserByPerms1( @Param("perms")String[] perms,@Param("companyId")String companyId);
 }

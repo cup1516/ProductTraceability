@@ -135,6 +135,9 @@ public interface SysUserService  {
     * @return
     */
    List<SysUser> listUserByPerms(String[] perms,String companyId);
+
+   //仓储
+   List<SysUser> listUserByPerms1(String[] perms,String companyId);
 //   /**
 //    * 根据用户ID查询用户所属角色组
 //    *

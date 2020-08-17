@@ -343,5 +343,11 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.listUserByPerms(perms,companyId);
     }
 
+    //仓储
+    @Override
+    public List<SysUser> listUserByPerms1(String[] perms, String companyId) {
+        return sysUserMapper.listUserByPerms1(perms,companyId);
+    }
+
 
 }
