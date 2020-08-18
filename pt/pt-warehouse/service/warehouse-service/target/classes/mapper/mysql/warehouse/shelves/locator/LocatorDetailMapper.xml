@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.warehouse.shelves.locator.LocatorDetailMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail" id="LocatorDetailMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="locatorId" column="locator_id" jdbcType="VARCHAR"/>
+        <result property="locatorName" column="locator_name" jdbcType="VARCHAR"/>
+        <result property="locatorCode" column="locator_code" jdbcType="VARCHAR"/>
+        <result property="length" column="length" jdbcType="DOUBLE"/>
+        <result property="width" column="width" jdbcType="DOUBLE"/>
+        <result property="height" column="height" jdbcType="DOUBLE"/>
+        <result property="weight" column="weight" jdbcType="DOUBLE"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="capacity" column="capacity" jdbcType="DOUBLE"/>
+        <result property="charge" column="charge" jdbcType="DOUBLE"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="warehouseName" column="warehouse_name" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="shelfName" column="shelf_name" jdbcType="VARCHAR"/>
+        <result property="shelfId" column="shelf_id" jdbcType="VARCHAR"/>
+        <result property="goodName" column="good_name" jdbcType="VARCHAR"/>
+        <result property="goodNo" column="good_no" jdbcType="VARCHAR"/>
+        <result property="goodNum" column="good_num" jdbcType="INTEGER"/>
+        <result property="goodPrice" column="good_price" jdbcType="DOUBLE"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, locator_id,company_id, locator_name, locator_code, length, width, height, weight, creator, create_id, create_time, update_id, updator, update_time, capacity, charge, type, state, warehouse_name, warehouse_id, shelf_name, shelf_id, good_name, good_no, good_num, good_price
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="LocatorDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.locator_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="LocatorDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.locator_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail"
+            resultMap="LocatorDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.locator_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id = #{locatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name = #{locatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code = #{locatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="length != null">
+                and length = #{length,jdbcType=DOUBLE}
+            </if>
+            <if test="width != null">
+                and width = #{width,jdbcType=DOUBLE}
+            </if>
+            <if test="height != null">
+                and height = #{height,jdbcType=DOUBLE}
+            </if>
+            <if test="weight != null">
+                and weight = #{weight,jdbcType=DOUBLE}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="capacity != null">
+                and capacity = #{capacity,jdbcType=DOUBLE}
+            </if>
+            <if test="charge != null">
+                and charge = #{charge,jdbcType=DOUBLE}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name = #{warehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="shelfName != null and shelfName != ''">
+                and shelf_name = #{shelfName,jdbcType=VARCHAR}
+            </if>
+            <if test="shelfId != null and shelfId != ''">
+                and shelf_id = #{shelfId,jdbcType=VARCHAR}
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and good_name = #{goodName,jdbcType=VARCHAR}
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                and good_no = #{goodNo,jdbcType=VARCHAR}
+            </if>
+            <if test="goodNum != null">
+                and good_num = #{goodNum,jdbcType=INTEGER}
+            </if>
+            <if test="goodPrice != null">
+                and good_price = #{goodPrice,jdbcType=DOUBLE}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail"
+            resultMap="LocatorDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.locator_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id like concat('%',#{locatorId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name like concat('%',#{locatorName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code like concat('%',#{locatorCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="length != null">
+                and length like concat('%',#{length,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="width != null">
+                and width like concat('%',#{width,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="height != null">
+                and height like concat('%',#{height,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="weight != null">
+                and weight like concat('%',#{weight,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="capacity != null">
+                and capacity like concat('%',#{capacity,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="charge != null">
+                and charge like concat('%',#{charge,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type like concat('%',#{type,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name like concat('%',#{warehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="shelfName != null and shelfName != ''">
+                and shelf_name like concat('%',#{shelfName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="shelfId != null and shelfId != ''">
+                and shelf_id like concat('%',#{shelfId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and good_name like concat('%',#{goodName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                and good_no like concat('%',#{goodNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodNum != null">
+                and good_num like concat('%',#{goodNum,jdbcType=INTEGER},'%')
+            </if>
+            <if test="goodPrice != null">
+                and good_price like concat('%',#{goodPrice,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{locatorId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertLocatorDetail"
+            parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail">
+        insert into warehouse.locator_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id,
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name,
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="capacity != null">
+                capacity,
+            </if>
+            <if test="charge != null">
+                charge,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="shelfName != null and shelfName != ''">
+                shelf_name,
+            </if>
+            <if test="shelfId != null and shelfId != ''">
+                shelf_id,
+            </if>
+            <if test="goodName != null and goodName != ''">
+                good_name,
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                good_no,
+            </if>
+            <if test="goodNum != null">
+                good_num,
+            </if>
+            <if test="goodPrice != null">
+                good_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                #{locatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                #{locatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                #{locatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=DOUBLE},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=DOUBLE},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=DOUBLE},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=DOUBLE},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="capacity != null">
+                #{capacity,jdbcType=DOUBLE},
+            </if>
+            <if test="charge != null">
+                #{charge,jdbcType=DOUBLE},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="shelfName != null and shelfName != ''">
+                #{shelfName,jdbcType=VARCHAR},
+            </if>
+            <if test="shelfId != null and shelfId != ''">
+                #{shelfId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodName != null and goodName != ''">
+                #{goodName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                #{goodNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNum != null">
+                #{goodNum,jdbcType=INTEGER},
+            </if>
+            <if test="goodPrice != null">
+                #{goodPrice,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量保存-->
+    <insert id="saveLocatorDetail" parameterType="java.util.ArrayList">
+        insert into locator_detail(id, locator_id, locator_name, locator_code, length, width, height, weight, creator,
+        create_id, create_time, update_id, updator, update_time, capacity, charge, type, state, warehouse_name,
+        warehouse_id, shelf_name, shelf_id, good_name, good_no, good_num, good_price)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.locatorId,jdbcType=VARCHAR}, #{item.locatorName,jdbcType=VARCHAR},
+            #{item.locatorCode,jdbcType=VARCHAR}, #{item.length,jdbcType=DOUBLE}, #{item.width,jdbcType=DOUBLE},
+            #{item.height,jdbcType=DOUBLE}, #{item.weight,jdbcType=DOUBLE}, #{item.creator,jdbcType=VARCHAR},
+            #{item.createId,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR},
+            #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.capacity,jdbcType=DOUBLE},
+            #{item.charge,jdbcType=DOUBLE}, #{item.type,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR},
+            #{item.warehouseName,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR},
+            #{item.shelfName,jdbcType=VARCHAR}, #{item.shelfId,jdbcType=VARCHAR}, #{item.goodName,jdbcType=VARCHAR},
+            #{item.goodNo,jdbcType=VARCHAR}, #{item.goodNum,jdbcType=INTEGER}, #{item.goodPrice,jdbcType=DOUBLE})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateLocatorDetailByPrimaryKey"
+            parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail">
+        update warehouse.locator_detail
+        <set>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id = #{locatorId},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name = #{locatorName},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code = #{locatorCode},
+            </if>
+            <if test="length != null">
+                length = #{length},
+            </if>
+            <if test="width != null">
+                width = #{width},
+            </if>
+            <if test="height != null">
+                height = #{height},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="capacity != null">
+                capacity = #{capacity},
+            </if>
+            <if test="charge != null">
+                charge = #{charge},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name = #{warehouseName},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="shelfName != null and shelfName != ''">
+                shelf_name = #{shelfName},
+            </if>
+            <if test="shelfId != null and shelfId != ''">
+                shelf_id = #{shelfId},
+            </if>
+            <if test="goodName != null and goodName != ''">
+                good_name = #{goodName},
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                good_no = #{goodNo},
+            </if>
+            <if test="goodNum != null">
+                good_num = #{goodNum},
+            </if>
+            <if test="goodPrice != null">
+                good_price = #{goodPrice},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteLocatorDetailByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.locator_detail where id = #{id}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteLocatorDetailByPrimaryKeys">
+        delete from warehouse.locator_detail
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+
+    <!--查询单个-->
+    <select id="getLocatorDetail" parameterType="java.lang.String" resultMap="LocatorDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.locator_detail
+        where locator_id = #{locatorId,jdbcType=VARCHAR}
+        and company_id =#{companyId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

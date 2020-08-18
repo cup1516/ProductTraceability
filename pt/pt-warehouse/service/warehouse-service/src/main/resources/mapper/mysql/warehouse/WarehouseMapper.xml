@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.warehouse.WarehouseMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.warehouse.Warehouse" id="WarehouseMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="alias" column="alias" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="principalId" column="principal_id" jdbcType="VARCHAR"/>
+        <result property="principalName" column="principal_name" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, company_id, name, alias, address, remark, create_id, creator, create_time, update_id, updator, update_time, principal_id, principal_name
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="WarehouseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.warehouse
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="WarehouseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.warehouse
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.warehouse.Warehouse" resultMap="WarehouseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.warehouse
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="alias != null and alias != ''">
+                and alias = #{alias,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="principalId != null and principalId != ''">
+                and principal_id = #{principalId,jdbcType=VARCHAR}
+            </if>
+            <if test="principalName != null and principalName != ''">
+                and principal_name = #{principalName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.warehouse.Warehouse" resultMap="WarehouseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.warehouse
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="alias != null and alias != ''">
+                and alias like concat('%',#{alias,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="address != null and address != ''">
+                and address like concat('%',#{address,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="principalId != null and principalId != ''">
+                and principal_id like concat('%',#{principalId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="principalName != null and principalName != ''">
+                and principal_name like concat('%',#{principalName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{companyId,jdbcType=VARCHAR }
+            </if>
+        </where>
+    </select>
+
+    <!--无条件查询仓库-->
+    <select id="getAllStoreByPrincipalId" parameterType="java.lang.String" resultMap="WarehouseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.warehouse
+        where warehouse.principal_id = #{principalId,jdbcType=VARCHAR}
+        and
+        warehouse.company_id = #{companyId,jdbcType=VARCHAR}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertWarehouse" parameterType="com.warehouse.warehouse.pojo.po.warehouse.Warehouse">
+        insert into warehouse.warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="alias != null and alias != ''">
+                alias,
+            </if>
+            <if test="address != null and address != ''">
+                address,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="principalId != null and principalId != ''">
+                principal_id,
+            </if>
+            <if test="principalName != null and principalName != ''">
+                principal_name,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null and alias != ''">
+                #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="principalId != null and principalId != ''">
+                #{principalId,jdbcType=VARCHAR},
+            </if>
+            <if test="principalName != null and principalName != ''">
+                #{principalName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveWarehouse" parameterType="java.util.ArrayList">
+        insert into warehouse(id, name, alias, address, remark, create_id, creator, create_time, update_id, updator, update_time, principal_id, principal_name)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.alias,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.principalId,jdbcType=VARCHAR}, #{item.principalName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateWarehouseByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.warehouse.Warehouse">
+        update warehouse.warehouse
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="alias != null and alias != ''">
+                alias = #{alias},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="principalId != null and principalId != ''">
+                principal_id = #{principalId},
+            </if>
+            <if test="principalName != null and principalName != ''">
+                principal_name = #{principalName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteWarehouseByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.warehouse where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteWarehouseByPrimaryKeys">
+        delete from warehouse.warehouse 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

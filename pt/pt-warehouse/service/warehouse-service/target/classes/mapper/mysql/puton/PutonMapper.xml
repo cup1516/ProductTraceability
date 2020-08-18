@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.puton.PutonMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.puton.Puton" id="PutonMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="putonNo" column="puton_no" jdbcType="VARCHAR"/>
+        <result property="commodityId" column="commodity_id" jdbcType="VARCHAR"/>
+        <result property="commodityBar" column="commodity_bar" jdbcType="VARCHAR"/>
+        <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
+        <result property="locatorId" column="locator_id" jdbcType="VARCHAR"/>
+        <result property="locatorCode" column="locator_code" jdbcType="VARCHAR"/>
+        <result property="locatorName" column="locator_name" jdbcType="VARCHAR"/>
+        <result property="oldlocatorId" column="oldlocator_id" jdbcType="VARCHAR"/>
+        <result property="oldlocatorCode" column="oldlocator_code" jdbcType="VARCHAR"/>
+        <result property="oldlocatorName" column="oldlocator_name" jdbcType="VARCHAR"/>
+        <result property="qty" column="qty" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="auditId" column="audit_id" jdbcType="VARCHAR"/>
+        <result property="auditor" column="auditor" jdbcType="VARCHAR"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, puton_no, commodity_id, commodity_bar, commodity_name, locator_id, locator_code, locator_name, oldlocator_id, oldlocator_code, oldlocator_name, qty, state, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time    
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="PutonMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.puton
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="PutonMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.puton
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.puton.Puton" resultMap="PutonMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.puton
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="putonNo != null and putonNo != ''">
+                and puton_no = #{putonNo,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id = #{commodityId,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar = #{commodityBar,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name = #{commodityName,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id = #{locatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code = #{locatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name = #{locatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="oldlocatorId != null and oldlocatorId != ''">
+                and oldlocator_id = #{oldlocatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="oldlocatorCode != null and oldlocatorCode != ''">
+                and oldlocator_code = #{oldlocatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="oldlocatorName != null and oldlocatorName != ''">
+                and oldlocator_name = #{oldlocatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="qty != null">
+                and qty = #{qty,jdbcType=INTEGER}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.puton.Puton" resultMap="PutonMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.puton
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="putonNo != null and putonNo != ''">
+                and puton_no like concat('%',#{putonNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id like concat('%',#{commodityId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar like concat('%',#{commodityBar,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name like concat('%',#{commodityName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id like concat('%',#{locatorId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code like concat('%',#{locatorCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name like concat('%',#{locatorName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="oldlocatorId != null and oldlocatorId != ''">
+                and oldlocator_id like concat('%',#{oldlocatorId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="oldlocatorCode != null and oldlocatorCode != ''">
+                and oldlocator_code like concat('%',#{oldlocatorCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="oldlocatorName != null and oldlocatorName != ''">
+                and oldlocator_name like concat('%',#{oldlocatorName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="qty != null">
+                and qty like concat('%',#{qty,jdbcType=INTEGER},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertPuton" parameterType="com.warehouse.warehouse.pojo.po.puton.Puton">
+        insert into warehouse.puton
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="putonNo != null and putonNo != ''">
+                puton_no,
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id,
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar,
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name,
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id,
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code,
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name,
+            </if>
+            <if test="oldlocatorId != null and oldlocatorId != ''">
+                oldlocator_id,
+            </if>
+            <if test="oldlocatorCode != null and oldlocatorCode != ''">
+                oldlocator_code,
+            </if>
+            <if test="oldlocatorName != null and oldlocatorName != ''">
+                oldlocator_name,
+            </if>
+            <if test="qty != null">
+                qty,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id,
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="putonNo != null and putonNo != ''">
+                #{putonNo,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                #{commodityBar,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                #{commodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                #{locatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                #{locatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                #{locatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="oldlocatorId != null and oldlocatorId != ''">
+                #{oldlocatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="oldlocatorCode != null and oldlocatorCode != ''">
+                #{oldlocatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="oldlocatorName != null and oldlocatorName != ''">
+                #{oldlocatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="qty != null">
+                #{qty,jdbcType=INTEGER},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                #{auditId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="savePuton" parameterType="java.util.ArrayList">
+        insert into puton(id, puton_no, commodity_id, commodity_bar, commodity_name, locator_id, locator_code, locator_name, oldlocator_id, oldlocator_code, oldlocator_name, qty, state, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.putonNo,jdbcType=VARCHAR}, #{item.commodityId,jdbcType=VARCHAR}, #{item.commodityBar,jdbcType=VARCHAR}, #{item.commodityName,jdbcType=VARCHAR}, #{item.locatorId,jdbcType=VARCHAR}, #{item.locatorCode,jdbcType=VARCHAR}, #{item.locatorName,jdbcType=VARCHAR}, #{item.oldlocatorId,jdbcType=VARCHAR}, #{item.oldlocatorCode,jdbcType=VARCHAR}, #{item.oldlocatorName,jdbcType=VARCHAR}, #{item.qty,jdbcType=INTEGER}, #{item.state,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.auditId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updatePutonByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.puton.Puton">
+        update warehouse.puton
+        <set>
+            <if test="putonNo != null and putonNo != ''">
+                puton_no = #{putonNo},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id = #{commodityId},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar = #{commodityBar},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name = #{commodityName},
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id = #{locatorId},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code = #{locatorCode},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name = #{locatorName},
+            </if>
+            <if test="oldlocatorId != null and oldlocatorId != ''">
+                oldlocator_id = #{oldlocatorId},
+            </if>
+            <if test="oldlocatorCode != null and oldlocatorCode != ''">
+                oldlocator_code = #{oldlocatorCode},
+            </if>
+            <if test="oldlocatorName != null and oldlocatorName != ''">
+                oldlocator_name = #{oldlocatorName},
+            </if>
+            <if test="qty != null">
+                qty = #{qty},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id = #{auditId},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor = #{auditor},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deletePutonByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.puton where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deletePutonByPrimaryKeys">
+        delete from warehouse.puton 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

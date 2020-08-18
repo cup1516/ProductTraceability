@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.inorder.InOrderMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.inorder.InOrder" id="InOrderMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="otherinNo" column="otherin_no" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="companyNo" column="company_no" jdbcType="VARCHAR"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="warehouseName" column="warehouse_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="supplierId" column="supplier_id" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supCompany" column="sup_company" jdbcType="VARCHAR"/>
+        <result property="goodNo" column="good_no" jdbcType="VARCHAR"/>
+        <result property="goodPrice" column="good_price" jdbcType="DOUBLE"/>
+        <result property="totPrice" column="tot_price" jdbcType="DOUBLE"/>
+        <result property="goodNum" column="good_num" jdbcType="BIGINT"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+        <result property="batch" column="batch" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, otherin_no, pid, batch,company_no, company_name, state, remark,
+        warehouse_id, warehouse_name, create_time, create_id, creator, supplier_id, supplier_name, sup_company,good_no,good_num,good_price,tot_price
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="InOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.in_order
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="InOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.in_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.in_order
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                and otherin_no = #{otherinNo,jdbcType=VARCHAR}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid,jdbcType=VARCHAR}
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                and company_no = #{companyNo,jdbcType=VARCHAR}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null">
+                and state = #{state,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name = #{warehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and supplier_id = #{supplierId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.in_order
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                and otherin_no like concat('%',#{otherinNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                and company_no like concat('%',#{companyNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name like concat('%',#{companyName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null">
+                and state like concat('%',#{state,jdbcType=INTEGER},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name like concat('%',#{warehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and supplier_id like concat('%',#{supplierId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                and supplier_name like concat('%',#{supplierName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="batch != null and batch != ''">
+                and batch like concat('%',#{batch,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertInOrder" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder">
+        insert into warehouse.in_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                otherin_no,
+            </if>
+            <if test="pid != null and pid != ''">
+                pid,
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                company_no,
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                supplier_id,
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                supplier_name,
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                good_no,
+            </if>
+            <if test="goodPrice != null and goodPrice != ''">
+                good_price,
+            </if>
+            <if test="goodNum != null and goodNum != ''">
+                good_num,
+            </if>
+            <if test="totPrice != null and totPrice != ''">
+                tot_price,
+            </if>
+            <if test="supCompany != null and supCompany != ''">
+                sup_company,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+            <if test="batch != null and batch != ''">
+                batch,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                #{otherinNo,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                #{companyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                #{supplierId,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                #{supplierName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                #{goodNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodPrice != null and goodPrice != ''">
+                #{goodPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="goodNum != null and goodNum != ''">
+                #{goodNum,jdbcType=BIGINT},
+            </if>
+            <if test="totPrice != null and totPrice != ''">
+                #{totPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="supCompany != null and supCompany != ''">
+                #{supCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="batch != null and batch != ''">
+                #{batch,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveInOrder" parameterType="java.util.ArrayList">
+        insert into in_order(id, otherin_no, pid, company_no, company_name, state, remark, warehouse_id, warehouse_name, create_time, create_id, creator, supplier_id,supplier_name,company_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.otherinNo,jdbcType=VARCHAR}, #{item.pid,jdbcType=VARCHAR}, #{item.companyNo,jdbcType=VARCHAR}, #{item.companyName,jdbcType=VARCHAR}, #{item.state,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.warehouseName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.supplierId,jdbcType=VARCHAR},#{item.companyId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateInOrderByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder">
+        update warehouse.in_order
+        <set>
+            <if test="otherinNo != null and otherinNo != ''">
+                otherin_no = #{otherinNo},
+            </if>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                company_no = #{companyNo},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name = #{warehouseName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                supplier_id = #{supplierId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteInOrderByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.in_order where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteInOrderByPrimaryKeys">
+        delete from warehouse.in_order 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+
+
+
+
+
+
+
+    <select id="describeFuzzyCompany" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.in_order
+        where sup_company =#{supCompany}
+
+    </select>
+
+
+
+</mapper>

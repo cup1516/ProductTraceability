@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.allocation.AllocationMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.allocation.Allocation" id="AllocationMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="allocationNo" column="allocation_no" jdbcType="VARCHAR"/>
+        <result property="bwarehouseId" column="bwarehouse_id" jdbcType="VARCHAR"/>
+        <result property="bwarehouseName" column="bwarehouse_name" jdbcType="VARCHAR"/>
+        <result property="awarehouseId" column="awarehouse_id" jdbcType="VARCHAR"/>
+        <result property="awarehouseName" column="awarehouse_name" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="auditId" column="audit_id" jdbcType="VARCHAR"/>
+        <result property="auditor" column="auditor" jdbcType="VARCHAR"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, allocation_no, bwarehouse_id, bwarehouse_name, awarehouse_id, awarehouse_name, state, remark, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time,company_id
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="AllocationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="AllocationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--这里要特别注意下：-->
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        where state='3'
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                and allocation_no = #{allocationNo,jdbcType=VARCHAR}
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                and bwarehouse_id = #{bwarehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                and bwarehouse_name = #{bwarehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                and awarehouse_id = #{awarehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                and awarehouse_name = #{awarehouseName,jdbcType=VARCHAR}
+            </if>
+
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+        <if test="companyId != null and companyId != ''">
+            and company_id =#{companyId,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                and allocation_no = #{allocationNo,jdbcType=VARCHAR}
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                and bwarehouse_id = #{bwarehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                and bwarehouse_name = #{bwarehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                and awarehouse_id = #{awarehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                and awarehouse_name = #{awarehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{companyId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                and allocation_no like concat('%',#{allocationNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                and bwarehouse_id like concat('%',#{bwarehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                and bwarehouse_name like concat('%',#{bwarehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                and awarehouse_id like concat('%',#{awarehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                and awarehouse_name like concat('%',#{awarehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insertAllocation" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation">
+        insert into warehouse.allocation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                allocation_no,
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                bwarehouse_id,
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                bwarehouse_name,
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                awarehouse_id,
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                awarehouse_name,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id,
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                #{allocationNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                #{bwarehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                #{bwarehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                #{awarehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                #{awarehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                #{auditId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveAllocation" parameterType="java.util.ArrayList">
+        insert into allocation(id, allocation_no, bwarehouse_id, bwarehouse_name, awarehouse_id, awarehouse_name, state, remark, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.allocationNo,jdbcType=VARCHAR}, #{item.bwarehouseId,jdbcType=VARCHAR}, #{item.bwarehouseName,jdbcType=VARCHAR}, #{item.awarehouseId,jdbcType=VARCHAR}, #{item.awarehouseName,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.auditId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateAllocationByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation">
+        update warehouse.allocation
+        <set>
+            <if test="allocationNo != null and allocationNo != ''">
+                allocation_no = #{allocationNo},
+            </if>
+            <if test="bwarehouseId != null and bwarehouseId != ''">
+                bwarehouse_id = #{bwarehouseId},
+            </if>
+            <if test="bwarehouseName != null and bwarehouseName != ''">
+                bwarehouse_name = #{bwarehouseName},
+            </if>
+            <if test="awarehouseId != null and awarehouseId != ''">
+                awarehouse_id = #{awarehouseId},
+            </if>
+            <if test="awarehouseName != null and awarehouseName != ''">
+                awarehouse_name = #{awarehouseName},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id = #{auditId},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor = #{auditor},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteAllocationByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.allocation where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteAllocationByPrimaryKeys">
+        delete from warehouse.allocation 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <select id="describeCommissionFuzzy" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.allocation
+        <where>
+            <if test="allocation.id != null and allocation.id != ''">
+                and allocation.id like concat('%',#{allocation.id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.allocationNo != null and allocation.allocationNo != ''">
+                and allocation.allocation_no like concat('%',#{allocation.allocationNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.bwarehouseId != null and allocation.bwarehouseId != ''">
+                and allocation.bwarehouse_id like concat('%',#{allocation.bwarehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.bwarehouseName != null and allocation.bwarehouseName != ''">
+                and allocation.bwarehouse_name like concat('%',#{allocation.bwarehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.awarehouseId != null and allocation.awarehouseId != ''">
+                and allocation.awarehouse_id like concat('%',#{allocation.awarehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.awarehouseName != null and allocation.awarehouseName != ''">
+                and allocation.awarehouse_name like concat('%',#{allocation.awarehouseName,jdbcType=VARCHAR},'%')
+            </if>
+                and state = 0
+            <if test="allocation.remark != null and allocation.remark != ''">
+                and allocation.remark like concat('%',#{allocation.remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.warehouseId != null and allocation.warehouseId != ''">
+                and allocation.warehouse_id like concat('%',#{allocation.warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.createId != null and allocation.createId != ''">
+                and allocation.create_id like concat('%',#{allocation.createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.creator != null and allocation.creator != ''">
+                and allocation.creator like concat('%',#{allocation.creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.createTime != null">
+                and allocation.create_time like concat('%',#{allocation.createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="allocation.updateId != null and allocation.updateId != ''">
+                and allocation.update_id like concat('%',#{allocation.updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.updator != null and allocation.updator != ''">
+                and allocation.updator like concat('%',#{allocation.updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.updateTime != null">
+                and allocation.update_time like concat('%',#{allocation.updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="allocation.auditId != null and allocation.auditId != ''">
+                and allocation.audit_id like concat('%',#{allocation.auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.auditor != null and allocation.auditor != ''">
+                and allocation.auditor like concat('%',#{userId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocation.auditTime != null">
+                and allocation.audit_time like concat('%',#{allocation.auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="allocation.companyId != null and allocation.companyId != ''">
+                and allocation.company_id =#{allocation.companyId,jdbcType=VARCHAR}
+            </if>
+        </where>
+
+    </select>
+</mapper>

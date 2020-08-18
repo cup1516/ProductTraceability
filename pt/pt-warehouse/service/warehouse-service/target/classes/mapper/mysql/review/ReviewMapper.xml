@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.review.ReviewMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.review.Review" id="ReviewMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="outorderId" column="outorder_id" jdbcType="VARCHAR"/>
+        <result property="outorderNo" column="outorder_no" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, outorder_id, outorder_no, state, warehouse_id, create_id, creator, create_time    
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="ReviewMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.review
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="ReviewMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.review
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.review.Review" resultMap="ReviewMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.review
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="outorderId != null and outorderId != ''">
+                and outorder_id = #{outorderId,jdbcType=VARCHAR}
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                and outorder_no = #{outorderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.review.Review" resultMap="ReviewMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.review
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="outorderId != null and outorderId != ''">
+                and outorder_id like concat('%',#{outorderId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                and outorder_no like concat('%',#{outorderNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertReview" parameterType="com.warehouse.warehouse.pojo.po.review.Review">
+        insert into warehouse.review
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="outorderId != null and outorderId != ''">
+                outorder_id,
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                outorder_no,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="outorderId != null and outorderId != ''">
+                #{outorderId,jdbcType=VARCHAR},
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                #{outorderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveReview" parameterType="java.util.ArrayList">
+        insert into review(id, outorder_id, outorder_no, state, warehouse_id, create_id, creator, create_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.outorderId,jdbcType=VARCHAR}, #{item.outorderNo,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateReviewByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.review.Review">
+        update warehouse.review
+        <set>
+            <if test="outorderId != null and outorderId != ''">
+                outorder_id = #{outorderId},
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                outorder_no = #{outorderNo},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteReviewByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.review where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteReviewByPrimaryKeys">
+        delete from warehouse.review 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

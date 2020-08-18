@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.outorder.OutOrderMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.outorder.OutOrder" id="OutOrderMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="otheroutNo" column="otherout_no" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="companyNo" column="company_no" jdbcType="VARCHAR"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="warehouseName" column="warehouse_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="customerId" column="customer_id" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="cusCompany" column="cus_company" jdbcType="VARCHAR"/>
+        <result property="goodNo" column="good_no" jdbcType="VARCHAR"/>
+        <result property="goodPrice" column="good_price" jdbcType="DOUBLE"/>
+        <result property="totPrice" column="tot_price" jdbcType="DOUBLE"/>
+        <result property="goodNum" column="good_num" jdbcType="BIGINT"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+        <result property="batch" column="batch" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, otherout_no, pid,batch, company_no, company_name, remark, warehouse_id, warehouse_name, create_time, create_id, creator, customer_id,customer_name, state,good_no
+        ,good_num,tot_price,good_price,cus_company
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="OutOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.out_order
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="OutOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.out_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.out_order
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="otheroutNo != null and otheroutNo != ''">
+                and otherout_no = #{otheroutNo,jdbcType=VARCHAR}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid,jdbcType=VARCHAR}
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                and company_no = #{companyNo,jdbcType=VARCHAR}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name = #{warehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                and customer_id = #{customerId,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null">
+                and state = #{state,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.out_order
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otheroutNo != null and otheroutNo != ''">
+                and otherout_no like concat('%',#{otheroutNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                and company_no like concat('%',#{companyNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name like concat('%',#{companyName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name like concat('%',#{warehouseName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="customerId != null and customerId != ''">
+                and customer_id like concat('%',#{customerId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="customerName != null and customerName != ''">
+                and customer_name like concat('%',#{customerName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null">
+                and state like concat('%',#{state,jdbcType=INTEGER},'%')
+            </if>
+            <if test="batch != null  and batch != ''">
+                and batch like concat('%',#{batch,jdbcType=INTEGER},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertOutOrder" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder">
+        insert into warehouse.out_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="otheroutNo != null and otheroutNo != ''">
+                otherout_no,
+            </if>
+            <if test="pid != null and pid != ''">
+                pid,
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                company_no,
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="customerId != null and customerId != ''">
+                customer_id,
+            </if>
+            <if test="customerName != null and customerName != ''">
+                customer_name,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                good_no,
+            </if>
+            <if test="goodPrice != null and goodPrice != ''">
+                good_price,
+            </if>
+            <if test="goodNum != null and goodNum != ''">
+                good_num,
+            </if>
+            <if test="totPrice != null and totPrice != ''">
+                tot_price,
+            </if>
+            <if test="cusCompany != null and cusCompany != ''">
+                cus_company,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+            <if test="batch != null and batch != ''">
+                batch,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="otheroutNo != null and otheroutNo != ''">
+                #{otheroutNo,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                #{companyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null and customerId != ''">
+                #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerName != null and customerName != ''">
+                #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                #{goodNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodPrice != null and goodPrice != ''">
+                #{goodPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="goodNum != null and goodNum != ''">
+                #{goodNum,jdbcType=BIGINT},
+            </if>
+            <if test="totPrice != null and totPrice != ''">
+                #{totPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="cusCompany != null and cusCompany != ''">
+                #{cusCompany,jdbcType=DOUBLE},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=DOUBLE},
+            </if>
+            <if test="batch != null and batch != ''">
+                #{batch,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveOutOrder" parameterType="java.util.ArrayList">
+        insert into out_order(id, otherout_no, pid, company_no, company_name, remark, warehouse_id, warehouse_name, create_time, create_id, creator, customer_id, state)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.otheroutNo,jdbcType=VARCHAR}, #{item.pid,jdbcType=VARCHAR}, #{item.companyNo,jdbcType=VARCHAR}, #{item.companyName,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.warehouseName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.customerId,jdbcType=VARCHAR}, #{item.state,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateOutOrderByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder">
+        update warehouse.out_order
+        <set>
+            <if test="otheroutNo != null and otheroutNo != ''">
+                otherout_no = #{otheroutNo},
+            </if>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="companyNo != null and companyNo != ''">
+                company_no = #{companyNo},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name = #{warehouseName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="customerId != null and customerId != ''">
+                customer_id = #{customerId},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="batch != null and batch != ''">
+                batch = #{batch},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteOutOrderByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.out_order where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteOutOrderByPrimaryKeys">
+        delete from warehouse.out_order 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+
+
+
+    <select id="describeFuzzyCompany" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.out_order
+        where cus_company =#{cusCompany}
+
+    </select>
+</mapper>

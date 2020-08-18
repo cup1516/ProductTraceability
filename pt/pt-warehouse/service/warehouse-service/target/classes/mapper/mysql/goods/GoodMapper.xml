@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.goods.GoodMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.goods.Good" id="GoodMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="goodNo" column="good_no" jdbcType="VARCHAR"/>
+        <result property="goodName" column="good_name" jdbcType="VARCHAR"/>
+        <result property="goodType" column="good_type" jdbcType="VARCHAR"/>
+        <result property="unit" column="unit" jdbcType="INTEGER"/>
+        <result property="length" column="length" jdbcType="DOUBLE"/>
+        <result property="width" column="width" jdbcType="DOUBLE"/>
+        <result property="heigth" column="heigth" jdbcType="DOUBLE"/>
+        <result property="weigth" column="weigth" jdbcType="DOUBLE"/>
+        <result property="price" column="price" jdbcType="DOUBLE"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="goodCategoryId" column="category_id" jdbcType="VARCHAR"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="createUserName" column="create_user_name" jdbcType="VARCHAR"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="modifiedUserId" column="modified_user_id" jdbcType="VARCHAR"/>
+        <result property="modifiedUserName" column="modified_user_name" jdbcType="VARCHAR"/>
+        <result property="modifiedDate" column="modified_date" jdbcType="TIMESTAMP"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, good_no, good_name, good_type, unit, length, category_id, width, heigth, weigth, price, status, remark, create_user_id, create_user_name, create_date, modified_user_id, modified_user_name, modified_date,company_id
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--查询单个-->
+    <select id="describeByGoodCode" parameterType="java.lang.String" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        where good_no = #{commodityBar,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.goods.Good" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                and good_no = #{goodNo,jdbcType=VARCHAR}
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and good_name = #{goodName,jdbcType=VARCHAR}
+            </if>
+            <if test="goodType != null">
+                and good_type = #{goodType,jdbcType=INTEGER}
+            </if>
+            <if test="unit != null">
+                and unit = #{unit,jdbcType=INTEGER}
+            </if>
+            <if test="length != null">
+                and length = #{length,jdbcType=DOUBLE}
+            </if>
+            <if test="width != null">
+                and width = #{width,jdbcType=DOUBLE}
+            </if>
+            <if test="heigth != null">
+                and heigth = #{heigth,jdbcType=DOUBLE}
+            </if>
+            <if test="weigth != null">
+                and weigth = #{weigth,jdbcType=DOUBLE}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                and create_user_name = #{createUserName,jdbcType=VARCHAR}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifiedUserId != null and modifiedUserId != ''">
+                and modified_user_id = #{modifiedUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifiedUserName != null and modifiedUserName != ''">
+                and modified_user_name = #{modifiedUserName,jdbcType=VARCHAR}
+            </if>
+            <if test="modifiedDate != null">
+                and modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.goods.Good" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                and good_no like concat('%',#{goodNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and good_name like concat('%',#{goodName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goodType != null">
+                and good_type like concat('%',#{goodType,jdbcType=INTEGER},'%')
+            </if>
+            <if test="unit != null">
+                and unit like concat('%',#{unit,jdbcType=INTEGER},'%')
+            </if>
+            <if test="length != null">
+                and length like concat('%',#{length,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="width != null">
+                and width like concat('%',#{width,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="heigth != null">
+                and heigth like concat('%',#{heigth,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="weigth != null">
+                and weigth like concat('%',#{weigth,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="status != null">
+                and status like concat('%',#{status,jdbcType=INTEGER},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                and create_user_id like concat('%',#{createUserId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                and create_user_name like concat('%',#{createUserName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createDate != null">
+                and create_date like concat('%',#{createDate,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="modifiedUserId != null and modifiedUserId != ''">
+                and modified_user_id like concat('%',#{modifiedUserId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modifiedUserName != null and modifiedUserName != ''">
+                and modified_user_name like concat('%',#{modifiedUserName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modifiedDate != null">
+                and modified_date like concat('%',#{modifiedDate,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{companyId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertGood" parameterType="com.warehouse.warehouse.pojo.po.goods.Good">
+        insert into warehouse.good
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                good_no,
+            </if>
+            <if test="goodName != null and goodName != ''">
+                good_name,
+            </if>
+            <if test="goodType != null">
+                good_type,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="heigth != null">
+                heigth,
+            </if>
+            <if test="weigth != null">
+                weigth,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id,
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                create_user_name,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="modifiedUserId != null and modifiedUserId != ''">
+                modified_user_id,
+            </if>
+            <if test="modifiedUserName != null and modifiedUserName != ''">
+                modified_user_name,
+            </if>
+            <if test="modifiedDate != null">
+                modified_date,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+            <if test="goodCategoryId != null and goodCategoryId != ''">
+                category_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNo != null and goodNo != ''">
+                #{goodNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodName != null and goodName != ''">
+                #{goodName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodType != null">
+                #{goodType,jdbcType=INTEGER},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=INTEGER},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=DOUBLE},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=DOUBLE},
+            </if>
+            <if test="heigth != null">
+                #{heigth,jdbcType=DOUBLE},
+            </if>
+            <if test="weigth != null">
+                #{weigth,jdbcType=DOUBLE},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedUserId != null and modifiedUserId != ''">
+                #{modifiedUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifiedUserName != null and modifiedUserName != ''">
+                #{modifiedUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifiedDate != null">
+                #{modifiedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodCategoryId != null and goodCategoryId != ''">
+                #{goodCategoryId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveGood" parameterType="java.util.ArrayList">
+        insert into good(id, good_no, good_name, good_type, unit, length, width, heigth, weigth, status, remark, create_user_id, create_user_name, create_date, modified_user_id, modified_user_name, modified_date)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.goodNo,jdbcType=VARCHAR}, #{item.goodName,jdbcType=VARCHAR}, #{item.goodType,jdbcType=INTEGER}, #{item.unit,jdbcType=INTEGER}, #{item.length,jdbcType=DOUBLE}, #{item.width,jdbcType=DOUBLE}, #{item.heigth,jdbcType=DOUBLE}, #{item.weigth,jdbcType=DOUBLE}, #{item.status,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR}, #{item.createUserName,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, #{item.modifiedUserId,jdbcType=VARCHAR}, #{item.modifiedUserName,jdbcType=VARCHAR}, #{item.modifiedDate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateGoodByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.goods.Good">
+        update warehouse.good
+        <set>
+            <if test="goodNo != null and goodNo != ''">
+                good_no = #{goodNo},
+            </if>
+            <if test="goodName != null and goodName != ''">
+                good_name = #{goodName},
+            </if>
+            <if test="goodType != null">
+                good_type = #{goodType},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+            <if test="length != null">
+                length = #{length},
+            </if>
+            <if test="width != null">
+                width = #{width},
+            </if>
+            <if test="heigth != null">
+                heigth = #{heigth},
+            </if>
+            <if test="weigth != null">
+                weigth = #{weigth},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                create_user_name = #{createUserName},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="modifiedUserId != null and modifiedUserId != ''">
+                modified_user_id = #{modifiedUserId},
+            </if>
+            <if test="modifiedUserName != null and modifiedUserName != ''">
+                modified_user_name = #{modifiedUserName},
+            </if>
+            <if test="modifiedDate != null">
+                modified_date = #{modifiedDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteGoodByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.good where id = #{id}
+        and company_id = #{companyId}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteGoodByPrimaryKeys">
+        delete from warehouse.good 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+        and company_id = #{companyId}
+    </delete>
+
+
+    <select id="describesAllGood" parameterType="java.lang.String" resultMap="GoodMap">
+        select
+        *
+        from warehouse.good
+    </select>
+
+
+    <select id="describesGoodByGoodCategoryIdList" parameterType="ArrayList" resultMap="GoodMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.good
+        where category_id in
+        <foreach collection="goodCategoryIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

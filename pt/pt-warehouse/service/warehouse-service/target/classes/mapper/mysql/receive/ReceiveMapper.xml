@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.receive.ReceiveMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.receive.Receive" id="ReceiveMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="receiveNo" column="receive_no" jdbcType="VARCHAR"/>
+        <result property="purchaseId" column="purchase_id" jdbcType="VARCHAR"/>
+        <result property="purchaseNo" column="purchase_no" jdbcType="VARCHAR"/>
+        <result property="allocationId" column="allocation_id" jdbcType="VARCHAR"/>
+        <result property="allocationNo" column="allocation_no" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="auditId" column="audit_id" jdbcType="VARCHAR"/>
+        <result property="auditor" column="auditor" jdbcType="VARCHAR"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, receive_no, purchase_id, purchase_no, allocation_id, allocation_no, state, remarks, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time    
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="ReceiveMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="ReceiveMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive" resultMap="ReceiveMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="receiveNo != null and receiveNo != ''">
+                and receive_no = #{receiveNo,jdbcType=VARCHAR}
+            </if>
+            <if test="purchaseId != null and purchaseId != ''">
+                and purchase_id = #{purchaseId,jdbcType=VARCHAR}
+            </if>
+            <if test="purchaseNo != null and purchaseNo != ''">
+                and purchase_no = #{purchaseNo,jdbcType=VARCHAR}
+            </if>
+            <if test="allocationId != null and allocationId != ''">
+                and allocation_id = #{allocationId,jdbcType=VARCHAR}
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                and allocation_no = #{allocationNo,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive" resultMap="ReceiveMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="receiveNo != null and receiveNo != ''">
+                and receive_no like concat('%',#{receiveNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="purchaseId != null and purchaseId != ''">
+                and purchase_id like concat('%',#{purchaseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="purchaseNo != null and purchaseNo != ''">
+                and purchase_no like concat('%',#{purchaseNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocationId != null and allocationId != ''">
+                and allocation_id like concat('%',#{allocationId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                and allocation_no like concat('%',#{allocationNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks like concat('%',#{remarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertReceive" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive">
+        insert into warehouse.receive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="receiveNo != null and receiveNo != ''">
+                receive_no,
+            </if>
+            <if test="purchaseId != null and purchaseId != ''">
+                purchase_id,
+            </if>
+            <if test="purchaseNo != null and purchaseNo != ''">
+                purchase_no,
+            </if>
+            <if test="allocationId != null and allocationId != ''">
+                allocation_id,
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                allocation_no,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id,
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveNo != null and receiveNo != ''">
+                #{receiveNo,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseId != null and purchaseId != ''">
+                #{purchaseId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseNo != null and purchaseNo != ''">
+                #{purchaseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="allocationId != null and allocationId != ''">
+                #{allocationId,jdbcType=VARCHAR},
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                #{allocationNo,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                #{auditId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveReceive" parameterType="java.util.ArrayList">
+        insert into receive(id, receive_no, purchase_id, purchase_no, allocation_id, allocation_no, state, remarks, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.receiveNo,jdbcType=VARCHAR}, #{item.purchaseId,jdbcType=VARCHAR}, #{item.purchaseNo,jdbcType=VARCHAR}, #{item.allocationId,jdbcType=VARCHAR}, #{item.allocationNo,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.remarks,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.auditId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateReceiveByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive">
+        update warehouse.receive
+        <set>
+            <if test="receiveNo != null and receiveNo != ''">
+                receive_no = #{receiveNo},
+            </if>
+            <if test="purchaseId != null and purchaseId != ''">
+                purchase_id = #{purchaseId},
+            </if>
+            <if test="purchaseNo != null and purchaseNo != ''">
+                purchase_no = #{purchaseNo},
+            </if>
+            <if test="allocationId != null and allocationId != ''">
+                allocation_id = #{allocationId},
+            </if>
+            <if test="allocationNo != null and allocationNo != ''">
+                allocation_no = #{allocationNo},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id = #{auditId},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor = #{auditor},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteReceiveByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.receive where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteReceiveByPrimaryKeys">
+        delete from warehouse.receive 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

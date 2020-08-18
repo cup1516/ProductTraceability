@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.receive.ReceiveDetailMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.receive.ReceiveDetail" id="ReceiveDetailMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="commodityId" column="commodity_id" jdbcType="VARCHAR"/>
+        <result property="commodityBar" column="commodity_bar" jdbcType="VARCHAR"/>
+        <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
+        <result property="qty" column="qty" jdbcType="INTEGER"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pid, commodity_id, commodity_bar, commodity_name, qty, create_id, creator, create_time, update_id, updator, update_time    
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="ReceiveDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="ReceiveDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.receive.ReceiveDetail" resultMap="ReceiveDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id = #{commodityId,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar = #{commodityBar,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name = #{commodityName,jdbcType=VARCHAR}
+            </if>
+            <if test="qty != null">
+                and qty = #{qty,jdbcType=INTEGER}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.receive.ReceiveDetail" resultMap="ReceiveDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.receive_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id like concat('%',#{commodityId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar like concat('%',#{commodityBar,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name like concat('%',#{commodityName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="qty != null">
+                and qty like concat('%',#{qty,jdbcType=INTEGER},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertReceiveDetail" parameterType="com.warehouse.warehouse.pojo.po.receive.ReceiveDetail">
+        insert into warehouse.receive_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="pid != null and pid != ''">
+                pid,
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id,
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar,
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name,
+            </if>
+            <if test="qty != null">
+                qty,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                #{commodityBar,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                #{commodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="qty != null">
+                #{qty,jdbcType=INTEGER},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveReceiveDetail" parameterType="java.util.ArrayList">
+        insert into receive_detail(id, pid, commodity_id, commodity_bar, commodity_name, qty, create_id, creator, create_time, update_id, updator, update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.pid,jdbcType=VARCHAR}, #{item.commodityId,jdbcType=VARCHAR}, #{item.commodityBar,jdbcType=VARCHAR}, #{item.commodityName,jdbcType=VARCHAR}, #{item.qty,jdbcType=INTEGER}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateReceiveDetailByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.receive.ReceiveDetail">
+        update warehouse.receive_detail
+        <set>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id = #{commodityId},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar = #{commodityBar},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name = #{commodityName},
+            </if>
+            <if test="qty != null">
+                qty = #{qty},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteReceiveDetailByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.receive_detail where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteReceiveDetailByPrimaryKeys">
+        delete from warehouse.receive_detail 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

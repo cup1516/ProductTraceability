@@ -79,6 +79,12 @@ spring:
             - Path=/chat/**
           filters:
             - StripPrefix= 1
+        - id: pt-warehouse
+          uri: lb://pt-warehouse
+          predicates:
+            - Path=/warehouse/**
+          filters:
+            - StripPrefix= 1
 eureka:
   client:
     service-url:

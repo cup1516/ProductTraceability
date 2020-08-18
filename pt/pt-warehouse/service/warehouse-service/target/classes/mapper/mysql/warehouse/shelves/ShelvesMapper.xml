@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.warehouse.shelves.ShelvesMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves" id="ShelvesMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="shelvesName" column="shelves_name" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="warehouseName" column="warehouse_name" jdbcType="VARCHAR"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="createUserName" column="create_user_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUserId" column="update_user_id" jdbcType="VARCHAR"/>
+        <result property="updateUserName" column="update_user_name" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        shelves.id, shelves.shelves_name, shelves.warehouse_id,company_id,
+        shelves.warehouse_name, shelves.create_user_id,
+        shelves.create_user_name, shelves.create_time,
+        shelves.update_user_id, shelves.update_user_name,
+        shelves.update_time, shelves.status
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="shelvesName != null and shelvesName != ''">
+                and shelves_name = #{shelvesName,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and warehouse_name = #{warehouseName,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                and create_user_name = #{createUserName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                and update_user_id = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                and update_user_name = #{updateUserName,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        <where>
+
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{companyId,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+        order by update_time desc
+    </select>
+    <!--新增所有列-->
+    <insert id="insertShelves" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves">
+        insert into warehouse.shelves
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="shelvesName != null and shelvesName != ''">
+                shelves_name,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name,
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id,
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                create_user_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                update_user_id,
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                update_user_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="shelvesName != null and shelvesName != ''">
+                #{shelvesName,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量保存-->
+    <insert id="saveShelves" parameterType="java.util.ArrayList">
+        insert into shelves(id, shelves_name, warehouse_id, warehouse_name, create_user_id, create_user_name,
+        create_time, update_user_id, update_user_name, update_time, status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.shelvesName,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR},
+            #{item.warehouseName,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR},
+            #{item.createUserName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateUserId,jdbcType=VARCHAR}, #{item.updateUserName,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=TIMESTAMP}, #{item.status,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateShelvesByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves">
+        update warehouse.shelves
+        <set>
+            <if test="shelvesName != null and shelvesName != ''">
+                shelves_name = #{shelvesName},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                warehouse_name = #{warehouseName},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                create_user_name = #{createUserName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                update_user_id = #{updateUserId},
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                update_user_name = #{updateUserName},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteShelvesByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.shelves where id = #{id}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteShelvesByPrimaryKeys">
+        delete from warehouse.shelves
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="describesAllShelvesByWarehouseId" parameterType="java.lang.String" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+    </select>
+    <!--后期可以考虑(0,1)已参数的形式入参-->
+    <select id="describesAllUsableShelvesByWarehouseId" parameterType="java.lang.String" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+        and status in (0,1)
+    </select>
+
+    <select id="describeByLocatorId" parameterType="java.lang.String" resultMap="ShelvesMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.shelves,warehouse.locator
+        where warehouse.locator.id = #{locatorId,jdbcType=VARCHAR}
+        and warehouse.locator.shelves_id = warehouse.shelves.id
+    </select>
+
+    <select id="describeAllMineGroupByWarehouse"  parameterType="java.lang.String" resultMap="ShelvesMap">
+        select <include refid="Base_Column_List"/>
+        from warehouse.shelves
+        where warehouse.shelves.create_user_id = #{userId,jdbcType=VARCHAR}
+        order by warehouse.shelves.warehouse_id
+    </select>
+</mapper>

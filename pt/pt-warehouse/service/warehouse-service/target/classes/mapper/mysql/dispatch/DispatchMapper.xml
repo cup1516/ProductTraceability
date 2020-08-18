@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.dispatch.DispatchMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" id="DispatchMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="dispatchNo" column="dispatch_no" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="auditId" column="audit_id" jdbcType="VARCHAR"/>
+        <result property="auditor" column="auditor" jdbcType="VARCHAR"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dispatch_no, state, remark, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time ,company_id
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="DispatchMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="DispatchMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                and dispatch_no = #{dispatchNo,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                and dispatch_no like concat('%',#{dispatchNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertDispatch" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch">
+        insert into warehouse.dispatch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                dispatch_no,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id,
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                #{dispatchNo,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                #{auditId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveDispatch" parameterType="java.util.ArrayList">
+        insert into dispatch(id, dispatch_no, state, remark, warehouse_id, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.dispatchNo,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.auditId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateDispatchByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch">
+        update warehouse.dispatch
+        <set>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                dispatch_no = #{dispatchNo},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id = #{auditId},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor = #{auditor},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id = #{companyId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteDispatchByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.dispatch where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteDispatchByPrimaryKeys">
+        delete from warehouse.dispatch 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 查询未提交的报损单数据 -->
+    <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch
+        where state = '3'
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="dispatchNo != null and dispatchNo != ''">
+                and dispatch_no like concat('%',#{dispatchNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        <if test="companyId != null and companyId != ''">
+            and company_id =#{id,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="describeMineFuzzy" resultType="java.util.Map">
+        select
+        dispatch.id as id,
+        dispatch.dispatch_no as dispatchNo,
+        dispatch.state as state,
+        dispatch.remark as remark,
+        dispatch.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        dispatch.create_id as createId,
+        dispatch.creator as creator,
+        dispatch.create_time as createTime,
+        dispatch.update_id as update_id,
+        dispatch.updator as updator,
+        dispatch.update_time as updateTime,
+        dispatch.audit_id as auditId,
+        dispatch.auditor as auditor,
+        dispatch.audit_time as auditTime,
+        dispatch.company_id as companyId
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.create_id = #{userId,jdbcType=VARCHAR}
+        <if test="dispatch.id != null and dispatch.id != ''">
+            and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.dispatchNo != null and dispatch.dispatchNo != ''">
+            and dispatch_no like concat('%',#{dispatch.dispatchNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.state != null and dispatch.state != ''">
+            and state like concat('%',#{dispatch.state,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.remark != null and dispatch.remark != ''">
+            and remark like concat('%',#{dispatch.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.warehouseId != null and dispatch.warehouseId != ''">
+            and warehouse_id like concat('%',#{dispatch.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.createTime != null">
+            and create_time like concat('%',#{dispatch.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.updateId != null and dispatch.updateId != ''">
+            and update_id like concat('%',#{dispatch.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updator != null and dispatch.updator != ''">
+            and updator like concat('%',#{dispatch.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updateTime != null">
+            and update_time like concat('%',#{dispatch.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.auditId != null and dispatch.auditId != ''">
+            and audit_id like concat('%',#{dispatch.auditId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.auditor != null and dispatch.auditor != ''">
+            and auditor like concat('%',#{dispatch.auditor,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.auditTime != null">
+            and audit_time like concat('%',#{dispatch.auditTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.companyId != null and dispatch.companyId != ''">
+            and dispatch.company_id =#{dispatch.companyId,jdbcType=VARCHAR}
+        </if>
+        order by dispatch.update_time desc
+    </select>
+
+
+    <select id="describeCommissionFuzzy" resultType="java.util.Map">
+        select
+        dispatch.id as id,
+        dispatch.dispatch_no as dispatchNo,
+        dispatch.state as state,
+        dispatch.remark as remark,
+        dispatch.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        dispatch.create_id as createId,
+        dispatch.creator as creator,
+        dispatch.create_time as createTime,
+        dispatch.update_id as update_id,
+        dispatch.updator as updator,
+        dispatch.update_time as updateTime,
+        dispatch.audit_id as auditId,
+        dispatch.auditor as auditor,
+        dispatch.audit_time as auditTime,
+        dispatch.company_id as companyId
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.dispatch.state = 0
+        <if test="dispatch.id != null and dispatch.id != ''">
+            and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.dispatchNo != null and dispatch.dispatchNo != ''">
+            and dispatch_no like concat('%',#{dispatch.dispatchNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.state != null and dispatch.state != ''">
+            and state like concat('%',#{dispatch.state,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.remark != null and dispatch.remark != ''">
+            and remark like concat('%',#{dispatch.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.warehouseId != null and dispatch.warehouseId != ''">
+            and warehouse_id like concat('%',#{dispatch.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.createId != null and dispatch.createId != ''">
+            and create_id = #{dispatch.createId,jdbcType=VARCHAR}
+        </if>
+        <if test="dispatch.creator != null and dispatch.creator != ''">
+            and creator like concat('%',#{dispatch.creator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.createTime != null">
+            and create_time like concat('%',#{dispatch.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.updateId != null and dispatch.updateId != ''">
+            and update_id like concat('%',#{dispatch.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updator != null and dispatch.updator != ''">
+            and updator like concat('%',#{dispatch.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updateTime != null">
+            and update_time like concat('%',#{dispatch.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.auditTime != null">
+            and audit_time like concat('%',#{dispatch.auditTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.companyId != null and dispatch.companyId != ''">
+            and dispatch.company_id =#{dispatch.companyId,jdbcType=VARCHAR}
+        </if>
+        order by dispatch.update_time desc
+    </select>
+
+
+    <select id="describeAlreadDoneFuzzy" resultType="java.util.Map">
+        select
+        dispatch.id as id,
+        dispatch.dispatch_no as dispatchNo,
+        dispatch.state as state,
+        dispatch.remark as remark,
+        dispatch.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        dispatch.create_id as createId,
+        dispatch.creator as creator,
+        dispatch.create_time as createTime,
+        dispatch.update_id as update_id,
+        dispatch.updator as updator,
+        dispatch.update_time as updateTime,
+        dispatch.audit_id as auditId,
+        dispatch.auditor as auditor,
+        dispatch.audit_time as auditTime
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.dispatch.state in (1,2,4,5)
+        <if test="dispatch.id != null and dispatch.id != ''">
+            and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.dispatchNo != null and dispatch.dispatchNo != ''">
+            and dispatch_no like concat('%',#{dispatch.dispatchNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.state != null and dispatch.state != ''">
+            and state like concat('%',#{dispatch.state,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.remark != null and dispatch.remark != ''">
+            and remark like concat('%',#{dispatch.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.warehouseId != null and dispatch.warehouseId != ''">
+            and warehouse_id like concat('%',#{dispatch.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.createId != null and dispatch.createId != ''">
+            and create_id = #{dispatch.createId,jdbcType=VARCHAR}
+        </if>
+        <if test="dispatch.creator != null and dispatch.creator != ''">
+            and creator like concat('%',#{dispatch.creator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.createTime != null">
+            and create_time like concat('%',#{dispatch.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.updateId != null and dispatch.updateId != ''">
+            and update_id like concat('%',#{dispatch.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updator != null and dispatch.updator != ''">
+            and updator like concat('%',#{dispatch.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dispatch.updateTime != null">
+            and update_time like concat('%',#{dispatch.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.auditTime != null">
+            and audit_time like concat('%',#{dispatch.auditTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="dispatch.companyId != null and dispatch.companyId != ''">
+            and dispatch.company_id =#{dispatch.companyId,jdbcType=VARCHAR}
+        </if>
+        order by dispatch.update_time desc
+    </select>
+
+</mapper>

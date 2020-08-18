@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.dispatch.DispatchDetailMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.dispatch.DispatchDetail" id="DispatchDetailMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="locatorId" column="locator_id" jdbcType="VARCHAR"/>
+        <result property="locatorCode" column="locator_code" jdbcType="VARCHAR"/>
+        <result property="locatorName" column="locator_name" jdbcType="VARCHAR"/>
+        <result property="commodityId" column="commodity_id" jdbcType="VARCHAR"/>
+        <result property="commodityBar" column="commodity_bar" jdbcType="VARCHAR"/>
+        <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
+        <result property="qty" column="qty" jdbcType="INTEGER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="stockId" column="stock_id" jdbcType="VARCHAR"/>
+        <result property="otherinCustomerId" column="otherin_customer_id" jdbcType="VARCHAR"/>
+        <result property="otherinId" column="otherin_id" jdbcType="VARCHAR" />
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pid, locator_id, locator_code, locator_name, commodity_id, commodity_bar, commodity_name, qty, remark, create_id, creator, create_time, update_id, updator, update_time, stock_id, otherin_customer_id,company_id
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="DispatchDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="DispatchDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.dispatch.DispatchDetail" resultMap="DispatchDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id = #{locatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code = #{locatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name = #{locatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id = #{commodityId,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar = #{commodityBar,jdbcType=VARCHAR}
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name = #{commodityName,jdbcType=VARCHAR}
+            </if>
+            <if test="qty != null">
+                and qty = #{qty,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="stockId != null and stockId != ''">
+                and stock_id = #{stockId,jdbcType=VARCHAR}
+            </if>
+            <if test="otherinCustomerId != null and otherinCustomerId != ''">
+                and otherin_customer_id = #{otherinCustomerId,jdbcType=VARCHAR}
+            </if>
+            <if test="otherinId != null and otherinId != ''">
+                and otherin_id = #{otherinId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.dispatch.DispatchDetail" resultMap="DispatchDetailMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.dispatch_detail
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                and locator_id like concat('%',#{locatorId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                and locator_code like concat('%',#{locatorCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                and locator_name like concat('%',#{locatorName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                and commodity_id like concat('%',#{commodityId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                and commodity_bar like concat('%',#{commodityBar,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                and commodity_name like concat('%',#{commodityName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="qty != null">
+                and qty like concat('%',#{qty,jdbcType=INTEGER},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="stockId != null and stockId != ''">
+                and stock_id like concat('%',#{stockId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otherinCustomerId != null and otherinCustomerId != ''">
+                and otherin_customer_id like concat('%',#{otherinCustomerId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otherinId != null and otherinId != ''">
+                and otherin_id = like concat('%',#{otherinId,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertDispatchDetail" parameterType="com.warehouse.warehouse.pojo.po.dispatch.DispatchDetail">
+        insert into warehouse.dispatch_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="pid != null and pid != ''">
+                pid,
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id,
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code,
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name,
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id,
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar,
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name,
+            </if>
+            <if test="qty != null">
+                qty,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="stockId != null and stockId != ''">
+                stock_id,
+            </if>
+            <if test="otherinCustomerId != null and otherinCustomerId != ''">
+                otherin_customer_id,
+            </if>
+            <if test="otherinId != null and otherinId != ''">
+                otherin_id,
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                #{locatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                #{locatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                #{locatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                #{commodityId,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                #{commodityBar,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                #{commodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="qty != null">
+                #{qty,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="stockId != null and stockId != ''">
+                #{stockId,jdbcType=VARCHAR},
+            </if>
+            <if test="otherinCustomerId != null and otherinCustomerId != ''">
+                #{otherinCustomerId,jdbcType=VARCHAR},
+            </if>
+            <if test="otherinId != null and otherinId != ''">
+                #{otherinId,jdbcType=VARCHAR}
+            </if>
+            <if test="companyId != null and companyId != ''">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveDispatchDetail" parameterType="java.util.ArrayList">
+        insert into dispatch_detail(id, pid, locator_id, locator_code, locator_name, commodity_id, commodity_bar, commodity_name, qty, remark, create_id, creator, create_time, update_id, updator, update_time, stock_id, otherin_customer_id, otherin_id,company_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.pid,jdbcType=VARCHAR}, #{item.locatorId,jdbcType=VARCHAR}, #{item.locatorCode,jdbcType=VARCHAR}, #{item.locatorName,jdbcType=VARCHAR}, #{item.commodityId,jdbcType=VARCHAR}, #{item.commodityBar,jdbcType=VARCHAR}, #{item.commodityName,jdbcType=VARCHAR}, #{item.qty,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.stockId,jdbcType=VARCHAR}, #{item.otherinCustomerId,jdbcType=VARCHAR},#{item.otherinId,jdbcType=VARCHAR},#{item.companyId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateDispatchDetailByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.dispatch.DispatchDetail">
+        update warehouse.dispatch_detail
+        <set>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="locatorId != null and locatorId != ''">
+                locator_id = #{locatorId},
+            </if>
+            <if test="locatorCode != null and locatorCode != ''">
+                locator_code = #{locatorCode},
+            </if>
+            <if test="locatorName != null and locatorName != ''">
+                locator_name = #{locatorName},
+            </if>
+            <if test="commodityId != null and commodityId != ''">
+                commodity_id = #{commodityId},
+            </if>
+            <if test="commodityBar != null and commodityBar != ''">
+                commodity_bar = #{commodityBar},
+            </if>
+            <if test="commodityName != null and commodityName != ''">
+                commodity_name = #{commodityName},
+            </if>
+            <if test="qty != null">
+                qty = #{qty},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="stockId != null and stockId != ''">
+                stock_id = #{stockId},
+            </if>
+            <if test="otherinCustomerId != null and otherinCustomerId != ''">
+                otherin_customer_id = #{otherinCustomerId},
+            </if>
+            <if test="otherinId != null and otherinId != ''">
+                otherin_id = #{otherinId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteDispatchDetailByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.dispatch_detail where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteDispatchDetailByPrimaryKeys">
+        delete from warehouse.dispatch_detail 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

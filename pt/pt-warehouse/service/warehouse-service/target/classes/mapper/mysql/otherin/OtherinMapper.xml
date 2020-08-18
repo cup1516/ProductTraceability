@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.otherin.OtherinMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.otherin.Otherin" id="OtherinMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="otherinNo" column="otherin_no" jdbcType="VARCHAR"/>
+        <result property="supplierId" column="supplier_id" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+        <result property="updator" column="updator" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="auditId" column="audit_id" jdbcType="VARCHAR"/>
+        <result property="auditor" column="auditor" jdbcType="VARCHAR"/>
+        <result property="auditTime" column="audit_time" jdbcType="TIMESTAMP"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, otherin_no, supplier_id,supplier_name, warehouse_id, state, remark, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time,company_id
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="OtherinMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.otherin
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="OtherinMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.otherin
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.otherin.Otherin" resultMap="OtherinMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.otherin
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                and otherin_no = #{otherinNo,jdbcType=VARCHAR}
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and supplier_id = #{supplierId,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id = #{updateId,jdbcType=VARCHAR}
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator = #{updator,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id = #{auditId,jdbcType=VARCHAR}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor,jdbcType=VARCHAR}
+            </if>
+            <if test="auditTime != null">
+                and audit_time = #{auditTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.otherin.Otherin" resultMap="OtherinMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.otherin
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                and otherin_no like concat('%',#{otherinNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and supplier_id like concat('%',#{supplierId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and state like concat('%',#{state,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id like concat('%',#{createId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.otherin.Otherin" resultMap="OtherinMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.otherin
+        where state = '3'
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                and otherin_no like concat('%',#{otherinNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and supplier_id like concat('%',#{supplierId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark like concat('%',#{remark,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator like concat('%',#{creator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="updateId != null and updateId != ''">
+                and update_id like concat('%',#{updateId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updator != null and updator != ''">
+                and updator like concat('%',#{updator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="auditId != null and auditId != ''">
+                and audit_id like concat('%',#{auditId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor like concat('%',#{auditor,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="auditTime != null">
+                and audit_time like concat('%',#{auditTime,jdbcType=TIMESTAMP},'%')
+            </if>
+        <if test="companyId != null and companyId != ''">
+            and company_id =#{companyId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertOtherin" parameterType="com.warehouse.warehouse.pojo.po.otherin.Otherin">
+        insert into warehouse.otherin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                otherin_no,
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                supplier_id,
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                supplier_name,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="state != null and state != ''">
+                state,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="creator != null and creator != ''">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updator != null and updator != ''">
+                updator,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id,
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="otherinNo != null and otherinNo != ''">
+                #{otherinNo,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                #{supplierId,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                #{supplierName,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null and state != ''">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null and updator != ''">
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                #{auditId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveOtherin" parameterType="java.util.ArrayList">
+        insert into otherin(id, otherin_no, supplier_id, warehouse_id, state, remark, create_id, creator, create_time, update_id, updator, update_time, audit_id, auditor, audit_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.otherinNo,jdbcType=VARCHAR}, #{item.supplierId,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createId,jdbcType=VARCHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateId,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.auditId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateOtherinByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.otherin.Otherin">
+        update warehouse.otherin
+        <set>
+            <if test="otherinNo != null and otherinNo != ''">
+                otherin_no = #{otherinNo},
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                supplier_id = #{supplierId},
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                supplier_name = #{supplierName},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id = #{createId},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="auditId != null and auditId != ''">
+                audit_id = #{auditId},
+            </if>
+            <if test="auditor != null and auditor != ''">
+                auditor = #{auditor},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id = #{companyId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteOtherinByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.otherin where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteOtherinByPrimaryKeys">
+        delete from warehouse.otherin 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="describeMineFuzzy" resultType="java.util.Map">
+        select
+        otherin.id as id,
+        otherin.otherin_no as otherinNo,
+        otherin.state as state,
+        otherin.remark as remark,
+        otherin.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        otherin.create_id as createId,
+        otherin.creator as creator,
+        otherin.create_time as createTime,
+        otherin.update_id as update_id,
+        otherin.updator as updator,
+        otherin.update_time as updateTime,
+        otherin.audit_id as auditId,
+        otherin.auditor as auditor,
+        otherin.audit_time as auditTime,
+        otherin.company_id as companyId
+        from warehouse.otherin,warehouse.warehouse
+        where  warehouse.otherin.warehouse_id = warehouse.warehouse.id
+        and warehouse.otherin.create_id = #{userId,jdbcType=VARCHAR}
+        <if test="otherin.id != null and otherin.id != ''">
+            and otherin.id like concat('%',#{otherin.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.otherinNo != null and otherin.otherinNo != ''and otherin.otherinNo !='undefined'">
+            and otherin.otherin_no like concat('%',#{otherin.otherinNo,jdbcType=VARCHAR},'%')
+        </if>
+
+        <if test="otherin.state != null and otherin.state != ''">
+            and otherin.state like concat('%',#{otherin.state,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.remark != null and otherin.remark != ''">
+            and otherin.remark like concat('%',#{otherin.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.warehouseId != null and otherin.warehouseId != ''">
+            and otherin.warehouse_id like concat('%',#{otherin.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.createTime != null">
+            and otherin.create_time like concat('%',#{otherin.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.updateId != null and otherin.updateId != ''">
+            and otherin.update_id like concat('%',#{otherin.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updator != null and otherin.updator != ''">
+            and otherin.updator like concat('%',#{otherin.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updateTime != null">
+            and otherin.update_time like concat('%',#{otherin.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.auditId != null and otherin.auditId != ''">
+            and audit_id like concat('%',#{otherin.auditId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.auditor != null and otherin.auditor != ''">
+            and auditor like concat('%',#{otherin.auditor,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.auditTime != null">
+            and audit_time like concat('%',#{otherin.auditTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.companyId != null and otherin.companyId != ''">
+            and otherin.company_id =#{otherin.companyId,jdbcType=VARCHAR}
+        </if>
+        order by otherin.update_time desc
+    </select>
+
+    <select id="describeCommissionFuzzy" resultType="java.util.Map">
+        select
+        otherin.id as id,
+        otherin.otherin_no as otherinNo,
+        otherin.state as state,
+        otherin.remark as remark,
+        otherin.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        otherin.create_id as createId,
+        otherin.creator as creator,
+        otherin.create_time as createTime,
+        otherin.update_id as update_id,
+        otherin.updator as updator,
+        otherin.update_time as updateTime,
+        otherin.audit_id as auditId,
+        otherin.auditor as auditor,
+        otherin.audit_time as auditTime,
+        otherin.company_id as companyId
+        from warehouse.otherin,warehouse.warehouse
+        where  warehouse.otherin.warehouse_id = warehouse.warehouse.id
+        and warehouse.otherin.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.otherin.state = 0
+        <if test="otherin.id != null and otherin.id != ''">
+            and otherin.id like concat('%',#{otherin.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.otherinNo != null and otherin.otherinNo != ''">
+            and otherin.otherin_no like concat('%',#{otherin.otherinNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.remark != null and otherin.remark != ''">
+            and otherin.remark like concat('%',#{otherin.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.warehouseId != null and otherin.warehouseId != ''">
+            and otherin.warehouse_id like concat('%',#{otherin.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.createId != null and otherin.createId != ''">
+            and otherin.create_id like concat('%',#{otherin.createId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.creator != null and otherin.creator != ''">
+            and otherin.creator like concat('%',#{otherin.creator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.createTime != null">
+            and otherin.create_time like concat('%',#{otherin.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.updateId != null and otherin.updateId != ''">
+            and otherin.update_id like concat('%',#{otherin.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updator != null and otherin.updator != ''">
+            and otherin.updator like concat('%',#{otherin.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updateTime != null">
+            and otherin.update_time like concat('%',#{otherin.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.companyId != null and otherin.companyId != ''">
+            and otherin.company_id =#{otherin.companyId,jdbcType=VARCHAR}
+        </if>
+        order by otherin.update_time desc
+    </select>
+
+
+    <select id="describeAlreadDoneFuzzy" resultType="java.util.Map">
+        select
+        otherin.id as id,
+        otherin.otherin_no as otherinNo,
+        otherin.state as state,
+        otherin.remark as remark,
+        otherin.warehouse_id as warehouseId,
+        warehouse.name as warehouseName,
+        otherin.create_id as createId,
+        otherin.creator as creator,
+        otherin.create_time as createTime,
+        otherin.update_id as update_id,
+        otherin.updator as updator,
+        otherin.update_time as updateTime,
+        otherin.audit_id as auditId,
+        otherin.auditor as auditor,
+        otherin.audit_time as auditTime
+        from warehouse.otherin,warehouse.warehouse
+        where  warehouse.otherin.warehouse_id = warehouse.warehouse.id
+        and warehouse.otherin.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.otherin.state in (1,2,4,5)
+        <if test="otherin.id != null and otherin.id != ''">
+            and otherin.id like concat('%',#{otherin.id,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.otherinNo != null and otherin.otherinNo != ''">
+            and otherin.otherin_no like concat('%',#{otherin.otherinNo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.remark != null and otherin.remark != ''">
+            and otherin.remark like concat('%',#{otherin.remark,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.warehouseId != null and otherin.warehouseId != ''">
+            and otherin.warehouse_id like concat('%',#{otherin.warehouseId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.createId != null and otherin.createId != ''">
+            and otherin.create_id like concat('%',#{otherin.createId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.creator != null and otherin.creator != ''">
+            and otherin.creator like concat('%',#{otherin.creator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.createTime != null">
+            and otherin.create_time like concat('%',#{otherin.createTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.updateId != null and otherin.updateId != ''">
+            and otherin.update_id like concat('%',#{otherin.updateId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updator != null and otherin.updator != ''">
+            and otherin.updator like concat('%',#{otherin.updator,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="otherin.updateTime != null">
+            and otherin.update_time like concat('%',#{otherin.updateTime,jdbcType=TIMESTAMP},'%')
+        </if>
+        <if test="otherin.companyId != null and otherin.companyId != ''">
+            and otherin.company_id =#{otherin.companyId,jdbcType=VARCHAR}
+        </if>
+        order by otherin.update_time desc
+    </select>
+
+</mapper>

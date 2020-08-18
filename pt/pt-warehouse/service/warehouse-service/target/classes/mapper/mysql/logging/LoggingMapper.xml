@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warehouse.warehouse.dao.logging.LoggingMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.logging.Logging" id="LoggingMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="VARCHAR"/>
+        <result property="project" column="project" jdbcType="VARCHAR"/>
+        <result property="executeClass" column="execute_class" jdbcType="VARCHAR"/>
+        <result property="executeMethod" column="execute_method" jdbcType="VARCHAR"/>
+        <result property="beginTime" column="begin_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="consumingTime" column="consuming_time" jdbcType="INTEGER"/>
+        <result property="executeIsSuccess" column="execute_is_success" jdbcType="INTEGER"/>
+        <result property="executeResultData" column="execute_result_data" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+        <result property="requestSessionId" column="request_session_id" jdbcType="VARCHAR"/>
+        <result property="logMessage" column="log_message" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, level, project, execute_class, execute_method, begin_time, end_time, consuming_time, execute_is_success, execute_result_data, user_id, user_name, ip_address, request_session_id, log_message
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="LoggingMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.logging
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="LoggingMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.logging
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging" resultMap="LoggingMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.logging
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="level != null and level != ''">
+                and level = #{level,jdbcType=VARCHAR}
+            </if>
+            <if test="project != null and project != ''">
+                and project = #{project,jdbcType=VARCHAR}
+            </if>
+            <if test="executeClass != null and executeClass != ''">
+                and execute_class = #{executeClass,jdbcType=VARCHAR}
+            </if>
+            <if test="executeMethod != null and executeMethod != ''">
+                and execute_method = #{executeMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null">
+                and begin_time = #{beginTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="consumingTime != null">
+                and consuming_time = #{consumingTime,jdbcType=INTEGER}
+            </if>
+            <if test="executeIsSuccess != null">
+                and execute_is_success = #{executeIsSuccess,jdbcType=INTEGER}
+            </if>
+            <if test="executeResultData != null and executeResultData != ''">
+                and execute_result_data = #{executeResultData,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and ip_address = #{ipAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="requestSessionId != null and requestSessionId != ''">
+                and request_session_id = #{requestSessionId,jdbcType=VARCHAR}
+            </if>
+            <if test="logMessage != null and logMessage != ''">
+                and log_message = #{logMessage,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging" resultMap="LoggingMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.logging
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="level != null and level != ''">
+                and level like concat('%',#{level,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="project != null and project != ''">
+                and project like concat('%',#{project,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="executeClass != null and executeClass != ''">
+                and execute_class like concat('%',#{executeClass,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="executeMethod != null and executeMethod != ''">
+                and execute_method like concat('%',#{executeMethod,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="beginTime != null">
+                and begin_time like concat('%',#{beginTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="endTime != null">
+                and end_time like concat('%',#{endTime,jdbcType=TIMESTAMP},'%')
+            </if>
+            <if test="consumingTime != null">
+                and consuming_time like concat('%',#{consumingTime,jdbcType=INTEGER},'%')
+            </if>
+            <if test="executeIsSuccess != null">
+                and execute_is_success like concat('%',#{executeIsSuccess,jdbcType=INTEGER},'%')
+            </if>
+            <if test="executeResultData != null and executeResultData != ''">
+                and execute_result_data like concat('%',#{executeResultData,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id like concat('%',#{userId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and ip_address like concat('%',#{ipAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="requestSessionId != null and requestSessionId != ''">
+                and request_session_id like concat('%',#{requestSessionId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="logMessage != null and logMessage != ''">
+                and log_message like concat('%',#{logMessage,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertLogging" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging">
+        insert into warehouse.logging
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="level != null and level != ''">
+                level,
+            </if>
+            <if test="project != null and project != ''">
+                project,
+            </if>
+            <if test="executeClass != null and executeClass != ''">
+                execute_class,
+            </if>
+            <if test="executeMethod != null and executeMethod != ''">
+                execute_method,
+            </if>
+            <if test="beginTime != null">
+                begin_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="consumingTime != null">
+                consuming_time,
+            </if>
+            <if test="executeIsSuccess != null">
+                execute_is_success,
+            </if>
+            <if test="executeResultData != null and executeResultData != ''">
+                execute_result_data,
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id,
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name,
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                ip_address,
+            </if>
+            <if test="requestSessionId != null and requestSessionId != ''">
+                request_session_id,
+            </if>
+            <if test="logMessage != null and logMessage != ''">
+                log_message,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null and level != ''">
+                #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="project != null and project != ''">
+                #{project,jdbcType=VARCHAR},
+            </if>
+            <if test="executeClass != null and executeClass != ''">
+                #{executeClass,jdbcType=VARCHAR},
+            </if>
+            <if test="executeMethod != null and executeMethod != ''">
+                #{executeMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="consumingTime != null">
+                #{consumingTime,jdbcType=INTEGER},
+            </if>
+            <if test="executeIsSuccess != null">
+                #{executeIsSuccess,jdbcType=INTEGER},
+            </if>
+            <if test="executeResultData != null and executeResultData != ''">
+                #{executeResultData,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null and userId != ''">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                #{ipAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="requestSessionId != null and requestSessionId != ''">
+                #{requestSessionId,jdbcType=VARCHAR},
+            </if>
+            <if test="logMessage != null and logMessage != ''">
+                #{logMessage,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量保存-->
+    <insert id="saveLogging" parameterType="java.util.ArrayList">
+        insert into logging(id, level, project, execute_class, execute_method, begin_time, end_time, consuming_time, execute_is_success, execute_result_data, user_id, user_name, ip_address, request_session_id, log_message)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.level,jdbcType=VARCHAR}, #{item.project,jdbcType=VARCHAR}, #{item.executeClass,jdbcType=VARCHAR}, #{item.executeMethod,jdbcType=VARCHAR}, #{item.beginTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, #{item.consumingTime,jdbcType=INTEGER}, #{item.executeIsSuccess,jdbcType=INTEGER}, #{item.executeResultData,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR}, #{item.ipAddress,jdbcType=VARCHAR}, #{item.requestSessionId,jdbcType=VARCHAR}, #{item.logMessage,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateLoggingByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging">
+        update warehouse.logging
+        <set>
+            <if test="level != null and level != ''">
+                level = #{level},
+            </if>
+            <if test="project != null and project != ''">
+                project = #{project},
+            </if>
+            <if test="executeClass != null and executeClass != ''">
+                execute_class = #{executeClass},
+            </if>
+            <if test="executeMethod != null and executeMethod != ''">
+                execute_method = #{executeMethod},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="consumingTime != null">
+                consuming_time = #{consumingTime},
+            </if>
+            <if test="executeIsSuccess != null">
+                execute_is_success = #{executeIsSuccess},
+            </if>
+            <if test="executeResultData != null and executeResultData != ''">
+                execute_result_data = #{executeResultData},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                ip_address = #{ipAddress},
+            </if>
+            <if test="requestSessionId != null and requestSessionId != ''">
+                request_session_id = #{requestSessionId},
+            </if>
+            <if test="logMessage != null and logMessage != ''">
+                log_message = #{logMessage},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteLoggingByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.logging where id = #{id}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteLoggingByPrimaryKeys">
+        delete from warehouse.logging
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

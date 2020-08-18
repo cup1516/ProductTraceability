@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.mapper.OutorderTagMapper">
+
+    <resultMap type="com.warehouse.warehouse.pojo.po.outorder.OutorderTag" id="OutorderTagMap">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="VARCHAR"/>
+        <result property="outorderNo" column="outorder_no" jdbcType="VARCHAR"/>
+        <result property="warehouseId" column="warehouse_id" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="county" column="county" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pid, outorder_no, warehouse_id, province, city, county, type    
+    </sql>
+
+    <!--查询单个-->
+    <select id="describeById" parameterType="java.lang.String" resultMap="OutorderTagMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.outorder_tag
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="describeAllByLimit" resultMap="OutorderTagMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.outorder_tag
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag" resultMap="OutorderTagMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.outorder_tag
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid,jdbcType=VARCHAR}
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                and outorder_no = #{outorderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province,jdbcType=VARCHAR}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city,jdbcType=VARCHAR}
+            </if>
+            <if test="county != null and county != ''">
+                and county = #{county,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!--通过实体作为筛选条件模糊查询-->
+    <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag" resultMap="OutorderTagMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse.outorder_tag
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                and outorder_no like concat('%',#{outorderNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                and warehouse_id like concat('%',#{warehouseId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="province != null and province != ''">
+                and province like concat('%',#{province,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="city != null and city != ''">
+                and city like concat('%',#{city,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="county != null and county != ''">
+                and county like concat('%',#{county,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type like concat('%',#{type,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertOutorderTag" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag">
+        insert into warehouse.outorder_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="pid != null and pid != ''">
+                pid,
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                outorder_no,
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id,
+            </if>
+            <if test="province != null and province != ''">
+                province,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="county != null and county != ''">
+                county,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                #{outorderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null and province != ''">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null and city != ''">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="county != null and county != ''">
+                #{county,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--批量保存-->
+    <insert id="saveOutorderTag" parameterType="java.util.ArrayList">
+        insert into outorder_tag(id, pid, outorder_no, warehouse_id, province, city, county, type)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.pid,jdbcType=VARCHAR}, #{item.outorderNo,jdbcType=VARCHAR}, #{item.warehouseId,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.county,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateOutorderTagByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag">
+        update warehouse.outorder_tag
+        <set>
+            <if test="pid != null and pid != ''">
+                pid = #{pid},
+            </if>
+            <if test="outorderNo != null and outorderNo != ''">
+                outorder_no = #{outorderNo},
+            </if>
+            <if test="warehouseId != null and warehouseId != ''">
+                warehouse_id = #{warehouseId},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="county != null and county != ''">
+                county = #{county},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteOutorderTagByPrimaryKey" parameterType="java.lang.String">
+        delete from warehouse.outorder_tag where id = #{id}
+    </delete>
+    
+    <!--通过主键批量删除-->
+    <delete id="deleteOutorderTagByPrimaryKeys">
+        delete from warehouse.outorder_tag 
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>
