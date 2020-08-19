@@ -41,7 +41,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="LocatorDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from locator_detail
+        from warehouse.locator_detail
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -49,7 +49,7 @@
     <select id="describeAllByLimit" resultMap="LocatorDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from locator_detail
+        from warehouse.locator_detail
         limit #{offset}, #{limit}
     </select>
 
@@ -58,7 +58,7 @@
             resultMap="LocatorDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from locator_detail
+        from warehouse.locator_detail
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -146,7 +146,7 @@
             resultMap="LocatorDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from locator_detail
+        from warehouse.locator_detail
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -235,7 +235,7 @@
     <!--新增所有列-->
     <insert id="insertLocatorDetail"
             parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail">
-        insert into locator_detail
+        insert into warehouse.locator_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -420,7 +420,7 @@
     <!--通过主键修改数据-->
     <update id="updateLocatorDetailByPrimaryKey"
             parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.LocatorDetail">
-        update locator_detail
+        update warehouse.locator_detail
         <set>
             <if test="locatorId != null and locatorId != ''">
                 locator_id = #{locatorId},
@@ -503,12 +503,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteLocatorDetailByPrimaryKey" parameterType="java.lang.String">
-        delete from locator_detail where id = #{id}
+        delete from warehouse.locator_detail where id = #{id}
     </delete>
 
     <!--通过主键批量删除-->
     <delete id="deleteLocatorDetailByPrimaryKeys">
-        delete from locator_detail
+        delete from warehouse.locator_detail
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item}
@@ -521,7 +521,7 @@
     <select id="getLocatorDetail" parameterType="java.lang.String" resultMap="LocatorDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from locator_detail
+        from warehouse.locator_detail
         where locator_id = #{locatorId,jdbcType=VARCHAR}
         and company_id =#{companyId,jdbcType=VARCHAR}
     </select>

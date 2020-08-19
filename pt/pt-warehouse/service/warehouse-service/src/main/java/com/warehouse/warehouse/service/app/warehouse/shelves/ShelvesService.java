@@ -41,7 +41,7 @@ public interface ShelvesService {
      * @return 对象列表
      */
     List<ShelvesDTO> describeAll(ShelvesDTO shelvesDTO);
-
+    
     /**
      * 条件模糊查询所有数据
      *
@@ -49,8 +49,8 @@ public interface ShelvesService {
      * @return 对象列表
      */
     List<ShelvesDTO> describeFuzzy(ShelvesDTO shelvesDTO);
-
-
+    
+    
     /**
      * 新增数据
      *
@@ -82,7 +82,7 @@ public interface ShelvesService {
      * @return 是否成功
      */
     boolean deleteShelvesByPrimaryKey(String id);
-
+    
     /**
      * 通过主键批量删除数据
      *
@@ -113,7 +113,7 @@ public interface ShelvesService {
      * @version: 1.0
      * @author: wanpp
      */
-    List<ShelvesAndLocatorDTO> describeUsableShelvesAndLocationByWarehouseId(String warehouseId, String goodsNo, String batch);
+    List<ShelvesAndLocatorDTO> describeUsableShelvesAndLocationByWarehouseId(String warehouseId, String goodsNo,String batch);
 
     /**
      * @title: describeByLocatorId

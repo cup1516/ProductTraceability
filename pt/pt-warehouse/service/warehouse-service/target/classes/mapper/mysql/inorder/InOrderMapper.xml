@@ -36,7 +36,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="InOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from in_order
+        from warehouse.in_order
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -44,7 +44,7 @@
     <select id="describeAllByLimit" resultMap="InOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from in_order
+        from warehouse.in_order
         limit #{offset}, #{limit}
     </select>
 
@@ -52,7 +52,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from in_order
+        from warehouse.in_order
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -100,7 +100,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from in_order
+        from warehouse.in_order
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -152,7 +152,7 @@
 
     <!--新增所有列-->
     <insert id="insertInOrder" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder">
-        insert into in_order
+        insert into warehouse.in_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -296,7 +296,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateInOrderByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder">
-        update in_order
+        update warehouse.in_order
         <set>
             <if test="otherinNo != null and otherinNo != ''">
                 otherin_no = #{otherinNo},
@@ -340,12 +340,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteInOrderByPrimaryKey" parameterType="java.lang.String">
-        delete from in_order where id = #{id}
+        delete from warehouse.in_order where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteInOrderByPrimaryKeys">
-        delete from in_order
+        delete from warehouse.in_order 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -362,7 +362,7 @@
     <select id="describeFuzzyCompany" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from in_order
+        from warehouse.in_order
         where sup_company =#{supCompany}
 
     </select>

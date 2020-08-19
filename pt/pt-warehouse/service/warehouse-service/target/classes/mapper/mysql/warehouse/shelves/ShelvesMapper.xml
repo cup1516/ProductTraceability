@@ -30,7 +30,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -38,7 +38,7 @@
     <select id="describeAllByLimit" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         limit #{offset}, #{limit}
     </select>
 
@@ -46,7 +46,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -88,7 +88,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         <where>
 
             <if test="companyId != null and companyId != ''">
@@ -100,7 +100,7 @@
     </select>
     <!--新增所有列-->
     <insert id="insertShelves" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves">
-        insert into shelves
+        insert into warehouse.shelves
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -195,7 +195,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateShelvesByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.Shelves">
-        update shelves
+        update warehouse.shelves
         <set>
             <if test="shelvesName != null and shelvesName != ''">
                 shelves_name = #{shelvesName},
@@ -233,12 +233,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteShelvesByPrimaryKey" parameterType="java.lang.String">
-        delete from shelves where id = #{id}
+        delete from warehouse.shelves where id = #{id}
     </delete>
 
     <!--通过主键批量删除-->
     <delete id="deleteShelvesByPrimaryKeys">
-        delete from shelves
+        delete from warehouse.shelves
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item}
@@ -248,14 +248,14 @@
     <select id="describesAllShelvesByWarehouseId" parameterType="java.lang.String" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
     </select>
     <!--后期可以考虑(0,1)已参数的形式入参-->
     <select id="describesAllUsableShelvesByWarehouseId" parameterType="java.lang.String" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves
+        from warehouse.shelves
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
         and status in (0,1)
     </select>
@@ -263,15 +263,15 @@
     <select id="describeByLocatorId" parameterType="java.lang.String" resultMap="ShelvesMap">
         select
         <include refid="Base_Column_List"/>
-        from shelves,locator
-        where locator.id = #{locatorId,jdbcType=VARCHAR}
-        and locator.shelves_id = shelves.id
+        from warehouse.shelves,warehouse.locator
+        where warehouse.locator.id = #{locatorId,jdbcType=VARCHAR}
+        and warehouse.locator.shelves_id = warehouse.shelves.id
     </select>
 
     <select id="describeAllMineGroupByWarehouse"  parameterType="java.lang.String" resultMap="ShelvesMap">
         select <include refid="Base_Column_List"/>
-        from shelves
-        where shelves.create_user_id = #{userId,jdbcType=VARCHAR}
-        order by shelves.warehouse_id
+        from warehouse.shelves
+        where warehouse.shelves.create_user_id = #{userId,jdbcType=VARCHAR}
+        order by warehouse.shelves.warehouse_id
     </select>
 </mapper>

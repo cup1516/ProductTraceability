@@ -35,7 +35,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="StockLogMap">
         select
         <include refid="Base_Column_List"/>
-        from stock_log
+        from warehouse.stock_log
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -43,7 +43,7 @@
     <select id="describeAllByLimit" resultMap="StockLogMap">
         select
         <include refid="Base_Column_List"/>
-        from stock_log
+        from warehouse.stock_log
         limit #{offset}, #{limit}
     </select>
 
@@ -51,7 +51,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.stock.StockLog" resultMap="StockLogMap">
         select
         <include refid="Base_Column_List"/>
-        from stock_log
+        from warehouse.stock_log
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -120,7 +120,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.stock.StockLog" resultMap="StockLogMap">
         select
         <include refid="Base_Column_List"/>
-        from stock_log
+        from warehouse.stock_log
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -187,7 +187,7 @@
 
     <!--新增所有列-->
     <insert id="insertStockLog" parameterType="com.warehouse.warehouse.pojo.po.stock.StockLog">
-        insert into stock_log
+        insert into warehouse.stock_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -325,7 +325,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateStockLogByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.stock.StockLog">
-        update stock_log
+        update warehouse.stock_log
         <set>
             <if test="billNo != null and billNo != ''">
                 bill_no = #{billNo},
@@ -384,12 +384,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteStockLogByPrimaryKey" parameterType="java.lang.String">
-        delete from stock_log where id = #{id}
+        delete from warehouse.stock_log where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteStockLogByPrimaryKeys">
-        delete from stock_log
+        delete from warehouse.stock_log 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

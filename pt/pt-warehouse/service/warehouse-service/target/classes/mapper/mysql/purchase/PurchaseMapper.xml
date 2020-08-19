@@ -33,7 +33,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="PurchaseMap">
         select
         <include refid="Base_Column_List"/>
-        from purchase
+        from warehouse.purchase
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -41,7 +41,7 @@
     <select id="describeAllByLimit" resultMap="PurchaseMap">
         select
         <include refid="Base_Column_List"/>
-        from purchase
+        from warehouse.purchase
         limit #{offset}, #{limit}
     </select>
 
@@ -49,7 +49,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.purchase.Purchase" resultMap="PurchaseMap">
         select
         <include refid="Base_Column_List"/>
-        from purchase
+        from warehouse.purchase
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -115,7 +115,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.purchase.Purchase" resultMap="PurchaseMap">
         select
         <include refid="Base_Column_List"/>
-        from purchase
+        from warehouse.purchase
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -179,7 +179,7 @@
 
     <!--新增所有列-->
     <insert id="insertPurchase" parameterType="com.warehouse.warehouse.pojo.po.purchase.Purchase">
-        insert into purchase
+        insert into warehouse.purchase
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -311,7 +311,7 @@
 
     <!--通过主键修改数据-->
     <update id="updatePurchaseByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.purchase.Purchase">
-        update purchase
+        update warehouse.purchase
         <set>
             <if test="purchaseNo != null and purchaseNo != ''">
                 purchase_no = #{purchaseNo},
@@ -373,12 +373,12 @@
 
     <!--通过主键删除-->
     <delete id="deletePurchaseByPrimaryKey" parameterType="java.lang.String">
-        delete from purchase where id = #{id}
+        delete from warehouse.purchase where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deletePurchaseByPrimaryKeys">
-        delete from purchase
+        delete from warehouse.purchase 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

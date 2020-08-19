@@ -30,7 +30,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="LoggingMap">
         select
         <include refid="Base_Column_List"/>
-        from logging
+        from warehouse.logging
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -38,7 +38,7 @@
     <select id="describeAllByLimit" resultMap="LoggingMap">
         select
         <include refid="Base_Column_List"/>
-        from logging
+        from warehouse.logging
         limit #{offset}, #{limit}
     </select>
 
@@ -46,7 +46,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging" resultMap="LoggingMap">
         select
         <include refid="Base_Column_List"/>
-        from logging
+        from warehouse.logging
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -100,7 +100,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging" resultMap="LoggingMap">
         select
         <include refid="Base_Column_List"/>
-        from logging
+        from warehouse.logging
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -152,7 +152,7 @@
 
     <!--新增所有列-->
     <insert id="insertLogging" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging">
-        insert into logging
+        insert into warehouse.logging
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -260,7 +260,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateLoggingByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.logging.Logging">
-        update logging
+        update warehouse.logging
         <set>
             <if test="level != null and level != ''">
                 level = #{level},
@@ -310,12 +310,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteLoggingByPrimaryKey" parameterType="java.lang.String">
-        delete from logging where id = #{id}
+        delete from warehouse.logging where id = #{id}
     </delete>
 
     <!--通过主键批量删除-->
     <delete id="deleteLoggingByPrimaryKeys">
-        delete from logging
+        delete from warehouse.logging
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

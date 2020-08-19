@@ -127,7 +127,7 @@ public class ShelvesServiceImpl implements ShelvesService {
                 else {
                     Iterator in = GoodsNameAndNum.entrySet().iterator();
                     while (in.hasNext()) {
-                        Map.Entry entry = (Map.Entry)in.next();
+                        Map.Entry entry = (java.util.Map.Entry)in.next();
                         String key =entry.getKey().toString();
                         if (key.equals(stock.getCommodityName())) {
                             GoodsNameAndNum.put(stock.getCommodityName(), GoodsNameAndNum.get(key)+stock.getCqty());

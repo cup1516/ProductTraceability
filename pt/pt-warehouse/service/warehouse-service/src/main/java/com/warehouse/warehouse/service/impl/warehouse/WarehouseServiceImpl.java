@@ -72,7 +72,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return new ArrayList<>();
         }
     }
-
+    
     /**
      * 条件查询多条数据
      *
@@ -89,9 +89,9 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             return new ArrayList<>();
         }
-
+        
     }
-
+    
     /**
      * 条件模糊查询多条数据
      *
@@ -133,14 +133,14 @@ public class WarehouseServiceImpl implements WarehouseService {
         this.warehouseMapper.insertWarehouse(warehouse);
         return warehouseDTO;
     }
-
-
+	
+	
 	 /**
      * 无条件查询所有仓库
      *
      * @return 实例对象集合
      */
-
+	
     @Override
     public List<WarehouseDTO> getAllStoreByPrincipalId(String principalId,String companyId) {
        List<Warehouse> list = this.warehouseMapper.getAllStoreByPrincipalId(principalId,companyId);
@@ -150,7 +150,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return new ArrayList<>();
         }
     }
-
+    
     /**
      * 新增集合数据
      *
@@ -200,7 +200,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public boolean deleteWarehouseByPrimaryKey(String id) {
         return this.warehouseMapper.deleteWarehouseByPrimaryKey(id) > 0;
     }
-
+    
     /**
      * 通过主键批量删除数据
      *
@@ -258,7 +258,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         return example;
     }
-
+    
     /**
      * 初始化 精确查询 example
      *
@@ -337,7 +337,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 else {
                     Iterator in = GoodsNameAndNum.entrySet().iterator();
                     while (in.hasNext()) {
-                        Map.Entry entry = (Map.Entry)in.next();
+                        Map.Entry entry = (java.util.Map.Entry)in.next();
                         String key =entry.getKey().toString();
                         if (key.equals(stock.getCommodityName())) {
                             GoodsNameAndNum.put(stock.getCommodityName(), GoodsNameAndNum.get(key)+stock.getCqty());
@@ -356,5 +356,5 @@ public class WarehouseServiceImpl implements WarehouseService {
         String GoodsNameAndNum1 = JSONObject.toJSONString(GoodsNameAndNum);
         return GoodsNameAndNum1;
     }
-
+    
 }

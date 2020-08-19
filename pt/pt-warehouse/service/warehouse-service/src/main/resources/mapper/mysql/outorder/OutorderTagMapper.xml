@@ -23,7 +23,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="OutorderTagMap">
         select
         <include refid="Base_Column_List"/>
-        from outorder_tag
+        from warehouse.outorder_tag
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -31,7 +31,7 @@
     <select id="describeAllByLimit" resultMap="OutorderTagMap">
         select
         <include refid="Base_Column_List"/>
-        from outorder_tag
+        from warehouse.outorder_tag
         limit #{offset}, #{limit}
     </select>
 
@@ -39,7 +39,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag" resultMap="OutorderTagMap">
         select
         <include refid="Base_Column_List"/>
-        from outorder_tag
+        from warehouse.outorder_tag
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -72,7 +72,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag" resultMap="OutorderTagMap">
         select
         <include refid="Base_Column_List"/>
-        from outorder_tag
+        from warehouse.outorder_tag
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -103,7 +103,7 @@
 
     <!--新增所有列-->
     <insert id="insertOutorderTag" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag">
-        insert into outorder_tag
+        insert into warehouse.outorder_tag
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -169,7 +169,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateOutorderTagByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutorderTag">
-        update outorder_tag
+        update warehouse.outorder_tag
         <set>
             <if test="pid != null and pid != ''">
                 pid = #{pid},
@@ -198,12 +198,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteOutorderTagByPrimaryKey" parameterType="java.lang.String">
-        delete from outorder_tag where id = #{id}
+        delete from warehouse.outorder_tag where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteOutorderTagByPrimaryKeys">
-        delete from outorder_tag
+        delete from warehouse.outorder_tag 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

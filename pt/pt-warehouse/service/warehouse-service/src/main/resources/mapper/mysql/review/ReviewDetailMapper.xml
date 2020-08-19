@@ -26,7 +26,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="ReviewDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from review_detail
+        from warehouse.review_detail
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -34,7 +34,7 @@
     <select id="describeAllByLimit" resultMap="ReviewDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from review_detail
+        from warehouse.review_detail
         limit #{offset}, #{limit}
     </select>
 
@@ -42,7 +42,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.review.ReviewDetail" resultMap="ReviewDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from review_detail
+        from warehouse.review_detail
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -87,7 +87,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.review.ReviewDetail" resultMap="ReviewDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from review_detail
+        from warehouse.review_detail
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -130,7 +130,7 @@
 
     <!--新增所有列-->
     <insert id="insertReviewDetail" parameterType="com.warehouse.warehouse.pojo.po.review.ReviewDetail">
-        insert into review_detail
+        insert into warehouse.review_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -220,7 +220,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateReviewDetailByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.review.ReviewDetail">
-        update review_detail
+        update warehouse.review_detail
         <set>
             <if test="pid != null and pid != ''">
                 pid = #{pid},
@@ -261,12 +261,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteReviewDetailByPrimaryKey" parameterType="java.lang.String">
-        delete from review_detail where id = #{id}
+        delete from warehouse.review_detail where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteReviewDetailByPrimaryKeys">
-        delete from review_detail
+        delete from warehouse.review_detail 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

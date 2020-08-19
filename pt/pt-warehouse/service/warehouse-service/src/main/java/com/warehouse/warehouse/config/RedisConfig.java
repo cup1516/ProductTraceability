@@ -1,4 +1,4 @@
-package com.warehouse.warehouse.config;//package com.warehouse.warehouse.config;
+//package com.warehouse.warehouse.config;
 //
 //import com.fasterxml.jackson.annotation.JsonAutoDetect;
 //import com.fasterxml.jackson.annotation.PropertyAccessor;

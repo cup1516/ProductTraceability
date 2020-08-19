@@ -35,7 +35,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="OtheroutDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from otherout_detail
+        from warehouse.otherout_detail
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -43,7 +43,7 @@
     <select id="describeAllByLimit" resultMap="OtheroutDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from otherout_detail
+        from warehouse.otherout_detail
         limit #{offset}, #{limit}
     </select>
 
@@ -51,7 +51,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.otherout.OtheroutDetail" resultMap="OtheroutDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from otherout_detail
+        from warehouse.otherout_detail
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -111,7 +111,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.otherout.OtheroutDetail" resultMap="OtheroutDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from otherout_detail
+        from warehouse.otherout_detail
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -169,7 +169,7 @@
 
     <!--新增所有列-->
     <insert id="insertOtheroutDetail" parameterType="com.warehouse.warehouse.pojo.po.otherout.OtheroutDetail">
-        insert into otherout_detail
+        insert into warehouse.otherout_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -307,7 +307,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateOtheroutDetailByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.otherout.OtheroutDetail">
-        update otherout_detail
+        update warehouse.otherout_detail
         <set>
             <if test="pid != null and pid != ''">
                 pid = #{pid},
@@ -363,12 +363,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteOtheroutDetailByPrimaryKey" parameterType="java.lang.String">
-        delete from otherout_detail where id = #{id}
+        delete from warehouse.otherout_detail where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteOtheroutDetailByPrimaryKeys">
-        delete from otherout_detail
+        delete from warehouse.otherout_detail 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

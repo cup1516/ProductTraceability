@@ -79,7 +79,7 @@ public interface GoodMapper extends Mapper<Good> {
      * @param id 主键
      * @return 影响行数
      */
-    Integer deleteGoodByPrimaryKey(@Param("id") String id, @Param("companyId") String companyId);
+    Integer deleteGoodByPrimaryKey(@Param("id") String id,@Param("companyId") String companyId);
 
     /**
      * 通过主键批量删除数据
@@ -87,7 +87,7 @@ public interface GoodMapper extends Mapper<Good> {
      * @param list 主键集合
      * @return 影响行数
      */
-    Integer deleteGoodByPrimaryKeys(@Param("list") List<String> list, @Param("companyId") String companyId);
+    Integer deleteGoodByPrimaryKeys(@Param("list") List<String> list,@Param("companyId") String companyId);
 
 
     /**

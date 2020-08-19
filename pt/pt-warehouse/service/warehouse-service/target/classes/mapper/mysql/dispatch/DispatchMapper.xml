@@ -29,7 +29,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="DispatchMap">
         select
         <include refid="Base_Column_List"/>
-        from dispatch
+        from warehouse.dispatch
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -37,7 +37,7 @@
     <select id="describeAllByLimit" resultMap="DispatchMap">
         select
         <include refid="Base_Column_List"/>
-        from dispatch
+        from warehouse.dispatch
         limit #{offset}, #{limit}
     </select>
 
@@ -45,7 +45,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
         select
         <include refid="Base_Column_List"/>
-        fromdispatch
+        from warehouse.dispatch
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -96,7 +96,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
         select
         <include refid="Base_Column_List"/>
-        from dispatch
+        from warehouse.dispatch
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -145,7 +145,7 @@
 
     <!--新增所有列-->
     <insert id="insertDispatch" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch">
-        insert into dispatch
+        insert into warehouse.dispatch
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -247,7 +247,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateDispatchByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch">
-        update dispatch
+        update warehouse.dispatch
         <set>
             <if test="dispatchNo != null and dispatchNo != ''">
                 dispatch_no = #{dispatchNo},
@@ -297,12 +297,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteDispatchByPrimaryKey" parameterType="java.lang.String">
-        delete from dispatch where id = #{id}
+        delete from warehouse.dispatch where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteDispatchByPrimaryKeys">
-        delete from dispatch
+        delete from warehouse.dispatch 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -313,7 +313,7 @@
     <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.dispatch.Dispatch" resultMap="DispatchMap">
         select
         <include refid="Base_Column_List"/>
-        from dispatch
+        from warehouse.dispatch
         where state = '3'
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -377,9 +377,9 @@
         dispatch.auditor as auditor,
         dispatch.audit_time as auditTime,
         dispatch.company_id as companyId
-        from dispatch,warehouse
-        where  dispatch.warehouse_id = warehouse.id
-        and dispatch.create_id = #{userId,jdbcType=VARCHAR}
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.create_id = #{userId,jdbcType=VARCHAR}
         <if test="dispatch.id != null and dispatch.id != ''">
             and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
         </if>
@@ -441,10 +441,10 @@
         dispatch.auditor as auditor,
         dispatch.audit_time as auditTime,
         dispatch.company_id as companyId
-        from dispatch,warehouse
-        where  dispatch.warehouse_id = warehouse.id
-        anddispatch.audit_id = #{userId,jdbcType=VARCHAR}
-        and dispatch.state = 0
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.dispatch.state = 0
         <if test="dispatch.id != null and dispatch.id != ''">
             and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
         </if>
@@ -505,10 +505,10 @@
         dispatch.audit_id as auditId,
         dispatch.auditor as auditor,
         dispatch.audit_time as auditTime
-        from dispatch,warehouse
-        where  dispatch.warehouse_id = warehouse.id
-        and dispatch.audit_id = #{userId,jdbcType=VARCHAR}
-        and dispatch.state in (1,2,4,5)
+        from warehouse.dispatch,warehouse.warehouse
+        where  warehouse.dispatch.warehouse_id = warehouse.warehouse.id
+        and warehouse.dispatch.audit_id = #{userId,jdbcType=VARCHAR}
+        and warehouse.dispatch.state in (1,2,4,5)
         <if test="dispatch.id != null and dispatch.id != ''">
             and id like concat('%',#{dispatch.id,jdbcType=VARCHAR},'%')
         </if>

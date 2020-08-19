@@ -38,7 +38,7 @@ public interface GoodService {
      * @return 对象列表
      */
     List<GoodDTO> describeAll(GoodDTO goodDTO);
-
+    
     /**
      * 条件模糊查询所有数据
      *
@@ -46,8 +46,8 @@ public interface GoodService {
      * @return 对象列表
      */
     List<GoodDTO> describeFuzzy(GoodDTO goodDTO);
-
-
+    
+    
     /**
      * 新增数据
      *
@@ -78,15 +78,15 @@ public interface GoodService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteGoodByPrimaryKey(String id, String companyId);
-
+    boolean deleteGoodByPrimaryKey(String id,String companyId);
+    
     /**
      * 通过主键批量删除数据
      *
      * @param list 主键集合
      * @return 是否成功
      */
-    boolean deleteGoodByPrimaryKeys(List<String> list, String companyId);
+    boolean deleteGoodByPrimaryKeys(List<String> list,String companyId);
 
     public List<GoodCategoryAndGoodDTO> describeGoodCategoryAndGood();
 

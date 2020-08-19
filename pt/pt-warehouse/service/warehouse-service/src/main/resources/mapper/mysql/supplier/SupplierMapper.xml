@@ -28,7 +28,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="SupplierMap">
         select
         <include refid="Base_Column_List"/>
-        from supplier
+        from warehouse.supplier
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -36,7 +36,7 @@
     <select id="describeAllByLimit" resultMap="SupplierMap">
         select
         <include refid="Base_Column_List"/>
-        from supplier
+        from warehouse.supplier
         limit #{offset}, #{limit}
     </select>
 
@@ -44,7 +44,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.supplier.Supplier" resultMap="SupplierMap">
         select
         <include refid="Base_Column_List"/>
-        from supplier
+        from warehouse.supplier
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -89,7 +89,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.supplier.Supplier" resultMap="SupplierMap">
         select
         <include refid="Base_Column_List"/>
-        from supplier
+        from warehouse.supplier
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -132,7 +132,7 @@
 
     <!--新增所有列-->
     <insert id="insertSupplier" parameterType="com.warehouse.warehouse.pojo.po.supplier.Supplier">
-        insert into supplier
+        insert into warehouse.supplier
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -228,7 +228,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateSupplierByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.supplier.Supplier">
-        update supplier
+        update warehouse.supplier
         <set>
             <if test="name != null and name != ''">
                 name = #{name},
@@ -269,12 +269,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteSupplierByPrimaryKey" parameterType="java.lang.String">
-        delete from supplier where id = #{id}
+        delete from warehouse.supplier where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteSupplierByPrimaryKeys">
-        delete from supplier
+        delete from warehouse.supplier 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -284,7 +284,7 @@
     <select id="findAllSupplier" resultMap="SupplierMap">
         select
         <include refid="Base_Column_List"/>
-        from supplier
+        from warehouse.supplier
     </select>
 
 </mapper>

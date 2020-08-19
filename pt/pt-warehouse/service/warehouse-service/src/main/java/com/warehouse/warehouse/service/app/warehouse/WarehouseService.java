@@ -37,7 +37,7 @@ public interface WarehouseService {
      * @return 对象列表
      */
     List<WarehouseDTO> describeAll(WarehouseDTO warehouseDTO);
-
+    
     /**
      * 条件模糊查询所有数据
      *
@@ -45,15 +45,15 @@ public interface WarehouseService {
      * @return 对象列表
      */
     List<WarehouseDTO> describeFuzzy(WarehouseDTO warehouseDTO);
-
+    
 	/**
      * 根据负责人id查询所有仓库
      *
      * @param warehouseDTO 实例对象
      * @return 对象列表
      */
-	 List<WarehouseDTO> getAllStoreByPrincipalId(String rincipalId, String companyId);
-
+	 List<WarehouseDTO> getAllStoreByPrincipalId(String rincipalId,String companyId);
+    
     /**
      * 新增数据
      *
@@ -85,7 +85,7 @@ public interface WarehouseService {
      * @return 是否成功
      */
     boolean deleteWarehouseByPrimaryKey(String id);
-
+    
     /**
      * 通过主键批量删除数据
      *

@@ -44,7 +44,7 @@
     <select id="describeAllByLimit" resultMap="OutOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from out_order
+        from warehouse.out_order
         limit #{offset}, #{limit}
     </select>
 
@@ -52,7 +52,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from out_order
+        from warehouse.out_order
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -100,7 +100,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from out_order
+        from warehouse.out_order
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -152,7 +152,7 @@
 
     <!--新增所有列-->
     <insert id="insertOutOrder" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder">
-        insert into out_order
+        insert into warehouse.out_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -296,7 +296,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateOutOrderByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder">
-        update out_order
+        update warehouse.out_order
         <set>
             <if test="otheroutNo != null and otheroutNo != ''">
                 otherout_no = #{otheroutNo},
@@ -343,12 +343,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteOutOrderByPrimaryKey" parameterType="java.lang.String">
-        delete from out_order where id = #{id}
+        delete from warehouse.out_order where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteOutOrderByPrimaryKeys">
-        delete from out_order
+        delete from warehouse.out_order 
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -361,7 +361,7 @@
     <select id="describeFuzzyCompany" parameterType="com.warehouse.warehouse.pojo.po.outorder.OutOrder" resultMap="OutOrderMap">
         select
         <include refid="Base_Column_List"/>
-        from out_order
+        from warehouse.out_order
         where cus_company =#{cusCompany}
 
     </select>
