@@ -33,7 +33,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="OtherinDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherin_detail
+        from otherin_detail
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -41,7 +41,7 @@
     <select id="describeAllByLimit" resultMap="OtherinDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherin_detail
+        from otherin_detail
         limit #{offset}, #{limit}
     </select>
 
@@ -49,7 +49,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.otherin.OtherinDetail" resultMap="OtherinDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherin_detail
+        from otherin_detail
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -106,7 +106,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.otherin.OtherinDetail" resultMap="OtherinDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherin_detail
+        from otherin_detail
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -167,7 +167,7 @@
 
     <!--新增所有列-->
     <insert id="insertOtherinDetail" parameterType="com.warehouse.warehouse.pojo.po.otherin.OtherinDetail">
-        insert into warehouse.otherin_detail
+        insert into otherin_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -299,7 +299,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateOtherinDetailByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.otherin.OtherinDetail">
-        update warehouse.otherin_detail
+        update otherin_detail
         <set>
             <if test="pid != null and pid != ''">
                 pid = #{pid},
@@ -352,12 +352,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteOtherinDetailByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.otherin_detail where id = #{id}
+        delete from otherin_detail where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteOtherinDetailByPrimaryKeys">
-        delete from warehouse.otherin_detail 
+        delete from otherin_detail
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -368,7 +368,7 @@
     <select id="findInDetailByLocatorId" parameterType="java.lang.String" resultMap="OtherinDetailMap">
     select
     <include refid="Base_Column_List"/>
-    from warehouse.otherin_detail
+    from otherin_detail
     where locator_id = #{locatorId,jdbcType=VARCHAR}
 </select>
 
@@ -376,7 +376,7 @@
     <select id="findInDetailListByLocatorId" parameterType="java.lang.String" resultMap="OtherinDetailMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherin_detail
+        from otherin_detail
         where locator_id = #{locatorId,jdbcType=VARCHAR}
     </select>
 

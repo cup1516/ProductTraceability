@@ -44,7 +44,7 @@
 		LEFT JOIN dealer_process p ON p.`process_id` = pn.`process_id`
 		LEFT JOIN dealer_node n ON n.`node_id` = pn.`node_id`
 		<where>
-		n.del_flag = '0' and pn.worker_id = #{query.workerId}
+		n.del_flag = '0' and pn.worker_id = #{query.workerId} and pn.company_id = #{companyId}
 		<if test="query.processCode != null and query.processCode != ''">
 			AND n.process_code like concat('%', #{query.processCode}, '%')
 		</if>
@@ -67,8 +67,8 @@
 	<update id="updateMissionStatus">
 		update dealer_process_node pn
 		<set>
-			pn.status = #{status}
+			pn.status = #{missionDto.status}
 		</set>
-		where pn.process_id = #{processId} and pn.node_id = #{nodeId} and pn.worker_id = #{workerId}
+		where pn.process_id = #{missionDto.processId} and pn.node_id = #{missionDto.nodeId} and pn.worker_id = #{missionDto.workerId} and pn.company_id = #{companyId}
 	</update>
 </mapper>

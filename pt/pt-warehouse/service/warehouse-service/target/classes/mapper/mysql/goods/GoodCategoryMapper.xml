@@ -18,7 +18,7 @@
     <select id="describeById" parameterType="java.lang.Long" resultMap="GoodCategoryMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good_category
+        from good_category
         where id = #{id,jdbcType=INTEGER}
     </select>
 
@@ -26,7 +26,7 @@
     <select id="describeAllByLimit" resultMap="GoodCategoryMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good_category
+        from good_category
         limit #{offset}, #{limit}
     </select>
 
@@ -34,7 +34,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.goods.GoodCategory" resultMap="GoodCategoryMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good_category
+        from good_category
         <where>
             <if test="id != null">
                 and id = #{id,jdbcType=INTEGER}
@@ -52,7 +52,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.goods.GoodCategory" resultMap="GoodCategoryMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good_category
+        from good_category
         <where>
             <if test="id != null">
                 and id like concat('%',#{id,jdbcType=INTEGER},'%')
@@ -68,7 +68,7 @@
 
     <!--新增所有列-->
     <insert id="insertGoodCategory" parameterType="com.warehouse.warehouse.pojo.po.goods.GoodCategory">
-        insert into warehouse.good_category
+        insert into good_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -104,7 +104,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateGoodCategoryByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.goods.GoodCategory">
-        update warehouse.good_category
+        update good_category
         <set>
             <if test="parentId != null">
                 parent_id = #{parentId},
@@ -118,12 +118,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteGoodCategoryByPrimaryKey" parameterType="java.lang.Long">
-        delete from warehouse.good_category where id = #{id}
+        delete from good_category where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteGoodCategoryByPrimaryKeys">
-        delete from warehouse.good_category 
+        delete from good_category
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -134,7 +134,7 @@
     <select id="describesGoodCategoryByGoodIdList" resultMap="GoodCategoryMap">
         select
         *
-        from warehouse.good_category
+        from good_category
         where parent_id in
         <foreach collection="goodIdList" item="item" open="(" separator="," close=")">
             #{item}

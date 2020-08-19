@@ -28,7 +28,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="EmployeeMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.employee
+        from employee
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -36,7 +36,7 @@
     <select id="describeAllByLimit" resultMap="EmployeeMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.employee
+        from employee
         limit #{offset}, #{limit}
     </select>
 
@@ -44,7 +44,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.employee.Employee" resultMap="EmployeeMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.employee
+        from employee
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -92,7 +92,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.employee.Employee" resultMap="EmployeeMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.employee
+        from employee
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -142,7 +142,7 @@
 
     <!--新增所有列-->
     <insert id="insertEmployee" parameterType="com.warehouse.warehouse.pojo.po.employee.Employee">
-        insert into warehouse.employee
+        insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -244,7 +244,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateEmployeeByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.employee.Employee">
-        update warehouse.employee
+        update employee
         <set>
             <if test="employeeName != null and employeeName != ''">
                 employee_name = #{employeeName},
@@ -288,12 +288,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteEmployeeByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.employee where id = #{id}
+        delete from employee where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteEmployeeByPrimaryKeys">
-        delete from warehouse.employee 
+        delete from employee
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

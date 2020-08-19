@@ -25,15 +25,14 @@
     <file url="file://$PROJECT_DIR$/pt-gateway" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-gateway/src/main/resources/application.yml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/pt-order" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/pt-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-portal" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-portal/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-upload" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-upload/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-user" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pt-user/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/pt-warehouse" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pt-warehouse/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pt-warehouse/service/warehouse-service/src/main/java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

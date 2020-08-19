@@ -28,7 +28,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="CustomerMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.customer
+        from customer
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -36,7 +36,7 @@
     <select id="describeAllByLimit" resultMap="CustomerMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.customer
+        from customer
         limit #{offset}, #{limit}
     </select>
 
@@ -44,7 +44,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.customer.Customer" resultMap="CustomerMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.customer
+        from customer
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -89,7 +89,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.customer.Customer" resultMap="CustomerMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.customer
+        from customer
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -132,7 +132,7 @@
 
     <!--新增所有列-->
     <insert id="insertCustomer" parameterType="com.warehouse.warehouse.pojo.po.customer.Customer">
-        insert into warehouse.customer
+        insert into customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -228,7 +228,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateCustomerByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.customer.Customer">
-        update warehouse.customer
+        update customer
         <set>
             <if test="name != null and name != ''">
                 name = #{name},
@@ -269,12 +269,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteCustomerByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.customer where id = #{id}
+        delete from customer where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteCustomerByPrimaryKeys">
-        delete from warehouse.customer
+        delete from customer
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -284,7 +284,7 @@
     <select id="findAllCustomer" resultMap="CustomerMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.customer
+        from customer
     </select>
 
 </mapper>

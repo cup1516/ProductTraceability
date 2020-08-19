@@ -32,7 +32,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="ReceiveMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.receive
+        from receive
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -40,7 +40,7 @@
     <select id="describeAllByLimit" resultMap="ReceiveMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.receive
+        from receive
         limit #{offset}, #{limit}
     </select>
 
@@ -48,7 +48,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive" resultMap="ReceiveMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.receive
+        from receive
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -111,7 +111,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive" resultMap="ReceiveMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.receive
+        from receive
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -172,7 +172,7 @@
 
     <!--新增所有列-->
     <insert id="insertReceive" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive">
-        insert into warehouse.receive
+        insert into receive
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -298,7 +298,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateReceiveByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.receive.Receive">
-        update warehouse.receive
+        update receive
         <set>
             <if test="receiveNo != null and receiveNo != ''">
                 receive_no = #{receiveNo},
@@ -357,12 +357,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteReceiveByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.receive where id = #{id}
+        delete from receive where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteReceiveByPrimaryKeys">
-        delete from warehouse.receive 
+        delete from receive
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}

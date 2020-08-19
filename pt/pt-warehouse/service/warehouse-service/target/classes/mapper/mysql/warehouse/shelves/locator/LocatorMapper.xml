@@ -33,7 +33,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -41,7 +41,7 @@
     <select id="describeAllByLimit" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         limit #{offset}, #{limit}
     </select>
 
@@ -49,7 +49,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.Locator" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -112,7 +112,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.Locator" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -177,7 +177,7 @@
 
     <!--新增所有列-->
     <insert id="insertLocator" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.Locator">
-        insert into warehouse.locator
+        insert into locator
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -309,7 +309,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateLocatorByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.warehouse.shelves.locator.Locator">
-        update warehouse.locator
+        update locator
         <set>
             <if test="name != null and name != ''">
                 name = #{name},
@@ -368,12 +368,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteLocatorByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.locator where id = #{id}
+        delete from locator where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteLocatorByPrimaryKeys">
-        delete from warehouse.locator 
+        delete from locator
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -383,7 +383,7 @@
     <select id="desrcibesLocatorByShelveseIdList" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where shelves_id in
         <foreach collection="shelvesIdList" item="item" open="(" separator="," close=")">
             #{item}
@@ -393,7 +393,7 @@
     <select id="desrcibesUsableLocatorByShelveseIdList" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where shelves_id in
         <foreach collection="shelvesIdList" item="item" open="(" separator="," close=")">
             #{item}
@@ -410,8 +410,8 @@
         locator.shelves_id as shelvesId, locator.shelves_name as shelvesName, locator.create_id as createId,
         locator.creator as creator, locator.create_time as createTime, locator.update_id as updateId,
         locator.updator as updator, locator.update_time as updateTime,warehouse.name as warehouseName
-        from warehouse.locator,warehouse.warehouse
-        where  warehouse.locator.warehouse_id = warehouse.warehouse.id
+        from locator,warehouse
+        where  locator.warehouse_id = warehouse.id
         <if test="id != null and id != ''">
             and locator.id like concat('%',#{id,jdbcType=VARCHAR},'%')
         </if>
@@ -471,14 +471,14 @@
     <select id="describesAllLocatorsByWarehouseId" parameterType="java.lang.String" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
     </select>
 
     <select id="describeFullLocatorsByWarehouseId" parameterType="java.lang.String" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
         and state = "2"
     </select>
@@ -486,7 +486,7 @@
     <select id="describeUseLocatorsByWarehouseId" parameterType="java.lang.String" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
         and state in (0,3)
     </select>
@@ -494,7 +494,7 @@
     <select id="describeAllLocatorsByWarehouseId" parameterType="java.lang.String" resultMap="LocatorMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.locator
+        from locator
         where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
     </select>
 

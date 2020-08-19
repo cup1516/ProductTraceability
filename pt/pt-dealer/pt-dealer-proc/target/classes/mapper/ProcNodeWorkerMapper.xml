@@ -28,9 +28,9 @@
 				<result property="workerId" column="worker_id"/>
 		</resultMap>
 	<insert id="batchNodeWorker">
-		insert into dealer_node_worker(node_id, worker_id) values
-		<foreach item="item" index="index" collection="list" separator=",">
-			(#{item.nodeId},#{item.workerId})
+		insert into dealer_node_worker(node_id, worker_id,company_id) values
+		<foreach item="item" index="index" collection="procNodeWorkerList" separator=",">
+			(#{item.nodeId},#{item.workerId},#{companyId})
 		</foreach>
 	</insert>
 </mapper>

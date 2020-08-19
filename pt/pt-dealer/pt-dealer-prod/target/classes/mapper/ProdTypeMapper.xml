@@ -5,6 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table dealer_type-->
     <id column="type_id" property="typeId" />
+    <result column="company_id" property="companyId" />
     <result column="type_code" property="typeCode" />
     <result column="type_name" property="typeName" />
     <result column="status" property="status" />
@@ -14,14 +15,14 @@
     <result column="del_flag" property="delFlag" />
   </resultMap>
   <sql id="selectProdType">
-			select t.type_id,t.type_code,t.type_name,t.status,t.create_by,t.remark,t.create_time
+			select t.type_id,t.company_id,t.type_code,t.type_name,t.status,t.create_by,t.remark,t.create_time
 			from dealer_type t
 		</sql>
 
   <select id="getProdTypePage" resultMap="BaseResultMap">
     <include refid="selectProdType"/>
     <where>
-      t.del_flag = '0'
+      t.del_flag = '0' and t.company_id = #{companyId}
       <if test="query.typeCode != null and query.typeCode != ''">
         AND t.type_code like concat('%', #{query.typeCode}, '%')
       </if>
@@ -39,84 +40,98 @@
     select t.type_id, t.type_code,t.type_name
     from dealer_type t
     <where>
-      t.del_flag = '0' and t.status = '0'
+      t.del_flag = '0' and t.status = '0' and t.company_id = #{companyId}
     </where>
     ORDER BY t.type_code ASC
   </select>
-
+  <select id="getProdTypeListByName" resultMap="BaseResultMap">
+    select t.type_id, t.type_code,t.type_name
+    from dealer_type t
+    <where>
+      t.del_flag = '0' and t.status = '0' and t.company_id = #{companyId}
+      <if test="typeName != null and typeName != ''">
+        AND t.type_name like concat('%', #{typeName}, '%')
+      </if>
+    </where>
+    ORDER BY t.type_code ASC
+  </select>
   <select id="selectTypeList" resultMap="BaseResultMap">
     <include refid="selectProdType"/>
     <where>
-      <if test="typeCode != null and typeCode != ''">
-        AND type_code like concat('%', #{typeCode}, '%')
+      company_id = #{companyId}
+      <if test="type.typeCode != null and type.typeCode != ''">
+        AND type_code like concat('%', #{type.typeCode}, '%')
       </if>
-      <if test="status != null and status != ''">
-        AND status = #{status}
+      <if test="type.status != null and type.status != ''">
+        AND status = #{type.status}
       </if>
-      <if test="typeName != null and typeName != ''">
-        AND type_name like concat('%', #{typeName}, '%')
+      <if test="type.typeName != null and type.typeName != ''">
+        AND type_name like concat('%', #{type.typeName}, '%')
       </if>
     </where>
   </select>
 
   <select id="selectTypeAll" resultMap="BaseResultMap">
     <include refid="selectProdType"/>
+    where  company_id = #{companyId}
   </select>
 
   <select id="selectTypeById"  resultMap="BaseResultMap">
     <include refid="selectProdType"/>
-    where type_id = #{typeId}
+    where type_id = #{typeId} and company_id = #{companyId}
   </select>
 
   <select id="checkTypeNameUnique"  resultMap="BaseResultMap">
     <include refid="selectProdType"/>
-    where type_name=#{typeName}
+    where type_name=#{typeName} and company_id = #{companyId}
   </select>
 
   <select id="checkTypeCodeUnique"  resultMap="BaseResultMap">
     <include refid="selectProdType"/>
-    where type_code=#{typeCode}
+    where type_code=#{typeCode} and company_id = #{companyId}
   </select>
 
   <update id="updateType" >
     update dealer_type
     <set>
-      <if test="typeCode != null and typeCode != ''">type_code = #{typeCode},</if>
-      <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
-      <if test="status != null and status != ''">status = #{status},</if>
-      <if test="remark != null">remark = #{remark},</if>
+      <if test="type.typeCode != null and type.typeCode != ''">type_code = #{type.typeCode},</if>
+      <if test="type.typeName != null and type.typeName != ''">type_name = #{type.typeName},</if>
+      <if test="type.status != null and type.status != ''">status = #{type.status},</if>
+      <if test="type.remark != null">remark = #{type.remark},</if>
     </set>
-    where type_id = #{typeId}
+    where type_id = #{type.typeId} and company_id = #{companyId}
   </update>
 
   <insert id="insertType"  keyProperty="typeId">
     insert into dealer_type(
-    <if test="typeId != null and typeId != ''">type_id,</if>
-    <if test="typeCode != null and typeCode != ''">type_code,</if>
-    <if test="typeName != null and typeName != ''">type_name,</if>
-    <if test="status != null and status != ''">status,</if>
-    <if test="remark != null and remark != ''">remark,</if>
-    <if test="createBy != null and createBy != ''">create_by,</if>
+    <if test="type.typeId != null and type.typeId != ''">type_id,</if>
+    <if test="companyId != null and companyId != ''">company_id,</if>
+    <if test="type.typeCode != null and type.typeCode != ''">type_code,</if>
+    <if test="type.typeName != null and type.typeName != ''">type_name,</if>
+    <if test="type.status != null and type.status != ''">status,</if>
+    <if test="type.remark != null and type.remark != ''">remark,</if>
+    <if test="type.createBy != null and type.createBy != ''">create_by,</if>
     create_time
     )values(
-    <if test="typeId != null and typeId != ''">#{typeId},</if>
-    <if test="typeCode != null and typeCode != ''">#{typeCode},</if>
-    <if test="typeName != null and typeName != ''">#{typeName},</if>
-    <if test="status != null and status != ''">#{status},</if>
-    <if test="remark != null and remark != ''">#{remark},</if>
-    <if test="createBy != null and createBy != ''">#{createBy},</if>
+    <if test="type.typeId != null and type.typeId != ''">#{type.typeId},</if>
+    <if test="companyId != null and companyId != ''">#{companyId},</if>
+    <if test="type.typeCode != null and type.typeCode != ''">#{type.typeCode},</if>
+    <if test="type.typeName != null and type.typeName != ''">#{type.typeName},</if>
+    <if test="type.status != null and type.status != ''">#{type.status},</if>
+    <if test="type.remark != null and type.remark != ''">#{type.remark},</if>
+    <if test="type.createBy != null and type.createBy != ''">#{type.createBy},</if>
     sysdate()
     )
   </insert>
 
   <update id="deleteTypeByIds"  >
-    update dealer_type set del_flag = '1' where type_id in
-    <foreach collection="array" item="typeId" open="(" separator="," close=")">
+    update dealer_type set del_flag = '1' where company_id = #{companyId} and type_id in
+    <foreach collection="typeIds" item="typeId" open="(" separator="," close=")">
       #{typeId,jdbcType=VARCHAR}
     </foreach>
   </update>
 
   <update id="deleteTypeById" >
-    update dealer_type set del_flag = '1' where type_id = #{typeId}
+    update dealer_type set del_flag = '1' where type_id = #{typeId} and company_id = #{companyId}
   </update>
 </mapper>

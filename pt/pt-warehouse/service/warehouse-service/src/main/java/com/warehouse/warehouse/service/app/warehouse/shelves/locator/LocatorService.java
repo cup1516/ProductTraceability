@@ -39,7 +39,7 @@ public interface LocatorService {
      * @return 对象列表
      */
     List<LocatorDTO> describeAll(LocatorDTO locatorDTO);
-    
+
     /**
      * 条件模糊查询所有数据
      *
@@ -47,8 +47,8 @@ public interface LocatorService {
      * @return 对象列表
      */
     List<LocatorDTO> describeFuzzy(LocatorDTO locatorDTO);
-    
-    
+
+
     /**
      * 新增数据
      *
@@ -80,7 +80,7 @@ public interface LocatorService {
      * @return 是否成功
      */
     boolean deleteLocatorByPrimaryKey(String id);
-    
+
     /**
      * 通过主键批量删除数据
      *
@@ -110,7 +110,7 @@ public interface LocatorService {
 
     LocatorAndGoodsDTO getLocatorDetail(String locatorId, String companyId);
 
-    String  describeAllLocatorsByWarehouseId (String warehouseId);
-    String describeFullLocatorsByWarehouseId (String warehouseId);
-    String describeUseLocatorsByWarehouseId (String warehouseId);
+    String  describeAllLocatorsByWarehouseId(String warehouseId);
+    String describeFullLocatorsByWarehouseId(String warehouseId);
+    String describeUseLocatorsByWarehouseId(String warehouseId);
 }

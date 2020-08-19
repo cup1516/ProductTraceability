@@ -33,7 +33,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="AllocationMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -41,7 +41,7 @@
     <select id="describeAllByLimit" resultMap="AllocationMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         limit #{offset}, #{limit}
     </select>
 
@@ -50,7 +50,7 @@
     <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         where state='3'
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -114,7 +114,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -180,7 +180,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation" resultMap="AllocationMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -242,7 +242,7 @@
 
     <!--新增所有列-->
     <insert id="insertAllocation" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation">
-        insert into warehouse.allocation
+        insert into allocation
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -374,7 +374,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateAllocationByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.allocation.Allocation">
-        update warehouse.allocation
+        update allocation
         <set>
             <if test="allocationNo != null and allocationNo != ''">
                 allocation_no = #{allocationNo},
@@ -433,12 +433,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteAllocationByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.allocation where id = #{id}
+        delete from allocation where id = #{id}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteAllocationByPrimaryKeys">
-        delete from warehouse.allocation 
+        delete from allocation
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -449,7 +449,7 @@
     <select id="describeCommissionFuzzy" resultType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.allocation
+        from allocation
         <where>
             <if test="allocation.id != null and allocation.id != ''">
                 and allocation.id like concat('%',#{allocation.id,jdbcType=VARCHAR},'%')

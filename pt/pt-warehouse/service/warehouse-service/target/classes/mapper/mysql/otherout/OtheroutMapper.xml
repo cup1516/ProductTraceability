@@ -31,7 +31,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="OtheroutMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherout
+        from otherout
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -39,7 +39,7 @@
     <select id="describeAllByLimit" resultMap="OtheroutMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherout
+        from otherout
         limit #{offset}, #{limit}
     </select>
 
@@ -47,7 +47,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.otherout.Otherout" resultMap="OtheroutMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherout
+        from otherout
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -101,7 +101,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.otherout.Otherout" resultMap="OtheroutMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherout
+        from otherout
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -154,7 +154,7 @@
     <select id="describeNotCommit" parameterType="com.warehouse.warehouse.pojo.po.otherout.Otherout" resultMap="OtheroutMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.otherout
+        from otherout
         where state = '3'
         <if test="id != null and id != ''">
             and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -208,7 +208,7 @@
 
     <!--新增所有列-->
     <insert id="insertOtherout" parameterType="com.warehouse.warehouse.pojo.po.otherout.Otherout">
-        insert into warehouse.otherout
+        insert into otherout
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -327,7 +327,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateOtheroutByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.otherout.Otherout">
-        update warehouse.otherout
+        update otherout
         <set>
             <if test="otheroutNo != null and otheroutNo != ''">
                 otherout_no = #{otheroutNo},
@@ -383,12 +383,12 @@
 
     <!--通过主键删除-->
     <delete id="deleteOtheroutByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.otherout where id = #{id}
+        delete from otherout where id = #{id}
     </delete>
 
     <!--通过主键批量删除-->
     <delete id="deleteOtheroutByPrimaryKeys">
-        delete from warehouse.otherout
+        delete from otherout
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item}
@@ -415,10 +415,10 @@
         otherout.auditor as auditor,
         otherout.audit_time as auditTime,
         otherout.company_id as companyId
-        from warehouse.otherout,warehouse.warehouse
-        where  warehouse.otherout.warehouse_id = warehouse.warehouse.id
-        and warehouse.otherout.audit_id = #{userId,jdbcType=VARCHAR}
-        and warehouse.otherout.state = 0
+        from otherout,warehouse
+        where  otherout.warehouse_id = id
+        and otherout.audit_id = #{userId,jdbcType=VARCHAR}
+        and otherout.state = 0
         <if test="otherout.id != null and otherout.id != ''">
             and otherout.id like concat('%',#{otherout.id,jdbcType=VARCHAR},'%')
         </if>
@@ -480,9 +480,9 @@
         otherout.auditor as auditor,
         otherout.audit_time as auditTime,
         otherout.company_id as companyId
-        from warehouse.otherout,warehouse.warehouse
-        where  warehouse.otherout.warehouse_id = warehouse.warehouse.id
-        and warehouse.otherout.create_id = #{userId,jdbcType=VARCHAR}
+        from otherout,warehouse
+        where  otherout.warehouse_id = warehouse.id
+        and otherout.create_id = #{userId,jdbcType=VARCHAR}
         <if test="otherout.id != null and otherout.id != ''">
             and otherout.id like concat('%',#{otherout.id,jdbcType=VARCHAR},'%')
         </if>
@@ -546,10 +546,10 @@
         otherout.audit_id as auditId,
         otherout.auditor as auditor,
         otherout.audit_time as auditTime
-        from warehouse.otherout,warehouse.warehouse
-        where  warehouse.otherout.warehouse_id = warehouse.warehouse.id
-        and warehouse.otherout.audit_id = #{userId,jdbcType=VARCHAR}
-        and warehouse.otherout.state in (1,2,4,5)
+        from otherout,warehouse
+        where  otherout.warehouse_id = warehouse.id
+        and otherout.audit_id = #{userId,jdbcType=VARCHAR}
+        and otherout.state in (1,2,4,5)
         <if test="otherout.id != null and otherout.id != ''">
             and otherout.id like concat('%',#{otherout.id,jdbcType=VARCHAR},'%')
         </if>

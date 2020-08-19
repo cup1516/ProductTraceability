@@ -82,7 +82,7 @@ public interface WarehouseMapper extends Mapper<Warehouse> {
      * @version: 1.0
      * @author: wanpp
      */
-    List<Warehouse> getAllStoreByPrincipalId(@Param("principalId") String principalId,@Param("companyId") String companyId);
+    List<Warehouse> getAllStoreByPrincipalId(@Param("principalId") String principalId, @Param("companyId") String companyId);
     /**
      * 通过主键删除数据
      *

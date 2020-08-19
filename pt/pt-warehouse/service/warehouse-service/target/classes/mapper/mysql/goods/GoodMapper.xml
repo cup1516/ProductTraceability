@@ -34,7 +34,7 @@
     <select id="describeById" parameterType="java.lang.String" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -43,7 +43,7 @@
     <select id="describeByGoodCode" parameterType="java.lang.String" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         where good_no = #{commodityBar,jdbcType=VARCHAR}
     </select>
 
@@ -51,7 +51,7 @@
     <select id="describeAllByLimit" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         limit #{offset}, #{limit}
     </select>
 
@@ -59,7 +59,7 @@
     <select id="describeAll" parameterType="com.warehouse.warehouse.pojo.po.goods.Good" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         <where>
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
@@ -119,7 +119,7 @@
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.goods.Good" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         <where>
             <if test="id != null and id != ''">
                 and id like concat('%',#{id,jdbcType=VARCHAR},'%')
@@ -180,7 +180,7 @@
 
     <!--新增所有列-->
     <insert id="insertGood" parameterType="com.warehouse.warehouse.pojo.po.goods.Good">
-        insert into warehouse.good
+        insert into good
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
                 id,
@@ -318,7 +318,7 @@
 
     <!--通过主键修改数据-->
     <update id="updateGoodByPrimaryKey" parameterType="com.warehouse.warehouse.pojo.po.goods.Good">
-        update warehouse.good
+        update good
         <set>
             <if test="goodNo != null and goodNo != ''">
                 good_no = #{goodNo},
@@ -374,13 +374,13 @@
 
     <!--通过主键删除-->
     <delete id="deleteGoodByPrimaryKey" parameterType="java.lang.String">
-        delete from warehouse.good where id = #{id}
+        delete from good where id = #{id}
         and company_id = #{companyId}
     </delete>
     
     <!--通过主键批量删除-->
     <delete id="deleteGoodByPrimaryKeys">
-        delete from warehouse.good 
+        delete from good
         where id in
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item}
@@ -392,14 +392,14 @@
     <select id="describesAllGood" parameterType="java.lang.String" resultMap="GoodMap">
         select
         *
-        from warehouse.good
+        from good
     </select>
 
 
     <select id="describesGoodByGoodCategoryIdList" parameterType="ArrayList" resultMap="GoodMap">
         select
         <include refid="Base_Column_List"/>
-        from warehouse.good
+        from good
         where category_id in
         <foreach collection="goodCategoryIdList" item="item" open="(" separator="," close=")">
             #{item}
