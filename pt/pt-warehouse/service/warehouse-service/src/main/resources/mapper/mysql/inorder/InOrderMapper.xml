@@ -95,7 +95,7 @@
             </if>
         </where>
     </select>
-    
+    <!--通过实体作为筛选条件模糊查询-->
     <!--通过实体作为筛选条件模糊查询-->
     <select id="describeFuzzy" parameterType="com.warehouse.warehouse.pojo.po.inorder.InOrder" resultMap="InOrderMap">
         select
@@ -146,6 +146,9 @@
             </if>
             <if test="batch != null and batch != ''">
                 and batch like concat('%',#{batch,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                and company_id =#{companyId,jdbcType=VARCHAR}
             </if>
         </where>
     </select>
