@@ -240,6 +240,7 @@
 
         emojis: store.getters.emojis,
 
+        conversationsList:store.getters.conversationsList,
         roomId: "",
         roomName: "",
 
@@ -252,6 +253,7 @@
         socket: null,
         lockReconnect: false,
         urlList:[],
+        wsList:new Map(),
 
         messageList: [], // 消息列表
         messageValue: "", // 消息内容
@@ -325,15 +327,13 @@
       };
     },
     created() {
-      //this.getConversationList();
-      console.log(this.selectedRoom);
       setTimeout(()=>{
         this.getLog();
       },500);
-
+      this.init();
+      //this.initWebSocket()
     },
     mounted() {
-      console.log("mounted")
       this.$refs.text.focus();
       this.roomId = this.selectedRoom.chatId;
       this.roomName = this.selectedRoom.chatName;
@@ -349,7 +349,13 @@
     destroyed() {
       // 离开页面时关闭websocket连接
       this.lockReconnect=true
-      this.ws.onclose();
+      //this.ws.onclose();
+      // this.wsList.forEach(function (value, key) {
+      //   this.value.onclose();
+      // })
+      for(let i=0;i<this.wsList.values().length;i++){
+        this.wsList.values()[i].onclose();
+      }
       this.socket=null;
       console.log("连接关闭");
     },
@@ -746,7 +752,6 @@
 
 
       join(data){
-        console.log("pagejoin")
         this.$refs.text.focus();
         setTimeout(() => {
           this.scrollBottm();
@@ -754,14 +759,15 @@
         //监听滚动事件
         window.addEventListener('scroll',this.handleScroll);
         let _this = this;
-        this.roomName = data.chatName;
-        this.roomId = data.chatId;
+        _this.roomName = data.chatName;
+        _this.roomId = data.chatId;
         _this.historyList = [];
         _this.messageList = [];
+        _this.messageValue = "";
         _this.page = 1;
         _this.more = true;
+        _this.initWebSocket();
         _this.getLog();
-        setTimeout(()=>{_this.initWebSocket()},200);
       },
 
       // 发送聊天信息
@@ -818,57 +824,59 @@
         }
         return con;
       },
+      init(){
+        let _this = this;
+        for(let item of _this.conversationsList){
+          let id = _this.userId;
+          let sip = item.chatId;
+          var url = "ws://localhost:9998/chat/websocket/chat/" + sip + "/" + id;
+          if(_this.urlList.indexOf(url)===-1){
+            _this.urlList.push(url);
+            _this.createWebsocket(sip,url);
+          }
+        }
+      },
       // 进入页面创建websocket连接
       initWebSocket() {
         console.log("房间号：" + this.roomName);
         console.log("用户名：" + this.userId);
-
-        if (window.WebSocket){
-          let _this = this;
-          let id = _this.userId;
-          let sip = this.roomId;
-          var url = "ws://localhost:9998/chat/websocket/chat/" + sip + "/" + id;
-          if(_this.urlList.indexOf(url)===-1){
-            _this.urlList.push(url);
-            _this.createWebsocket(url);
-          }
-        }
+        this.ws = this.wsList.get(this.roomId);
       },
       //创建websocket连接
-      createWebsocket(url){
+      createWebsocket(id,url){
         let _this = this;
         try{
           let ws = new WebSocket(url);
-          _this.ws = ws;
-          _this.handleEvent(url);
+          _this.wsList.set(id,ws);
+          _this.handleEvent(url,ws);
         }catch (e) {
-          console.log(e)
         }
       },
-      handleEvent(url){
+      handleEvent(url,ws){
         let _this = this;
-        _this.ws.onopen = function(e) {
+        ws.onopen = function(e) {
           console.log("服务器连接成功 :"+url);
         };
-        _this.ws.onclose = function(e) {
+        ws.onclose = function(e) {
           console.log("服务器连接关闭 :"+url);
           console.log(e.code+' '+e.reason+' '+e.wasClean);
-          _this.reConnect(url)
+          _this.reConnect(this.roomId,url)
         };
-        _this.ws.onerror = function() {
+        ws.onerror = function() {
           console.log("服务器连接出错: "+url );
-          _this.reConnect(url)
+          _this.reConnect(this.roomId,url)
         };
-        _this.ws.onmessage = function(e) {
+        ws.onmessage = function(e) {
           var object = eval("(" + e.data + ")");
           _this.count = object.count;
           console.log("接收消息:");
           console.log(object);
-          let user = _this.infoHandle(object.senderId)
+          let user = _this.infoHandle(object.chatId,object.senderId)
           if(object.messageType==5||object.messageType==6||object.messageType==7||object.messageType==8||object.messageType==9||object.messageType==10||object.messageType==11){
             let message = JSON.parse(object.sendContent);
             if(message.to==_this.userId){//判断是不是给自己的
               if(object.messageType==5){
+                _this.ws = _this.wsList.get(object.chatId);
                 _this.choiceUser.push({
                   avatar:user.avatar,
                   userId:object.senderId,
@@ -908,43 +916,61 @@
           //显示消息
           if(object.messageType==7||object.messageType==9||object.messageType==10||object.messageType==11){
           }else {
-            _this.messageList.push({
-              senderId: object.senderId,
-              messageType: object.messageType,
-              sendContent: object.sendContent,
-              avatar: user.avatar,
-              sendTime: new Date(),
-              nickName: user.nickName,
-            });
+
+            if(object.chatId == _this.roomId) {
+              _this.messageList.push({
+                senderId: object.senderId,
+                messageType: object.messageType,
+                sendContent: object.sendContent,
+                avatar: user.avatar,
+                sendTime: new Date(),
+                nickName: user.nickName,
+              });
+            }else {
+              if(object.senderId !== _this.userId){
+                let m ="";
+                if (object.messageType == 0 ||object.messageType == 2 ){
+                  m = object.sendContent.split('$')[1]
+                }else if(object.messageType == 3){
+                  m = "语音消息"
+                }else if(object.messageType == 5){
+                  m = "电话邀请"
+                } else if(object.messageType == 1){
+                  m = object.sendContent
+                }
+                _this.$notify({
+                  title: _this.conversationsList.find(chat => object.chatId == chat.chatId).chatName,//
+                  message: user.nickName + ":" + m,
+                  position: 'bottom-right'
+                })
+              }
+            }
             let params = {
               messageType: object.messageType,
               sender: object.senderId,
               sendContent: object.sendContent,
               sendTime: new Date(),
             }
-            _this.$emit('logInfo',params,_this.roomId)
+            _this.$emit('logInfo',params,object.chatId)
           }
         }
       },
 
       //数据处理
-      infoHandle(id){
+      infoHandle(roomId,userId){
         let self = this;
-        self.groupMemberList = self.groupMemberMap.get(self.roomId);
-        //console.log(self.roomId)
-        //console.log(self.groupMemberMap)
-        //console.log(self.groupMemberMap.get(self.roomId))
-        let user = self.groupMemberMap.get(self.roomId).find(user => user.userId == id);
+        self.groupMemberList = self.groupMemberMap.get(roomId);
+        let user = self.groupMemberMap.get(self.roomId).find(user => user.userId == userId);
         return user;
       },
       //重连
-      reConnect(url){
+      reConnect(id,url){
         if(this.lockReconnect) return;
         this.lockReconnect = true;
         setTimeout(()=>{
           console.log("尝试重连....");
           this.lockReconnect = false;
-          this.createWebsocket(url)
+          this.createWebsocket(id,url)
         },5000)
       },
       //滚动事件监听处理
@@ -1093,7 +1119,7 @@
             _this.page = _this.page+1;
             let list = r.data;
             for(let i=0;i<list.length;i++){
-              let user = _this.infoHandle(list[i].senderId)
+              let user = _this.infoHandle(_this.roomId,list[i].senderId)
               _this.historyList.push({
                 sendContent:list[i].sendContent,
                 messageType:list[i].messageType,
