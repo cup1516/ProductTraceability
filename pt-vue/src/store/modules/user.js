@@ -5,6 +5,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { encryption, deepClone } from '@/utils/util'
 import { getChatListInfo } from '../../api/chat/chatApi'
 import store from '../../store/modules/portal'
+import  storage, {USER, ROLE}  from '@/views/warehouse/utils/storage'
 
 const user = {
   state: {
@@ -65,6 +66,13 @@ const user = {
           commit('SET_TOKEN', res.access_token)
           commit('SET_ID',res.user_id)
           commit('SET_USERNAME', res.user_name)
+
+          var user = {
+            "userId":res.user_id,
+            "username":res.user_name
+          }
+          storage.set(USER, JSON.stringify(user))
+
           let params={
             userId:res.user_id
           };

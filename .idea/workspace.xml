@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e488b0d2-1ae5-40af-bca6-6554a3c8b489" name="Default Changelist" comment="前端仓库代码合并">
+      <change afterPath="$PROJECT_DIR$/.idea/ProductTraceability.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/allocationDetail/allocationDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/assignroles/assignroles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/dispatch/dispatch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/employee/employee.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/inStore/inStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/locator/locator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/outStore/outStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/shelves/shelves.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/sysmenu/sysmenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/sysrole/sysrole.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/sysuser/sysuser.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/allocation/allocationDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/allocation/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/dispatch/dispatch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/dispatch/dispatchDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/employee/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/goods/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/inOrder/inOrder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/inStore/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/inStore/otherin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/inStore/otherinDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/locator/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/menu/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/otherout/otherout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/otherout/otheroutDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/outOrder/outOrder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/role/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/shelves/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/store/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/user/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/api/warehouse/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/GitHub.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/add.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/childwanwan.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/gitee-fill-round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/languages/en_us.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/languages/zh_cn.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/loginBg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/saofengfeng.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/threeLine.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/vue-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/assets/wechat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/components/pagination/Index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/allocationDetail/allocationDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/assignroles/assignroles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/dispatch/dispatch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/employee/employee.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/inStore/inStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/locator/locator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/outStore/outStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/shelves/shelves.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/sysmenu/sysmenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/sysrole/sysrole.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/sysuser/sysuser.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/store/modules/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/env.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/jsencryptUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/mUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/share.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/utils/storage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/allocation/AllocationDetailFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/allocation/AllocationGoodsFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/allocation/allocationcommossion.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/allocation/myallocation.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/allocation/newmyallocation.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/DispatchDetailDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/DispatchGoodsFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/dispatchalreadydone.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/dispatchcommossion.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/mydispatch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/dispatch/newdispatch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/employee/EmployeeFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/employee/myemployee.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/goods/AddGoodsDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/goods/mygoods.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/InGoodsFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/OtherinDetailDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/companyorder.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/myinstore.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/newmyinstore.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/otherinalreadydone.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/otherincommossion.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/inStore/otherinorder.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/locator/LocatorDetailDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/locator/LocatorFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/locator/mylocator.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/monitor/mymonitor.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/operation/Index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/OtheroutDetailDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/OutGoodsFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/companyorder.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/myoutstore.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/newmyoutstore.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/otheroutalreadydone.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/otheroutcommossion.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/outStore/otheroutorder.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/shelves/ShelvesFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/shelves/myshelves.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/shelves/shelfDetailDiglog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/store/StoreFunctionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/store/mystore.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/store/storeDetailDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pt-vue/src/views/warehouse/warehouse/store/storeLog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pt-vue/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pt-vue/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pt-vue/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/pt-vue/src/store/modules/user.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt/pt-warehouse/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="466">
+              <caret line="263" column="65" selection-start-line="263" selection-start-column="65" selection-end-line="263" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/menu/index.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/warehouse/index.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/store/modules/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1292">
+              <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/store/getters.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/store/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/allocation/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="589">
+              <caret line="31" column="1" lean-forward="true" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/inStore/inStore.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/pt/pt-warehouse/pom.xml" />
+        <option value="$PROJECT_DIR$/pt-vue/src/store/index.js" />
+        <option value="$PROJECT_DIR$/pt-vue/src/store/modules/user.js" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/maven/apache-maven-3.6.0" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.6.0\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+        <option value="$PROJECT_DIR$/.idea/ProductTraceability.iml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="72" />
+    <option name="y" value="105" />
+    <option name="width" value="1555" />
+    <option name="height" value="860" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ProductTraceability" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProductTraceability" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProductTraceability" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProductTraceability" type="462c0819:PsiDirectoryNode" />
+              <item name="pt-vue" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProductTraceability" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProductTraceability" type="462c0819:PsiDirectoryNode" />
+              <item name="pt-vue" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pt-vue/src/store/modules" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\pt-lst1\ProductTraceability\pt-vue\src\store\modules" />
+      <recent name="D:\pt-lst1\ProductTraceability\pt-vue\src\views" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e488b0d2-1ae5-40af-bca6-6554a3c8b489" name="Default Changelist" comment="" />
+      <created>1597905817322</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597905817322</updated>
+      <workItem from="1597905819148" duration="2478000" />
+    </task>
+    <task id="LOCAL-00001" summary="提交测试">
+      <created>1597905949911</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597905949911</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2478000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19839142" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" weight="0.3286119" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="提交测试" />
+    <MESSAGE value="前段仓库代码合并" />
+    <MESSAGE value="前端仓库代码合并" />
+    <option name="LAST_COMMIT_MESSAGE" value="前端仓库代码合并" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pt/pt-warehouse/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="263" column="65" selection-start-line="263" selection-start-column="65" selection-end-line="263" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/menu/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/warehouse/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/store/modules/warehouse/inStore/inStore.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/store/getters.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/store/modules/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/store/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pt-vue/src/views/warehouse/api/allocation/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="31" column="1" lean-forward="true" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
