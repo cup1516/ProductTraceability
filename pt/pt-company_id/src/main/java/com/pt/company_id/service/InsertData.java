@@ -16,7 +16,8 @@ public class InsertData  {
 
         String sqlName = "output_test";
         String filename = sqlName + ".sql";
-        String directory = "D:\\BaiduNetdiskDownload\\ProductTraceability\\pt\\pt-company_id\\src\\main\\resources\\sql";
+        //把ProductTraceability前的路径改成项目所在路径
+        String directory = "D:\\program\\vue\\pt8-20\\ProductTraceability\\pt\\pt-company_id\\src\\main\\resources\\sql";
         File f = new File(directory, filename);
         //FileOutputStream fos1=new FileOutputStream(f);
         //OutputStreamWriter dos1=new OutputStreamWriter(fos1);
@@ -29,8 +30,8 @@ public class InsertData  {
         //总语句
         String sql = "";
         //system_user表
-        String user_sql = "INSERT INTO SYSTEM_USER (user_id, company_id, user_name, PASSWORD)\n" +
-                "VALUES ('1','" + uid + "','admin', '" + ENCODER.encode("123456") + "');\n";
+        String user_sql = "INSERT INTO SYSTEM_USER (user_id, company_id, user_name, PASSWORD, nick_name, dept_id)\n" +
+                "VALUES ('1','" + uid + "','admin', '" + ENCODER.encode("123456") + "', '初始帐号昵称', '1');\n";
         //system_role表
         String role_sql = "INSERT INTO SYSTEM_ROLE (role_id, company_id, role_name, role_code, role_sort)\n" +
                 "VALUES ('1','" + uid + "','管理员','ADMIN','0');\n";
@@ -55,8 +56,8 @@ public class InsertData  {
                 "select '1' as 'role_id', '" + uid + "' as 'company_id', menu_id from system_menu where type = '0' and client_type != '8' or client_type = '" + client_type+ "';\n";
         //+ "VALUES('888', '"+ uid + "', '99');\n";
         //system_dept表
-        String dept_sql = "INSERT INTO SYSTEM_DEPT (dept_id, company_id)\n" +
-                "VALUES('1', '"+ uid + "');\n";
+        String dept_sql = "INSERT INTO SYSTEM_DEPT (dept_id, company_id, parent_id, ancestors, dept_name)\n" +
+                "VALUES('1', '"+ uid + "', '0', '0', '总部门');\n";
         sql = user_sql + role_sql + user_role_sql + post_sql + user_post_sql + role_menu_sql + dept_sql;
         writer.write(sql);
         writer.close();
@@ -64,9 +65,9 @@ public class InsertData  {
     }
     public static void ExecuteSql(){
 
-        Connection conn;
+        Connection conn;/**/
         //jdbc:mysql://localhost:3306/pt?
-        String data_url="JDBC:mysql://localhost:3306/pt-v2?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+        String data_url="JDBC:mysql://localhost:3306/pt-v2-c?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
         String username="root";
         String password="123456";
         try {

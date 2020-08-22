@@ -245,8 +245,9 @@
           {
             userName: this.addForm.username,
             password: this.addForm.password,
+            nickName: this.addForm.person,
             postIds: ['1'],
-            roleIds: ['1'],
+            roleIds: ['3'],
             companyId: "#"
           },
           "%23"

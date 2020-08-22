@@ -22,7 +22,7 @@ import java.util.Random;
 public class FileController {
 
 
-    @GetMapping(value = "/file")
+    @GetMapping(value = "/files")
     public String file() {
         return "file";
     }

@@ -62,9 +62,9 @@
     },
     created () {
       const _this = this
-      var ff = this.$store.state.user.name;
+      var ff = this.$store.state.user.user_name;
       ff = ff.split('_')[0];//获取到的用户名最后一位多了下划线，必须删除
-      // console.log(ff)
+      //console.log(ff)
       this.$axios.get('/center/company/findCompanyByUsername/' + ff).then(function (resp2) {
         //console.log(resp2)
         _this.formLabelAlign.username = ff
